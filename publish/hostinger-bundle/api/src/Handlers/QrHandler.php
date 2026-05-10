@@ -125,43 +125,27 @@ final class QrHandler
 
         $useExotel = ExotelClient::isConfigured($cfg) && $tel !== null;
 
-        $ivrCode = null;
-        $ivrDialUri = null;
-        if ($useExotel) {
-            $ivrCode = self::ensureStickerIvrAccessCode($pdo, (int) $sticker['id'], $sticker);
-            $ivrDid = trim((string) ($cfg['exotelIvrDid'] ?? ''));
-            if ($ivrCode !== null && $ivrDid !== '') {
-                $ivrDialUri = self::telUriFromDid($ivrDid, (string) ($cfg['exotelDefaultIsd'] ?? '91'));
+        $ivrCode = $sticker['ivr_access_code'];
+        $ivrEmCode = $sticker['ivr_emergency_access_code'];
+        $ivrDid = trim((string) ($cfg['exotelIvrDid'] ?? ''));
+        $ivrDialUri = $ivrDid !== '' ? self::telUriFromDid($ivrDid, $cfg['exotelDefaultIsd'] ?? '91') : null;
+
+        $dialUriActive = ($ivrDialUri !== null && $ivrCode !== null) ? $ivrDialUri : ($tel === null ? null : 'tel:' . $tel);
+        
+        if ($useExotel && ($ivrCode === null || $ivrEmCode === null)) {
+            $ivrCode = self::ensureStickerIvrAccessCode($pdo, (int)$sticker['id'], $sticker);
+            // Re-fetch emergency code if needed (ensureStickerIvrAccessCode only does main)
+            if ($sticker['ivr_emergency_access_code'] === null) {
+               $ivrEmCode = IvrAccessCode::allocate($pdo);
+               $pdo->prepare('UPDATE qr_stickers SET ivr_emergency_access_code = ? WHERE id = ?')
+                   ->execute([$ivrEmCode, $sticker['id']]);
+               $sticker['ivr_emergency_access_code'] = $ivrEmCode;
             }
         }
 
-        $scanDirectTel = !empty($cfg['exotelScanDirectTel']);
-        $ivrDirectOk = $useExotel && $scanDirectTel && $ivrDialUri !== null && $ivrCode !== null;
-
-        $ownerAlertUrl = trim((string) ($cfg['exotelOwnerAlertAppUrl'] ?? ''));
-        $ownerAlertOnly = $useExotel && $ownerAlertUrl !== '' && !$ivrDirectOk;
-
-        $ownerConnectViaExotel = $useExotel && !$ivrDirectOk;
-        $dialUriActive = $ivrDirectOk
-            ? $ivrDialUri
-            : ($useExotel ? null : ($tel === null ? null : 'tel:' . $tel));
-        $exotelIvrDialUriOut = $ivrDirectOk ? null : $ivrDialUri;
-        if ($ivrDirectOk) {
-            $maskingActive = 'Tap Call owner to dial our secure line. When prompted, enter your 6-digit code on the keypad, then press hash (#). The owner’s private number is not shown on this page.';
-        } elseif ($ownerAlertOnly) {
-            $maskingActive = 'Only the vehicle owner receives a call from us. Your phone will not ring, and your number is not shown on this page.';
-        } elseif ($useExotel) {
-            $ivrShortcut = $ivrDialUri !== null && $ivrCode !== null && !$ownerAlertOnly;
-            if ($ivrShortcut) {
-                $maskingActive = 'Fastest: use Open dialer — your phone app opens right away and you reach the owner after entering your 6-digit code. Below: Exotel API rings your phone (often a few seconds’ delay — that is normal PSTN, not the app stuck).';
-            } else {
-                $maskingActive = !empty($cfg['exotelRingOwnerFirst'])
-                    ? 'We call the vehicle owner first. When they answer, your phone rings to join the same call. You can save your number here for one-tap next time — or pick from contacts where supported.'
-                    : 'Your phone rings first, then we connect you to the owner. This device can remember your number so you only tap Call — or pick from contacts where supported.';
-            }
-        } else {
-            $maskingActive = 'Tap Call owner to place a direct call from your phone.';
-        }
+        $maskingActive = $useExotel 
+            ? 'Fastest: use Open dialer — your phone app opens right away and you reach the owner after entering your 6-digit code. Below: Exotel API can ring your phone if you prefer not to dial.'
+            : 'Tap Call owner to place a direct call from your phone.';
 
         Http::json(200, [
             'publicId' => $sticker['public_id'],
@@ -172,20 +156,20 @@ final class QrHandler
             'uniqueScannerCount' => (int) $sticker['unique_scanner_count'],
             'activatePageUrl' => $activatePageUrl,
             'scanPageUrl' => $scanPageUrl,
-            'vehicleRegistration' => $reg,
-            'emergencyDialUri' => $em === null ? null : 'tel:' . $em,
+            'vehicleRegistration' => Validation::normalizeVehicleRegistration((string) $person['vehicle_registration']),
+            'emergencyDialUri' => $ivrDialUri ?? ($em === null ? null : 'tel:' . $em),
             'emergencyContactMasked' => self::maskPhoneTail($person['emergency_contact_phone']),
+            'ownerPhoneMasked' => self::maskPhoneTail($person['phone_number']),
             'primaryPhoneType' => PhoneLineType::normalize($person['phone_number_type']),
             'emergencyPhoneType' => PhoneLineType::normalize($person['emergency_contact_phone_type']),
             'headline' => 'Need the vehicle owner?',
             'subtitle' => 'Connect privately. Your number is not shown to the owner from this page.',
             'dialUri' => $dialUriActive,
-            'ownerConnectViaExotel' => $ownerConnectViaExotel,
-            'exotelIvrDialUri' => $exotelIvrDialUriOut,
-            'ivrAccessCode' => $ivrCode,
+            'ownerConnectViaExotel' => false,
+            'exotelIvrDialUri' => $ivrDialUri,
+            'ivrAccessCode' => $sticker['ivr_access_code'],
+            'ivrEmergencyAccessCode' => $sticker['ivr_emergency_access_code'],
             'ownerNumberHiddenOnPage' => true,
-            'exotelRingOwnerFirst' => $ownerConnectViaExotel && !empty($cfg['exotelRingOwnerFirst']) && !$ownerAlertOnly,
-            'exotelOwnerOnlyAlert' => $ownerConnectViaExotel && $ownerAlertOnly,
             'maskingNote' => $maskingActive,
             'trustedOwnersLine' => $cfg['trustedOwnersLine'],
             'regionTagline' => $cfg['regionTagline'],
@@ -200,6 +184,71 @@ final class QrHandler
     }
 
     /** @param array<string,mixed> $cfg */
+    public static function activateFree(PDO $pdo, array $cfg, string $publicIdRaw): void
+    {
+        $dto = Http::readJsonBody();
+        if (!$dto) {
+            Http::badRequest('Invalid body.');
+            return;
+        }
+
+        $normalized = self::normalizePublicId($publicIdRaw);
+        $stmt = $pdo->prepare('SELECT * FROM qr_stickers WHERE public_id = ? LIMIT 1');
+        $stmt->execute([$normalized]);
+        $sticker = $stmt->fetch();
+
+        if (!$sticker) {
+            Http::notFound('QR not found.');
+            return;
+        }
+        if ((int) $sticker['status'] !== QrStickerStatus::UNUSED) {
+            Http::json(409, ['message' => 'This QR is already activated.']);
+            return;
+        }
+
+        $payRef = 'Admin-Free-' . date('YmdHis');
+
+        $pdo->beginTransaction();
+        try {
+            $stmt = $pdo->prepare('INSERT INTO persons (name, phone_number, phone_number_type, email, address, father_name, vehicle_registration, emergency_contact_phone, emergency_contact_phone_type, payment_completed, payment_reference, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)');
+            $stmt->execute([
+                $dto['name'],
+                $dto['phoneNumber'],
+                PhoneLineType::normalize($dto['phoneNumberType']),
+                $dto['email'],
+                $dto['address'],
+                $dto['fatherName'],
+                Validation::normalizeVehicleRegistration($dto['vehicleRegistration']),
+                trim((string) $dto['emergencyContactPhone']),
+                PhoneLineType::normalize($dto['emergencyContactPhoneType']),
+                $payRef,
+                gmdate('Y-m-d H:i:s')
+            ]);
+            $personId = (int) $pdo->lastInsertId();
+
+            $ivrCode = IvrAccessCode::allocate($pdo);
+            $ivrEmCode = IvrAccessCode::allocate($pdo);
+
+            $stmt = $pdo->prepare('UPDATE qr_stickers SET status = ?, person_id = ?, activated_at = ?, payment_transaction_id = ?, ivr_access_code = ?, ivr_emergency_access_code = ? WHERE id = ?');
+            $stmt->execute([
+                QrStickerStatus::ACTIVE,
+                $personId,
+                gmdate('Y-m-d H:i:s'),
+                $payRef,
+                $ivrCode,
+                $ivrEmCode,
+                $sticker['id']
+            ]);
+
+            $pdo->commit();
+            Http::json(200, ['message' => 'Free activation successful.', 'publicId' => $normalized]);
+        } catch (\Throwable $e) {
+            $pdo->rollBack();
+            throw $e;
+        }
+    }
+
+    /** @param array<string,mixed> $cfg */
     public static function exotelConnectOwner(PDO $pdo, array $cfg, string $publicIdRaw): void
     {
         if (!ExotelClient::isConfigured($cfg)) {
@@ -207,11 +256,9 @@ final class QrHandler
             return;
         }
 
-        $ownerAlertUrl = trim((string) ($cfg['exotelOwnerAlertAppUrl'] ?? ''));
-
         $normalized = self::normalizePublicId($publicIdRaw);
         $stmt = $pdo->prepare(
-            'SELECT q.*, p.phone_number AS owner_phone FROM qr_stickers q
+            'SELECT q.*, p.phone_number AS owner_phone, p.emergency_contact_phone FROM qr_stickers q
              LEFT JOIN persons p ON p.id = q.person_id
              WHERE q.public_id = ? LIMIT 1'
         );
@@ -221,48 +268,37 @@ final class QrHandler
             Http::notFound('QR not found or not active.');
             return;
         }
-        $ownerDigits = self::normalizeTel($row['owner_phone'] ?? '');
-        if ($ownerDigits === null) {
-            Http::badRequest('Owner has no phone on file.');
-            return;
-        }
-
-        if ($ownerAlertUrl !== '') {
-            $r = ExotelClient::connectCustomerToFlow($cfg, $ownerDigits, $ownerAlertUrl);
-            if (!$r['ok']) {
-                Http::json(502, ['message' => $r['error'] ?? 'Could not start call.']);
-                return;
-            }
-            Http::json(200, [
-                'message' => 'We are calling the vehicle owner now. Your phone will not ring.',
-            ]);
-            return;
-        }
 
         $dto = Http::readJsonBody();
         if ($dto === null || !isset($dto['fromPhone']) || trim((string) $dto['fromPhone']) === '') {
             Http::badRequest('Enter your phone number.');
             return;
         }
+
+        $isEmerg = isset($_GET['emergency']) && $_GET['emergency'] === 'true';
+        $targetDigits = $isEmerg ? self::normalizeTel($row['emergency_contact_phone'] ?? '') : self::normalizeTel($row['owner_phone'] ?? '');
+        
+        if ($targetDigits === null) {
+            Http::badRequest($isEmerg ? 'No emergency phone on file.' : 'Owner has no phone on file.');
+            return;
+        }
+
         $fromDigits = Validation::digitsOnly((string) $dto['fromPhone']);
         if (strlen($fromDigits) < 8) {
             Http::badRequest('Enter a valid mobile number.');
             return;
         }
 
-        $ringOwnerFirst = !empty($cfg['exotelRingOwnerFirst']);
-        $r = $ringOwnerFirst
-            ? ExotelClient::connectTwoLeg($cfg, $ownerDigits, $fromDigits)
-            : ExotelClient::connectTwoLeg($cfg, $fromDigits, $ownerDigits);
+        $pdo->prepare('INSERT INTO active_call_mappings (caller_phone_normalized, target_owner_phone, expiry_utc) VALUES (?, ?, ?)')
+            ->execute([$fromDigits, $targetDigits, gmdate('Y-m-d H:i:s', time() + 900)]);
+
+        $r = ExotelClient::connectTwoLeg($cfg, $fromDigits, $targetDigits);
         if (!$r['ok']) {
-            Http::json(502, ['message' => $r['error'] ?? 'Could not start call.']);
+            Http::json(502, ['message' => $r['error'] ?? 'Call failed.']);
             return;
         }
 
-        $msg = $ringOwnerFirst
-            ? 'Calling the vehicle owner first. When they answer, your phone will ring to join the call.'
-            : 'Calling you now. Answer your phone to be connected to the vehicle owner.';
-        Http::json(200, ['message' => $msg]);
+        Http::json(200, ['message' => 'Request sent. Your phone will ring shortly.']);
     }
 
     /** @param array<string,mixed> $sticker */
@@ -484,21 +520,14 @@ final class QrHandler
             $personId = (int) $pdo->lastInsertId();
 
             $txnId = $payRef !== '' ? substr($payRef, 0, 120) : null;
-            $ivrNew = null;
-            if (IvrAccessCode::columnExists($pdo)) {
-                $ivrNew = IvrAccessCode::generateUnique($pdo);
-            }
-            if ($ivrNew !== null) {
-                $upd = $pdo->prepare(
-                    'UPDATE qr_stickers SET person_id = ?, status = ?, activated_at = ?, payment_transaction_id = ?, ivr_access_code = COALESCE(ivr_access_code, ?) WHERE id = ?'
-                );
-                $upd->execute([$personId, QrStickerStatus::ACTIVE, $now, $txnId, $ivrNew, (int) $sticker['id']]);
-            } else {
-                $upd = $pdo->prepare(
-                    'UPDATE qr_stickers SET person_id = ?, status = ?, activated_at = ?, payment_transaction_id = ? WHERE id = ?'
-                );
-                $upd->execute([$personId, QrStickerStatus::ACTIVE, $now, $txnId, (int) $sticker['id']]);
-            }
+            $ivrNew = IvrAccessCode::allocate($pdo);
+            $ivrEmNew = IvrAccessCode::allocate($pdo);
+            
+            $upd = $pdo->prepare(
+                'UPDATE qr_stickers SET person_id = ?, status = ?, activated_at = ?, payment_transaction_id = ?, ivr_access_code = ?, ivr_emergency_access_code = ? WHERE id = ?'
+            );
+            $upd->execute([$personId, QrStickerStatus::ACTIVE, $now, $txnId, $ivrNew, $ivrEmNew, (int) $sticker['id']]);
+            
             $pdo->commit();
         } catch (\Throwable $e) {
             $pdo->rollBack();
@@ -649,7 +678,7 @@ final class QrHandler
             return $existing;
         }
         try {
-            $code = IvrAccessCode::generateUnique($pdo);
+            $code = IvrAccessCode::allocate($pdo);
         } catch (\Throwable) {
             return null;
         }

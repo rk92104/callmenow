@@ -1,28 +1,35 @@
-/* —— CallMeNow scan: warm, human, “dil se” —— */
 .scan-root {
-  /* Pure white page — logo / sticker sit on clean #FFF (no grey surround) */
-  --cream: #ffffff;
-  --paper: #fffdf9;
-  --ink: #1c1917;
-  --muted: #57534e;
-  --terra: #c45c4a;
-  --terra-dark: #a34738;
-  --teal: #1a535c;
-  --teal-soft: #2d7a86;
-  --saffron: #e8a838;
-  --mint: #5c9e8c;
+  /* Premium Light Theme */
+  --cream: #f8fafc;
+  --paper: #ffffff;
+  --ink: #1e293b;
+  --muted: #64748b;
+  --terra: #16a34a;
+  /* Green (Primary) */
+  --terra-dark: #15803d;
+  /* Dark Green */
+  --teal: #1e293b;
+  /* Dark Slate */
+  --teal-soft: #94a3b8;
+  /* Light Slate */
+  --saffron: #22c55e;
+  /* Vibrant Green */
+  --mint: #10b981;
+  /* Green for success */
 
   position: relative;
-  min-height: 100vh;
-  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   overflow-x: hidden;
-  background: var(--cream);
-  color: var(--ink);
-  font-family: 'Nunito', system-ui, sans-serif;
-  padding: max(1rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 2.5rem max(1rem, env(safe-area-inset-left, 0px));
+  background: var(--paper);
+  color: #1e293b;
+  font-family: Nunito, system-ui, sans-serif;
+  padding: max(1.5rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 1.5rem max(1rem, env(safe-area-inset-left, 0px));
   max-width: min(540px, 100%);
-  margin: 0 auto;
+  margin: 16px auto;
   box-sizing: border-box;
+  border-radius: 28px;
+  box-shadow: 0 10px 50px rgba(15, 23, 42, 0.1);
 }
 
 .blob {
@@ -37,7 +44,8 @@
 .blob-a {
   width: 280px;
   height: 280px;
-  background: #f9d4cc;
+  background: #bbf7d0;
+  /* green-200 */
   top: -80px;
   right: -100px;
 }
@@ -45,7 +53,8 @@
 .blob-b {
   width: 320px;
   height: 320px;
-  background: #c5e8e0;
+  background: #e2e8f0;
+  /* slate-200 */
   bottom: 10%;
   left: -120px;
 }
@@ -59,7 +68,14 @@
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-.scan-inner,
+.scan-inner {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .state-card {
   position: relative;
   z-index: 2;
@@ -163,22 +179,19 @@
 
 /* Panels */
 .panel {
-  background: var(--paper);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 22px;
   padding: 1.35rem 1.25rem 1.45rem;
   margin-bottom: 0.85rem;
-  box-shadow:
-    0 2px 16px rgba(28, 25, 23, 0.05),
-    0 0 0 1px rgba(26, 83, 92, 0.06);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.04);
 }
 
 .panel-hero {
   border-radius: 26px;
   padding: 1.5rem 1.35rem 1.6rem;
-  background: linear-gradient(165deg, #fff 0%, #fff9f5 100%);
-  box-shadow:
-    0 12px 40px rgba(196, 92, 74, 0.12),
-    0 0 0 1px rgba(196, 92, 74, 0.1);
+  background: #ffffff;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(15, 23, 42, 0.03);
 }
 
 .panel-hero--below-sticker {
@@ -231,9 +244,9 @@
   font-weight: 800;
   letter-spacing: 0.18em;
   text-align: center;
-  color: var(--ink);
-  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
-  border: 2px solid #94a3b8;
+  color: #f8fafc;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
   padding: 0.55rem 0.85rem;
   margin: -0.15rem 0 1.25rem;
@@ -266,9 +279,17 @@
 }
 
 @keyframes pulse-red {
-  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1); }
-  50% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1);
+  }
+
+  50% {
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1);
+  }
 }
 
 /* --- PIN DISPLAY (Direct Dialer) --- */
@@ -328,8 +349,15 @@
 }
 
 @keyframes pop {
-  0% { transform: scale(0.95); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .pin-mini-card {
@@ -364,8 +392,15 @@
 }
 
 @keyframes pop-in {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .masked-input--err {
@@ -374,9 +409,19 @@
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  75% { transform: translateX(4px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-4px);
+  }
+
+  75% {
+    transform: translateX(4px);
+  }
 }
 
 .whisper--err {
@@ -403,7 +448,7 @@
   border-radius: 20px;
   background: var(--paper);
   border: 1px solid rgba(26, 83, 92, 0.08);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
 }
 
 .call-section--emergency {
@@ -787,8 +832,8 @@
 }
 
 .panel-proof {
-  background: linear-gradient(160deg, #f0faf8 0%, #fff 70%);
-  border: 1px solid rgba(92, 158, 140, 0.2);
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
 }
 
 .proof-big {
@@ -817,17 +862,17 @@
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
-  background: #fff;
+  background: #ffffff;
   padding: 0.65rem 1rem;
   border-radius: 14px;
-  border: 1px solid rgba(26, 83, 92, 0.12);
+  border: 1px solid #cbd5e1;
   flex: 1;
   min-width: 42%;
 }
 
 .stat-pill--alt {
-  border-color: rgba(196, 92, 74, 0.2);
-  background: #fffaf8;
+  border-color: #cbd5e1;
+  background: #f8fafc;
 }
 
 .stat-num {
@@ -848,10 +893,10 @@
 }
 
 .panel-deal {
-  background: linear-gradient(135deg, #1a535c 0%, #0f3d44 100%);
-  color: #fef3c7;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #f8fafc;
   border: none;
-  box-shadow: 0 14px 36px rgba(26, 83, 92, 0.35);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.15);
 }
 
 .panel-deal .panel-title-sm,
@@ -868,8 +913,8 @@
   font-size: 0.65rem;
   font-weight: 900;
   letter-spacing: 0.14em;
-  color: var(--teal);
-  background: var(--saffron);
+  color: #ffffff;
+  background: #1e293b;
   padding: 0.3rem 0.55rem;
   border-radius: 6px;
   margin-bottom: 0.5rem;
@@ -889,7 +934,7 @@
   width: 100%;
   text-align: center;
   background: #fff;
-  color: var(--teal) !important;
+  color: #0f172a !important;
   font-weight: 900;
   padding: 0.9rem 1rem;
   border-radius: 16px;
@@ -903,14 +948,14 @@
 }
 
 .variant-tile {
-  border: 1px solid rgba(26, 83, 92, 0.12);
+  border: 1px solid #e2e8f0;
   border-radius: 16px;
   padding: 0.75rem 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.35rem;
-  background: #fffef9;
+  background: #f8fafc;
   transition: transform 0.15s ease;
 }
 
@@ -1010,20 +1055,27 @@
 
 .scan-foot {
   text-align: center;
-  font-size: 0.78rem;
-  color: var(--muted);
-  margin-top: 1.25rem;
-  line-height: 1.6;
+  font-size: 0.85rem;
+  color: #64748b;
+  padding: 3rem 1rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.6rem;
   align-items: center;
 }
 
+.foot-tagline {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
 .foot-heart {
-  color: var(--terra);
-  font-size: 1rem;
-  animation: pulse-soft 2s ease-in-out infinite;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.25rem;
 }
 
 .foot-link {
@@ -1037,5 +1089,73 @@
   .pulse-heart,
   .foot-heart {
     animation: none;
+  }
+}
+
+/* ═══ VEHICLE REGISTRATION RESPONSIVE ═══ */
+.registration-card {
+  margin: 0 16px 14px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  text-align: center;
+}
+
+.registration-header {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #94a3b8;
+  font-weight: 800;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.registration-line {
+  width: 12px;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.registration-number {
+  font-size: clamp(1.4rem, 8vw, 2.2rem);
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: 2px;
+  line-height: 1;
+  text-transform: uppercase;
+  font-family: system-ui, -apple-system, sans-serif;
+  word-break: break-all;
+}
+
+/* ═══ MOBILE TWEAKS ═══ */
+@media (max-width: 480px) {
+  .scan-root {
+    margin: 8px auto;
+    padding: 1rem 0.75rem 1rem;
+    border-radius: 20px;
+  }
+
+  .registration-card {
+    margin: 0 10px 14px;
+    padding: 16px 8px;
+  }
+
+  .registration-number {
+    letter-spacing: 1px; /* Slightly tighter spacing on tiny screens */
+  }
+
+  .hero-title {
+    font-size: 1.45rem;
+  }
+
+  .btn-call, .btn-emergency {
+    font-size: 0.95rem;
+    padding: 0.85rem 1rem;
   }
 }

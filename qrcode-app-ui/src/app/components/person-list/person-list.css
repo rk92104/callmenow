@@ -57,7 +57,7 @@
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #6366f1, #7c3aed 50%, #a855f7);
+  background: linear-gradient(135deg, #16a34a, #0d9488 50%, #059669);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -74,22 +74,22 @@
   align-items: center;
   gap: 8px;
   padding: 14px 28px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #16a34a, #059669);
   color: #fff;
   border-radius: 14px;
   font-weight: 700;
   font-size: 1rem;
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 4px 20px rgba(22, 163, 74, 0.4);
   border: none;
   cursor: pointer;
 }
 
 .btn-add:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  box-shadow: 0 8px 30px rgba(22, 163, 74, 0.5);
+  background: linear-gradient(135deg, #15803d, #059669);
 }
 
 .btn-icon {
@@ -412,10 +412,10 @@
 }
 
 .p-num.active {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #16a34a, #059669);
   color: white;
   border: none;
-  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3);
 }
 
 /* ===== Modal Styles ===== */
@@ -556,14 +556,14 @@
   text-align: left;
   border-radius: 20px;
   box-shadow:
-    0 0 0 1px rgba(234, 88, 12, 0.12),
+    0 0 0 1px rgba(22, 163, 74, 0.12),
     0 28px 80px rgba(0, 0, 0, 0.45);
 }
 
 .qr-modal-accent {
   height: 4px;
   width: 100%;
-  background: linear-gradient(90deg, #c2410c, #ea580c, #fb923c, #ea580c, #c2410c);
+  background: linear-gradient(90deg, #15803d, #16a34a, #4ade80, #16a34a, #15803d);
 }
 
 .qr-modal-close {
@@ -699,7 +699,7 @@ html[data-theme="dark"] .qr-frame-shell {
 .qr-frame-rail {
   width: 6px;
   flex-shrink: 0;
-  background: linear-gradient(180deg, #ea580c, #fb923c, #ea580c);
+  background: linear-gradient(180deg, #15803d, #4ade80, #15803d);
 }
 
 .qr-preview-modal .qr-container {
@@ -735,7 +735,7 @@ html[data-theme="dark"] .qr-frame-shell {
 .qr-foot-icon {
   flex-shrink: 0;
   margin-top: 2px;
-  color: #ea580c;
+  color: #16a34a;
   opacity: 0.9;
 }
 
