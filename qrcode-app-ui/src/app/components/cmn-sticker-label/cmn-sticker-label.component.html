@@ -1,0 +1,45 @@
+<div class="cmn-sticker">
+  <div class="cmn-sticker__qr-col">
+    <img class="cmn-sticker__qr" [src]="qrImageUrl()" width="160" height="160" alt="" decoding="async" />
+    <p class="cmn-sticker__code">{{ code() }}</p>
+  </div>
+  <div class="cmn-sticker__copy-col">
+    @if (variant() === 'scan') {
+      <h2 class="cmn-sticker__headline">Scan to contact the vehicle owner</h2>
+      <div class="cmn-sticker__rule" aria-hidden="true"></div>
+      <div class="cmn-sticker__blurb-wrap">
+        <p class="cmn-sticker__blurb">
+          Wrong parking, Emergency contact<br />
+          <span class="cmn-sticker__blurb-line2">or any issue with the vehicle</span>
+        </p>
+      </div>
+    } @else {
+      <h2 class="cmn-sticker__headline">Scan to activate</h2>
+      <div class="cmn-sticker__rule" aria-hidden="true"></div>
+      <div class="cmn-sticker__blurb-wrap">
+        <p class="cmn-sticker__blurb">
+          Link after purchase — your number never appears<br />
+          <span class="cmn-sticker__blurb-line2">on the sticker. Scan to set up your tag.</span>
+        </p>
+      </div>
+    }
+    <div class="cmn-sticker__brand">
+      <svg class="cmn-sticker__mark" viewBox="0 0 200 28" xmlns="http://www.w3.org/2000/svg" aria-label="CallmeNow" role="img">
+        <title>CallmeNow</title>
+        <rect width="200" height="28" fill="#ffffff" aria-hidden="true" />
+        <text x="0" y="20.5" fill="var(--cmn-sticker-orange)" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">
+          Callme
+        </text>
+        <text x="47" y="20.5" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800">Now</text>
+        <g transform="translate(74, 1.8)" aria-hidden="true">
+          <rect x="0.3" y="0.3" width="8.2" height="13.4" rx="1.25" fill="none" stroke="var(--cmn-sticker-orange)" stroke-width="1.05" />
+          <rect x="1.15" y="1.75" width="5.9" height="7.15" rx="0.45" fill="#fff5e6" stroke="var(--cmn-sticker-orange)" stroke-width="0.24" />
+          <path
+            fill="#ffffff"
+            d="M4 4.85 C3.35 4.05 2.35 4.35 2.35 5.2 C2.35 5.95 4 7.45 4 7.45 S5.65 5.95 5.65 5.2 C5.65 4.35 4.65 4.05 4 4.85 Z" />
+          <circle cx="4" cy="11.15" r="0.52" fill="#ffffff" stroke="var(--cmn-sticker-orange)" stroke-width="0.22" />
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>

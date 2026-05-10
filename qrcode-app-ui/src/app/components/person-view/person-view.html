@@ -1,0 +1,78 @@
+@if (loading()) {
+<div class="view-container">
+    <div class="loading-container">
+        <div class="spinner"></div>
+        <p>Loading contact information...</p>
+    </div>
+</div>
+}
+
+@if (error()) {
+<div class="view-container">
+    <div class="error-state">
+        <div class="error-icon">😕</div>
+        <h2>Contact Not Found</h2>
+        <p>The contact you're looking for doesn't exist or has been removed.</p>
+        <a routerLink="/" class="btn-home">Go to website home</a>
+    </div>
+</div>
+}
+
+@if (!loading() && !error() && person()) {
+<div class="view-container">
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-avatar">{{ person()!.name.charAt(0).toUpperCase() }}</div>
+            <h1 class="profile-name">{{ person()!.name }}</h1>
+            <span class="profile-badge">📲 Scanned Contact</span>
+        </div>
+
+        <div class="profile-details">
+            <div class="detail-item">
+                <div class="detail-icon-wrapper">
+                    <span class="detail-icon">📱</span>
+                </div>
+                <div class="detail-content">
+                    <span class="detail-label">Phone Number</span>
+                    <a [href]="'tel:' + person()!.phoneNumber" class="detail-value linked">{{ person()!.phoneNumber
+                        }}</a>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-icon-wrapper">
+                    <span class="detail-icon">✉️</span>
+                </div>
+                <div class="detail-content">
+                    <span class="detail-label">Email Address</span>
+                    <a [href]="'mailto:' + person()!.email" class="detail-value linked">{{ person()!.email }}</a>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-icon-wrapper">
+                    <span class="detail-icon">📍</span>
+                </div>
+                <div class="detail-content">
+                    <span class="detail-label">Address</span>
+                    <span class="detail-value">{{ person()!.address }}</span>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-icon-wrapper">
+                    <span class="detail-icon">👨</span>
+                </div>
+                <div class="detail-content">
+                    <span class="detail-label">Father's Name</span>
+                    <span class="detail-value">{{ person()!.fatherName }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-footer">
+            <span class="footer-text">Contact added on {{ person()!.createdAt | date:'longDate' }}</span>
+        </div>
+    </div>
+</div>
+}

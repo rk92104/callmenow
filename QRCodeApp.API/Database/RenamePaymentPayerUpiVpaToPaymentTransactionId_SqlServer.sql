@@ -1,0 +1,3 @@
+-- Use QrStickers_PaymentTransactionId_SqlServer.sql instead.
+-- It is idempotent (rename PaymentPayerUpiVpa → PaymentTransactionId, or ADD if missing).
+-- The old one-line sp_rename here was unsafe if the column was already renamed or absent.

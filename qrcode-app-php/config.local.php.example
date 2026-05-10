@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * SERVER PAR: is file ki copy bana kar naam rakho: config.local.php
+ * (Same folder as composer.json — NOT inside public/.)
+ * Git mein config.local.php mat daalo — sirf yeh example.
+ *
+ * Values yahan YA hPanel → Environment variables (same names: MYSQL_*, etc.)
+ */
+return [
+    // --- MySQL (phpMyAdmin / hPanel → Databases — exact names copy karo) ---
+    'MYSQL_HOST' => 'localhost',
+    'MYSQL_PORT' => '3306',
+    'MYSQL_DATABASE' => 'your_database_name',
+    'MYSQL_USER' => 'your_mysql_user',
+    'MYSQL_PASSWORD' => 'your_mysql_password',
+
+    // --- Site URL (QR links in labels / emails) SPA jis domain se khule ---
+    'CALLMENOW_PUBLIC_BASE_URL' => 'https://yourdomain.com',
+    'CORS_ORIGIN' => 'https://yourdomain.com',
+
+    // --- Razorpay (Dashboard → API Keys — test / live) ---
+    'RAZORPAY_KEY_ID' => 'rzp_live_XXXXX_or_rzp_test_XXXXX',
+    'RAZORPAY_KEY_SECRET' => 'paste_secret_here',
+
+    // --- Exotel API (Dashboard → API settings) ---
+    'EXOTEL_ACCOUNT_SID' => 'your_account_sid',
+    'EXOTEL_API_KEY' => 'your_api_key',
+    'EXOTEL_API_TOKEN' => 'your_api_token',
+    'EXOTEL_SUBDOMAIN' => 'api.exotel.com',
+    'EXOTEL_CALLER_ID' => 'your_exophone_digits',
+    'EXOTEL_CALL_TYPE' => 'trans',
+    'EXOTEL_DEFAULT_ISD' => '91',
+
+    // Optional: two-leg connect order (jab EXOTEL_OWNER_ALERT_APP_URL khali ho)
+    'EXOTEL_RING_OWNER_FIRST' => '1',
+
+    // Optional: sirf owner ko ExoML flow (scanner ring nahi) — ExoML start URL dashboard se
+    'EXOTEL_OWNER_ALERT_APP_URL' => '',
+
+    // --- Exotel IVR = scan page par "Open dialer — call" (turant phone dialer) ---
+    // 1) MySQL (phpMyAdmin): qrcode-app-php/database/ensure_qr_stickers_ivr_access_code.sql (ek baar)
+    // 2) Yahan: wahi ExoPhone / DID jo inbound callers dial karen (aksar EXOTEL_CALLER_ID jaisa hi)
+    'EXOTEL_IVR_DID' => 'your_exophone_digits_or_did',
+    // 3) Agar yeh set karo to Exotel App Builder URLs mein ?secret=... same value lagao
+    'EXOTEL_IVR_WEBHOOK_SECRET' => '',
+    // 4) EXOTEL_SCAN_DIRECT_TEL = 1 → scan par sirf tel: IVR (form band); 0 = IVR + API dono
+    'EXOTEL_SCAN_DIRECT_TEL' => '0',
+
+    /*
+     * 5) Exotel App Builder (Incoming call on EXOTEL_IVR_DID):
+     *    Greeting (optional) → Gather (Dynamic URL) → Connect (Dynamic URL)
+     *
+     *    Gather — Primary URL (GET, JSON):
+     *      https://yourdomain.com/api/exotel/ivr/gather?secret=YOUR_SECRET_IF_SET
+     *
+     *    Connect — Dynamic URL (GET, JSON; Exotel ?digits=… append karta hai — applet setting dekho):
+     *      https://yourdomain.com/api/exotel/ivr/connect?secret=YOUR_SECRET_IF_SET
+     *
+     *    Connect applet ko owner number API se milta hai: DB `qr_stickers.ivr_access_code` = scan response `ivrAccessCode`
+     */
+
+    // Optional Gather copy (Hindi/English):
+    // 'EXOTEL_IVR_GATHER_PROMPT' => 'Call Me Now. Apne sticker ka 6 digit code dial kariye, phir hash.',
+    // 'EXOTEL_IVR_GATHER_REPEAT_PROMPT' => 'Code nahi mila. Dubara 6 digit aur hash.',
+
+    // --- Optional ---
+    // 'CALLMENOW_STICKER_PRICE_INR' => 299,
+    // 'APP_DEBUG' => '1',
+];

@@ -1,0 +1,53 @@
+<div class="login-page">
+  <button type="button" class="login-theme-btn" (click)="theme.toggle()" [attr.aria-label]="theme.themeLabel()"
+    [title]="theme.themeLabel()">{{ theme.themeIcon() }}</button>
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-icon">🔐</div>
+            <h1>Welcome Back</h1>
+            <p class="subtitle">Merchant console — inventory, activations, and owner records</p>
+        </div>
+
+        <form (ngSubmit)="login()" #loginForm="ngForm">
+            <div class="form-group" [class.error]="error()">
+                <label for="username">Username</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">👤</span>
+                    <input type="text" id="username" name="username" [(ngModel)]="username" placeholder="Enter username"
+                        required />
+                </div>
+            </div>
+
+            <div class="form-group" [class.error]="error()">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🔑</span>
+                    <input type="password" id="password" name="password" [(ngModel)]="password"
+                        placeholder="Enter password" required />
+                </div>
+            </div>
+
+            @if (error()) {
+            <div class="error-message">
+                <span class="error-icon">⚠️</span> {{ error() }}
+            </div>
+            }
+
+            <button type="submit" class="btn-login" [disabled]="loading() || !loginForm.form.valid">
+                @if (loading()) {
+                <div class="spinner small"></div>
+                Signing In...
+                } @else {
+                Sign In
+                }
+            </button>
+
+            <div class="login-footer">
+                <p>CallmeNow partner access</p>
+                <p><a routerLink="/" class="login-back-site">← Back to website</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+</div>

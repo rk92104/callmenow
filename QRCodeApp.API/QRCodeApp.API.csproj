@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <!-- Copy Angular `dist` into wwwroot before every build so `dotnet run` picks up UI changes (AfterTargets=Build skipped when API project is "up to date"). -->
+  <Target Name="SyncAngularBrowserToWwwroot" BeforeTargets="BeforeBuild">
+    <PropertyGroup>
+      <_AngularBrowser>$(MSBuildThisFileDirectory)..\qrcode-app-ui\dist\qrcode-app-ui\browser</_AngularBrowser>
+      <_WwwBrowser>$(MSBuildThisFileDirectory)wwwroot\browser</_WwwBrowser>
+    </PropertyGroup>
+    <Exec Condition="Exists('$(_AngularBrowser)\index.html')"
+          WorkingDirectory="$(MSBuildProjectDirectory)"
+          Command="cmd /c if not exist &quot;wwwroot\browser&quot; mkdir &quot;wwwroot\browser&quot; &amp;&amp; xcopy &quot;..\qrcode-app-ui\dist\qrcode-app-ui\browser\*&quot; &quot;wwwroot\browser\&quot; /E /I /Y &gt;NUL" />
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.3" />
+    <PackageReference Include="QRCoder" Version="1.7.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.4" />
+  </ItemGroup>
+
+</Project>

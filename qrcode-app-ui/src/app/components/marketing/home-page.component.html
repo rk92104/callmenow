@@ -1,0 +1,200 @@
+<section class="mpub-hero-band">
+  <div class="mpub-hero-blobs" aria-hidden="true"></div>
+  <div class="mpub-hero mpub-container">
+    <div class="mpub-hero-copy">
+      <div class="mpub-hero-lead">
+        <p class="mpub-kicker mpub-hero-kicker">Privacy-first vehicle contact</p>
+        <h1>
+          Let anyone reach you
+          <span class="mpub-head-gradient">without showing your number</span>
+        </h1>
+        <p class="mpub-hero-lede">
+          A QR sticker on your glass. They scan, you get the call — parking, lights, emergencies — without printing your mobile for the world to see.
+        </p>
+      </div>
+      <div class="mpub-hero-cta">
+        <a routerLink="/product" class="mpub-btn-primary mpub-btn-lg">Buy sticker</a>
+        <a routerLink="/login" class="mpub-btn-ghost mpub-btn-lg">Partner login</a>
+      </div>
+      <div class="mpub-hero-stats">
+        <div class="mpub-hero-stat">
+          <span class="mpub-hero-stat-ico" aria-hidden="true">📱</span>
+          <div class="mpub-hero-stat-copy">
+            <strong>Mobile-first</strong>
+            <span>No app for scanners</span>
+          </div>
+        </div>
+        <div class="mpub-hero-stat">
+          <span class="mpub-hero-stat-ico" aria-hidden="true">🔒</span>
+          <div class="mpub-hero-stat-copy">
+            <strong>Private by design</strong>
+            <span>Number not on display</span>
+          </div>
+        </div>
+        <div class="mpub-hero-stat">
+          <span class="mpub-hero-stat-ico" aria-hidden="true">⚡</span>
+          <div class="mpub-hero-stat-copy">
+            <strong>Quick setup</strong>
+            <span>Activate after delivery</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mpub-hero-visual">
+      <div class="mpub-visual-glow" aria-hidden="true"></div>
+      <div class="mpub-visual-card mpub-hero-carousel-wrap">
+        <div
+          class="mpub-hero-carousel"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="CallMeNow on real vehicles"
+        >
+          @for (slide of slides; track slide.src; let i = $index) {
+            <img
+              class="mpub-hero-slide"
+              [class.mpub-hero-slide--active]="i === activeIndex()"
+              [src]="assetUrl(slide.src)"
+              width="1600"
+              height="900"
+              [alt]="slide.alt"
+              loading="eager"
+              decoding="async"
+              [attr.fetchpriority]="i === 0 ? 'high' : null"
+              [attr.aria-hidden]="i === activeIndex() ? 'false' : 'true'"
+            />
+          }
+          <div class="mpub-hero-carousel-ui">
+            <button type="button" class="mpub-hero-carousel-btn" (click)="prev()" aria-label="Previous slide">
+              ‹
+            </button>
+            <button type="button" class="mpub-hero-carousel-btn" (click)="next()" aria-label="Next slide">
+              ›
+            </button>
+          </div>
+          <div class="mpub-hero-dots" role="tablist" aria-label="Choose slide">
+            @for (slide of slides; track slide.src; let i = $index) {
+              <button
+                type="button"
+                role="tab"
+                class="mpub-hero-dot"
+                [class.mpub-hero-dot--active]="i === activeIndex()"
+                [attr.aria-selected]="i === activeIndex()"
+                (click)="goToSlide(i)"
+                [attr.aria-label]="'Slide ' + (i + 1) + ' of ' + slides.length"
+              ></button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mpub-section mpub-section--cream">
+  <div class="mpub-container">
+    <p class="mpub-kicker">How it works</p>
+    <h2>Three steps. Zero confusion.</h2>
+    <p class="mpub-muted">Built so a stressed stranger understands in one glance.</p>
+    <div class="mpub-steps">
+      <div class="mpub-step">
+        <div class="mpub-step-num">1</div>
+        <h3>Stick the QR on your car</h3>
+        <p class="mpub-muted">Windshield corner, weather-safe — visible from outside.</p>
+      </div>
+      <div class="mpub-step">
+        <div class="mpub-step-num">2</div>
+        <h3>They scan</h3>
+        <p class="mpub-muted">Fast page opens on their phone browser. No install.</p>
+      </div>
+      <div class="mpub-step">
+        <div class="mpub-step-num">3</div>
+        <h3>You connect</h3>
+        <p class="mpub-muted">Call or message — you control what’s possible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mpub-section">
+  <div class="mpub-container">
+    <p class="mpub-kicker">Sound familiar?</p>
+    <h2>Real moments that need you</h2>
+    <div class="mpub-grid-2">
+      <div class="mpub-pain">Blocked parking?</div>
+      <div class="mpub-pain">Headlights left on?</div>
+      <div class="mpub-pain">Minor bump in a lot?</div>
+      <div class="mpub-pain">Someone needs you urgently?</div>
+    </div>
+    <p class="mpub-muted mpub-pain-footer">Turn horn-honking into a ten-second fix.</p>
+  </div>
+</section>
+
+<section class="mpub-section mpub-section--cream">
+  <div class="mpub-container">
+    <p class="mpub-kicker">Why CallMeNow</p>
+    <h2>Made for real streets</h2>
+    <ul class="mpub-features">
+      <li><span class="ico" aria-hidden="true">🔒</span> Privacy — no raw number etched on glass</li>
+      <li><span class="ico" aria-hidden="true">⚡</span> Instant — one scan, clear actions</li>
+      <li><span class="ico" aria-hidden="true">📍</span> Works wherever the sticker can be seen</li>
+      <li><span class="ico" aria-hidden="true">🧩</span> Simple — activate when you’re ready</li>
+    </ul>
+  </div>
+</section>
+
+<section class="mpub-section mpub-section--spotlight" id="product">
+  <div class="mpub-container">
+    <p class="mpub-kicker">The sticker</p>
+    <h2>Your car’s polite doorbell</h2>
+    <div class="mpub-product-card mpub-product-card--lift">
+      <div class="mpub-product-visual">
+        <img
+          [src]="assetUrl('/marketing/hero-vehicle-qr.png')"
+          width="1600"
+          height="900"
+          alt="CallMeNow QR sticker on vehicle glass — real-world look"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div>
+        <p class="mpub-price">₹299</p>
+        <p class="mpub-price-note">Indicative — confirm at checkout / console. Referrals may lower it.</p>
+        <p class="mpub-muted mpub-product-blurb">Laminated print, QR linked to your scan page — weather-safe on glass.</p>
+        <div class="mpub-hero-cta mpub-product-cta">
+          <a routerLink="/product" class="mpub-btn-primary">Full product page</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mpub-section mpub-section--dark">
+  <div class="mpub-container">
+    <p class="mpub-kicker">Trust</p>
+    <h2>What early users say</h2>
+    <p class="mpub-muted">Replace with real quotes when you have them.</p>
+    <div class="mpub-grid-2 mpub-testimonial-grid">
+      <div class="mpub-testimonial">
+        <p>“Finally stopped writing my number on the windscreen. Parking at the mall feels less exposed.”</p>
+        <cite>— Priya S., Chandigarh (sample)</cite>
+      </div>
+      <div class="mpub-testimonial">
+        <p>“Under five minutes to activate. The scan page is clean on my phone.”</p>
+        <cite>— Rahul M., sample</cite>
+      </div>
+    </div>
+    <p class="mpub-muted mpub-trust-line">Trusted by thousands of vehicle owners — plug in your real stat when ready.</p>
+  </div>
+</section>
+
+<section class="mpub-cta-band mpub-section--cream mpub-cta-band--pop">
+  <div class="mpub-container">
+    <h2>Ready when you are</h2>
+    <p class="mpub-muted mpub-cta-lede">Get a sticker, activate, and make your vehicle reachable the smart way.</p>
+    <div class="mpub-hero-cta mpub-cta-center">
+      <a routerLink="/product" class="mpub-btn-primary mpub-btn-lg">Buy sticker</a>
+      <a routerLink="/contact" class="mpub-btn-ghost mpub-btn-lg">Talk to us</a>
+    </div>
+  </div>
+</section>

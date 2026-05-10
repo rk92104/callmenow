@@ -1,0 +1,199 @@
+/* Fonts: see index.html (single request; avoids @import ordering differences in prod). */
+
+/* ===== Theme tokens (default: light) ===== */
+:root {
+    --cmn-page-bg: #f3f1f9;
+    --cmn-text: #0f172a;
+    --cmn-text-muted: #64748b;
+    --cmn-label: #334155;
+    --cmn-heading: #0f172a;
+    --cmn-card-bg: rgba(255, 255, 255, 0.92);
+    --cmn-card-bg-solid: #ffffff;
+    --cmn-card-border: rgba(99, 102, 241, 0.18);
+    --cmn-elevated: #f1f5f9;
+    --cmn-input-bg: #ffffff;
+    --cmn-input-border: #cbd5e1;
+    --cmn-input-text: #0f172a;
+    --cmn-input-placeholder: #94a3b8;
+    --cmn-sidebar-bg: rgba(255, 255, 255, 0.97);
+    --cmn-sidebar-border: #e2e8f0;
+    --cmn-nav: #64748b;
+    --cmn-nav-hover: #0f172a;
+    --cmn-nav-active: #4f46e5;
+    --cmn-topbar-bg: rgba(255, 255, 255, 0.88);
+    --cmn-user-avatar-bg: linear-gradient(135deg, #e0e7ff, #ede9fe);
+    --cmn-pattern-1: rgba(99, 102, 241, 0.07);
+    --cmn-pattern-2: rgba(168, 85, 247, 0.05);
+    --cmn-pattern-3: rgba(59, 130, 246, 0.04);
+    --cmn-scrollbar-track: #e2e8f0;
+    --cmn-scrollbar-thumb: rgba(99, 102, 241, 0.35);
+    --cmn-link: #4f46e5;
+    --cmn-table-border: #e2e8f0;
+    --cmn-table-head: #475569;
+    --cmn-mono: #5b21b6;
+    --cmn-toolbar-bg: rgba(255, 255, 255, 0.95);
+    --cmn-modal-bg: #ffffff;
+    --cmn-footer-btn: #64748b;
+    /* App shell */
+    --cmn-shell-rail: linear-gradient(180deg, #6366f1 0%, #7c3aed 48%, #a855f7 100%);
+    --cmn-sidebar-shadow: 8px 0 32px rgba(15, 23, 42, 0.06);
+    --cmn-sidebar-highlight: rgba(255, 255, 255, 0.65);
+    --cmn-nav-active-bg: linear-gradient(105deg, rgba(99, 102, 241, 0.14) 0%, rgba(168, 85, 247, 0.08) 100%);
+    --cmn-nav-active-border: #6366f1;
+    --cmn-topbar-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 4px 24px rgba(15, 23, 42, 0.04);
+    --cmn-main-glow: radial-gradient(1200px 400px at 50% -10%, rgba(99, 102, 241, 0.06), transparent 55%);
+    --cmn-success: #047857;
+    --cmn-success-soft: rgba(16, 185, 129, 0.14);
+    --cmn-panel-shadow: 0 4px 24px rgba(99, 102, 241, 0.08);
+}
+
+html[data-theme="dark"] {
+    --cmn-page-bg: #0b0b1a;
+    --cmn-text: #e2e8f0;
+    --cmn-text-muted: #94a3b8;
+    --cmn-label: #cbd5e1;
+    --cmn-heading: #f8fafc;
+    --cmn-card-bg: rgba(30, 30, 50, 0.7);
+    --cmn-card-bg-solid: rgba(30, 30, 50, 0.85);
+    --cmn-card-border: rgba(99, 102, 241, 0.15);
+    --cmn-elevated: rgba(15, 23, 42, 0.6);
+    --cmn-input-bg: rgba(15, 15, 30, 0.6);
+    --cmn-input-border: rgba(99, 102, 241, 0.2);
+    --cmn-input-text: #e2e8f0;
+    --cmn-input-placeholder: #64748b;
+    --cmn-sidebar-bg: rgba(15, 23, 42, 0.4);
+    --cmn-sidebar-border: rgba(99, 102, 241, 0.2);
+    --cmn-nav: #94a3b8;
+    --cmn-nav-hover: #f8fafc;
+    --cmn-nav-active: #818cf8;
+    --cmn-topbar-bg: rgba(15, 23, 42, 0.75);
+    --cmn-user-avatar-bg: linear-gradient(135deg, #6366f1, #a855f7);
+    --cmn-pattern-1: rgba(99, 102, 241, 0.08);
+    --cmn-pattern-2: rgba(168, 85, 247, 0.06);
+    --cmn-pattern-3: rgba(59, 130, 246, 0.04);
+    --cmn-scrollbar-track: #0b0b1a;
+    --cmn-scrollbar-thumb: rgba(99, 102, 241, 0.3);
+    --cmn-link: #a5b4fc;
+    --cmn-table-border: rgba(51, 65, 85, 0.5);
+    --cmn-table-head: #94a3b8;
+    --cmn-mono: #c4b5fd;
+    --cmn-toolbar-bg: rgba(30, 30, 50, 0.4);
+    --cmn-modal-bg: #1e1e3a;
+    --cmn-footer-btn: #94a3b8;
+    --cmn-shell-rail: linear-gradient(180deg, #818cf8 0%, #6366f1 45%, #7c3aed 100%);
+    --cmn-sidebar-shadow: 12px 0 40px rgba(0, 0, 0, 0.35);
+    --cmn-sidebar-highlight: rgba(255, 255, 255, 0.04);
+    --cmn-nav-active-bg: linear-gradient(105deg, rgba(99, 102, 241, 0.28) 0%, rgba(168, 85, 247, 0.12) 100%);
+    --cmn-nav-active-border: #a5b4fc;
+    --cmn-topbar-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 8px 32px rgba(0, 0, 0, 0.25);
+    --cmn-main-glow: radial-gradient(900px 360px at 40% 0%, rgba(99, 102, 241, 0.12), transparent 50%);
+    --cmn-success: #86efac;
+    --cmn-success-soft: rgba(34, 197, 94, 0.18);
+    --cmn-panel-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
+}
+
+/* ===== CSS Reset & Global Styles ===== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+img,
+video {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Use on wrappers around wide tables (inventory, lists) */
+.cmn-table-scroll {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--cmn-page-bg);
+    color: var(--cmn-text);
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    transition: background-color 0.25s ease, color 0.2s ease;
+    margin: 0;
+}
+
+app-root {
+    display: block;
+    min-height: 100vh;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 20%, var(--cmn-pattern-1) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, var(--cmn-pattern-2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, var(--cmn-pattern-3) 0%, transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--cmn-scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--cmn-scrollbar-thumb);
+    border-radius: 4px;
+}
+
+::selection {
+    background: rgba(99, 102, 241, 0.25);
+    color: var(--cmn-text);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Fluid page padding for routed content (works with main-layout) */
+.cmn-page-pad {
+    padding-left: clamp(12px, 4vw, 24px);
+    padding-right: clamp(12px, 4vw, 24px);
+}
+
+@media (max-width: 1024px) {
+    html {
+        font-size: clamp(15px, 1.1vw + 13px, 16px);
+    }
+}
+
+@media (max-width: 480px) {
+    html {
+        font-size: 15px;
+    }
+}

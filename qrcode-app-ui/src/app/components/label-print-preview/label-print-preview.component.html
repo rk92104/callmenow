@@ -1,0 +1,49 @@
+@if (publicId().length === 0) {
+  <div class="lpp-empty">
+    <p>Missing tag id.</p>
+    <a routerLink="/app/inventory">Back to inventory</a>
+  </div>
+} @else {
+  <div class="lpp-root">
+    <header class="lpp-toolbar no-print">
+      <a routerLink="/app/inventory" class="lpp-back">← Inventory</a>
+      <div class="lpp-title-block">
+        <h1 class="lpp-title">Label preview</h1>
+        <p class="lpp-sub">{{ embed() === 'scan' ? 'Vehicle sticker · /q' : 'Packaging · /activate' }} · {{ publicId() }}</p>
+      </div>
+      <div class="lpp-actions">
+        <div class="lpp-layout" role="group" aria-label="Sticker orientation">
+          <span class="lpp-layout-label">Layout</span>
+          <div class="lpp-segment">
+            <button
+              type="button"
+              class="lpp-segment__btn"
+              [class.lpp-segment__btn--on]="printLayout() === 'horizontal'"
+              (click)="setPrintLayout('horizontal')"
+            >
+              Horizontal
+            </button>
+            <button
+              type="button"
+              class="lpp-segment__btn"
+              [class.lpp-segment__btn--on]="printLayout() === 'vertical'"
+              (click)="setPrintLayout('vertical')"
+            >
+              Vertical
+            </button>
+          </div>
+        </div>
+        <a class="lpp-btn lpp-btn-primary" [href]="apiPrintHref()" target="_blank" rel="noopener">Open A4 print</a>
+        <button type="button" class="lpp-btn lpp-btn-ghost" (click)="printPreview()">Print this view</button>
+      </div>
+    </header>
+
+    <main
+      class="lpp-canvas"
+      [class.lpp-canvas--print-landscape]="printLayout() === 'horizontal'"
+      [class.lpp-canvas--print-portrait]="printLayout() === 'vertical'"
+    >
+      <app-cmn-sticker-label [qrImageUrl]="qrImageUrl()" [code]="code()" [variant]="embed()" [layout]="printLayout()" />
+    </main>
+  </div>
+}

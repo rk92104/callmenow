@@ -1,0 +1,2 @@
+-- Legacy: column was payment_payer_upi_vpa. Prefer alter_rename_to_payment_transaction_id.sql if that exists.
+-- New installs: use schema.sql / full_install_mysql.sql (payment_transaction_id).

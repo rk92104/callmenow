@@ -1,0 +1,21 @@
+# Hostinger public_html: PHP API under /api/ + Angular SPA
+# Agar /api/health par bhi login page aaye = .htaccess galat / API rule SPA se upar nahi
+
+<IfModule mod_negotiation.c>
+  Options -MultiViews
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # /api/* → PHP (leading / = docroot path; Hostinger/LiteSpeed par zyada sahi chalta hai)
+  RewriteCond %{REQUEST_URI} ^/api/ [NC]
+  RewriteRule ^api(?:/(.*))?$ /api/public/index.php [L,QSA]
+
+  # Angular — deep links / refresh
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>

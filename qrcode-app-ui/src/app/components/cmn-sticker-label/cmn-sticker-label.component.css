@@ -1,0 +1,307 @@
+/* Physical ref: white card, orange accent ~#E68A4F, rounded ~20px, 30|70 landscape, portrait ~5:7 */
+.cmn-sticker {
+  --cmn-sticker-orange: #e68a4f;
+  --cmn-sticker-ink: #000000;
+  --cmn-sticker-card-bg: #ffffff;
+  --cmn-sticker-card-radius: 20px;
+
+  display: grid;
+  grid-template-columns: minmax(0, 30fr) minmax(0, 70fr);
+  align-items: stretch;
+  background: var(--cmn-sticker-card-bg);
+  border-radius: var(--cmn-sticker-card-radius);
+  padding: 14px 16px 12px;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  font-family: 'Roboto', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 360px) {
+  .cmn-sticker:not(.cmn-sticker--vertical) {
+    aspect-ratio: 97 / 34;
+    max-width: min(100%, 23.5rem);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.cmn-sticker__qr-col {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 136px;
+  gap: 0.4rem;
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.cmn-sticker__qr {
+  width: min(8.15rem, 36vw);
+  height: 110px;
+  aspect-ratio: 1;
+  object-fit: contain;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.cmn-sticker__code {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--cmn-sticker-ink);
+  text-align: center;
+  line-height: 1.15;
+  word-break: break-all;
+  max-width: 100%;
+}
+
+.cmn-sticker__copy-col {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.2rem;
+  padding: 7px 2px 0 20px;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  text-align: left;
+}
+
+.cmn-sticker__head-block {
+  width: 100%;
+}
+
+.cmn-sticker__headline {
+  margin: 0;
+  padding-top: 4px;
+  width: 224px;
+  font-size: clamp(0.64rem, 2.45vw, 0.76rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+  color: var(--cmn-sticker-ink);
+  text-transform: uppercase;
+  text-align: left;
+  font-family: 'Roboto', 'Arial Narrow', 'Helvetica Neue Condensed', Arial, Helvetica, sans-serif;
+  font-stretch: condensed;
+  box-sizing: border-box;
+}
+
+.cmn-sticker__rule {
+  height: 2px;
+  width: 100%;
+  margin-top: 0.35rem;
+  background: var(--cmn-sticker-orange);
+  flex-shrink: 0;
+}
+
+/* Landscape: headline + rule left-aligned; blurb + logo centered in right column (ref sheet) */
+.cmn-sticker:not(.cmn-sticker--vertical) .cmn-sticker__blurb-wrap {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+  margin-top: 0.25rem;
+}
+
+.cmn-sticker:not(.cmn-sticker--vertical) .cmn-sticker__blurb {
+  text-align: center;
+}
+
+.cmn-sticker:not(.cmn-sticker--vertical) .cmn-sticker__brand {
+  justify-content: center;
+  padding-top: 0.4rem;
+}
+
+.cmn-sticker__blurb-wrap {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 0;
+  margin-top: 0.2rem;
+}
+
+.cmn-sticker__blurb {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--cmn-sticker-ink);
+  text-align: left;
+  max-width: 100%;
+  margin: 7px;
+}
+
+.cmn-sticker__blurb-line2 {
+  display: inline-block;
+  margin-top: 0.04rem;
+}
+
+.cmn-sticker__brand {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+  padding-top: 0.3rem;
+  padding-bottom: 2px;
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+.cmn-sticker__mark {
+  display: block;
+  height: clamp(2.2rem, 7.5vw, 2.6rem);
+  width: auto;
+  max-width: 90%;
+}
+
+/* ——— Portrait: match ref — large QR upper half, headline, orange rule, 2-line blurb, logo (no CMN under QR) ——— */
+.cmn-sticker--vertical {
+  --cmn-sticker-card-bg: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: #fff;
+  border-radius: 22px;
+  padding: 20px 18px 22px;
+  max-width: min(100%, 18rem);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  aspect-ratio: 7 / 11;
+  box-sizing: border-box;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  border: 1px solid #ececec;
+  height: 424px;
+}
+
+.cmn-sticker--vertical .cmn-sticker__qr-col {
+  flex: 1 1 52%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding-top: 2px;
+  width: 100%;
+}
+
+.cmn-sticker--vertical .cmn-sticker__code {
+  display: none;
+}
+
+.cmn-sticker--vertical .cmn-sticker__qr {
+  width: min(92%, 13.75rem);
+  max-width: 220px;
+  height: auto;
+  max-height: min(46vmin, 13rem);
+  margin-top: 0;
+  flex: 0 1 auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.cmn-sticker--vertical .cmn-sticker__copy-col {
+  flex: 1 1 48%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  padding: 0.55rem 0.5rem 0.15rem;
+  gap: 0;
+  width: 100%;
+}
+
+.cmn-sticker--vertical .cmn-sticker__head-block {
+  width: 100%;
+  max-width: 15.5rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.cmn-sticker--vertical .cmn-sticker__headline {
+  text-align: center;
+  width: 100%;
+  max-width: 15.5rem;
+  margin: 0 auto;
+  font-size: clamp(0.62rem, 2.8vw, 0.74rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  padding-top: 0.35rem;
+}
+
+.cmn-sticker--vertical .cmn-sticker__rule {
+  width: 100%;
+  max-width: 15.5rem;
+  margin: 0.45rem auto 0;
+  height: 2px;
+  background: var(--cmn-sticker-orange);
+}
+
+.cmn-sticker--vertical .cmn-sticker__blurb-wrap {
+  flex: 0 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.cmn-sticker--vertical .cmn-sticker__blurb {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  max-width: 14.5rem;
+}
+
+.cmn-sticker--vertical .cmn-sticker__brand {
+  justify-content: center;
+  margin-top: auto;
+  padding-top: 1rem;
+  padding-bottom: 4px;
+}
+
+.cmn-sticker--vertical .cmn-sticker__mark {
+  max-width: 85%;
+  height: 94px;
+  width: auto;
+}
+
+@media (max-width: 340px) {
+  .cmn-sticker:not(.cmn-sticker--vertical) {
+    grid-template-columns: 1fr;
+    aspect-ratio: auto;
+    justify-items: center;
+    padding: 14px 14px 12px;
+  }
+
+  .cmn-sticker:not(.cmn-sticker--vertical) .cmn-sticker__copy-col {
+    max-width: 17.5rem;
+    width: 100%;
+  }
+}
+
+@media print {
+  .cmn-sticker {
+    box-shadow: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

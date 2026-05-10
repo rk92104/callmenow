@@ -1,0 +1,53 @@
+<div class="mpub-section" style="padding-top: 2rem; padding-bottom: 3rem">
+  <div class="mpub-container mpub-prose">
+    @switch (doc()) {
+    @case ('privacy') {
+    <h1 class="mpub-page-title">Privacy Policy</h1>
+    <p><em>Placeholder — have a qualified professional review before production.</em></p>
+    <p>
+      CallMeNow (“we”, “us”) operates this website and related services. This policy describes how we collect, use, and protect information when you
+      use our marketing site, merchant console, QR scan experiences, and payments.
+    </p>
+    <h2>Information we may collect</h2>
+    <ul>
+      <li>Contact and account details you provide (name, email, phone).</li>
+      <li>Vehicle and emergency contact information you submit when activating a tag.</li>
+      <li>Technical data such as IP address, device type, and coarse logs for security.</li>
+      <li>Payment metadata processed by Razorpay; we do not store full card numbers on our servers.</li>
+    </ul>
+    <h2>How we use data</h2>
+    <p>To provide the service, verify payments, prevent abuse, comply with law, and improve reliability.</p>
+    <h2>Retention</h2>
+    <p>We retain data as needed for operations, legal obligations, and dispute resolution.</p>
+    <h2>Your choices</h2>
+    <p>Contact us to access, correct, or delete personal data where applicable law allows.</p>
+    }
+    @case ('terms') {
+    <h1 class="mpub-page-title">Terms &amp; Conditions</h1>
+    <p><em>Placeholder — not legal advice.</em></p>
+    <p>By using CallMeNow you agree to these terms. The service is provided “as is” to the extent permitted by law.</p>
+    <h2>Use of QR tags</h2>
+    <p>You are responsible for lawful use, accurate registration data, and not harassing others via the platform.</p>
+    <h2>Merchant accounts</h2>
+    <p>Partner logins must be secured; you are responsible for activity under your credentials.</p>
+    <h2>Limitation of liability</h2>
+    <p>Define caps and exclusions with counsel — especially for indirect damages.</p>
+    }
+    @case ('refund') {
+    <h1 class="mpub-page-title">Refund Policy</h1>
+    <p><em>Placeholder — align with your actual refund practice and Razorpay rules.</em></p>
+    <p>Describe eligible cases (defective print, non-delivery, duplicate charge), timelines, and how to request a refund.</p>
+    <p>Digital activation after successful delivery may limit refunds — state clearly.</p>
+    }
+    @case ('shipping') {
+    <h1 class="mpub-page-title">Shipping Policy</h1>
+    <p><em>Placeholder.</em></p>
+    <p>Regions served, dispatch time, courier partners, tracking, and who pays shipping. Mention delays during sales or weather.</p>
+    }
+    @default {
+    <h1 class="mpub-page-title">Legal</h1>
+    <p class="mpub-muted">Document not found.</p>
+    }
+    }
+  </div>
+</div>

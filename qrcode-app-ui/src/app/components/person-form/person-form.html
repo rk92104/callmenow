@@ -1,0 +1,145 @@
+<!-- Notification Toast -->
+@if (notification()) {
+<div class="toast" [class.success]="notification()?.type === 'success'"
+    [class.error]="notification()?.type === 'error'">
+    <span class="toast-icon">{{ notification()?.type === 'success' ? '✓' : '✕' }}</span>
+    {{ notification()?.message }}
+</div>
+}
+
+<div class="form-container">
+    <div class="form-header">
+        <a routerLink="/app/contacts" class="back-link">
+            ← Back to Directory
+        </a>
+        <h1>
+            @if (isEditMode()) {
+            <span class="gradient-text">Edit</span> Contact
+            } @else {
+            <span class="gradient-text">Add New</span> Contact
+            }
+        </h1>
+        <p class="form-subtitle">
+            @if (isEditMode()) {
+            Update the contact information below
+            } @else {
+            Fill in the details to create a new contact with QR code
+            }
+        </p>
+    </div>
+
+    @if (loading()) {
+    <div class="loading-container">
+        <div class="spinner"></div>
+        <p>Loading contact data...</p>
+    </div>
+    } @else {
+    <form (ngSubmit)="onSubmit()" class="person-form">
+        <div class="form-grid">
+            <!-- Name -->
+            <div class="form-group">
+                <label for="name" class="form-label">
+                    <span class="label-icon">👤</span> Full Name
+                </label>
+                <input type="text" id="name" [(ngModel)]="formData.name" name="name" class="form-input"
+                    placeholder="Enter full name" required
+                    [class.invalid]="!formData.name.trim() && formData.name !== ''" />
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-group full-width">
+                <span class="form-label form-label-static">
+                    <span class="label-icon">📱</span> Primary contact number
+                </span>
+                <div class="line-type-row">
+                    <label class="line-type-opt"><input type="radio" name="primaryLine" value="Mobile" [(ngModel)]="formData.phoneNumberType" /> Mobile</label>
+                    <label class="line-type-opt"><input type="radio" name="primaryLine" value="Landline" [(ngModel)]="formData.phoneNumberType" /> Phone (landline)</label>
+                </div>
+                <input type="tel" id="phoneNumber" [(ngModel)]="formData.phoneNumber" name="phoneNumber"
+                    class="form-input" placeholder="Enter number" required />
+            </div>
+
+            <!-- Email -->
+            <div class="form-group full-width">
+                <label for="email" class="form-label">
+                    <span class="label-icon">✉️</span> Email Address
+                </label>
+                <input type="email" id="email" [(ngModel)]="formData.email" name="email" class="form-input"
+                    placeholder="Enter email address" required />
+            </div>
+
+            <!-- Address -->
+            <div class="form-group full-width">
+                <label for="address" class="form-label">
+                    <span class="label-icon">📍</span> Address
+                </label>
+                <textarea id="address" [(ngModel)]="formData.address" name="address" class="form-input form-textarea"
+                    placeholder="Enter full address" rows="3" required></textarea>
+            </div>
+
+            <!-- Father Name -->
+            <div class="form-group full-width">
+                <label for="fatherName" class="form-label">
+                    <span class="label-icon">👨</span> Father's Name
+                </label>
+                <input type="text" id="fatherName" [(ngModel)]="formData.fatherName" name="fatherName"
+                    class="form-input" placeholder="Enter father's name" required />
+            </div>
+
+            <div class="form-group">
+                <label for="vehicleRegistration" class="form-label">
+                    <span class="label-icon">🚗</span> Vehicle registration
+                </label>
+                <input
+                    type="text"
+                    id="vehicleRegistration"
+                    [(ngModel)]="formData.vehicleRegistration"
+                    (ngModelChange)="onVehicleRegistrationInput($event)"
+                    name="vehicleRegistration"
+                    class="form-input form-input-upper"
+                    placeholder="e.g. DL01AB1234"
+                    maxlength="14"
+                    autocapitalize="characters"
+                    autocomplete="off"
+                    spellcheck="false"
+                    required
+                />
+                @if (vehicleRegistrationFieldMessage(); as vr) {
+                    <span
+                        class="form-field-msg"
+                        [class.form-field-msg--hint]="vr.kind === 'hint'"
+                        [class.form-field-msg--err]="vr.kind === 'error'"
+                        role="status"
+                    >{{ vr.text }}</span>
+                }
+            </div>
+
+            <div class="form-group full-width">
+                <span class="form-label form-label-static">
+                    <span class="label-icon">🆘</span> Emergency contact
+                </span>
+                <div class="line-type-row">
+                    <label class="line-type-opt"><input type="radio" name="emergencyLine" value="Mobile" [(ngModel)]="formData.emergencyContactPhoneType" /> Mobile</label>
+                    <label class="line-type-opt"><input type="radio" name="emergencyLine" value="Landline" [(ngModel)]="formData.emergencyContactPhoneType" /> Phone (landline)</label>
+                </div>
+                <input type="tel" id="emergencyContactPhone" [(ngModel)]="formData.emergencyContactPhone" name="emergencyContactPhone"
+                    class="form-input" placeholder="Alternate contact (8+ digits)" maxlength="20" required />
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a routerLink="/app/contacts" class="btn-secondary">Cancel</a>
+            <button type="submit" class="btn-primary" [disabled]="submitting()">
+                @if (submitting()) {
+                <span class="btn-spinner"></span>
+                Saving...
+                } @else if (isEditMode()) {
+                ✏️ Update Contact
+                } @else {
+                ➕ Create Contact
+                }
+            </button>
+        </div>
+    </form>
+    }
+</div>

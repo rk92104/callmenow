@@ -1,0 +1,78 @@
+<div class="mpub-wrap">
+  <header class="mpub-header">
+    <div class="mpub-header-inner">
+      <a routerLink="/" class="mpub-logo" (click)="onLogoClick()">
+        <img
+          src="/assets/marketing/callmenow-logo.png"
+          width="200"
+          height="48"
+          alt="CallMeNow"
+          class="mpub-logo-img"
+        />
+      </a>
+      <nav class="mpub-nav" aria-label="Primary">
+        <a routerLink="/" routerLinkActive="mpub-active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        <a routerLink="/product" routerLinkActive="mpub-active">Product</a>
+        <a routerLink="/about" routerLinkActive="mpub-active">About</a>
+        <a routerLink="/contact" routerLinkActive="mpub-active">Contact</a>
+      </nav>
+      <div class="mpub-header-cta">
+        <a routerLink="/login" class="mpub-btn-ghost" (click)="onPublicNavClick()">Partner login</a>
+        <a routerLink="/product" class="mpub-btn-primary" (click)="onPublicNavClick()">Buy sticker</a>
+        <button type="button" class="mpub-burger" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen()" aria-label="Menu">
+          @if (menuOpen()) {
+          <span aria-hidden="true">✕</span>
+          } @else {
+          <span aria-hidden="true">☰</span>
+          }
+        </button>
+      </div>
+    </div>
+    @if (menuOpen()) {
+    <nav class="mpub-mobile-nav" aria-label="Mobile">
+      <a routerLink="/" (click)="onMobileNavClick()">Home</a>
+      <a routerLink="/product" (click)="onMobileNavClick()">Product</a>
+      <a routerLink="/about" (click)="onMobileNavClick()">About</a>
+      <a routerLink="/contact" (click)="onMobileNavClick()">Contact</a>
+      <a routerLink="/login" (click)="onMobileNavClick()">Partner login</a>
+    </nav>
+    }
+  </header>
+
+  <main class="mpub-main">
+    <router-outlet />
+  </main>
+
+  <footer class="mpub-footer">
+    <div class="mpub-footer-inner">
+      <div>
+        <p class="mpub-footer-brand">
+          <span class="mpub-footer-brand-teal">CallMe</span><span class="mpub-footer-brand-terra">Now</span>
+        </p>
+        <a routerLink="/">Home</a>
+        <a routerLink="/product">Product &amp; pricing</a>
+        <a routerLink="/about">About</a>
+        <a routerLink="/contact">Contact</a>
+        <div class="mpub-footer-contact">
+          <a href="mailto:support@callmenow.in">Support@callmenow.in</a>
+          <a href="tel:+919814667274">+91 98146 67274</a>
+          <a href="https://wa.me/919814667274" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          <p class="mpub-footer-address">Plot no. 35, New Timber Market, Sector 26, Chandigarh</p>
+        </div>
+      </div>
+      <div>
+        <h3>Legal</h3>
+        <a routerLink="/privacy" (click)="onPublicNavClick()">Privacy Policy</a>
+        <a routerLink="/terms" (click)="onPublicNavClick()">Terms &amp; Conditions</a>
+        <a routerLink="/refund" (click)="onPublicNavClick()">Refund Policy</a>
+        <a routerLink="/shipping" (click)="onPublicNavClick()">Shipping Policy</a>
+      </div>
+      <div>
+        <h3>Merchants</h3>
+        <a routerLink="/login" (click)="onPublicNavClick()">Partner login</a>
+        <a routerLink="/app/dashboard" (click)="onPublicNavClick()">Dashboard</a>
+      </div>
+    </div>
+    <p class="mpub-foot-note">Replace legal pages with counsel-reviewed text before Razorpay / ads compliance.</p>
+  </footer>
+</div>

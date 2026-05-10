@@ -1,0 +1,226 @@
+<!-- Notification Toast -->
+@if (notification()) {
+<div class="toast" [class.success]="notification()?.type === 'success'"
+  [class.error]="notification()?.type === 'error'">
+  <span class="toast-icon">{{ notification()?.type === 'success' ? '✓' : '✕' }}</span>
+  {{ notification()?.message }}
+</div>
+}
+
+<!-- Header -->
+<div class="page-header-simple">
+  <div class="header-text">
+    <h1>Owner <span class="gradient-text">Directory</span></h1>
+    <p class="subtitle">Profiles created at activation · QR encodes your public scan URL only</p>
+  </div>
+</div>
+
+<!-- Loading State -->
+@if (loading()) {
+<div class="loading-container">
+  <div class="spinner"></div>
+  <p>Loading contacts...</p>
+</div>
+}
+
+<!-- Empty State -->
+@if (!loading() && persons().length === 0) {
+<div class="empty-state">
+  <div class="empty-icon">📇</div>
+  <h2>No Contacts Yet</h2>
+  <p>Add an owner profile, or ship unused inventory — customers activate and pay on <code>/activate/…</code>.</p>
+  <a routerLink="/app/add" class="btn-add">
+    <span class="btn-icon">+</span>
+    Add Your First Contact
+  </a>
+</div>
+}
+
+<!-- Content Area -->
+<main class="content-area">
+  @if (!loading() && persons().length > 0) {
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event); onSearchChange()"
+        placeholder="Search owners..." class="search-input" />
+    </div>
+
+    <div class="stats-counter">
+      <span class="stat-value">{{ totalFiltered() }}</span>
+      <span class="stat-label">Matches</span>
+    </div>
+  </div>
+
+  @if (totalFiltered() === 0 && searchTerm()) {
+  <div class="empty-state partial">
+    <div class="empty-icon">🔍</div>
+    <h2>No Matches Found</h2>
+    <p>We couldn't find any contacts matching your search.</p>
+  </div>
+  } @else {
+  <div class="cards-grid">
+    @for (person of paginatedPersons(); track person.id) {
+    <div class="contact-card">
+      <div class="card-inner">
+        <div class="card-hero">
+          <div class="avatar-large">{{ person.name.charAt(0).toUpperCase() }}</div>
+          <div class="hero-info">
+            <h3>{{ person.name }}</h3>
+            <span class="date-chip">{{ person.createdAt | date:'mediumDate' }}</span>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="info-group">
+            <div class="info-item">
+              <span class="icon">📱</span>
+              <div class="texts">
+                <label>Primary · {{ person.phoneNumberType || 'Mobile' }}</label>
+                <p>{{ person.phoneNumber }}</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="icon">✉️</span>
+              <div class="texts">
+                <label>Email</label>
+                <p>{{ person.email }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-group border-top">
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <div class="texts">
+                <label>Address</label>
+                <p>{{ person.address }}</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="icon">👤</span>
+              <div class="texts">
+                <label>Father's Name</label>
+                <p>{{ person.fatherName }}</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="icon">🚗</span>
+              <div class="texts">
+                <label>Registration</label>
+                <p>{{ person.vehicleRegistration || '—' }}</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="icon">🆘</span>
+              <div class="texts">
+                <label>Emergency · {{ person.emergencyContactPhoneType || 'Mobile' }}</label>
+                <p>{{ person.emergencyContactPhone || '—' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button class="footer-btn qr" (click)="viewQRCode(person)">
+            <span>📲</span> QR
+          </button>
+          <a [routerLink]="['/app/edit', person.id]" class="footer-btn edit">
+            <span>✏️</span> Edit
+          </a>
+          <button class="footer-btn delete" (click)="confirmDelete(person)">
+            <span>🗑️</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <!-- Pagination -->
+  @if (totalPages() > 1) {
+  <footer class="pagination">
+    <button class="p-nav" [disabled]="currentPage() === 1" (click)="goToPage(currentPage() - 1)">
+      ← Prev
+    </button>
+
+    <div class="p-pages">
+      @for (page of getPages(); track page) {
+      <button class="p-num" [class.active]="currentPage() === page" (click)="goToPage(page)">
+        {{ page }}
+      </button>
+      }
+    </div>
+
+    <button class="p-nav" [disabled]="currentPage() === totalPages()" (click)="goToPage(currentPage() + 1)">
+      Next →
+    </button>
+  </footer>
+  }
+  }
+  }
+</main>
+
+<!-- QR Code Modal -->
+@if (showQRModal()) {
+<div class="modal-overlay" (click)="closeQRModal()">
+  <div class="modal-content qr-preview-modal" (click)="$event.stopPropagation()" role="dialog" aria-modal="true"
+    aria-labelledby="qr-modal-title">
+    <div class="qr-modal-accent" aria-hidden="true"></div>
+    <button type="button" class="qr-modal-close" (click)="closeQRModal()" aria-label="Close QR preview">×</button>
+    <div class="qr-modal-body">
+      <p class="qr-modal-eyebrow">CallMeNow · owner tag</p>
+      <h2 id="qr-modal-title" class="qr-modal-title">
+        Public QR · <span class="gradient-text">{{ qrPersonName() }}</span>
+      </h2>
+      <p class="qr-modal-lede">Only your public page link is encoded — no phone number inside the image.</p>
+      @if (qrPublicId()) {
+      <div class="qr-id-chip">
+        <span class="qr-id-label">Tag ID</span>
+        <span class="qr-id-value">{{ qrPublicId() }}</span>
+      </div>
+      }
+      @if (qrScanUrl()) {
+      <div class="qr-url-box" title="Scan URL">
+        <span class="qr-url-label">Opens</span>
+        <code class="qr-url-text">{{ qrScanUrl() }}</code>
+      </div>
+      }
+      <div class="qr-frame-shell">
+        <div class="qr-frame-rail" aria-hidden="true"></div>
+        <div class="qr-container">
+          <img [src]="qrCodeImage()" [alt]="'CallMeNow QR for ' + qrPersonName()" class="qr-image" width="220"
+            height="220" />
+        </div>
+      </div>
+      <p class="qr-foot">
+        <span class="qr-foot-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3v3m0 12v3M3 12h3m12 0h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+            <rect x="7" y="7" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.6" />
+          </svg>
+        </span>
+        Scan opens your CallMeNow page — your number is not shown on the sticker.
+      </p>
+    </div>
+  </div>
+</div>
+}
+
+<!-- Delete Confirmation Modal -->
+@if (showDeleteConfirm()) {
+<div class="modal-overlay" (click)="cancelDelete()">
+  <div class="modal-content delete-modal" (click)="$event.stopPropagation()">
+    <div class="delete-icon-container">
+      <span class="delete-warning-icon">⚠️</span>
+    </div>
+    <h2 class="modal-title">Delete Contact</h2>
+    <p class="delete-message">Are you sure you want to delete <strong>{{ deletePersonName() }}</strong>? This action
+      cannot be undone.</p>
+    <div class="delete-actions">
+      <button class="btn-cancel" (click)="cancelDelete()">Cancel</button>
+      <button class="btn-confirm-delete" (click)="deletePerson()">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+}

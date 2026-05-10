@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -4 260 48" fill="none" aria-labelledby="lt">
+  <title id="lt">CallmeNow</title>
+  <defs>
+    <style>
+      .cmn-callme {
+        font: 800 18px/1 system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+        fill: #ea8c38;
+      }
+      .cmn-now {
+        font: 800 18px/1 system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+        fill: #33312e;
+      }
+    </style>
+  </defs>
+  <!-- Solid white only behind the wordmark (text + phone‑o) -->
+  <rect x="-6" y="-4" width="260" height="48" rx="10" fill="#ffffff" />
+  <text x="0" y="28" class="cmn-callme">Callme</text>
+  <text x="76" y="28" class="cmn-now">N</text>
+  <g transform="translate(88, 1)">
+    <circle cx="11" cy="23" r="8.2" stroke="#33312e" stroke-width="2.65" fill="none" />
+    <rect
+      x="5.2"
+      y="0"
+      width="11.6"
+      height="30"
+      rx="2.6"
+      stroke="#33312e"
+      stroke-width="1.35"
+      fill="none"
+    />
+    <line x1="8.2" y1="3.4" x2="13.8" y2="3.4" stroke="#33312e" stroke-width="1" stroke-linecap="round" />
+    <path
+      d="M6.2 15.5c0 0 1.8 4.2 4.8 4.2s4.8-4.2 4.8-4.2"
+      stroke="#33312e"
+      stroke-width="1.15"
+      stroke-linecap="round"
+      fill="none"
+    />
+    <path
+      d="M11 17.2c-.65-.75-1.7-.45-1.7.42 0 .5.85 1.15 1.7 2.05.85-.9 1.7-1.55 1.7-2.05 0-.87-1.05-1.17-1.7-.42z"
+      fill="#ea8c38"
+    />
+  </g>
+  <text x="112" y="28" class="cmn-now">w</text>
+</svg>

@@ -1,0 +1,308 @@
+================================================================================
+HOSTINGER — PHP API ko public_html/api/ mein kaise daalein
+================================================================================
+
+A) SERVER PAR FOLDER STRUCTURE (callmenow.in — public_html)
+
+public_html/
+  .htaccess                 ← Angular + API rules (snippet dekho)
+  index.html                ← Angular build (browser folder se)
+  main-xxxxx.js
+  styles-xxxxx.css
+  ...
+
+  api/                      ← POORA qrcode-app-php project yahan
+    composer.json
+    vendor/
+    src/
+    public/
+      index.php
+      router.php
+      .htaccess
+    database/               ← optional (sirf SQL backup ke liye)
+
+Matlab: GitHub/PC se "qrcode-app-php" folder ka CONTENT upload karke naam "api" rakho
+        (andar public, vendor, src, composer.json — sab).
+
+================================================================================
+B) public_html/.htaccess — POORA FILE (yahi lagao; sirf-Angular wala MAT rakho)
+================================================================================
+
+Galati: sirf ye rules the (bina /api/ wale) — tab /api/* bhi index.html par jata tha:
+  RewriteCond !-f / !-d  →  RewriteRule . /index.html
+
+Hostinger File Manager → public_html → .htaccess → POORA replace neeche wale se:
+
+--------------------------------------------------------------------------------
+# Hostinger: /api → PHP, baaki → Angular SPA
+<IfModule mod_negotiation.c>
+  Options -MultiViews
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  RewriteCond %{REQUEST_URI} ^/api/ [NC]
+  RewriteRule ^api(?:/(.*))?$ /api/public/index.php [L,QSA]
+
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+--------------------------------------------------------------------------------
+
+Same file PC par:  qrcode-app-php\deploy\public_html_ROOT.htaccess
+                  ya qrcode-app-ui\public\.htaccess  (npm run build ke baad browser\ mein bhi aata hai)
+
+Test:  https://APNA-DOMAIN.in/api/health  → JSON, login page NAHI
+
+================================================================================
+C) PC se kya upload karna hai (path)
+================================================================================
+
+PHP project:
+  ...\QRCodeApp\qrcode-app-php\
+Pehle local:  composer install  (vendor folder banega)
+Phir poora folder Hostinger par "api" naam se upload.
+
+Angular:
+  ...\qrcode-app-ui\dist\qrcode-app-ui\browser\*
+  → public_html\ root (index.html, js, css)
+
+================================================================================
+D) MySQL user / password kahan likhein (server path)
+================================================================================
+
+OPTION 1 — File (Hostinger par sabse aasaan)
+  Upload ke baad path:
+    public_html/api/config.local.php
+
+  PC par example:
+    qrcode-app-php\config.local.php.example
+  Iski copy bana kar naam rakho: config.local.php
+  Andar MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE bharo.
+
+OPTION 2 — Environment variables (hPanel → Advanced → Environment variables)
+  MYSQL_HOST, MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD
+  CALLMENOW_PUBLIC_BASE_URL=https://callmenow.in
+  CORS_ORIGIN=https://callmenow.in
+
+Pehle config.local.php check hoti hai, phir getenv().
+
+phpMyAdmin: database select karke  database/phpmyadmin_tables_only.sql  import karo
+             (full_install_mysql.sql mein USE qrcode hai — shared hosting par mat chalao)
+
+================================================================================
+E) Debug — data / API nahi aa raha?
+================================================================================
+
+Browser mein kholo (apna domain):
+  https://callmenow.in/api/health
+
+JSON mein dekho:
+  config_local_php = false  →  api/config.local.php upload / naam sahi nahi
+  database = error          →  neeche "Database connection" checklist
+  table_persons = false     →  phpmyadmin_tables_only.sql import karo
+
+Browser DevTools → Network:
+  /api/persons response HTML (index.html) hai?  →  public_html/.htaccess mein /api
+      PHP rule missing ya galat — snippet B wala poora file lagao.
+  /api/persons CORS error?  →  CALLMENOW_PUBLIC_BASE_URL + CORS_ORIGIN = apna https URL
+      (ab API www vs non-www same-site par Origin echo karti hai — phir bhi dono
+      keys apne live domain se match rakho.)
+
+config.local.php mein MYSQL_PASSWORD khali chhod kar sirf hPanel env se password?
+  → Ab khali local password par MYSQL_PASSWORD env use hoga (pehle nahi hota tha).
+
+--- "Database connection failed" / health par database = error ---
+
+1) File path:  public_html/api/config.local.php  (api ke ANDAR, public ke bahar)
+   PHP is file ko yahi se padhta hai — galat folder = default root/qrcode user use hoga.
+
+2) hPanel → Databases → MySQL: jo EXACT naam dikhate hain wahi copy karo:
+   MYSQL_DATABASE = u618808554_qrcode  (example — apna)
+   MYSQL_USER     = u618808554_raj     (example — apna)
+   MYSQL_PASSWORD = wahi jo create / reset kiya
+   MYSQL_HOST     = localhost           (Hostinger par zyada tar yahi; 127.0.0.1 kabhi-kabhi issue)
+
+3) User ko database se "link" karna: same screen par user ko usi DB par assign hona chahiye.
+
+4) /api/health JSON mein driver_code (agar dikhe):
+   1045 = Access denied → user/password galat ya user ko DB access nahi
+   1049 = Unknown database → MYSQL_DATABASE naam galat
+   2002 / HY000 = connect nahi ho raha → host galat (localhost try karo)
+
+5) Temporary: config.local.php mein 'APP_DEBUG' => '1' → "error" / "detail" mein poora PDO message
+
+Zara detail chahiye ho to (temporary) config.local.php mein add karo:
+  'APP_DEBUG' => '1',
+  (phir /api/persons error mein "detail" dikhega — live par hata dena)
+
+Ya Hostinger env: APP_DEBUG=1
+Ya .htaccess: SetEnv APP_DEBUG 1
+
+================================================================================
+F) Angular ab bhi /api use karti hai — THEEK HAI
+================================================================================
+
+Browser URL: https://callmenow.in/q/...
+API call:     https://callmenow.in/api/persons
+              (same domain, proxy ki zaroorat nahi)
+
+================================================================================
+G) Deploy — naya print label + QR fix (PHP + Angular dono)
+================================================================================
+
+PHP (api folder = public_html/api/) — ye files PC se overwrite karo:
+  src/Services/QrLabelHtmlBuilder.php   … fusion layout, print colors, img onerror → /api/qr/.../image
+  src/Services/QrPngRenderer.php        … SVG fallback ab base64 (mobile); PNG jab GD ho
+  src/Http.php                         … print HTML par no-cache headers
+  src/Handlers/InventoryHandler.php    … textHtml(..., true) print + batch
+
+hPanel → Advanced → PHP Configuration → Extensions: **gd** ON rakho
+(taake QR seedha PNG data-URI ban sake; band ho to bhi base64 SVG + onerror PNG chalega)
+
+Angular (naya build zaroor):
+  PC:  cd qrcode-app-ui  →  npm run build:prod
+  Upload:  qrcode-app-ui\dist\qrcode-app-ui\browser\*  →  public_html\
+  (is se print link par ?v=qr-img-fallback-2 cache bust milta hai)
+
+Verify (browser):
+  Print label page → View page source → meta name="cmn-print-label" content="qr-img-fallback-2"
+  QR box mein broken image na ho; /api/qr/CMN-.../image?embed=activate khulne par PNG aaye
+
+================================================================================
+H) Razorpay + activate payment — PHP host par kya bharna hai
+================================================================================
+
+Angular (public_html) + PHP API (public_html/api) SAME domain par hon — tab app
+browser se https://tumhara-domain.in/api/... call karti hai (qr.service.ts mein
+base = '/api'). Alag subdomain par API ho to Angular build mein base URL badalni
+padegi; is doc mein same-domain maana hai.
+
+config.local.php (path: public_html/api/config.local.php) mein yeh zaroor set karo:
+
+  'CALLMENOW_PUBLIC_BASE_URL' => 'https://tumhara-domain.in',
+  'CORS_ORIGIN'               => 'https://tumhara-domain.in',
+
+  'RAZORPAY_KEY_ID'     => 'rzp_live_xxxxx'   // ya rzp_test_... test ke liye
+  'RAZORPAY_KEY_SECRET' => '...'              // kabhi browser / Git mein mat daalo
+
+Deploy par bhi ₹1 se Razorpay test (recommended pehli baar):
+  'CALLMENOW_STICKER_PRICE_INR' => 1,
+  Activate / scan API se sticker price 1 aayega, Razorpay order bhi 100 paise.
+  Real customers se pehle: is line ko hata do (tab default 299) ya seedha 299 likho.
+
+  Note: config.local.php.example mein yeh line pehle se ON hai — server par copy karke
+  sirf MySQL + domain + Razorpay keys bharo; test ke baad price fix karo.
+
+Razorpay Dashboard:
+  - Webhook optional hai is flow ke liye (success handler + server verify se kaam chalta hai)
+  - Keys mode (test vs live) aur app keys match hon
+
+Verify:
+  https://tumhara-domain.in/api/payments/razorpay/config  → JSON mein keyId (agar keys lagi hon)
+  Activate page → Pay → Razorpay khulta hai; UPI / QR Checkout.js mein hai (PHP extra code nahi)
+
+================================================================================
+H2) Hostinger par ABHI bhi ₹299 dikh raha hai — ₹1 kaise karein (live site)
+================================================================================
+
+299 tab aata hai jab server ko "sticker price = 1" kahi se nahi milta → Config.php default 299.
+
+1) hPanel → File Manager →  public_html/api/config.local.php  kholo.
+
+2) return [ ... ] array ke ANDAR yeh line LAGAO (ya agar pehle se hai to value 1 karo):
+
+     'CALLMENOW_STICKER_PRICE_INR' => 1,
+
+   Pehli wali line ke baad comma zaroor ho (PHP syntax).
+
+3) Save. Cache: activate / scan page browser mein hard refresh (Ctrl+F5).
+
+4) Check: browser mein kholo (apna domain):
+
+     https://APNA-DOMAIN.in/api/qr/CMN-XXXXX/scan
+
+   JSON mein  "stickerPriceInr": 1  aana chahiye (CMN-XXXXX = koi unused sticker id).
+
+5) hPanel → Advanced → Environment variables: agar wahan
+   CALLMENOW_STICKER_PRICE_INR = 299  set hai to use BADAL kar 1 karo YA variable hata do
+   (warna kabhi-kabhi env bhi price control karti hai).
+
+Angular dubara build ki zaroorat NAHI — price API se aati hai.
+
+================================================================================
+I) Seedha checklist — host karne se pehle
+================================================================================
+
+[ ] public_html/.htaccess = section B jaisa (/api → PHP, baaki → Angular)
+[ ] api/ = qrcode-app-php ka poora project (composer install ke baad vendor ke saath)
+[ ] public_html/ = Angular prod build (dist/qrcode-app-ui/browser/*)
+[ ] api/config.local.php = MySQL + domain + Razorpay + (test) CALLMENOW_STICKER_PRICE_INR => 1
+[ ] Test ke baad: wahi file mein ₹1 line hata kar real price (299) set karo
+[ ] phpMyAdmin = database/phpmyadmin_tables_only.sql import
+[ ] Browser: /api/health → database OK, config_local_php true
+[ ] hPanel PHP: version 8.x, extension **gd** ON (QR PNG ke liye)
+
+================================================================================
+J2) Exotel — owner call masking (scan page)
+================================================================================
+
+Scan page: user enters THEIR mobile → server calls Exotel Connect API (From = scanner,
+To = owner, CallerId = your ExoPhone). Exotel rings the scanner first; on answer,
+connects to the vehicle owner.
+
+.NET (appsettings / env): CallMeNow:Exotel — AccountSid, ApiKey, ApiToken, Subdomain
+  (api.exotel.com or api.in.exotel.com), CallerId (ExoPhone digits), CallType (trans),
+  DefaultIsd (91).
+
+PHP (config.local.php or hPanel env):
+  EXOTEL_ACCOUNT_SID, EXOTEL_API_KEY, EXOTEL_API_TOKEN, EXOTEL_SUBDOMAIN,
+  EXOTEL_CALLER_ID, optional EXOTEL_CALL_TYPE, EXOTEL_DEFAULT_ISD.
+  Optional EXOTEL_RING_OWNER_FIRST = 1 / true / yes / owner — pehle owner (agent) ring,
+  phir scanner (customer); default 0 = pehle scanner, phir owner.
+  Optional EXOTEL_SCAN_DIRECT_TEL = 1 — scan par sirf tel: IVR line + keypad code; web par number form band
+  (IVR DID + ensure_qr_stickers_ivr_access_code.sql + /api/exotel/ivr/gather|connect zaroori).
+
+API: POST /api/qr/{publicId}/exotel/connect-owner  JSON {"fromPhone":"..."}
+
+Never commit API tokens — rotate if leaked.
+
+Exotel IVR (optional — keypad se owner connect):
+  MySQL ek baar: database/ensure_qr_stickers_ivr_access_code.sql
+  PHP: EXOTEL_IVR_DID = ExoPhone DID jo caller dial kare (digits); optional EXOTEL_IVR_WEBHOOK_SECRET
+       agar set ho to Exotel flow URLs mein ?secret=WHI_VALUE lagao.
+  Endpoints (GET, JSON): /api/exotel/ivr/gather  → Gather applet Primary URL
+                         /api/exotel/ivr/connect → Connect applet dynamic URL
+  Exotel App Builder (recommended order): Incoming → Greeting (welcome audio/text) → Gather (URL = gather) → Connect (URL = connect).
+  Pehle “welcome” Greeting applet se aayega; Gather API sirf code + instructions bolati hai. Optional env:
+  EXOTEL_IVR_GATHER_PROMPT / EXOTEL_IVR_GATHER_REPEAT_PROMPT (poora welcome+steps ek string mein bhi de sakte ho).
+  Scan API se milta hai ivrAccessCode + exotelIvrDialUri (jab EXOTEL_IVR_DID set ho).
+
+================================================================================
+J) PHP update deploy — code badla ho (payment / inventory / QR handlers)
+================================================================================
+
+1) PC par (qrcode-app-php folder):
+     composer install --no-dev --optimize-autoloader
+   Phir poora project upload/overwrite karo:  public_html/api/
+   (src/, public/, vendor/, composer.json, composer.lock — config.local.php server par
+   mat overwrite agar secrets wahan theek hain; sirf zarurat ho to merge karo.)
+
+2) MySQL — agar pehle `payment_payer_upi_vpa` column tha ya txn column missing hai:
+   phpMyAdmin → apni database → SQL:
+     database/ensure_qr_stickers_payment_transaction_id.sql
+   (ek baar chalao; idempotent hai.) Nayi site: full_install_mysql.sql / phpmyadmin_tables_only.sql
+   mein pehle se `payment_transaction_id` ho sakta hai — tab ye script kuch nahi karegi.
+
+3) Verify:
+     https://APNA-DOMAIN.in/api/health
+     https://APNA-DOMAIN.in/api/inventory/qr   (auth ke hisaab se)
+
+4) Angular same domain par hai to UI bhi naya build root par upload karo (section C),
+   taake inventory / activate screens latest hon.
+
+================================================================================

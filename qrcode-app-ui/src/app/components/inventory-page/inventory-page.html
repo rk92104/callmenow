@@ -1,0 +1,238 @@
+<div class="inv-wrap">
+  @if (toast()) {
+  <div class="toast">{{ toast() }}</div>
+  }
+
+  <div class="inv-header">
+    <h1>QR <span class="grad">Inventory</span></h1>
+   
+  </div>
+
+  <div class="inv-tools">
+    <section class="gen-card">
+      <h2>Filters</h2>
+      <div class="gen-row">
+        <label
+          >Number / Public ID
+          <input type="text" [(ngModel)]="searchNumber" placeholder="e.g. CMN..." />
+        </label>
+        <label
+          >From date
+          <input type="date" [(ngModel)]="fromDate" />
+        </label>
+        <label
+          >To date
+          <input type="date" [(ngModel)]="toDate" />
+        </label>
+        <label
+          >Status
+          <select [(ngModel)]="statusFilter">
+            <option value="all">All</option>
+            <option value="active">Active</option>
+            <option value="unused">Unused</option>
+          </select>
+        </label>
+        <label
+          >Page size
+          <select [(ngModel)]="pageSize" (change)="onPageSizeChanged()">
+            @for (s of pageSizeOptions; track s) {
+            <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </label>
+        <button type="button" class="btn-gen" (click)="applyFilters()" [disabled]="loading()">Apply</button>
+        <button type="button" class="btn-gen btn-ghost" (click)="resetFilters()" [disabled]="loading()">Reset</button>
+        <button type="button" class="btn-gen btn-danger" (click)="requestDeleteAllFiltered()" [disabled]="loading() || deleting()">
+          {{ deleting() ? 'Deleting…' : 'Delete all (filtered)' }}
+        </button>
+      </div>
+    </section>
+
+    <section class="gen-card">
+      <h2>Generate batch</h2>
+      <div class="gen-row">
+        <label
+          >Count (1–500)
+          <input type="number" min="1" max="500" [(ngModel)]="genCount" />
+        </label>
+        <label
+          >Product
+          <select [(ngModel)]="genProduct">
+            <option value="CarSticker">Car sticker</option>
+            <option value="KeyFinder">Key finder</option>
+            <option value="LuggageTag">Luggage tag</option>
+          </select>
+        </label>
+        <button type="button" class="btn-gen" (click)="generate()" [disabled]="generating()">
+          {{ generating() ? 'Working…' : 'Generate' }}
+        </button>
+      </div>
+    </section>
+
+    <section class="gen-card batch-print-card">
+      <h2>Batch print labels</h2>
+    
+      <div class="gen-row">
+        <label
+          >How many (1–{{ pageSize }})
+          <input type="number" min="1" [max]="pageSize" [(ngModel)]="batchCount" />
+        </label>
+        <label
+          >Label type
+          <select [(ngModel)]="batchEmbed">
+            <option value="activate">Packaging · /activate</option>
+            <option value="scan">Sticker · /q (unused)</option>
+          </select>
+        </label>
+        <label
+          >Layout
+          <select [(ngModel)]="batchLayout">
+            <option value="horizontal">Horizontal</option>
+            <option value="vertical">Vertical</option>
+          </select>
+        </label>
+        <button type="button" class="btn-gen btn-batch" (click)="printBatch()" [disabled]="batchPrinting() || loading()">
+          {{ batchPrinting() ? 'Preparing…' : 'Print batch' }}
+        </button>
+      </div>
+    </section>
+  </div>
+
+  @if (loading()) {
+  <p class="muted">Loading…</p>
+  } @else {
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Select</th>
+          <th class="col-date">Date</th>
+          <th class="col-id">Public ID</th>
+          <th>Product</th>
+          <th>Status</th>
+          <th class="col-scans">Scans</th>
+          <th>Owner</th>
+          <th>Transaction ID</th>
+          <th>Actions</th>
+          <th>Print Labels</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of items(); track row.id) {
+        <tr>
+          <td>
+            <input type="checkbox" [checked]="selected()[row.publicId]"
+              (change)="toggleSelected(row.publicId, $any($event.target).checked)" />
+          </td>
+          <td class="col-date">{{ formatDateTime(row.createdAt) }}</td>
+          <td class="col-id">
+            <span class="mono">{{ row.publicId }}</span>
+          </td>
+          <td>{{ row.productType }}</td>
+          <td>
+            <span class="pill" [class.on]="row.status === 'Active'">
+              {{ row.status }}
+            </span>
+          </td>
+          <td class="col-scans"><strong>{{ row.scanCount }}</strong></td>
+          <td>{{ row.ownerName ?? '—' }}</td>
+          <td class="mono txn-cell">{{ row.paymentTransactionId ?? '—' }}</td>
+          <td>
+            <div class="action-stack">
+              <a [routerLink]="['/activate', row.publicId]" class="btn-table btn-table--primary">
+                <span>Setup</span>
+              </a>
+              <a [routerLink]="['/q', row.publicId]" class="btn-table btn-table--ghost">
+                <span>Scan</span>
+              </a>
+              @if (row.status === 'Unused') {
+                <button type="button" class="btn-table btn-table--magic" (click)="openActivateFree(row)">
+                  🪄 Free
+                </button>
+              }
+            </div>
+          </td>
+          <td>
+            <div class="action-stack">
+              @if (row.status === 'Unused') {
+                <a [href]="labelPackHref(row)" target="_blank" class="btn-table btn-table--outline">
+                  📦 Pack
+                </a>
+              } @else {
+                <span class="lbl-off" title="Packaging QR is for unused inventory only">Packaging —</span>
+              }
+              @if (row.status === 'Unused' || row.status === 'Active') {
+                <a [href]="labelStickerHref(row)" target="_blank" class="btn-table btn-table--outline">
+                  🏷️ Tag
+                </a>
+              } @else {
+                <span class="lbl-off" title="Sticker layout needs unused or active tag">Sticker —</span>
+              }
+            </div>
+          </td>
+         
+          
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="10" class="muted">No rows. Date range ya pagination change karke try karo.</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="pager">
+    <button class="pager-btn" type="button" (click)="prevPage()" [disabled]="loading() || page <= 1" aria-label="Previous page">
+      &#8592;
+    </button>
+    <div class="pager-info">Page {{ page }} / {{ totalPages() }} · Total {{ total() }}</div>
+    <button class="pager-btn" type="button" (click)="nextPage()" [disabled]="loading() || page >= totalPages()" aria-label="Next page">
+      &#8594;
+    </button>
+    <button class="btn-gen btn-danger" type="button" (click)="requestDeleteSelected()" [disabled]="deleting() || selectedCount() === 0">
+      {{ deleting() ? 'Deleting…' : 'Delete selected' }}
+    </button>
+  </div>
+  }
+
+  @if (confirmOpen()) {
+  <div class="confirm-backdrop" (click)="closeConfirm()">
+    <div class="confirm-modal" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <h3>Delete Confirmation</h3>
+      <p>{{ confirmMessage() }}</p>
+      <div class="confirm-actions">
+        <button type="button" class="btn-gen btn-danger" (click)="confirmDelete()" [disabled]="deleting()">
+          {{ deleting() ? 'Deleting…' : 'Yes' }}
+        </button>
+        <button type="button" class="btn-gen btn-ghost" (click)="closeConfirm()" [disabled]="deleting()">No</button>
+      </div>
+    </div>
+  </div>
+  }
+
+  @if (activeFreeOpen()) {
+    <div class="confirm-backdrop" (click)="closeActivateFree()">
+      <div class="confirm-modal active-free-modal" (click)="$event.stopPropagation()">
+        <h3>🪄 Free Activation (Admin)</h3>
+        <p class="muted">Activating <strong>{{ selectedSticker()?.publicId }}</strong> for free.</p>
+        
+        <form class="free-form" (submit)="submitActivateFree($event)">
+          <div class="form-grid">
+            <label>Name<input type="text" name="name" [(ngModel)]="freeFormData.name" required /></label>
+            <label>Phone<input type="tel" name="phone" [(ngModel)]="freeFormData.phoneNumber" required /></label>
+            <label>Email<input type="email" name="email" [(ngModel)]="freeFormData.email" /></label>
+            <label>Vehicle Reg.<input type="text" name="reg" [(ngModel)]="freeFormData.vehicleRegistration" placeholder="e.g. MH12AB1234" /></label>
+            <label>Emergency Phone<input type="tel" name="ephone" [(ngModel)]="freeFormData.emergencyContactPhone" /></label>
+          </div>
+
+          <div class="confirm-actions">
+            <button type="submit" class="btn-gen" [disabled]="submittingFree()">
+              {{ submittingFree() ? 'Activating…' : 'Activate Now' }}
+            </button>
+            <button type="button" class="btn-gen btn-ghost" (click)="closeActivateFree()" [disabled]="submittingFree()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

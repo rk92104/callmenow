@@ -1,0 +1,142 @@
+<div class="act-root">
+  <div class="act-glow" aria-hidden="true"></div>
+
+  @if (loading()) {
+  <div class="act-card act-center">
+    <div class="act-spinner"></div>
+    <p class="act-lead">Checking your tag…</p>
+  </div>
+  }
+
+  @if (notFound()) {
+  <div class="act-card act-center">
+    <span class="act-emoji">🔍</span>
+    <h1 class="act-h1">Code not found</h1>
+    <p class="act-muted">This CallMeNow ID is not in our system.</p>
+    <a routerLink="/" class="act-link">Back</a>
+  </div>
+  }
+
+  @if (!loading() && !notFound() && alreadyActive()) {
+  <div class="act-card act-center">
+    <span class="act-emoji">✅</span>
+    <h1 class="act-h1">Already active</h1>
+    <p class="act-muted">This sticker is linked to an owner. Open the scan page to reach them.</p>
+    <a class="act-btn-primary" [routerLink]="['/q', publicId()]">Open scan page</a>
+  </div>
+  }
+
+  @if (!loading() && !notFound() && !alreadyActive() && done()) {
+  <div class="act-card act-center act-win">
+    <span class="act-emoji">🎉</span>
+    <h1 class="act-h1">You’re live</h1>
+    <p class="act-muted">Your CallMeNow tag is active. Share the link or print your QR.</p>
+    @if (scanUrl()) {
+    <p class="act-mono">{{ scanUrl() }}</p>
+    }
+    <a class="act-btn-primary" [routerLink]="['/q', publicId()]">View public page</a>
+    <a class="act-link act-link-block" [href]="printStickerLabelHref()" target="_blank" rel="noopener">Print vehicle sticker label (A4)</a>
+  </div>
+  }
+
+  @if (!loading() && !notFound() && !alreadyActive() && !done()) {
+  <header class="act-head">
+    <a routerLink="/" class="act-back">← CallMeNow</a>
+    <p class="act-tagline-en">Activate your sticker</p>
+    <h1 class="act-h1">Activate your tag</h1>
+    <p class="act-pid">ID · <strong>{{ publicId() }}</strong></p>
+  </header>
+
+  @if (errorMessage()) {
+  <div class="act-alert">{{ errorMessage() }}</div>
+  }
+
+  <form class="act-form" (ngSubmit)="submit()">
+    <label class="act-label"><span>Full name</span><input [(ngModel)]="form.name" name="name" required /></label>
+
+    <fieldset class="act-fieldset">
+      <legend class="act-legend">Owner contact number</legend>
+      <div class="act-radio-row">
+        <label class="act-radio"><input type="radio" name="ownerLine" value="Mobile" [(ngModel)]="form.phoneNumberType" /> Mobile</label>
+        <label class="act-radio"><input type="radio" name="ownerLine" value="Landline" [(ngModel)]="form.phoneNumberType" /> Phone (landline)</label>
+      </div>
+      <label class="act-label act-label-tight"><span>Number</span><input [(ngModel)]="form.phoneNumber" name="phone" type="tel" required autocomplete="tel" /></label>
+    </fieldset>
+
+    <label class="act-label"><span>Email</span><input [(ngModel)]="form.email" name="email" type="email" required /></label>
+    <label class="act-label"><span>Address</span><textarea [(ngModel)]="form.address" name="addr" rows="2" required></textarea></label>
+    <label class="act-label"><span>Father’s name</span><input [(ngModel)]="form.fatherName" name="father" required /></label>
+    <label class="act-label">
+      <span>Vehicle registration</span>
+      <input
+        [(ngModel)]="form.vehicleRegistration"
+        (ngModelChange)="onVehicleRegistrationInput($event)"
+        name="vreg"
+        required
+        placeholder="e.g. DL01AB1234"
+        class="act-input-upper"
+        autocapitalize="characters"
+        autocomplete="off"
+        maxlength="14"
+        spellcheck="false"
+      />
+      @if (vehicleRegistrationFieldMessage(); as vr) {
+        <span
+          class="act-field-msg"
+          [class.act-field-msg--hint]="vr.kind === 'hint'"
+          [class.act-field-msg--err]="vr.kind === 'error'"
+          role="status"
+        >{{ vr.text }}</span>
+      }
+    </label>
+
+    <fieldset class="act-fieldset">
+      <legend class="act-legend">Emergency contact number</legend>
+      <div class="act-radio-row">
+        <label class="act-radio"><input type="radio" name="emLine" value="Landline" [(ngModel)]="form.emergencyContactPhoneType" /> Phone (landline)</label>
+      </div>
+      <label class="act-label act-label-tight"><span>Number</span><input [(ngModel)]="form.emergencyContactPhone" name="emergency" type="tel" required autocomplete="tel" /></label>
+    </fieldset>
+
+    <label class="act-label"><span>Referral code (optional)</span><input [(ngModel)]="form.referralCode" name="refcode" placeholder="e.g. SCAN50" autocomplete="off" /></label>
+
+
+    <div class="act-footer">
+      <div class="act-pay-summary">
+        <span class="act-pay-label">Total to pay</span>
+        <span class="act-pay-value">₹{{ effectiveAmountInr() }}</span>
+      </div>
+
+      @if (!form.paymentCompleted) {
+        <button
+          type="button"
+          class="act-btn-main act-btn-pay"
+          (click)="payWithRazorpay()"
+          [disabled]="!scanData() || paymentBusy() || submitting()"
+        >
+          @if (paymentBusy()) {
+            <span class="act-btn-loader"></span> Opening Razorpay…
+          } @else {
+            <span class="act-btn-icon">💳</span> Pay ₹{{ effectiveAmountInr() }} & Activate
+          }
+        </button>
+      } @else {
+        <button
+          type="button"
+          class="act-btn-main act-btn-final"
+          (click)="submit()"
+          [disabled]="submitting() || done()"
+        >
+          @if (submitting()) {
+            <span class="act-btn-loader"></span> Finalizing activation…
+          } @else {
+            <span class="act-btn-icon">✨</span> Complete Activation
+          }
+        </button>
+      }
+
+      <p class="act-muted act-pay-note">Payment is verified instantly on the server via Razorpay.</p>
+    </div>
+  </form>
+  }
+</div>

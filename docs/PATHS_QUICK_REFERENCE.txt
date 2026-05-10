@@ -1,0 +1,47 @@
+================================================================================
+HOSTINGER UPLOAD — QUICK PATHS (callmenow.in)
+Angular / .NET / PHP ab alag-alag folders
+================================================================================
+
+LOCAL (your PC)                          ->  SERVER (Hostinger)
+--------------------------------------------------------------------------------
+qrcode-app-ui\dist\qrcode-app-ui\browser\* ->  public_html\
+   (npm run build pehle qrcode-app-ui mein)
+
+qrcode-app-ui\public\.htaccess            ->  public_html\.htaccess
+
+qrcode-app-php\  (entire folder + vendor) ->  public_html\callmenow-api\
+  - composer.json
+  - vendor\
+  - src\
+  - public\index.php
+  - public\router.php
+  - public\.htaccess
+
+Subdomain api.callmenow.in document root MUST point to:
+  public_html\callmenow-api\public
+
+--------------------------------------------------------------------------------
+.NET (alag — local / Windows hosting)
+--------------------------------------------------------------------------------
+QRCodeApp.API\                            ->  sirf .NET API project
+Angular auto yahan NAHI aata.
+
+Angular + .NET ek saath Kestrel se:
+  1) qrcode-app-ui mein: npm run build
+  2) repo root: .\scripts\copy-angular-to-dotnet-wwwroot.ps1
+
+================================================================================
+BUILD ANGULAR
+================================================================================
+cd qrcode-app-ui
+npm run build
+Output: qrcode-app-ui\dist\qrcode-app-ui\browser\
+
+================================================================================
+PHP DEPENDENCIES (before upload)
+================================================================================
+cd qrcode-app-php
+composer install
+
+================================================================================
