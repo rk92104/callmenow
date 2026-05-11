@@ -15,16 +15,17 @@
     </div>
 
     <!-- Progress Indicator -->
-    @if (orderStep() < 3) { <div class="shop-progress">
+    @if (orderStep() < 3) {
+    <div class="shop-progress">
       <div class="progress-step" [class.active]="orderStep() === 1" [class.completed]="orderStep() > 1">
-        1. Choose Sticker
+        <span class="step-num">1.</span> <span class="step-text">Choose Sticker</span>
       </div>
       <div class="progress-line" [class.active]="orderStep() > 1"></div>
       <div class="progress-step" [class.active]="orderStep() === 2">
-        2. Delivery Details
+        <span class="step-num">2.</span> <span class="step-text">Delivery Details</span>
       </div>
-  </div>
-  }
+    </div>
+    }
 
   <!-- Step 1: Product Selection -->
   @if (orderStep() === 1) {
@@ -240,7 +241,7 @@
           <div class="qty-btn" (click)="$event.stopPropagation(); updateQuantity(item.productId, -1)">-</div>
           <span class="qty-num">{{item.quantity}}</span>
           <div class="qty-btn" (click)="$event.stopPropagation(); updateQuantity(item.productId, 1)">+</div>
-          <button class="remove-btn" (click)="$event.stopPropagation(); removeFromCart(item.productId)">🗑</button>
+          <button class="remove-btn" (click)="$event.stopPropagation(); removeFromCart(item.productId)"></button>
         </div>
       </div>
       }
