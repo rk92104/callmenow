@@ -12,6 +12,7 @@ namespace QRCodeApp.API.Data
         public DbSet<QrScanEvent> QrScanEvents { get; set; }
         public DbSet<MarketingLead> MarketingLeads { get; set; }
         public DbSet<ActiveCallMapping> ActiveCallMappings { get; set; }
+        public DbSet<StickerOrder> StickerOrders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,6 +49,12 @@ namespace QRCodeApp.API.Data
                 entity.ToTable("MarketingLeads");
                 entity.HasIndex(e => e.CreatedAtUtc);
                 entity.HasIndex(e => e.PhoneNormalized);
+            });
+
+            modelBuilder.Entity<StickerOrder>(entity =>
+            {
+                entity.ToTable("StickerOrders");
+                entity.HasIndex(e => e.CreatedAtUtc);
             });
         }
     }

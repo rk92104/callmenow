@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -44,9 +45,36 @@ public class RazorpayPaymentsController : ControllerBase
         if (!_razorpay.IsConfigured)
             return StatusCode(503, new { message = "Online payment is not configured." });
 
+        if (dto.Amount.HasValue && dto.Amount.Value > 0)
+        {
+            // Shop order (variable amount)
+            try
+            {
+                var notes = new Dictionary<string, string>
+                {
+                    ["type"] = "shop_order",
+                    ["amount_inr"] = dto.Amount.Value.ToString(CultureInfo.InvariantCulture)
+                };
+                var r = await _razorpay.CreateOrderAsync(dto.Amount.Value, notes, ct);
+                return Ok(new
+                {
+                    keyId = r.KeyId,
+                    orderId = r.OrderId,
+                    amount = r.Amount,
+                    currency = r.Currency,
+                    amountInr = r.AmountInr,
+                    referralApplied = false
+                });
+            }
+            catch (RazorpayApiException ex)
+            {
+                return StatusCode(502, new { message = "Could not start payment. Try again.", detail = ex.Message });
+            }
+        }
+
         var normalized = (dto.PublicId ?? string.Empty).Trim().ToUpperInvariant();
         if (normalized.Length == 0)
-            return BadRequest(new { message = "publicId is required." });
+            return BadRequest(new { message = "publicId is required for activation." });
 
         var sticker = await _db.QrStickers.AsNoTracking()
             .FirstOrDefaultAsync(q => q.PublicId == normalized, ct);

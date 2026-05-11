@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "s542KRN7S6Q=",
+  "dgSpecHash": "R6HsjRUcgko=",
   "success": true,
-  "projectFilePath": "C:\\Users\\LENOVO\\Downloads\\QRCodeApp\\QRCodeApp\\QRCodeApp.API\\QRCodeApp.API.csproj",
+  "projectFilePath": "C:\\Users\\LENOVO\\source\\repos\\rk92104\\callmenow\\QRCodeApp.API\\QRCodeApp.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LENOVO\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",

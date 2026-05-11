@@ -42,8 +42,14 @@
       class="lpp-canvas"
       [class.lpp-canvas--print-landscape]="printLayout() === 'horizontal'"
       [class.lpp-canvas--print-portrait]="printLayout() === 'vertical'"
+      [class.lpp-canvas--family]="isFamilyPack()"
     >
-      <app-cmn-sticker-label [qrImageUrl]="qrImageUrl()" [code]="code()" [variant]="embed()" [layout]="printLayout()" />
+      @if (isFamilyPack()) {
+        <app-cmn-sticker-label [qrImageUrl]="qrImageUrl()" [code]="code()" [variant]="embed()" layout="horizontal" />
+        <app-cmn-sticker-label [qrImageUrl]="qrImageUrl()" [code]="code()" [variant]="embed()" layout="vertical" />
+      } @else {
+        <app-cmn-sticker-label [qrImageUrl]="qrImageUrl()" [code]="code()" [variant]="embed()" [layout]="printLayout()" />
+      }
     </main>
   </div>
 }

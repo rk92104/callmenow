@@ -30743,6 +30743,15 @@ function provideHttpClient(...features) {
   }
   return makeEnvironmentProviders(providers);
 }
+function withInterceptors(interceptorFns) {
+  return makeHttpFeature(HttpFeatureKind.Interceptors, interceptorFns.map((interceptorFn) => {
+    return {
+      provide: HTTP_INTERCEPTOR_FNS,
+      useValue: interceptorFn,
+      multi: true
+    };
+  }));
+}
 var LEGACY_INTERCEPTOR_FN = new InjectionToken(typeof ngDevMode !== "undefined" && ngDevMode ? "LEGACY_INTERCEPTOR_FN" : "");
 function withInterceptorsFromDi() {
   return makeHttpFeature(HttpFeatureKind.LegacyInterceptors, [{
@@ -42596,7 +42605,7 @@ var PersonListComponent = class _PersonListComponent {
       \u0275\u0275advance();
       \u0275\u0275conditional(ctx.showDeleteConfirm() ? 14 : -1);
     }
-  }, dependencies: [CommonModule, RouterLink, FormsModule, DefaultValueAccessor, NgControlStatus, NgModel, DatePipe], styles: ['\n\n.toast[_ngcontent-%COMP%] {\n  position: fixed;\n  top: 24px;\n  right: 24px;\n  padding: 14px 24px;\n  border-radius: 12px;\n  color: #fff;\n  font-weight: 600;\n  font-size: 0.95rem;\n  z-index: 10000;\n  animation: _ngcontent-%COMP%_slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  -webkit-backdrop-filter: blur(20px);\n  backdrop-filter: blur(20px);\n  max-width: min(520px, calc(100vw - 48px));\n}\n.toast.success[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #00c853,\n      #00e676);\n}\n.toast.error[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #ff1744,\n      #ff5252);\n}\n.toast-icon[_ngcontent-%COMP%] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n@keyframes _ngcontent-%COMP%_slideInRight {\n  from {\n    transform: translateX(100px);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n.page-header-simple[_ngcontent-%COMP%] {\n  margin-bottom: 40px;\n}\n.page-header-simple[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: clamp(1.5rem, 4.5vw, 2.2rem);\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 4px;\n  line-height: 1.2;\n}\n.gradient-text[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #7c3aed 50%,\n      #a855f7);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n.subtitle[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n  font-size: 1rem;\n}\n.btn-add[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  padding: 14px 28px;\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #8b5cf6);\n  color: #fff;\n  border-radius: 14px;\n  font-weight: 700;\n  font-size: 1rem;\n  text-decoration: none;\n  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);\n  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);\n  border: none;\n  cursor: pointer;\n}\n.btn-add[_ngcontent-%COMP%]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);\n  background:\n    linear-gradient(\n      135deg,\n      #4f46e5,\n      #7c3aed);\n}\n.btn-icon[_ngcontent-%COMP%] {\n  font-size: 1.4rem;\n  font-weight: 300;\n}\n.header-actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n}\n.btn-logout[_ngcontent-%COMP%] {\n  padding: 12px 20px;\n  background: rgba(239, 68, 68, 0.1);\n  border: 1px solid rgba(239, 68, 68, 0.2);\n  color: #f87171;\n  border-radius: 12px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.btn-logout[_ngcontent-%COMP%]:hover {\n  background: rgba(239, 68, 68, 0.2);\n  color: #ff5252;\n}\n.toolbar[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 32px;\n  background: var(--cmn-toolbar-bg);\n  padding: 16px 24px;\n  border-radius: 20px;\n  border: 1px solid var(--cmn-card-border);\n}\n.search-box[_ngcontent-%COMP%] {\n  position: relative;\n  flex: 1;\n  max-width: 400px;\n}\n.search-icon[_ngcontent-%COMP%] {\n  position: absolute;\n  left: 16px;\n  top: 50%;\n  transform: translateY(-50%);\n  color: var(--cmn-text-muted);\n}\n.search-input[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 12px 16px 12px 48px;\n  background: var(--cmn-input-bg);\n  border: 1px solid var(--cmn-input-border);\n  border-radius: 14px;\n  color: var(--cmn-input-text);\n  transition: all 0.3s ease;\n}\n.search-input[_ngcontent-%COMP%]:focus {\n  outline: none;\n  border-color: #6366f1;\n  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);\n}\n.stats-counter[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding-left: 24px;\n  border-left: 1px solid rgba(99, 102, 241, 0.1);\n}\n.stat-value[_ngcontent-%COMP%] {\n  font-size: 1.8rem;\n  font-weight: 900;\n  color: #818cf8;\n}\n.stat-label[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  font-weight: 600;\n  color: var(--cmn-label);\n  text-transform: uppercase;\n  letter-spacing: 1px;\n}\n.cards-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));\n  gap: 24px;\n}\n.contact-card[_ngcontent-%COMP%] {\n  perspective: 1000px;\n}\n.card-inner[_ngcontent-%COMP%] {\n  background: var(--cmn-card-bg);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 24px;\n  overflow: hidden;\n  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n  -webkit-backdrop-filter: blur(20px);\n  backdrop-filter: blur(20px);\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n}\n.contact-card[_ngcontent-%COMP%]:hover   .card-inner[_ngcontent-%COMP%] {\n  transform: translateY(-8px) scale(1.02);\n  border-color: rgba(99, 102, 241, 0.4);\n  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);\n}\n.card-hero[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      rgba(99, 102, 241, 0.1),\n      rgba(168, 85, 247, 0.05));\n  padding: 24px;\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  border-bottom: 1px solid rgba(99, 102, 241, 0.1);\n}\n.avatar-large[_ngcontent-%COMP%] {\n  width: 56px;\n  height: 56px;\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #a855f7);\n  border-radius: 16px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.5rem;\n  font-weight: 900;\n  color: white;\n  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);\n}\n.hero-info[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  font-size: 1.2rem;\n  font-weight: 700;\n  color: var(--cmn-heading);\n  margin-bottom: 2px;\n}\n.date-chip[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  color: var(--cmn-text-muted);\n  background: rgba(99, 102, 241, 0.1);\n  padding: 2px 8px;\n  border-radius: 6px;\n}\n.card-content[_ngcontent-%COMP%] {\n  padding: 24px;\n  flex: 1;\n}\n.info-group[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 20px;\n  margin-bottom: 20px;\n}\n.info-group.border-top[_ngcontent-%COMP%] {\n  padding-top: 20px;\n  border-top: 1px solid rgba(99, 102, 241, 0.1);\n  margin-bottom: 0;\n}\n.info-item[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 12px;\n}\n.info-item[_ngcontent-%COMP%]   .icon[_ngcontent-%COMP%] {\n  font-size: 1.2rem;\n  opacity: 0.8;\n}\n.info-item[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 0.7rem;\n  font-weight: 700;\n  color: var(--cmn-label);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n  margin-bottom: 2px;\n}\n.info-item[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 0.9rem;\n  color: var(--cmn-text);\n  font-weight: 500;\n  word-break: break-all;\n}\n.card-footer[_ngcontent-%COMP%] {\n  padding: 16px;\n  background: var(--cmn-elevated);\n  display: flex;\n  gap: 8px;\n}\n.footer-btn[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 10px;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-card-border);\n  background: transparent;\n  color: var(--cmn-footer-btn);\n  font-weight: 600;\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n}\n.footer-btn[_ngcontent-%COMP%]:hover {\n  background: rgba(99, 102, 241, 0.12);\n  color: var(--cmn-heading);\n  border-color: rgba(99, 102, 241, 0.3);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .footer-btn[_ngcontent-%COMP%]:hover {\n  color: #fff;\n}\n.footer-btn.qr[_ngcontent-%COMP%]:hover {\n  color: #818cf8;\n}\n.footer-btn.edit[_ngcontent-%COMP%]:hover {\n  color: #fbbf24;\n}\n.footer-btn.delete[_ngcontent-%COMP%] {\n  flex: 0 0 50px;\n  background: rgba(239, 68, 68, 0.05);\n  border-color: rgba(239, 68, 68, 0.1);\n}\n.footer-btn.delete[_ngcontent-%COMP%]:hover {\n  background: rgba(239, 68, 68, 0.15);\n  color: #f87171;\n  border-color: rgba(239, 68, 68, 0.3);\n}\n.pagination[_ngcontent-%COMP%] {\n  margin-top: 50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  gap: 20px;\n}\n.p-nav[_ngcontent-%COMP%] {\n  padding: 10px 20px;\n  background: var(--cmn-input-bg);\n  border: 1px solid var(--cmn-card-border);\n  color: var(--cmn-link);\n  border-radius: 12px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.p-nav[_ngcontent-%COMP%]:disabled {\n  opacity: 0.3;\n  cursor: not-allowed;\n}\n.p-pages[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n}\n.p-num[_ngcontent-%COMP%] {\n  width: 40px;\n  height: 40px;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-card-border);\n  background: transparent;\n  color: var(--cmn-text-muted);\n  font-weight: 700;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.p-num.active[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #8b5cf6);\n  color: white;\n  border: none;\n  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);\n}\n.modal-overlay[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.8);\n  -webkit-backdrop-filter: blur(10px);\n  backdrop-filter: blur(10px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 9000;\n}\n.modal-content[_ngcontent-%COMP%] {\n  background: var(--cmn-modal-bg);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 30px;\n  padding: 40px;\n  max-width: 440px;\n  width: 90%;\n  text-align: center;\n  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);\n  animation: _ngcontent-%COMP%_modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n}\n.modal-title[_ngcontent-%COMP%] {\n  font-size: 1.25rem;\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 0.5rem;\n}\n.modal-subtitle[_ngcontent-%COMP%] {\n  font-size: 0.88rem;\n  color: var(--cmn-text-muted);\n  line-height: 1.45;\n  margin-bottom: 0.25rem;\n}\n@keyframes _ngcontent-%COMP%_modalIn {\n  from {\n    transform: scale(0.9);\n    opacity: 0;\n  }\n  to {\n    transform: scale(1);\n    opacity: 1;\n  }\n}\n.qr-preview-modal[_ngcontent-%COMP%] {\n  position: relative;\n  max-width: 420px;\n  width: 92%;\n  padding: 0;\n  overflow: hidden;\n  text-align: left;\n  border-radius: 20px;\n  box-shadow: 0 0 0 1px rgba(234, 88, 12, 0.12), 0 28px 80px rgba(0, 0, 0, 0.45);\n}\n.qr-modal-accent[_ngcontent-%COMP%] {\n  height: 4px;\n  width: 100%;\n  background:\n    linear-gradient(\n      90deg,\n      #c2410c,\n      #ea580c,\n      #fb923c,\n      #ea580c,\n      #c2410c);\n}\n.qr-modal-close[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 14px;\n  right: 14px;\n  z-index: 2;\n  width: 36px;\n  height: 36px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-card-border);\n  background: var(--cmn-card-bg-solid);\n  color: var(--cmn-text-muted);\n  font-size: 1.35rem;\n  line-height: 1;\n  cursor: pointer;\n  transition:\n    color 0.2s ease,\n    border-color 0.2s ease,\n    background 0.2s ease;\n}\n.qr-modal-close[_ngcontent-%COMP%]:hover {\n  color: var(--cmn-heading);\n  border-color: rgba(234, 88, 12, 0.45);\n  background: var(--cmn-elevated);\n}\n.qr-modal-body[_ngcontent-%COMP%] {\n  padding: 26px 26px 22px;\n  padding-right: 52px;\n}\n.qr-modal-eyebrow[_ngcontent-%COMP%] {\n  margin: 0 0 6px;\n  font-size: 0.65rem;\n  font-weight: 800;\n  letter-spacing: 0.2em;\n  text-transform: uppercase;\n  color: var(--cmn-text-muted);\n}\n.qr-modal-title[_ngcontent-%COMP%] {\n  margin: 0 0 10px;\n  font-size: 1.2rem;\n  font-weight: 800;\n  line-height: 1.25;\n  color: var(--cmn-heading);\n  text-align: left;\n}\n.qr-modal-lede[_ngcontent-%COMP%] {\n  margin: 0 0 14px;\n  font-size: 0.84rem;\n  line-height: 1.5;\n  color: var(--cmn-text-muted);\n  text-align: left;\n}\n.qr-id-chip[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  margin-bottom: 10px;\n  padding: 8px 12px;\n  border-radius: 12px;\n  background: var(--cmn-elevated);\n  border: 1px solid var(--cmn-card-border);\n}\n.qr-id-label[_ngcontent-%COMP%] {\n  font-size: 0.62rem;\n  font-weight: 800;\n  letter-spacing: 0.12em;\n  text-transform: uppercase;\n  color: var(--cmn-label);\n}\n.qr-id-value[_ngcontent-%COMP%] {\n  font-family:\n    ui-monospace,\n    "Cascadia Code",\n    "Segoe UI Mono",\n    monospace;\n  font-size: 0.8rem;\n  font-weight: 700;\n  color: var(--cmn-mono);\n  letter-spacing: 0.04em;\n}\n.qr-url-box[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  margin-bottom: 16px;\n  padding: 10px 12px;\n  border-radius: 12px;\n  background: var(--cmn-elevated);\n  border: 1px dashed var(--cmn-input-border);\n  text-align: left;\n}\n.qr-url-label[_ngcontent-%COMP%] {\n  font-size: 0.62rem;\n  font-weight: 800;\n  letter-spacing: 0.14em;\n  text-transform: uppercase;\n  color: var(--cmn-text-muted);\n}\n.qr-url-text[_ngcontent-%COMP%] {\n  display: block;\n  font-family:\n    ui-monospace,\n    "Cascadia Code",\n    "Segoe UI Mono",\n    monospace;\n  font-size: 0.72rem;\n  font-weight: 500;\n  color: var(--cmn-link);\n  word-break: break-all;\n  line-height: 1.4;\n}\n.qr-frame-shell[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: stretch;\n  justify-content: center;\n  gap: 0;\n  margin: 4px 0 16px;\n  border-radius: 16px;\n  overflow: hidden;\n  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .qr-frame-shell[_ngcontent-%COMP%] {\n  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);\n}\n.qr-frame-rail[_ngcontent-%COMP%] {\n  width: 6px;\n  flex-shrink: 0;\n  background:\n    linear-gradient(\n      180deg,\n      #ea580c,\n      #fb923c,\n      #ea580c);\n}\n.qr-preview-modal[_ngcontent-%COMP%]   .qr-container[_ngcontent-%COMP%] {\n  flex: 1;\n  margin: 0;\n  padding: 16px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #ffffff;\n  border-radius: 0;\n}\n.qr-preview-modal[_ngcontent-%COMP%]   .qr-image[_ngcontent-%COMP%] {\n  width: 220px;\n  height: 220px;\n  max-width: 100%;\n  height: auto;\n  aspect-ratio: 1;\n}\n.qr-foot[_ngcontent-%COMP%] {\n  margin: 0;\n  display: flex;\n  align-items: flex-start;\n  gap: 10px;\n  font-size: 0.82rem;\n  line-height: 1.45;\n  color: var(--cmn-text-muted);\n  text-align: left;\n}\n.qr-foot-icon[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  margin-top: 2px;\n  color: #ea580c;\n  opacity: 0.9;\n}\n@media (max-width: 480px) {\n  .qr-preview-modal[_ngcontent-%COMP%]   .qr-modal-body[_ngcontent-%COMP%] {\n    padding: 22px 18px 18px;\n    padding-right: 48px;\n  }\n  .qr-preview-modal[_ngcontent-%COMP%]   .qr-image[_ngcontent-%COMP%] {\n    width: 200px;\n  }\n}\n.loading-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 100px 0;\n}\n.spinner[_ngcontent-%COMP%] {\n  width: 50px;\n  height: 50px;\n  border: 4px solid rgba(99, 102, 241, 0.1);\n  border-top-color: #6366f1;\n  border-radius: 50%;\n  animation: _ngcontent-%COMP%_spin 1s linear infinite;\n  margin-bottom: 20px;\n}\n@keyframes _ngcontent-%COMP%_spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n.empty-state[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 80px 20px;\n  background: var(--cmn-card-bg);\n  border: 1px dashed var(--cmn-card-border);\n  border-radius: 30px;\n}\n.empty-state[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  color: var(--cmn-heading);\n  margin-bottom: 0.5rem;\n}\n.empty-state[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n  max-width: 420px;\n  margin: 0 auto 1.25rem;\n  line-height: 1.5;\n}\n.empty-state[_ngcontent-%COMP%]   code[_ngcontent-%COMP%] {\n  color: var(--cmn-mono);\n  font-size: 0.9em;\n}\n.loading-container[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n}\n@media (max-width: 900px) {\n  .cards-grid[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n  .toolbar[_ngcontent-%COMP%] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 16px;\n  }\n  .stats-counter[_ngcontent-%COMP%] {\n    border-left: none;\n    padding-left: 0;\n    border-top: 1px solid var(--cmn-card-border);\n    padding-top: 16px;\n  }\n  .header-content[_ngcontent-%COMP%] {\n    flex-direction: column;\n    gap: 20px;\n  }\n}\n@media (max-width: 480px) {\n  .toast[_ngcontent-%COMP%] {\n    left: 16px;\n    right: 16px;\n    top: max(12px, env(safe-area-inset-top, 0px));\n    max-width: none;\n  }\n  .pagination[_ngcontent-%COMP%] {\n    flex-wrap: wrap;\n    justify-content: center;\n    gap: 12px;\n    margin-top: 32px;\n  }\n  .p-pages[_ngcontent-%COMP%] {\n    order: 3;\n    width: 100%;\n    justify-content: center;\n  }\n  .modal-content[_ngcontent-%COMP%] {\n    padding: 24px 20px;\n    border-radius: 22px;\n  }\n  .card-inner[_ngcontent-%COMP%] {\n    border-radius: 20px;\n  }\n  .info-group[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n/*# sourceMappingURL=person-list.css.map */'] });
+  }, dependencies: [CommonModule, RouterLink, FormsModule, DefaultValueAccessor, NgControlStatus, NgModel, DatePipe], styles: ['\n\n.toast[_ngcontent-%COMP%] {\n  position: fixed;\n  top: 24px;\n  right: 24px;\n  padding: 14px 24px;\n  border-radius: 12px;\n  color: #fff;\n  font-weight: 600;\n  font-size: 0.95rem;\n  z-index: 10000;\n  animation: _ngcontent-%COMP%_slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  -webkit-backdrop-filter: blur(20px);\n  backdrop-filter: blur(20px);\n  max-width: min(520px, calc(100vw - 48px));\n}\n.toast.success[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #00c853,\n      #00e676);\n}\n.toast.error[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #ff1744,\n      #ff5252);\n}\n.toast-icon[_ngcontent-%COMP%] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n@keyframes _ngcontent-%COMP%_slideInRight {\n  from {\n    transform: translateX(100px);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n.page-header-simple[_ngcontent-%COMP%] {\n  margin-bottom: 40px;\n}\n.page-header-simple[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: clamp(1.5rem, 4.5vw, 2.2rem);\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 4px;\n  line-height: 1.2;\n}\n.gradient-text[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #16a34a,\n      #0d9488 50%,\n      #059669);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n.subtitle[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n  font-size: 1rem;\n}\n.btn-add[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  padding: 14px 28px;\n  background:\n    linear-gradient(\n      135deg,\n      #16a34a,\n      #059669);\n  color: #fff;\n  border-radius: 14px;\n  font-weight: 700;\n  font-size: 1rem;\n  text-decoration: none;\n  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);\n  box-shadow: 0 4px 20px rgba(22, 163, 74, 0.4);\n  border: none;\n  cursor: pointer;\n}\n.btn-add[_ngcontent-%COMP%]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 30px rgba(22, 163, 74, 0.5);\n  background:\n    linear-gradient(\n      135deg,\n      #15803d,\n      #059669);\n}\n.btn-icon[_ngcontent-%COMP%] {\n  font-size: 1.4rem;\n  font-weight: 300;\n}\n.header-actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n}\n.btn-logout[_ngcontent-%COMP%] {\n  padding: 12px 20px;\n  background: rgba(239, 68, 68, 0.1);\n  border: 1px solid rgba(239, 68, 68, 0.2);\n  color: #f87171;\n  border-radius: 12px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.btn-logout[_ngcontent-%COMP%]:hover {\n  background: rgba(239, 68, 68, 0.2);\n  color: #ff5252;\n}\n.toolbar[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 32px;\n  background: var(--cmn-toolbar-bg);\n  padding: 16px 24px;\n  border-radius: 20px;\n  border: 1px solid var(--cmn-card-border);\n}\n.search-box[_ngcontent-%COMP%] {\n  position: relative;\n  flex: 1;\n  max-width: 400px;\n}\n.search-icon[_ngcontent-%COMP%] {\n  position: absolute;\n  left: 16px;\n  top: 50%;\n  transform: translateY(-50%);\n  color: var(--cmn-text-muted);\n}\n.search-input[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 12px 16px 12px 48px;\n  background: var(--cmn-input-bg);\n  border: 1px solid var(--cmn-input-border);\n  border-radius: 14px;\n  color: var(--cmn-input-text);\n  transition: all 0.3s ease;\n}\n.search-input[_ngcontent-%COMP%]:focus {\n  outline: none;\n  border-color: #6366f1;\n  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);\n}\n.stats-counter[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding-left: 24px;\n  border-left: 1px solid rgba(99, 102, 241, 0.1);\n}\n.stat-value[_ngcontent-%COMP%] {\n  font-size: 1.8rem;\n  font-weight: 900;\n  color: #818cf8;\n}\n.stat-label[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  font-weight: 600;\n  color: var(--cmn-label);\n  text-transform: uppercase;\n  letter-spacing: 1px;\n}\n.cards-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));\n  gap: 24px;\n}\n.contact-card[_ngcontent-%COMP%] {\n  perspective: 1000px;\n}\n.card-inner[_ngcontent-%COMP%] {\n  background: var(--cmn-card-bg);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 24px;\n  overflow: hidden;\n  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n  -webkit-backdrop-filter: blur(20px);\n  backdrop-filter: blur(20px);\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n}\n.contact-card[_ngcontent-%COMP%]:hover   .card-inner[_ngcontent-%COMP%] {\n  transform: translateY(-8px) scale(1.02);\n  border-color: rgba(99, 102, 241, 0.4);\n  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);\n}\n.card-hero[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      rgba(99, 102, 241, 0.1),\n      rgba(168, 85, 247, 0.05));\n  padding: 24px;\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  border-bottom: 1px solid rgba(99, 102, 241, 0.1);\n}\n.avatar-large[_ngcontent-%COMP%] {\n  width: 56px;\n  height: 56px;\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #a855f7);\n  border-radius: 16px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.5rem;\n  font-weight: 900;\n  color: white;\n  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);\n}\n.hero-info[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  font-size: 1.2rem;\n  font-weight: 700;\n  color: var(--cmn-heading);\n  margin-bottom: 2px;\n}\n.date-chip[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  color: var(--cmn-text-muted);\n  background: rgba(99, 102, 241, 0.1);\n  padding: 2px 8px;\n  border-radius: 6px;\n}\n.card-content[_ngcontent-%COMP%] {\n  padding: 24px;\n  flex: 1;\n}\n.info-group[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 20px;\n  margin-bottom: 20px;\n}\n.info-group.border-top[_ngcontent-%COMP%] {\n  padding-top: 20px;\n  border-top: 1px solid rgba(99, 102, 241, 0.1);\n  margin-bottom: 0;\n}\n.info-item[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 12px;\n}\n.info-item[_ngcontent-%COMP%]   .icon[_ngcontent-%COMP%] {\n  font-size: 1.2rem;\n  opacity: 0.8;\n}\n.info-item[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 0.7rem;\n  font-weight: 700;\n  color: var(--cmn-label);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n  margin-bottom: 2px;\n}\n.info-item[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 0.9rem;\n  color: var(--cmn-text);\n  font-weight: 500;\n  word-break: break-all;\n}\n.card-footer[_ngcontent-%COMP%] {\n  padding: 12px 16px 20px;\n  background: var(--cmn-elevated);\n  display: flex;\n  gap: 10px;\n  border-top: 1px solid rgba(0, 0, 0, 0.05);\n}\n.footer-btn[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 11px;\n  border-radius: 12px;\n  border: 1px solid transparent;\n  font-weight: 700;\n  font-size: 0.82rem;\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  text-decoration: none;\n}\n.footer-btn[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n}\n.footer-btn.qr[_ngcontent-%COMP%] {\n  background: rgba(99, 102, 241, 0.08);\n  color: #6366f1;\n  border-color: rgba(99, 102, 241, 0.1);\n}\n.footer-btn.qr[_ngcontent-%COMP%]:hover {\n  background: #6366f1;\n  color: #fff;\n  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);\n  transform: translateY(-2px);\n}\n.footer-btn.edit[_ngcontent-%COMP%] {\n  background: rgba(245, 158, 11, 0.08);\n  color: #d97706;\n  border-color: rgba(245, 158, 11, 0.1);\n}\n.footer-btn.edit[_ngcontent-%COMP%]:hover {\n  background: #f59e0b;\n  color: #fff;\n  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);\n  transform: translateY(-2px);\n}\n.footer-btn.delete[_ngcontent-%COMP%] {\n  flex: 0 0 52px;\n  background: rgba(239, 68, 68, 0.06);\n  color: #ef4444;\n  border-color: rgba(239, 68, 68, 0.12);\n}\n.footer-btn.delete[_ngcontent-%COMP%]:hover {\n  background: #ef4444;\n  color: #fff;\n  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);\n  transform: translateY(-2px);\n}\n.footer-btn[_ngcontent-%COMP%]:active {\n  transform: scale(0.95);\n}\n.pagination[_ngcontent-%COMP%] {\n  margin-top: 50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  gap: 20px;\n}\n.p-nav[_ngcontent-%COMP%] {\n  padding: 10px 20px;\n  background: var(--cmn-input-bg);\n  border: 1px solid var(--cmn-card-border);\n  color: var(--cmn-link);\n  border-radius: 12px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.p-nav[_ngcontent-%COMP%]:disabled {\n  opacity: 0.3;\n  cursor: not-allowed;\n}\n.p-pages[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n}\n.p-num[_ngcontent-%COMP%] {\n  width: 40px;\n  height: 40px;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-card-border);\n  background: transparent;\n  color: var(--cmn-text-muted);\n  font-weight: 700;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.p-num.active[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #16a34a,\n      #059669);\n  color: white;\n  border: none;\n  box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3);\n}\n.modal-overlay[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.8);\n  -webkit-backdrop-filter: blur(10px);\n  backdrop-filter: blur(10px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 9000;\n}\n.modal-content[_ngcontent-%COMP%] {\n  background: var(--cmn-modal-bg);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 30px;\n  padding: 40px;\n  max-width: 440px;\n  width: 90%;\n  text-align: center;\n  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);\n  animation: _ngcontent-%COMP%_modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n}\n.modal-title[_ngcontent-%COMP%] {\n  font-size: 1.25rem;\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 0.5rem;\n}\n.modal-subtitle[_ngcontent-%COMP%] {\n  font-size: 0.88rem;\n  color: var(--cmn-text-muted);\n  line-height: 1.45;\n  margin-bottom: 0.25rem;\n}\n@keyframes _ngcontent-%COMP%_modalIn {\n  from {\n    transform: translateY(20px) scale(0.95);\n    opacity: 0;\n  }\n  to {\n    transform: translateY(0) scale(1);\n    opacity: 1;\n  }\n}\n.delete-modal[_ngcontent-%COMP%] {\n  max-width: 400px;\n  border-color: rgba(239, 68, 68, 0.15);\n  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);\n}\n.delete-icon-container[_ngcontent-%COMP%] {\n  width: 72px;\n  height: 72px;\n  background: rgba(239, 68, 68, 0.08);\n  border-radius: 20px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 24px;\n  border: 1px solid rgba(239, 68, 68, 0.1);\n}\n.delete-warning-icon[_ngcontent-%COMP%] {\n  font-size: 2.2rem;\n  filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.3));\n}\n.delete-message[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n  line-height: 1.6;\n  font-size: 0.95rem;\n  margin-bottom: 32px;\n}\n.delete-message[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  color: var(--cmn-heading);\n  font-weight: 700;\n}\n.delete-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 12px;\n}\n.delete-actions[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 14px;\n  border-radius: 14px;\n  font-weight: 700;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);\n  border: none;\n}\n.btn-cancel[_ngcontent-%COMP%] {\n  background: var(--cmn-elevated);\n  border: 1px solid var(--cmn-card-border) !important;\n  color: var(--cmn-heading);\n}\n.btn-cancel[_ngcontent-%COMP%]:hover {\n  background: var(--cmn-input-bg);\n  transform: translateY(-1px);\n}\n.btn-confirm-delete[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #ef4444,\n      #f87171);\n  color: #fff;\n  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25);\n}\n.btn-confirm-delete[_ngcontent-%COMP%]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);\n  filter: brightness(1.1);\n}\n.btn-confirm-delete[_ngcontent-%COMP%]:active {\n  transform: scale(0.98);\n}\n.qr-preview-modal[_ngcontent-%COMP%] {\n  position: relative;\n  max-width: 420px;\n  width: 92%;\n  padding: 0;\n  overflow: hidden;\n  text-align: left;\n  border-radius: 20px;\n  box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.12), 0 28px 80px rgba(0, 0, 0, 0.45);\n}\n.qr-modal-accent[_ngcontent-%COMP%] {\n  height: 4px;\n  width: 100%;\n  background:\n    linear-gradient(\n      90deg,\n      #15803d,\n      #16a34a,\n      #4ade80,\n      #16a34a,\n      #15803d);\n}\n.qr-modal-close[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 14px;\n  right: 14px;\n  z-index: 2;\n  width: 36px;\n  height: 36px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-card-border);\n  background: var(--cmn-card-bg-solid);\n  color: var(--cmn-text-muted);\n  font-size: 1.35rem;\n  line-height: 1;\n  cursor: pointer;\n  transition:\n    color 0.2s ease,\n    border-color 0.2s ease,\n    background 0.2s ease;\n}\n.qr-modal-close[_ngcontent-%COMP%]:hover {\n  color: var(--cmn-heading);\n  border-color: rgba(234, 88, 12, 0.45);\n  background: var(--cmn-elevated);\n}\n.qr-modal-body[_ngcontent-%COMP%] {\n  padding: 26px 26px 22px;\n  padding-right: 52px;\n}\n.qr-modal-eyebrow[_ngcontent-%COMP%] {\n  margin: 0 0 6px;\n  font-size: 0.65rem;\n  font-weight: 800;\n  letter-spacing: 0.2em;\n  text-transform: uppercase;\n  color: var(--cmn-text-muted);\n}\n.qr-modal-title[_ngcontent-%COMP%] {\n  margin: 0 0 10px;\n  font-size: 1.2rem;\n  font-weight: 800;\n  line-height: 1.25;\n  color: var(--cmn-heading);\n  text-align: left;\n}\n.qr-modal-lede[_ngcontent-%COMP%] {\n  margin: 0 0 14px;\n  font-size: 0.84rem;\n  line-height: 1.5;\n  color: var(--cmn-text-muted);\n  text-align: left;\n}\n.qr-id-chip[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  margin-bottom: 10px;\n  padding: 8px 12px;\n  border-radius: 12px;\n  background: var(--cmn-elevated);\n  border: 1px solid var(--cmn-card-border);\n}\n.qr-id-label[_ngcontent-%COMP%] {\n  font-size: 0.62rem;\n  font-weight: 800;\n  letter-spacing: 0.12em;\n  text-transform: uppercase;\n  color: var(--cmn-label);\n}\n.qr-id-value[_ngcontent-%COMP%] {\n  font-family:\n    ui-monospace,\n    "Cascadia Code",\n    "Segoe UI Mono",\n    monospace;\n  font-size: 0.8rem;\n  font-weight: 700;\n  color: var(--cmn-mono);\n  letter-spacing: 0.04em;\n}\n.qr-url-box[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  margin-bottom: 16px;\n  padding: 10px 12px;\n  border-radius: 12px;\n  background: var(--cmn-elevated);\n  border: 1px dashed var(--cmn-input-border);\n  text-align: left;\n}\n.qr-url-label[_ngcontent-%COMP%] {\n  font-size: 0.62rem;\n  font-weight: 800;\n  letter-spacing: 0.14em;\n  text-transform: uppercase;\n  color: var(--cmn-text-muted);\n}\n.qr-url-text[_ngcontent-%COMP%] {\n  display: block;\n  font-family:\n    ui-monospace,\n    "Cascadia Code",\n    "Segoe UI Mono",\n    monospace;\n  font-size: 0.72rem;\n  font-weight: 500;\n  color: var(--cmn-link);\n  word-break: break-all;\n  line-height: 1.4;\n}\n.qr-frame-shell[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: stretch;\n  justify-content: center;\n  gap: 0;\n  margin: 4px 0 16px;\n  border-radius: 16px;\n  overflow: hidden;\n  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .qr-frame-shell[_ngcontent-%COMP%] {\n  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);\n}\n.qr-frame-rail[_ngcontent-%COMP%] {\n  width: 6px;\n  flex-shrink: 0;\n  background:\n    linear-gradient(\n      180deg,\n      #15803d,\n      #4ade80,\n      #15803d);\n}\n.qr-preview-modal[_ngcontent-%COMP%]   .qr-container[_ngcontent-%COMP%] {\n  flex: 1;\n  margin: 0;\n  padding: 16px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #ffffff;\n  border-radius: 0;\n}\n.qr-preview-modal[_ngcontent-%COMP%]   .qr-image[_ngcontent-%COMP%] {\n  width: 220px;\n  height: 220px;\n  max-width: 100%;\n  height: auto;\n  aspect-ratio: 1;\n}\n.qr-foot[_ngcontent-%COMP%] {\n  margin: 0;\n  display: flex;\n  align-items: flex-start;\n  gap: 10px;\n  font-size: 0.82rem;\n  line-height: 1.45;\n  color: var(--cmn-text-muted);\n  text-align: left;\n}\n.qr-foot-icon[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  margin-top: 2px;\n  color: #16a34a;\n  opacity: 0.9;\n}\n@media (max-width: 480px) {\n  .qr-preview-modal[_ngcontent-%COMP%]   .qr-modal-body[_ngcontent-%COMP%] {\n    padding: 22px 18px 18px;\n    padding-right: 48px;\n  }\n  .qr-preview-modal[_ngcontent-%COMP%]   .qr-image[_ngcontent-%COMP%] {\n    width: 200px;\n  }\n}\n.loading-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 100px 0;\n}\n.spinner[_ngcontent-%COMP%] {\n  width: 50px;\n  height: 50px;\n  border: 4px solid rgba(99, 102, 241, 0.1);\n  border-top-color: #6366f1;\n  border-radius: 50%;\n  animation: _ngcontent-%COMP%_spin 1s linear infinite;\n  margin-bottom: 20px;\n}\n@keyframes _ngcontent-%COMP%_spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n.empty-state[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 80px 20px;\n  background: var(--cmn-card-bg);\n  border: 1px dashed var(--cmn-card-border);\n  border-radius: 30px;\n}\n.empty-state[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  color: var(--cmn-heading);\n  margin-bottom: 0.5rem;\n}\n.empty-state[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n  max-width: 420px;\n  margin: 0 auto 1.25rem;\n  line-height: 1.5;\n}\n.empty-state[_ngcontent-%COMP%]   code[_ngcontent-%COMP%] {\n  color: var(--cmn-mono);\n  font-size: 0.9em;\n}\n.loading-container[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n}\n@media (max-width: 900px) {\n  .cards-grid[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n  .toolbar[_ngcontent-%COMP%] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 16px;\n  }\n  .stats-counter[_ngcontent-%COMP%] {\n    border-left: none;\n    padding-left: 0;\n    border-top: 1px solid var(--cmn-card-border);\n    padding-top: 16px;\n  }\n  .header-content[_ngcontent-%COMP%] {\n    flex-direction: column;\n    gap: 20px;\n  }\n}\n@media (max-width: 480px) {\n  .toast[_ngcontent-%COMP%] {\n    left: 16px;\n    right: 16px;\n    top: max(12px, env(safe-area-inset-top, 0px));\n    max-width: none;\n  }\n  .pagination[_ngcontent-%COMP%] {\n    flex-wrap: wrap;\n    justify-content: center;\n    gap: 12px;\n    margin-top: 32px;\n  }\n  .p-pages[_ngcontent-%COMP%] {\n    order: 3;\n    width: 100%;\n    justify-content: center;\n  }\n  .modal-content[_ngcontent-%COMP%] {\n    padding: 24px 20px;\n    border-radius: 22px;\n  }\n  .card-inner[_ngcontent-%COMP%] {\n    border-radius: 20px;\n  }\n  .info-group[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n/*# sourceMappingURL=person-list.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PersonListComponent, [{
@@ -42826,7 +42835,7 @@ var PersonListComponent = class _PersonListComponent {
     </div>
   </div>
 </div>
-}`, styles: ['/* src/app/components/person-list/person-list.css */\n.toast {\n  position: fixed;\n  top: 24px;\n  right: 24px;\n  padding: 14px 24px;\n  border-radius: 12px;\n  color: #fff;\n  font-weight: 600;\n  font-size: 0.95rem;\n  z-index: 10000;\n  animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  -webkit-backdrop-filter: blur(20px);\n  backdrop-filter: blur(20px);\n  max-width: min(520px, calc(100vw - 48px));\n}\n.toast.success {\n  background:\n    linear-gradient(\n      135deg,\n      #00c853,\n      #00e676);\n}\n.toast.error {\n  background:\n    linear-gradient(\n      135deg,\n      #ff1744,\n      #ff5252);\n}\n.toast-icon {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n@keyframes slideInRight {\n  from {\n    transform: translateX(100px);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n.page-header-simple {\n  margin-bottom: 40px;\n}\n.page-header-simple h1 {\n  font-size: clamp(1.5rem, 4.5vw, 2.2rem);\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 4px;\n  line-height: 1.2;\n}\n.gradient-text {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #7c3aed 50%,\n      #a855f7);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n.subtitle {\n  color: var(--cmn-text-muted);\n  font-size: 1rem;\n}\n.btn-add {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  padding: 14px 28px;\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #8b5cf6);\n  color: #fff;\n  border-radius: 14px;\n  font-weight: 700;\n  font-size: 1rem;\n  text-decoration: none;\n  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);\n  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);\n  border: none;\n  cursor: pointer;\n}\n.btn-add:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);\n  background:\n    linear-gradient(\n      135deg,\n      #4f46e5,\n      #7c3aed);\n}\n.btn-icon {\n  font-size: 1.4rem;\n  font-weight: 300;\n}\n.header-actions {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n}\n.btn-logout {\n  padding: 12px 20px;\n  background: rgba(239, 68, 68, 0.1);\n  border: 1px solid rgba(239, 68, 68, 0.2);\n  color: #f87171;\n  border-radius: 12px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.btn-logout:hover {\n  background: rgba(239, 68, 68, 0.2);\n  color: #ff5252;\n}\n.toolbar {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 32px;\n  background: var(--cmn-toolbar-bg);\n  padding: 16px 24px;\n  border-radius: 20px;\n  border: 1px solid var(--cmn-card-border);\n}\n.search-box {\n  position: relative;\n  flex: 1;\n  max-width: 400px;\n}\n.search-icon {\n  position: absolute;\n  left: 16px;\n  top: 50%;\n  transform: translateY(-50%);\n  color: var(--cmn-text-muted);\n}\n.search-input {\n  width: 100%;\n  padding: 12px 16px 12px 48px;\n  background: var(--cmn-input-bg);\n  border: 1px solid var(--cmn-input-border);\n  border-radius: 14px;\n  color: var(--cmn-input-text);\n  transition: all 0.3s ease;\n}\n.search-input:focus {\n  outline: none;\n  border-color: #6366f1;\n  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);\n}\n.stats-counter {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding-left: 24px;\n  border-left: 1px solid rgba(99, 102, 241, 0.1);\n}\n.stat-value {\n  font-size: 1.8rem;\n  font-weight: 900;\n  color: #818cf8;\n}\n.stat-label {\n  font-size: 0.8rem;\n  font-weight: 600;\n  color: var(--cmn-label);\n  text-transform: uppercase;\n  letter-spacing: 1px;\n}\n.cards-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));\n  gap: 24px;\n}\n.contact-card {\n  perspective: 1000px;\n}\n.card-inner {\n  background: var(--cmn-card-bg);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 24px;\n  overflow: hidden;\n  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n  -webkit-backdrop-filter: blur(20px);\n  backdrop-filter: blur(20px);\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n}\n.contact-card:hover .card-inner {\n  transform: translateY(-8px) scale(1.02);\n  border-color: rgba(99, 102, 241, 0.4);\n  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);\n}\n.card-hero {\n  background:\n    linear-gradient(\n      135deg,\n      rgba(99, 102, 241, 0.1),\n      rgba(168, 85, 247, 0.05));\n  padding: 24px;\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  border-bottom: 1px solid rgba(99, 102, 241, 0.1);\n}\n.avatar-large {\n  width: 56px;\n  height: 56px;\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #a855f7);\n  border-radius: 16px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.5rem;\n  font-weight: 900;\n  color: white;\n  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);\n}\n.hero-info h3 {\n  font-size: 1.2rem;\n  font-weight: 700;\n  color: var(--cmn-heading);\n  margin-bottom: 2px;\n}\n.date-chip {\n  font-size: 0.75rem;\n  color: var(--cmn-text-muted);\n  background: rgba(99, 102, 241, 0.1);\n  padding: 2px 8px;\n  border-radius: 6px;\n}\n.card-content {\n  padding: 24px;\n  flex: 1;\n}\n.info-group {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 20px;\n  margin-bottom: 20px;\n}\n.info-group.border-top {\n  padding-top: 20px;\n  border-top: 1px solid rgba(99, 102, 241, 0.1);\n  margin-bottom: 0;\n}\n.info-item {\n  display: flex;\n  gap: 12px;\n}\n.info-item .icon {\n  font-size: 1.2rem;\n  opacity: 0.8;\n}\n.info-item label {\n  display: block;\n  font-size: 0.7rem;\n  font-weight: 700;\n  color: var(--cmn-label);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n  margin-bottom: 2px;\n}\n.info-item p {\n  font-size: 0.9rem;\n  color: var(--cmn-text);\n  font-weight: 500;\n  word-break: break-all;\n}\n.card-footer {\n  padding: 16px;\n  background: var(--cmn-elevated);\n  display: flex;\n  gap: 8px;\n}\n.footer-btn {\n  flex: 1;\n  padding: 10px;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-card-border);\n  background: transparent;\n  color: var(--cmn-footer-btn);\n  font-weight: 600;\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n}\n.footer-btn:hover {\n  background: rgba(99, 102, 241, 0.12);\n  color: var(--cmn-heading);\n  border-color: rgba(99, 102, 241, 0.3);\n}\nhtml[data-theme=dark] .footer-btn:hover {\n  color: #fff;\n}\n.footer-btn.qr:hover {\n  color: #818cf8;\n}\n.footer-btn.edit:hover {\n  color: #fbbf24;\n}\n.footer-btn.delete {\n  flex: 0 0 50px;\n  background: rgba(239, 68, 68, 0.05);\n  border-color: rgba(239, 68, 68, 0.1);\n}\n.footer-btn.delete:hover {\n  background: rgba(239, 68, 68, 0.15);\n  color: #f87171;\n  border-color: rgba(239, 68, 68, 0.3);\n}\n.pagination {\n  margin-top: 50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  gap: 20px;\n}\n.p-nav {\n  padding: 10px 20px;\n  background: var(--cmn-input-bg);\n  border: 1px solid var(--cmn-card-border);\n  color: var(--cmn-link);\n  border-radius: 12px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.p-nav:disabled {\n  opacity: 0.3;\n  cursor: not-allowed;\n}\n.p-pages {\n  display: flex;\n  gap: 8px;\n}\n.p-num {\n  width: 40px;\n  height: 40px;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-card-border);\n  background: transparent;\n  color: var(--cmn-text-muted);\n  font-weight: 700;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.p-num.active {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #8b5cf6);\n  color: white;\n  border: none;\n  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);\n}\n.modal-overlay {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.8);\n  -webkit-backdrop-filter: blur(10px);\n  backdrop-filter: blur(10px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 9000;\n}\n.modal-content {\n  background: var(--cmn-modal-bg);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 30px;\n  padding: 40px;\n  max-width: 440px;\n  width: 90%;\n  text-align: center;\n  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);\n  animation: modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n}\n.modal-title {\n  font-size: 1.25rem;\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 0.5rem;\n}\n.modal-subtitle {\n  font-size: 0.88rem;\n  color: var(--cmn-text-muted);\n  line-height: 1.45;\n  margin-bottom: 0.25rem;\n}\n@keyframes modalIn {\n  from {\n    transform: scale(0.9);\n    opacity: 0;\n  }\n  to {\n    transform: scale(1);\n    opacity: 1;\n  }\n}\n.qr-preview-modal {\n  position: relative;\n  max-width: 420px;\n  width: 92%;\n  padding: 0;\n  overflow: hidden;\n  text-align: left;\n  border-radius: 20px;\n  box-shadow: 0 0 0 1px rgba(234, 88, 12, 0.12), 0 28px 80px rgba(0, 0, 0, 0.45);\n}\n.qr-modal-accent {\n  height: 4px;\n  width: 100%;\n  background:\n    linear-gradient(\n      90deg,\n      #c2410c,\n      #ea580c,\n      #fb923c,\n      #ea580c,\n      #c2410c);\n}\n.qr-modal-close {\n  position: absolute;\n  top: 14px;\n  right: 14px;\n  z-index: 2;\n  width: 36px;\n  height: 36px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-card-border);\n  background: var(--cmn-card-bg-solid);\n  color: var(--cmn-text-muted);\n  font-size: 1.35rem;\n  line-height: 1;\n  cursor: pointer;\n  transition:\n    color 0.2s ease,\n    border-color 0.2s ease,\n    background 0.2s ease;\n}\n.qr-modal-close:hover {\n  color: var(--cmn-heading);\n  border-color: rgba(234, 88, 12, 0.45);\n  background: var(--cmn-elevated);\n}\n.qr-modal-body {\n  padding: 26px 26px 22px;\n  padding-right: 52px;\n}\n.qr-modal-eyebrow {\n  margin: 0 0 6px;\n  font-size: 0.65rem;\n  font-weight: 800;\n  letter-spacing: 0.2em;\n  text-transform: uppercase;\n  color: var(--cmn-text-muted);\n}\n.qr-modal-title {\n  margin: 0 0 10px;\n  font-size: 1.2rem;\n  font-weight: 800;\n  line-height: 1.25;\n  color: var(--cmn-heading);\n  text-align: left;\n}\n.qr-modal-lede {\n  margin: 0 0 14px;\n  font-size: 0.84rem;\n  line-height: 1.5;\n  color: var(--cmn-text-muted);\n  text-align: left;\n}\n.qr-id-chip {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  margin-bottom: 10px;\n  padding: 8px 12px;\n  border-radius: 12px;\n  background: var(--cmn-elevated);\n  border: 1px solid var(--cmn-card-border);\n}\n.qr-id-label {\n  font-size: 0.62rem;\n  font-weight: 800;\n  letter-spacing: 0.12em;\n  text-transform: uppercase;\n  color: var(--cmn-label);\n}\n.qr-id-value {\n  font-family:\n    ui-monospace,\n    "Cascadia Code",\n    "Segoe UI Mono",\n    monospace;\n  font-size: 0.8rem;\n  font-weight: 700;\n  color: var(--cmn-mono);\n  letter-spacing: 0.04em;\n}\n.qr-url-box {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  margin-bottom: 16px;\n  padding: 10px 12px;\n  border-radius: 12px;\n  background: var(--cmn-elevated);\n  border: 1px dashed var(--cmn-input-border);\n  text-align: left;\n}\n.qr-url-label {\n  font-size: 0.62rem;\n  font-weight: 800;\n  letter-spacing: 0.14em;\n  text-transform: uppercase;\n  color: var(--cmn-text-muted);\n}\n.qr-url-text {\n  display: block;\n  font-family:\n    ui-monospace,\n    "Cascadia Code",\n    "Segoe UI Mono",\n    monospace;\n  font-size: 0.72rem;\n  font-weight: 500;\n  color: var(--cmn-link);\n  word-break: break-all;\n  line-height: 1.4;\n}\n.qr-frame-shell {\n  display: flex;\n  align-items: stretch;\n  justify-content: center;\n  gap: 0;\n  margin: 4px 0 16px;\n  border-radius: 16px;\n  overflow: hidden;\n  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);\n}\nhtml[data-theme=dark] .qr-frame-shell {\n  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);\n}\n.qr-frame-rail {\n  width: 6px;\n  flex-shrink: 0;\n  background:\n    linear-gradient(\n      180deg,\n      #ea580c,\n      #fb923c,\n      #ea580c);\n}\n.qr-preview-modal .qr-container {\n  flex: 1;\n  margin: 0;\n  padding: 16px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #ffffff;\n  border-radius: 0;\n}\n.qr-preview-modal .qr-image {\n  width: 220px;\n  height: 220px;\n  max-width: 100%;\n  height: auto;\n  aspect-ratio: 1;\n}\n.qr-foot {\n  margin: 0;\n  display: flex;\n  align-items: flex-start;\n  gap: 10px;\n  font-size: 0.82rem;\n  line-height: 1.45;\n  color: var(--cmn-text-muted);\n  text-align: left;\n}\n.qr-foot-icon {\n  flex-shrink: 0;\n  margin-top: 2px;\n  color: #ea580c;\n  opacity: 0.9;\n}\n@media (max-width: 480px) {\n  .qr-preview-modal .qr-modal-body {\n    padding: 22px 18px 18px;\n    padding-right: 48px;\n  }\n  .qr-preview-modal .qr-image {\n    width: 200px;\n  }\n}\n.loading-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 100px 0;\n}\n.spinner {\n  width: 50px;\n  height: 50px;\n  border: 4px solid rgba(99, 102, 241, 0.1);\n  border-top-color: #6366f1;\n  border-radius: 50%;\n  animation: spin 1s linear infinite;\n  margin-bottom: 20px;\n}\n@keyframes spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n.empty-state {\n  text-align: center;\n  padding: 80px 20px;\n  background: var(--cmn-card-bg);\n  border: 1px dashed var(--cmn-card-border);\n  border-radius: 30px;\n}\n.empty-state h2 {\n  color: var(--cmn-heading);\n  margin-bottom: 0.5rem;\n}\n.empty-state p {\n  color: var(--cmn-text-muted);\n  max-width: 420px;\n  margin: 0 auto 1.25rem;\n  line-height: 1.5;\n}\n.empty-state code {\n  color: var(--cmn-mono);\n  font-size: 0.9em;\n}\n.loading-container p {\n  color: var(--cmn-text-muted);\n}\n@media (max-width: 900px) {\n  .cards-grid {\n    grid-template-columns: 1fr;\n  }\n  .toolbar {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 16px;\n  }\n  .stats-counter {\n    border-left: none;\n    padding-left: 0;\n    border-top: 1px solid var(--cmn-card-border);\n    padding-top: 16px;\n  }\n  .header-content {\n    flex-direction: column;\n    gap: 20px;\n  }\n}\n@media (max-width: 480px) {\n  .toast {\n    left: 16px;\n    right: 16px;\n    top: max(12px, env(safe-area-inset-top, 0px));\n    max-width: none;\n  }\n  .pagination {\n    flex-wrap: wrap;\n    justify-content: center;\n    gap: 12px;\n    margin-top: 32px;\n  }\n  .p-pages {\n    order: 3;\n    width: 100%;\n    justify-content: center;\n  }\n  .modal-content {\n    padding: 24px 20px;\n    border-radius: 22px;\n  }\n  .card-inner {\n    border-radius: 20px;\n  }\n  .info-group {\n    grid-template-columns: 1fr;\n  }\n}\n/*# sourceMappingURL=person-list.css.map */\n'] }]
+}`, styles: ['/* src/app/components/person-list/person-list.css */\n.toast {\n  position: fixed;\n  top: 24px;\n  right: 24px;\n  padding: 14px 24px;\n  border-radius: 12px;\n  color: #fff;\n  font-weight: 600;\n  font-size: 0.95rem;\n  z-index: 10000;\n  animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  -webkit-backdrop-filter: blur(20px);\n  backdrop-filter: blur(20px);\n  max-width: min(520px, calc(100vw - 48px));\n}\n.toast.success {\n  background:\n    linear-gradient(\n      135deg,\n      #00c853,\n      #00e676);\n}\n.toast.error {\n  background:\n    linear-gradient(\n      135deg,\n      #ff1744,\n      #ff5252);\n}\n.toast-icon {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n@keyframes slideInRight {\n  from {\n    transform: translateX(100px);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n.page-header-simple {\n  margin-bottom: 40px;\n}\n.page-header-simple h1 {\n  font-size: clamp(1.5rem, 4.5vw, 2.2rem);\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 4px;\n  line-height: 1.2;\n}\n.gradient-text {\n  background:\n    linear-gradient(\n      135deg,\n      #16a34a,\n      #0d9488 50%,\n      #059669);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n.subtitle {\n  color: var(--cmn-text-muted);\n  font-size: 1rem;\n}\n.btn-add {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  padding: 14px 28px;\n  background:\n    linear-gradient(\n      135deg,\n      #16a34a,\n      #059669);\n  color: #fff;\n  border-radius: 14px;\n  font-weight: 700;\n  font-size: 1rem;\n  text-decoration: none;\n  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);\n  box-shadow: 0 4px 20px rgba(22, 163, 74, 0.4);\n  border: none;\n  cursor: pointer;\n}\n.btn-add:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 30px rgba(22, 163, 74, 0.5);\n  background:\n    linear-gradient(\n      135deg,\n      #15803d,\n      #059669);\n}\n.btn-icon {\n  font-size: 1.4rem;\n  font-weight: 300;\n}\n.header-actions {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n}\n.btn-logout {\n  padding: 12px 20px;\n  background: rgba(239, 68, 68, 0.1);\n  border: 1px solid rgba(239, 68, 68, 0.2);\n  color: #f87171;\n  border-radius: 12px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.btn-logout:hover {\n  background: rgba(239, 68, 68, 0.2);\n  color: #ff5252;\n}\n.toolbar {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 32px;\n  background: var(--cmn-toolbar-bg);\n  padding: 16px 24px;\n  border-radius: 20px;\n  border: 1px solid var(--cmn-card-border);\n}\n.search-box {\n  position: relative;\n  flex: 1;\n  max-width: 400px;\n}\n.search-icon {\n  position: absolute;\n  left: 16px;\n  top: 50%;\n  transform: translateY(-50%);\n  color: var(--cmn-text-muted);\n}\n.search-input {\n  width: 100%;\n  padding: 12px 16px 12px 48px;\n  background: var(--cmn-input-bg);\n  border: 1px solid var(--cmn-input-border);\n  border-radius: 14px;\n  color: var(--cmn-input-text);\n  transition: all 0.3s ease;\n}\n.search-input:focus {\n  outline: none;\n  border-color: #6366f1;\n  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);\n}\n.stats-counter {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding-left: 24px;\n  border-left: 1px solid rgba(99, 102, 241, 0.1);\n}\n.stat-value {\n  font-size: 1.8rem;\n  font-weight: 900;\n  color: #818cf8;\n}\n.stat-label {\n  font-size: 0.8rem;\n  font-weight: 600;\n  color: var(--cmn-label);\n  text-transform: uppercase;\n  letter-spacing: 1px;\n}\n.cards-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));\n  gap: 24px;\n}\n.contact-card {\n  perspective: 1000px;\n}\n.card-inner {\n  background: var(--cmn-card-bg);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 24px;\n  overflow: hidden;\n  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n  -webkit-backdrop-filter: blur(20px);\n  backdrop-filter: blur(20px);\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n}\n.contact-card:hover .card-inner {\n  transform: translateY(-8px) scale(1.02);\n  border-color: rgba(99, 102, 241, 0.4);\n  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);\n}\n.card-hero {\n  background:\n    linear-gradient(\n      135deg,\n      rgba(99, 102, 241, 0.1),\n      rgba(168, 85, 247, 0.05));\n  padding: 24px;\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  border-bottom: 1px solid rgba(99, 102, 241, 0.1);\n}\n.avatar-large {\n  width: 56px;\n  height: 56px;\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #a855f7);\n  border-radius: 16px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.5rem;\n  font-weight: 900;\n  color: white;\n  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);\n}\n.hero-info h3 {\n  font-size: 1.2rem;\n  font-weight: 700;\n  color: var(--cmn-heading);\n  margin-bottom: 2px;\n}\n.date-chip {\n  font-size: 0.75rem;\n  color: var(--cmn-text-muted);\n  background: rgba(99, 102, 241, 0.1);\n  padding: 2px 8px;\n  border-radius: 6px;\n}\n.card-content {\n  padding: 24px;\n  flex: 1;\n}\n.info-group {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 20px;\n  margin-bottom: 20px;\n}\n.info-group.border-top {\n  padding-top: 20px;\n  border-top: 1px solid rgba(99, 102, 241, 0.1);\n  margin-bottom: 0;\n}\n.info-item {\n  display: flex;\n  gap: 12px;\n}\n.info-item .icon {\n  font-size: 1.2rem;\n  opacity: 0.8;\n}\n.info-item label {\n  display: block;\n  font-size: 0.7rem;\n  font-weight: 700;\n  color: var(--cmn-label);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n  margin-bottom: 2px;\n}\n.info-item p {\n  font-size: 0.9rem;\n  color: var(--cmn-text);\n  font-weight: 500;\n  word-break: break-all;\n}\n.card-footer {\n  padding: 12px 16px 20px;\n  background: var(--cmn-elevated);\n  display: flex;\n  gap: 10px;\n  border-top: 1px solid rgba(0, 0, 0, 0.05);\n}\n.footer-btn {\n  flex: 1;\n  padding: 11px;\n  border-radius: 12px;\n  border: 1px solid transparent;\n  font-weight: 700;\n  font-size: 0.82rem;\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  text-decoration: none;\n}\n.footer-btn span {\n  font-size: 1.1rem;\n}\n.footer-btn.qr {\n  background: rgba(99, 102, 241, 0.08);\n  color: #6366f1;\n  border-color: rgba(99, 102, 241, 0.1);\n}\n.footer-btn.qr:hover {\n  background: #6366f1;\n  color: #fff;\n  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);\n  transform: translateY(-2px);\n}\n.footer-btn.edit {\n  background: rgba(245, 158, 11, 0.08);\n  color: #d97706;\n  border-color: rgba(245, 158, 11, 0.1);\n}\n.footer-btn.edit:hover {\n  background: #f59e0b;\n  color: #fff;\n  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);\n  transform: translateY(-2px);\n}\n.footer-btn.delete {\n  flex: 0 0 52px;\n  background: rgba(239, 68, 68, 0.06);\n  color: #ef4444;\n  border-color: rgba(239, 68, 68, 0.12);\n}\n.footer-btn.delete:hover {\n  background: #ef4444;\n  color: #fff;\n  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);\n  transform: translateY(-2px);\n}\n.footer-btn:active {\n  transform: scale(0.95);\n}\n.pagination {\n  margin-top: 50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  gap: 20px;\n}\n.p-nav {\n  padding: 10px 20px;\n  background: var(--cmn-input-bg);\n  border: 1px solid var(--cmn-card-border);\n  color: var(--cmn-link);\n  border-radius: 12px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.p-nav:disabled {\n  opacity: 0.3;\n  cursor: not-allowed;\n}\n.p-pages {\n  display: flex;\n  gap: 8px;\n}\n.p-num {\n  width: 40px;\n  height: 40px;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-card-border);\n  background: transparent;\n  color: var(--cmn-text-muted);\n  font-weight: 700;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.p-num.active {\n  background:\n    linear-gradient(\n      135deg,\n      #16a34a,\n      #059669);\n  color: white;\n  border: none;\n  box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3);\n}\n.modal-overlay {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.8);\n  -webkit-backdrop-filter: blur(10px);\n  backdrop-filter: blur(10px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 9000;\n}\n.modal-content {\n  background: var(--cmn-modal-bg);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 30px;\n  padding: 40px;\n  max-width: 440px;\n  width: 90%;\n  text-align: center;\n  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);\n  animation: modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n}\n.modal-title {\n  font-size: 1.25rem;\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 0.5rem;\n}\n.modal-subtitle {\n  font-size: 0.88rem;\n  color: var(--cmn-text-muted);\n  line-height: 1.45;\n  margin-bottom: 0.25rem;\n}\n@keyframes modalIn {\n  from {\n    transform: translateY(20px) scale(0.95);\n    opacity: 0;\n  }\n  to {\n    transform: translateY(0) scale(1);\n    opacity: 1;\n  }\n}\n.delete-modal {\n  max-width: 400px;\n  border-color: rgba(239, 68, 68, 0.15);\n  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);\n}\n.delete-icon-container {\n  width: 72px;\n  height: 72px;\n  background: rgba(239, 68, 68, 0.08);\n  border-radius: 20px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 24px;\n  border: 1px solid rgba(239, 68, 68, 0.1);\n}\n.delete-warning-icon {\n  font-size: 2.2rem;\n  filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.3));\n}\n.delete-message {\n  color: var(--cmn-text-muted);\n  line-height: 1.6;\n  font-size: 0.95rem;\n  margin-bottom: 32px;\n}\n.delete-message strong {\n  color: var(--cmn-heading);\n  font-weight: 700;\n}\n.delete-actions {\n  display: flex;\n  gap: 12px;\n}\n.delete-actions button {\n  flex: 1;\n  padding: 14px;\n  border-radius: 14px;\n  font-weight: 700;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);\n  border: none;\n}\n.btn-cancel {\n  background: var(--cmn-elevated);\n  border: 1px solid var(--cmn-card-border) !important;\n  color: var(--cmn-heading);\n}\n.btn-cancel:hover {\n  background: var(--cmn-input-bg);\n  transform: translateY(-1px);\n}\n.btn-confirm-delete {\n  background:\n    linear-gradient(\n      135deg,\n      #ef4444,\n      #f87171);\n  color: #fff;\n  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25);\n}\n.btn-confirm-delete:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);\n  filter: brightness(1.1);\n}\n.btn-confirm-delete:active {\n  transform: scale(0.98);\n}\n.qr-preview-modal {\n  position: relative;\n  max-width: 420px;\n  width: 92%;\n  padding: 0;\n  overflow: hidden;\n  text-align: left;\n  border-radius: 20px;\n  box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.12), 0 28px 80px rgba(0, 0, 0, 0.45);\n}\n.qr-modal-accent {\n  height: 4px;\n  width: 100%;\n  background:\n    linear-gradient(\n      90deg,\n      #15803d,\n      #16a34a,\n      #4ade80,\n      #16a34a,\n      #15803d);\n}\n.qr-modal-close {\n  position: absolute;\n  top: 14px;\n  right: 14px;\n  z-index: 2;\n  width: 36px;\n  height: 36px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-card-border);\n  background: var(--cmn-card-bg-solid);\n  color: var(--cmn-text-muted);\n  font-size: 1.35rem;\n  line-height: 1;\n  cursor: pointer;\n  transition:\n    color 0.2s ease,\n    border-color 0.2s ease,\n    background 0.2s ease;\n}\n.qr-modal-close:hover {\n  color: var(--cmn-heading);\n  border-color: rgba(234, 88, 12, 0.45);\n  background: var(--cmn-elevated);\n}\n.qr-modal-body {\n  padding: 26px 26px 22px;\n  padding-right: 52px;\n}\n.qr-modal-eyebrow {\n  margin: 0 0 6px;\n  font-size: 0.65rem;\n  font-weight: 800;\n  letter-spacing: 0.2em;\n  text-transform: uppercase;\n  color: var(--cmn-text-muted);\n}\n.qr-modal-title {\n  margin: 0 0 10px;\n  font-size: 1.2rem;\n  font-weight: 800;\n  line-height: 1.25;\n  color: var(--cmn-heading);\n  text-align: left;\n}\n.qr-modal-lede {\n  margin: 0 0 14px;\n  font-size: 0.84rem;\n  line-height: 1.5;\n  color: var(--cmn-text-muted);\n  text-align: left;\n}\n.qr-id-chip {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  margin-bottom: 10px;\n  padding: 8px 12px;\n  border-radius: 12px;\n  background: var(--cmn-elevated);\n  border: 1px solid var(--cmn-card-border);\n}\n.qr-id-label {\n  font-size: 0.62rem;\n  font-weight: 800;\n  letter-spacing: 0.12em;\n  text-transform: uppercase;\n  color: var(--cmn-label);\n}\n.qr-id-value {\n  font-family:\n    ui-monospace,\n    "Cascadia Code",\n    "Segoe UI Mono",\n    monospace;\n  font-size: 0.8rem;\n  font-weight: 700;\n  color: var(--cmn-mono);\n  letter-spacing: 0.04em;\n}\n.qr-url-box {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  margin-bottom: 16px;\n  padding: 10px 12px;\n  border-radius: 12px;\n  background: var(--cmn-elevated);\n  border: 1px dashed var(--cmn-input-border);\n  text-align: left;\n}\n.qr-url-label {\n  font-size: 0.62rem;\n  font-weight: 800;\n  letter-spacing: 0.14em;\n  text-transform: uppercase;\n  color: var(--cmn-text-muted);\n}\n.qr-url-text {\n  display: block;\n  font-family:\n    ui-monospace,\n    "Cascadia Code",\n    "Segoe UI Mono",\n    monospace;\n  font-size: 0.72rem;\n  font-weight: 500;\n  color: var(--cmn-link);\n  word-break: break-all;\n  line-height: 1.4;\n}\n.qr-frame-shell {\n  display: flex;\n  align-items: stretch;\n  justify-content: center;\n  gap: 0;\n  margin: 4px 0 16px;\n  border-radius: 16px;\n  overflow: hidden;\n  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);\n}\nhtml[data-theme=dark] .qr-frame-shell {\n  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);\n}\n.qr-frame-rail {\n  width: 6px;\n  flex-shrink: 0;\n  background:\n    linear-gradient(\n      180deg,\n      #15803d,\n      #4ade80,\n      #15803d);\n}\n.qr-preview-modal .qr-container {\n  flex: 1;\n  margin: 0;\n  padding: 16px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #ffffff;\n  border-radius: 0;\n}\n.qr-preview-modal .qr-image {\n  width: 220px;\n  height: 220px;\n  max-width: 100%;\n  height: auto;\n  aspect-ratio: 1;\n}\n.qr-foot {\n  margin: 0;\n  display: flex;\n  align-items: flex-start;\n  gap: 10px;\n  font-size: 0.82rem;\n  line-height: 1.45;\n  color: var(--cmn-text-muted);\n  text-align: left;\n}\n.qr-foot-icon {\n  flex-shrink: 0;\n  margin-top: 2px;\n  color: #16a34a;\n  opacity: 0.9;\n}\n@media (max-width: 480px) {\n  .qr-preview-modal .qr-modal-body {\n    padding: 22px 18px 18px;\n    padding-right: 48px;\n  }\n  .qr-preview-modal .qr-image {\n    width: 200px;\n  }\n}\n.loading-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 100px 0;\n}\n.spinner {\n  width: 50px;\n  height: 50px;\n  border: 4px solid rgba(99, 102, 241, 0.1);\n  border-top-color: #6366f1;\n  border-radius: 50%;\n  animation: spin 1s linear infinite;\n  margin-bottom: 20px;\n}\n@keyframes spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n.empty-state {\n  text-align: center;\n  padding: 80px 20px;\n  background: var(--cmn-card-bg);\n  border: 1px dashed var(--cmn-card-border);\n  border-radius: 30px;\n}\n.empty-state h2 {\n  color: var(--cmn-heading);\n  margin-bottom: 0.5rem;\n}\n.empty-state p {\n  color: var(--cmn-text-muted);\n  max-width: 420px;\n  margin: 0 auto 1.25rem;\n  line-height: 1.5;\n}\n.empty-state code {\n  color: var(--cmn-mono);\n  font-size: 0.9em;\n}\n.loading-container p {\n  color: var(--cmn-text-muted);\n}\n@media (max-width: 900px) {\n  .cards-grid {\n    grid-template-columns: 1fr;\n  }\n  .toolbar {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 16px;\n  }\n  .stats-counter {\n    border-left: none;\n    padding-left: 0;\n    border-top: 1px solid var(--cmn-card-border);\n    padding-top: 16px;\n  }\n  .header-content {\n    flex-direction: column;\n    gap: 20px;\n  }\n}\n@media (max-width: 480px) {\n  .toast {\n    left: 16px;\n    right: 16px;\n    top: max(12px, env(safe-area-inset-top, 0px));\n    max-width: none;\n  }\n  .pagination {\n    flex-wrap: wrap;\n    justify-content: center;\n    gap: 12px;\n    margin-top: 32px;\n  }\n  .p-pages {\n    order: 3;\n    width: 100%;\n    justify-content: center;\n  }\n  .modal-content {\n    padding: 24px 20px;\n    border-radius: 22px;\n  }\n  .card-inner {\n    border-radius: 20px;\n  }\n  .info-group {\n    grid-template-columns: 1fr;\n  }\n}\n/*# sourceMappingURL=person-list.css.map */\n'] }]
   }], () => [{ type: PersonService }], null);
 })();
 (() => {
@@ -43967,7 +43976,7 @@ var DashboardComponent = class _DashboardComponent {
         }
       </div>
     </div>
-  `, styles: ["/* angular:styles/component:css;bb1bbb01b30fac84f54ba645a6282d41a6e0f32edc8b8682fbe660e35800550d;C:/Users/LENOVO/Downloads/QRCodeApp/QRCodeApp/qrcode-app-ui/src/app/components/dashboard/dashboard.ts */\n.dashboard-header {\n  margin-bottom: 40px;\n}\n.dashboard-header h1 {\n  font-size: clamp(1.65rem, 5vw, 2.5rem);\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 8px;\n  line-height: 1.15;\n}\n.gradient-text {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #7c3aed 50%,\n      #a855f7);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n.subtitle {\n  color: var(--cmn-text-muted);\n  font-size: clamp(0.95rem, 2.5vw, 1.1rem);\n  line-height: 1.5;\n}\n.stats-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));\n  gap: clamp(14px, 3vw, 24px);\n  margin-bottom: clamp(28px, 5vw, 50px);\n}\n.stat-card {\n  background: var(--cmn-card-bg);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 24px;\n  padding: clamp(18px, 4vw, 30px);\n  display: flex;\n  align-items: center;\n  gap: 24px;\n  -webkit-backdrop-filter: blur(10px);\n  backdrop-filter: blur(10px);\n  box-shadow: var(--cmn-panel-shadow, 0 4px 24px rgba(99, 102, 241, 0.06));\n  transition: all 0.3s ease;\n}\nhtml[data-theme=light] .stat-card {\n  background: var(--cmn-card-bg-solid);\n}\n.stat-card:hover {\n  transform: translateY(-5px);\n  border-color: rgba(99, 102, 241, 0.35);\n  filter: brightness(1.02);\n}\nhtml[data-theme=dark] .stat-card:hover {\n  background: rgba(30, 30, 50, 0.75);\n  filter: none;\n}\n.icon-orb {\n  width: 64px;\n  height: 64px;\n  border-radius: 20px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.8rem;\n}\n.icon-orb.total {\n  background: rgba(99, 102, 241, 0.1);\n  color: #6366f1;\n}\n.icon-orb.today {\n  background: rgba(0, 200, 83, 0.1);\n  color: #00c853;\n}\n.icon-orb.week {\n  background: rgba(251, 191, 36, 0.1);\n  color: #fbbf24;\n}\n.icon-orb.month {\n  background: rgba(239, 68, 68, 0.1);\n  color: #f87171;\n}\n.stat-info label {\n  display: block;\n  color: var(--cmn-label);\n  font-size: 0.85rem;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  margin-bottom: 4px;\n}\n.stat-info h3 {\n  font-size: clamp(1.75rem, 5vw, 2.2rem);\n  font-weight: 900;\n  color: var(--cmn-heading);\n  margin-bottom: 4px;\n}\n.growth {\n  font-size: 0.8rem;\n  color: var(--cmn-text-muted);\n}\n.recent-activity {\n  background: var(--cmn-card-bg);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 24px;\n  padding: clamp(18px, 4vw, 32px);\n  box-shadow: var(--cmn-panel-shadow, 0 4px 24px rgba(99, 102, 241, 0.06));\n}\nhtml[data-theme=light] .recent-activity {\n  background: var(--cmn-card-bg-solid);\n}\n.recent-activity h2 {\n  font-size: clamp(1.2rem, 3.5vw, 1.5rem);\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 24px;\n}\n.activity-list {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  padding: 14px 16px;\n  background: var(--cmn-elevated);\n  border-radius: 16px;\n  border: 1px solid transparent;\n  transition: background 0.2s ease, border-color 0.2s ease;\n}\n.activity-item:hover {\n  border-color: rgba(99, 102, 241, 0.15);\n  filter: brightness(0.99);\n}\nhtml[data-theme=dark] .activity-item {\n  background: rgba(15, 23, 42, 0.45);\n}\nhtml[data-theme=dark] .activity-item:hover {\n  background: rgba(15, 23, 42, 0.65);\n  filter: none;\n}\n.avatar-small {\n  width: 40px;\n  height: 40px;\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #a855f7);\n  border-radius: 10px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 800;\n  color: white;\n}\n.item-info {\n  flex: 1;\n}\n.item-name {\n  font-weight: 700;\n  color: var(--cmn-heading);\n  margin-bottom: 2px;\n}\n.item-meta {\n  font-size: 0.85rem;\n  color: var(--cmn-text-muted);\n}\n.item-date {\n  font-size: 0.85rem;\n  color: var(--cmn-text-muted);\n  font-weight: 600;\n  padding: 4px 12px;\n  background: rgba(99, 102, 241, 0.1);\n  border-radius: 8px;\n}\n.empty-msg {\n  text-align: center;\n  padding: 40px;\n  color: var(--cmn-text-muted);\n  font-style: italic;\n}\n@media (max-width: 640px) {\n  .dashboard-header {\n    margin-bottom: 24px;\n  }\n  .stat-card {\n    flex-direction: row;\n    flex-wrap: wrap;\n  }\n  .icon-orb {\n    width: 52px;\n    height: 52px;\n    font-size: 1.5rem;\n  }\n  .activity-item {\n    flex-wrap: wrap;\n  }\n  .item-date {\n    width: 100%;\n    margin-left: 56px;\n  }\n}\n/*# sourceMappingURL=dashboard.css.map */\n"] }]
+  `, styles: ["/* angular:styles/component:css;bb1bbb01b30fac84f54ba645a6282d41a6e0f32edc8b8682fbe660e35800550d;C:/Users/LENOVO/source/repos/rk92104/callmenow/qrcode-app-ui/src/app/components/dashboard/dashboard.ts */\n.dashboard-header {\n  margin-bottom: 40px;\n}\n.dashboard-header h1 {\n  font-size: clamp(1.65rem, 5vw, 2.5rem);\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 8px;\n  line-height: 1.15;\n}\n.gradient-text {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #7c3aed 50%,\n      #a855f7);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n.subtitle {\n  color: var(--cmn-text-muted);\n  font-size: clamp(0.95rem, 2.5vw, 1.1rem);\n  line-height: 1.5;\n}\n.stats-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));\n  gap: clamp(14px, 3vw, 24px);\n  margin-bottom: clamp(28px, 5vw, 50px);\n}\n.stat-card {\n  background: var(--cmn-card-bg);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 24px;\n  padding: clamp(18px, 4vw, 30px);\n  display: flex;\n  align-items: center;\n  gap: 24px;\n  -webkit-backdrop-filter: blur(10px);\n  backdrop-filter: blur(10px);\n  box-shadow: var(--cmn-panel-shadow, 0 4px 24px rgba(99, 102, 241, 0.06));\n  transition: all 0.3s ease;\n}\nhtml[data-theme=light] .stat-card {\n  background: var(--cmn-card-bg-solid);\n}\n.stat-card:hover {\n  transform: translateY(-5px);\n  border-color: rgba(99, 102, 241, 0.35);\n  filter: brightness(1.02);\n}\nhtml[data-theme=dark] .stat-card:hover {\n  background: rgba(30, 30, 50, 0.75);\n  filter: none;\n}\n.icon-orb {\n  width: 64px;\n  height: 64px;\n  border-radius: 20px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.8rem;\n}\n.icon-orb.total {\n  background: rgba(99, 102, 241, 0.1);\n  color: #6366f1;\n}\n.icon-orb.today {\n  background: rgba(0, 200, 83, 0.1);\n  color: #00c853;\n}\n.icon-orb.week {\n  background: rgba(251, 191, 36, 0.1);\n  color: #fbbf24;\n}\n.icon-orb.month {\n  background: rgba(239, 68, 68, 0.1);\n  color: #f87171;\n}\n.stat-info label {\n  display: block;\n  color: var(--cmn-label);\n  font-size: 0.85rem;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  margin-bottom: 4px;\n}\n.stat-info h3 {\n  font-size: clamp(1.75rem, 5vw, 2.2rem);\n  font-weight: 900;\n  color: var(--cmn-heading);\n  margin-bottom: 4px;\n}\n.growth {\n  font-size: 0.8rem;\n  color: var(--cmn-text-muted);\n}\n.recent-activity {\n  background: var(--cmn-card-bg);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 24px;\n  padding: clamp(18px, 4vw, 32px);\n  box-shadow: var(--cmn-panel-shadow, 0 4px 24px rgba(99, 102, 241, 0.06));\n}\nhtml[data-theme=light] .recent-activity {\n  background: var(--cmn-card-bg-solid);\n}\n.recent-activity h2 {\n  font-size: clamp(1.2rem, 3.5vw, 1.5rem);\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 24px;\n}\n.activity-list {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  padding: 14px 16px;\n  background: var(--cmn-elevated);\n  border-radius: 16px;\n  border: 1px solid transparent;\n  transition: background 0.2s ease, border-color 0.2s ease;\n}\n.activity-item:hover {\n  border-color: rgba(99, 102, 241, 0.15);\n  filter: brightness(0.99);\n}\nhtml[data-theme=dark] .activity-item {\n  background: rgba(15, 23, 42, 0.45);\n}\nhtml[data-theme=dark] .activity-item:hover {\n  background: rgba(15, 23, 42, 0.65);\n  filter: none;\n}\n.avatar-small {\n  width: 40px;\n  height: 40px;\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #a855f7);\n  border-radius: 10px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 800;\n  color: white;\n}\n.item-info {\n  flex: 1;\n}\n.item-name {\n  font-weight: 700;\n  color: var(--cmn-heading);\n  margin-bottom: 2px;\n}\n.item-meta {\n  font-size: 0.85rem;\n  color: var(--cmn-text-muted);\n}\n.item-date {\n  font-size: 0.85rem;\n  color: var(--cmn-text-muted);\n  font-weight: 600;\n  padding: 4px 12px;\n  background: rgba(99, 102, 241, 0.1);\n  border-radius: 8px;\n}\n.empty-msg {\n  text-align: center;\n  padding: 40px;\n  color: var(--cmn-text-muted);\n  font-style: italic;\n}\n@media (max-width: 640px) {\n  .dashboard-header {\n    margin-bottom: 24px;\n  }\n  .stat-card {\n    flex-direction: row;\n    flex-wrap: wrap;\n  }\n  .icon-orb {\n    width: 52px;\n    height: 52px;\n    font-size: 1.5rem;\n  }\n  .activity-item {\n    flex-wrap: wrap;\n  }\n  .item-date {\n    width: 100%;\n    margin-left: 56px;\n  }\n}\n/*# sourceMappingURL=dashboard.css.map */\n"] }]
   }], () => [{ type: PersonService }], null);
 })();
 (() => {
@@ -43976,14 +43985,69 @@ var DashboardComponent = class _DashboardComponent {
 
 // src/app/components/main-layout/main-layout.ts
 var _c02 = () => ({ exact: true });
+function MainLayoutComponent_Conditional_55_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 38);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r0.unseenCount());
+  }
+}
 var MainLayoutComponent = class _MainLayoutComponent {
   theme;
   authService;
   router;
+  http = inject2(HttpClient);
+  unseenCount = signal(0, ...ngDevMode ? [{ debugName: "unseenCount" }] : []);
+  routerSub;
+  pollTimer;
+  SEEN_KEY = "bookings_last_seen_count";
   constructor(theme, authService, router) {
     this.theme = theme;
     this.authService = authService;
     this.router = router;
+  }
+  ngOnInit() {
+    this.fetchBookingCount();
+    this.pollTimer = setInterval(() => this.fetchBookingCount(), 3e4);
+    this.routerSub = this.router.events.pipe(filter((e) => e instanceof NavigationEnd)).subscribe((e) => {
+      if (e.urlAfterRedirects?.startsWith("/app/orders")) {
+        this.markBookingsSeen();
+      }
+    });
+  }
+  ngOnDestroy() {
+    if (this.routerSub)
+      this.routerSub.unsubscribe();
+    if (this.pollTimer)
+      clearInterval(this.pollTimer);
+  }
+  fetchBookingCount() {
+    this.http.get("/api/ecomm/orders").subscribe({
+      next: (orders) => {
+        const totalCount = orders.length;
+        const lastSeen = parseInt(localStorage.getItem(this.SEEN_KEY) || "0", 10);
+        const unseen = Math.max(0, totalCount - lastSeen);
+        this.unseenCount.set(unseen);
+      },
+      error: () => {
+      }
+    });
+  }
+  markBookingsSeen() {
+    this.http.get("/api/ecomm/orders").subscribe({
+      next: (orders) => {
+        localStorage.setItem(this.SEEN_KEY, orders.length.toString());
+        this.unseenCount.set(0);
+      },
+      error: () => {
+        this.unseenCount.set(0);
+      }
+    });
   }
   /** Highlight Owners for directory, add, and edit routes. */
   ownersSectionActive() {
@@ -43996,7 +44060,7 @@ var MainLayoutComponent = class _MainLayoutComponent {
   static \u0275fac = function MainLayoutComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _MainLayoutComponent)(\u0275\u0275directiveInject(ThemeService), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MainLayoutComponent, selectors: [["app-main-layout"]], decls: 53, vars: 7, consts: [[1, "app-container"], ["aria-label", "Main navigation", 1, "sidebar"], ["aria-hidden", "true", 1, "sidebar-rail"], [1, "sidebar-inner"], ["routerLink", "/app/dashboard", "aria-label", "CallmeNow, merchant console", 1, "brand-block"], ["src", "/assets/marketing/callmenow-logo.png", "alt", "", 1, "brand-logo-img"], [1, "brand-text"], [1, "brand-tag"], [1, "nav-section-label"], [1, "sidebar-nav"], ["routerLink", "/app/dashboard", "routerLinkActive", "active", 1, "nav-item", 3, "routerLinkActiveOptions"], ["aria-hidden", "true", 1, "nav-icon-wrap"], ["viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", 1, "nav-svg"], ["d", "M4 19V9l8-5 8 5v10M9 19v-6h6v6", "stroke-linecap", "round", "stroke-linejoin", "round"], [1, "nav-label"], ["routerLink", "/app/inventory", "routerLinkActive", "active", 1, "nav-item"], ["d", "M4 7h4v10H4V7zm6-4h4v14h-4V3zm6 6h4v8h-4V9z", "stroke-linecap", "round", "stroke-linejoin", "round"], ["routerLink", "/app/contacts", 1, "nav-item"], ["d", "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2", "stroke-linecap", "round"], ["cx", "9", "cy", "7", "r", "4"], ["d", "M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75", "stroke-linecap", "round"], [1, "sidebar-footer"], [1, "footer-card"], [1, "footer-card-title"], [1, "footer-card-text"], [1, "content-wrap"], [1, "main-surface"], [1, "top-bar"], [1, "top-bar-spacer"], [1, "top-bar-actions"], ["type", "button", 1, "icon-btn", "theme-toggle", 3, "click", "title"], ["aria-hidden", "true", 1, "icon-btn-emoji"], ["title", "Account", "aria-hidden", "true", 1, "user-avatar"], ["viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "1.75", 1, "user-svg"], ["stroke-linecap", "round", "stroke-linejoin", "round", "d", "M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.118a7.5 7.5 0 0115 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"], ["type", "button", 1, "btn-logout-top", 3, "click"], [1, "main-content"]], template: function MainLayoutComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MainLayoutComponent, selectors: [["app-main-layout"]], decls: 63, vars: 8, consts: [[1, "app-container"], ["aria-label", "Main navigation", 1, "sidebar"], ["aria-hidden", "true", 1, "sidebar-rail"], [1, "sidebar-inner"], ["routerLink", "/app/dashboard", "aria-label", "CallmeNow, merchant console", 1, "brand-block"], ["src", "/assets/marketing/callmenow-logo.png", "alt", "", 1, "brand-logo-img"], [1, "brand-text"], [1, "brand-tag"], [1, "nav-section-label"], [1, "sidebar-nav"], ["routerLink", "/app/dashboard", "routerLinkActive", "active", 1, "nav-item", 3, "routerLinkActiveOptions"], ["aria-hidden", "true", 1, "nav-icon-wrap"], ["viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", 1, "nav-svg"], ["d", "M4 19V9l8-5 8 5v10M9 19v-6h6v6", "stroke-linecap", "round", "stroke-linejoin", "round"], [1, "nav-label"], ["routerLink", "/app/inventory", "routerLinkActive", "active", 1, "nav-item"], ["d", "M4 7h4v10H4V7zm6-4h4v14h-4V3zm6 6h4v8h-4V9z", "stroke-linecap", "round", "stroke-linejoin", "round"], ["routerLink", "/app/contacts", 1, "nav-item"], ["d", "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2", "stroke-linecap", "round"], ["cx", "9", "cy", "7", "r", "4"], ["d", "M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75", "stroke-linecap", "round"], ["routerLink", "/app/orders", "routerLinkActive", "active", 1, "nav-item"], ["fill", "none", "viewBox", "0 0 24 24", "stroke-width", "2", "stroke", "currentColor", 1, "nav-svg"], ["stroke-linecap", "round", "stroke-linejoin", "round", "d", "M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"], [1, "sidebar-footer"], [1, "footer-card"], [1, "footer-card-title"], [1, "footer-card-text"], [1, "content-wrap"], [1, "main-surface"], [1, "top-bar"], [1, "top-bar-spacer"], [1, "top-bar-actions"], ["type", "button", 1, "icon-btn", "theme-toggle", 3, "click", "title"], ["aria-hidden", "true", 1, "icon-btn-emoji"], ["routerLink", "/app/orders", "title", "View Bookings", 1, "icon-btn", "notification-btn", 3, "click"], ["viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", 2, "width", "1.2rem", "height", "1.2rem"], ["stroke-linecap", "round", "stroke-linejoin", "round", "d", "M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"], [1, "notification-badge"], ["title", "Account", "aria-hidden", "true", 1, "user-avatar"], ["viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "1.75", 1, "user-svg"], ["stroke-linecap", "round", "stroke-linejoin", "round", "d", "M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.118a7.5 7.5 0 0115 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"], ["type", "button", 1, "btn-logout-top", 3, "click"], [1, "main-content"]], template: function MainLayoutComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "aside", 1);
       \u0275\u0275element(2, "div", 2);
@@ -44034,50 +44098,72 @@ var MainLayoutComponent = class _MainLayoutComponent {
       \u0275\u0275namespaceHTML();
       \u0275\u0275elementStart(30, "span", 14);
       \u0275\u0275text(31, "Owners");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(32, "div", 21)(33, "div", 22)(34, "span", 23);
-      \u0275\u0275text(35, "CallmeNow");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(36, "span", 24);
-      \u0275\u0275text(37, "Inventory \xB7 activation \xB7 directory");
-      \u0275\u0275elementEnd()()()()();
-      \u0275\u0275elementStart(38, "div", 25)(39, "div", 26)(40, "header", 27);
-      \u0275\u0275element(41, "div", 28);
-      \u0275\u0275elementStart(42, "div", 29)(43, "button", 30);
-      \u0275\u0275listener("click", function MainLayoutComponent_Template_button_click_43_listener() {
-        return ctx.theme.toggle();
-      });
-      \u0275\u0275elementStart(44, "span", 31);
-      \u0275\u0275text(45);
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(46, "div", 32);
+      \u0275\u0275elementStart(32, "a", 21)(33, "span", 11);
       \u0275\u0275namespaceSVG();
-      \u0275\u0275elementStart(47, "svg", 33);
-      \u0275\u0275element(48, "path", 34);
+      \u0275\u0275elementStart(34, "svg", 22);
+      \u0275\u0275element(35, "path", 23);
       \u0275\u0275elementEnd()();
       \u0275\u0275namespaceHTML();
-      \u0275\u0275elementStart(49, "button", 35);
+      \u0275\u0275elementStart(36, "span", 14);
+      \u0275\u0275text(37, "Bookings");
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275elementStart(38, "div", 24)(39, "div", 25)(40, "span", 26);
+      \u0275\u0275text(41, "CallmeNow");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(42, "span", 27);
+      \u0275\u0275text(43, "Inventory \xB7 activation \xB7 directory");
+      \u0275\u0275elementEnd()()()()();
+      \u0275\u0275elementStart(44, "div", 28)(45, "div", 29)(46, "header", 30);
+      \u0275\u0275element(47, "div", 31);
+      \u0275\u0275elementStart(48, "div", 32)(49, "button", 33);
       \u0275\u0275listener("click", function MainLayoutComponent_Template_button_click_49_listener() {
+        return ctx.theme.toggle();
+      });
+      \u0275\u0275elementStart(50, "span", 34);
+      \u0275\u0275text(51);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(52, "a", 35);
+      \u0275\u0275listener("click", function MainLayoutComponent_Template_a_click_52_listener() {
+        return ctx.markBookingsSeen();
+      });
+      \u0275\u0275namespaceSVG();
+      \u0275\u0275elementStart(53, "svg", 36);
+      \u0275\u0275element(54, "path", 37);
+      \u0275\u0275elementEnd();
+      \u0275\u0275conditionalCreate(55, MainLayoutComponent_Conditional_55_Template, 2, 1, "div", 38);
+      \u0275\u0275elementEnd();
+      \u0275\u0275namespaceHTML();
+      \u0275\u0275elementStart(56, "div", 39);
+      \u0275\u0275namespaceSVG();
+      \u0275\u0275elementStart(57, "svg", 40);
+      \u0275\u0275element(58, "path", 41);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275namespaceHTML();
+      \u0275\u0275elementStart(59, "button", 42);
+      \u0275\u0275listener("click", function MainLayoutComponent_Template_button_click_59_listener() {
         return ctx.logout();
       });
-      \u0275\u0275text(50, "Logout");
+      \u0275\u0275text(60, "Logout");
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(51, "main", 36);
-      \u0275\u0275element(52, "router-outlet");
+      \u0275\u0275elementStart(61, "main", 43);
+      \u0275\u0275element(62, "router-outlet");
       \u0275\u0275elementEnd()()()();
     }
     if (rf & 2) {
       \u0275\u0275advance(12);
-      \u0275\u0275property("routerLinkActiveOptions", \u0275\u0275pureFunction0(6, _c02));
+      \u0275\u0275property("routerLinkActiveOptions", \u0275\u0275pureFunction0(7, _c02));
       \u0275\u0275advance(12);
       \u0275\u0275classProp("active", ctx.ownersSectionActive());
-      \u0275\u0275advance(19);
+      \u0275\u0275advance(25);
       \u0275\u0275property("title", ctx.theme.themeLabel());
       \u0275\u0275attribute("aria-label", ctx.theme.themeLabel());
       \u0275\u0275advance(2);
       \u0275\u0275textInterpolate(ctx.theme.themeIcon());
+      \u0275\u0275advance(4);
+      \u0275\u0275conditional(ctx.unseenCount() > 0 ? 55 : -1);
     }
-  }, dependencies: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive], styles: ['\n\n[_nghost-%COMP%] {\n  display: block;\n  min-height: 100vh;\n  --shell-sidebar-w: 252px;\n  --shell-topbar-h: 56px;\n}\n.app-container[_ngcontent-%COMP%] {\n  display: flex;\n  min-height: 100vh;\n  background: var(--cmn-page-bg);\n  color: var(--cmn-text);\n}\n.sidebar[_ngcontent-%COMP%] {\n  width: var(--shell-sidebar-w);\n  position: fixed;\n  left: 0;\n  top: 0;\n  height: 100vh;\n  height: 100dvh;\n  z-index: 1000;\n  display: flex;\n  background: var(--cmn-sidebar-bg);\n  border-right: 1px solid var(--cmn-sidebar-border);\n  box-shadow: var(--cmn-sidebar-shadow);\n  -webkit-backdrop-filter: blur(24px);\n  backdrop-filter: blur(24px);\n}\n.sidebar-rail[_ngcontent-%COMP%] {\n  width: 3px;\n  flex-shrink: 0;\n  background: var(--cmn-shell-rail);\n  box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .sidebar-rail[_ngcontent-%COMP%] {\n  box-shadow: 0 0 28px rgba(129, 140, 248, 0.25);\n}\n.sidebar-inner[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 0;\n  display: flex;\n  flex-direction: column;\n  padding: 0 8px 16px;\n  background:\n    linear-gradient(\n      165deg,\n      var(--cmn-sidebar-highlight) 0%,\n      transparent 42%);\n}\n.brand-block[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 12px 6px 14px;\n  text-decoration: none;\n  color: inherit;\n  border-radius: 14px;\n  margin: 0 0 4px;\n  transition: background 0.2s ease;\n}\n.brand-block[_ngcontent-%COMP%]:hover {\n  background: rgba(99, 102, 241, 0.06);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .brand-block[_ngcontent-%COMP%]:hover {\n  background: rgba(99, 102, 241, 0.1);\n}\n.brand-logo-img[_ngcontent-%COMP%] {\n  display: block;\n  flex-shrink: 0;\n  max-height: 48px;\n  max-width: min(240px, 100%);\n  width: auto;\n  height: auto;\n  object-fit: contain;\n  background: transparent;\n  padding: 4px 6px;\n  border-radius: 11px;\n  box-sizing: content-box;\n  box-shadow: none;\n}\n.brand-text[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  min-width: 0;\n}\n.brand-tag[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  font-weight: 600;\n  color: var(--cmn-text-muted);\n  letter-spacing: 0.02em;\n  text-transform: uppercase;\n}\n.nav-section-label[_ngcontent-%COMP%] {\n  font-size: 0.65rem;\n  font-weight: 700;\n  letter-spacing: 0.14em;\n  text-transform: uppercase;\n  color: var(--cmn-text-muted);\n  padding: 4px 8px 8px;\n  margin: 0;\n  opacity: 0.85;\n}\n.sidebar-nav[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 3px;\n  padding: 0;\n}\n.nav-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 10px 10px;\n  border-radius: 14px;\n  color: var(--cmn-nav);\n  font-weight: 600;\n  font-size: 0.94rem;\n  text-decoration: none;\n  transition:\n    background 0.2s ease,\n    color 0.2s ease,\n    box-shadow 0.2s ease,\n    transform 0.15s ease;\n  position: relative;\n}\n.nav-item[_ngcontent-%COMP%]::before {\n  content: "";\n  position: absolute;\n  left: 0;\n  top: 50%;\n  transform: translateY(-50%) scaleY(0);\n  width: 3px;\n  height: 0;\n  border-radius: 0 4px 4px 0;\n  background: var(--cmn-nav-active-border);\n  transition: height 0.2s ease, transform 0.2s ease;\n}\n.nav-item[_ngcontent-%COMP%]:hover {\n  background: rgba(99, 102, 241, 0.08);\n  color: var(--cmn-nav-hover);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .nav-item[_ngcontent-%COMP%]:hover {\n  background: rgba(99, 102, 241, 0.12);\n}\n.nav-item.active[_ngcontent-%COMP%] {\n  background: var(--cmn-nav-active-bg);\n  color: var(--cmn-nav-active);\n  box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.2), 0 4px 14px rgba(99, 102, 241, 0.12);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .nav-item.active[_ngcontent-%COMP%] {\n  box-shadow: inset 0 0 0 1px rgba(129, 140, 248, 0.25), 0 6px 20px rgba(0, 0, 0, 0.2);\n}\n.nav-item.active[_ngcontent-%COMP%]::before {\n  height: 60%;\n  transform: translateY(-50%) scaleY(1);\n}\n.nav-icon-wrap[_ngcontent-%COMP%] {\n  width: 40px;\n  height: 40px;\n  border-radius: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(99, 102, 241, 0.08);\n  color: var(--cmn-nav);\n  transition: inherit;\n}\n.nav-item[_ngcontent-%COMP%]:hover   .nav-icon-wrap[_ngcontent-%COMP%] {\n  background: rgba(99, 102, 241, 0.14);\n  color: var(--cmn-nav-hover);\n}\n.nav-item.active[_ngcontent-%COMP%]   .nav-icon-wrap[_ngcontent-%COMP%] {\n  background: rgba(99, 102, 241, 0.2);\n  color: var(--cmn-nav-active);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .nav-icon-wrap[_ngcontent-%COMP%] {\n  background: rgba(129, 140, 248, 0.1);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .nav-item.active[_ngcontent-%COMP%]   .nav-icon-wrap[_ngcontent-%COMP%] {\n  background: rgba(129, 140, 248, 0.22);\n}\n.nav-svg[_ngcontent-%COMP%] {\n  width: 20px;\n  height: 20px;\n}\n.nav-label[_ngcontent-%COMP%] {\n  flex: 1;\n}\n.sidebar-footer[_ngcontent-%COMP%] {\n  margin-top: auto;\n  padding: 8px 0 0;\n}\n.footer-card[_ngcontent-%COMP%] {\n  border-radius: 12px;\n  padding: 12px 12px;\n  background: rgba(99, 102, 241, 0.07);\n  border: 1px solid rgba(99, 102, 241, 0.12);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .footer-card[_ngcontent-%COMP%] {\n  background: rgba(30, 30, 55, 0.6);\n  border-color: rgba(129, 140, 248, 0.15);\n}\n.footer-card-title[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 0.8rem;\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 4px;\n}\n.footer-card-text[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  color: var(--cmn-text-muted);\n  line-height: 1.4;\n}\n.content-wrap[_ngcontent-%COMP%] {\n  flex: 1;\n  margin-left: var(--shell-sidebar-w);\n  min-width: 0;\n  min-height: 100vh;\n  display: flex;\n  flex-direction: column;\n}\n.main-surface[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  min-height: 100dvh;\n  background: var(--cmn-main-glow);\n  padding-top: calc(var(--shell-topbar-h) + env(safe-area-inset-top, 0px));\n}\n.top-bar[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 10px;\n  height: var(--shell-topbar-h);\n  min-height: var(--shell-topbar-h);\n  padding: 0 clamp(12px, 3vw, 24px);\n  box-sizing: border-box;\n  border-bottom: 1px solid var(--cmn-sidebar-border);\n  background: var(--cmn-topbar-bg);\n  -webkit-backdrop-filter: blur(16px);\n  backdrop-filter: blur(16px);\n  box-shadow: var(--cmn-topbar-shadow);\n  position: fixed;\n  top: env(safe-area-inset-top, 0px);\n  left: var(--shell-sidebar-w);\n  right: 0;\n  z-index: 900;\n}\n.top-bar-spacer[_ngcontent-%COMP%] {\n  flex: 1;\n}\n.top-bar-actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.icon-btn[_ngcontent-%COMP%] {\n  width: 40px;\n  height: 40px;\n  border-radius: 12px;\n  border: 1px solid var(--cmn-card-border);\n  background: var(--cmn-card-bg-solid);\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition:\n    background 0.2s ease,\n    border-color 0.2s ease,\n    transform 0.15s ease;\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .icon-btn[_ngcontent-%COMP%] {\n  background: rgba(30, 30, 50, 0.88);\n}\n.icon-btn[_ngcontent-%COMP%]:hover {\n  border-color: rgba(99, 102, 241, 0.45);\n  background: rgba(99, 102, 241, 0.1);\n  transform: translateY(-1px);\n}\n.icon-btn-emoji[_ngcontent-%COMP%] {\n  font-size: 1.15rem;\n  line-height: 1;\n}\n.user-avatar[_ngcontent-%COMP%] {\n  width: 40px;\n  height: 40px;\n  border-radius: 12px;\n  background: var(--cmn-user-avatar-bg);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #4f46e5;\n  border: 1px solid var(--cmn-card-border);\n  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.15);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .user-avatar[_ngcontent-%COMP%] {\n  color: #fff;\n  border-color: rgba(129, 140, 248, 0.3);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);\n}\n.user-svg[_ngcontent-%COMP%] {\n  width: 22px;\n  height: 22px;\n}\n.btn-logout-top[_ngcontent-%COMP%] {\n  padding: 8px 16px;\n  border-radius: 12px;\n  border: 1px solid rgba(239, 68, 68, 0.22);\n  background: rgba(239, 68, 68, 0.06);\n  color: #dc2626;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition:\n    background 0.2s ease,\n    border-color 0.2s ease,\n    transform 0.15s ease;\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .btn-logout-top[_ngcontent-%COMP%] {\n  color: #f87171;\n  background: rgba(239, 68, 68, 0.1);\n  border-color: rgba(239, 68, 68, 0.25);\n}\n.btn-logout-top[_ngcontent-%COMP%]:hover {\n  background: rgba(239, 68, 68, 0.14);\n  border-color: rgba(239, 68, 68, 0.4);\n  transform: translateY(-1px);\n}\n.main-content[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: clamp(14px, 3vw, 28px) clamp(14px, 4vw, 40px) clamp(28px, 5vw, 56px);\n  padding-bottom: max(clamp(28px, 5vw, 56px), env(safe-area-inset-bottom, 0px));\n  max-width: 1400px;\n  width: 100%;\n  margin: 0 auto;\n}\n@media (max-width: 900px) {\n  [_nghost-%COMP%] {\n    --shell-sidebar-w: 76px;\n    --shell-topbar-h: 52px;\n  }\n  .sidebar[_ngcontent-%COMP%] {\n    width: var(--shell-sidebar-w);\n  }\n  .sidebar-rail[_ngcontent-%COMP%] {\n    width: 3px;\n  }\n  .sidebar-inner[_ngcontent-%COMP%] {\n    padding: 0 6px 12px;\n  }\n  .brand-text[_ngcontent-%COMP%], \n   .nav-section-label[_ngcontent-%COMP%], \n   .nav-label[_ngcontent-%COMP%], \n   .sidebar-footer[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .brand-block[_ngcontent-%COMP%] {\n    justify-content: center;\n    padding: 18px 8px;\n  }\n  .brand-logo-img[_ngcontent-%COMP%] {\n    margin: 0;\n    max-height: 44px;\n    max-width: 100%;\n    padding: 5px 6px;\n  }\n  .content-wrap[_ngcontent-%COMP%] {\n    margin-left: var(--shell-sidebar-w);\n  }\n  .nav-item[_ngcontent-%COMP%] {\n    justify-content: center;\n    padding: 12px;\n  }\n  .nav-icon-wrap[_ngcontent-%COMP%] {\n    margin: 0;\n  }\n  .main-content[_ngcontent-%COMP%] {\n    padding: 14px clamp(10px, 3vw, 16px) max(32px, env(safe-area-inset-bottom, 0px));\n  }\n}\n@media (max-width: 480px) {\n  [_nghost-%COMP%] {\n    --shell-topbar-h: 50px;\n    --shell-sidebar-w: 64px;\n  }\n  .nav-icon-wrap[_ngcontent-%COMP%] {\n    width: 36px;\n    height: 36px;\n    border-radius: 11px;\n  }\n  .nav-svg[_ngcontent-%COMP%] {\n    width: 18px;\n    height: 18px;\n  }\n  .top-bar-actions[_ngcontent-%COMP%] {\n    gap: 6px;\n  }\n  .btn-logout-top[_ngcontent-%COMP%] {\n    padding: 8px 12px;\n    font-size: 0.85rem;\n  }\n}\n@media (max-width: 600px) {\n  [_nghost-%COMP%] {\n    --shell-sidebar-w: 0px;\n    --shell-bottomnav-h: 64px;\n  }\n  .sidebar[_ngcontent-%COMP%] {\n    width: 100%;\n    height: calc(var(--shell-bottomnav-h) + env(safe-area-inset-bottom, 0px));\n    top: auto;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    border-right: none;\n    border-top: 1px solid var(--cmn-sidebar-border);\n    -webkit-backdrop-filter: blur(18px);\n    backdrop-filter: blur(18px);\n  }\n  .sidebar-rail[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .sidebar-inner[_ngcontent-%COMP%] {\n    flex-direction: row;\n    align-items: center;\n    justify-content: center;\n    padding: 6px 8px;\n    background: transparent;\n  }\n  .brand-block[_ngcontent-%COMP%], \n   .sidebar-footer[_ngcontent-%COMP%], \n   .nav-section-label[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .sidebar-nav[_ngcontent-%COMP%] {\n    flex: 1;\n    flex-direction: row;\n    justify-content: space-around;\n    align-items: center;\n    gap: 6px;\n    padding: 0;\n  }\n  .nav-item[_ngcontent-%COMP%] {\n    flex: 1;\n    justify-content: center;\n    padding: 10px 6px;\n  }\n  .nav-icon-wrap[_ngcontent-%COMP%] {\n    width: 42px;\n    height: 42px;\n    border-radius: 14px;\n  }\n  .content-wrap[_ngcontent-%COMP%] {\n    margin-left: 0;\n  }\n  .top-bar[_ngcontent-%COMP%] {\n    left: 0;\n  }\n  .main-surface[_ngcontent-%COMP%] {\n    padding-bottom: calc(var(--shell-bottomnav-h) + env(safe-area-inset-bottom, 0px));\n  }\n}\n@media (max-width: 360px) {\n  .user-avatar[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .btn-logout-top[_ngcontent-%COMP%] {\n    padding: 7px 10px;\n    font-size: 0.78rem;\n  }\n  .icon-btn[_ngcontent-%COMP%] {\n    width: 38px;\n    height: 38px;\n  }\n}\n/*# sourceMappingURL=main-layout.css.map */'] });
+  }, dependencies: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive], styles: ['\n\n[_nghost-%COMP%] {\n  display: block;\n  min-height: 100vh;\n  --shell-sidebar-w: 252px;\n  --shell-topbar-h: 56px;\n}\n.app-container[_ngcontent-%COMP%] {\n  display: flex;\n  min-height: 100vh;\n  background: var(--cmn-page-bg);\n  color: var(--cmn-text);\n}\n.sidebar[_ngcontent-%COMP%] {\n  width: var(--shell-sidebar-w);\n  position: fixed;\n  left: 0;\n  top: 0;\n  height: 100vh;\n  height: 100dvh;\n  z-index: 1000;\n  display: flex;\n  background: var(--cmn-sidebar-bg);\n  border-right: 1px solid var(--cmn-sidebar-border);\n  box-shadow: var(--cmn-sidebar-shadow);\n  -webkit-backdrop-filter: blur(24px);\n  backdrop-filter: blur(24px);\n}\n.sidebar-rail[_ngcontent-%COMP%] {\n  width: 3px;\n  flex-shrink: 0;\n  background: var(--cmn-shell-rail);\n  box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .sidebar-rail[_ngcontent-%COMP%] {\n  box-shadow: 0 0 28px rgba(129, 140, 248, 0.25);\n}\n.sidebar-inner[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 0;\n  display: flex;\n  flex-direction: column;\n  padding: 0 8px 16px;\n  background:\n    linear-gradient(\n      165deg,\n      var(--cmn-sidebar-highlight) 0%,\n      transparent 42%);\n}\n.brand-block[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 12px 6px 14px;\n  text-decoration: none;\n  color: inherit;\n  border-radius: 14px;\n  margin: 0 0 4px;\n  transition: background 0.2s ease;\n}\n.brand-block[_ngcontent-%COMP%]:hover {\n  background: rgba(99, 102, 241, 0.06);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .brand-block[_ngcontent-%COMP%]:hover {\n  background: rgba(99, 102, 241, 0.1);\n}\n.brand-logo-img[_ngcontent-%COMP%] {\n  display: block;\n  flex-shrink: 0;\n  max-height: 48px;\n  max-width: min(240px, 100%);\n  width: auto;\n  height: auto;\n  object-fit: contain;\n  background: transparent;\n  padding: 4px 6px;\n  border-radius: 11px;\n  box-sizing: content-box;\n  box-shadow: none;\n}\n.brand-text[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  min-width: 0;\n}\n.brand-tag[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  font-weight: 600;\n  color: var(--cmn-text-muted);\n  letter-spacing: 0.02em;\n  text-transform: uppercase;\n}\n.nav-section-label[_ngcontent-%COMP%] {\n  font-size: 0.65rem;\n  font-weight: 700;\n  letter-spacing: 0.14em;\n  text-transform: uppercase;\n  color: var(--cmn-text-muted);\n  padding: 4px 8px 8px;\n  margin: 0;\n  opacity: 0.85;\n}\n.sidebar-nav[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 3px;\n  padding: 0;\n}\n.nav-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 10px 10px;\n  border-radius: 14px;\n  color: var(--cmn-nav);\n  font-weight: 600;\n  font-size: 0.94rem;\n  text-decoration: none;\n  transition:\n    background 0.2s ease,\n    color 0.2s ease,\n    box-shadow 0.2s ease,\n    transform 0.15s ease;\n  position: relative;\n}\n.nav-item[_ngcontent-%COMP%]::before {\n  content: "";\n  position: absolute;\n  left: 0;\n  top: 50%;\n  transform: translateY(-50%) scaleY(0);\n  width: 3px;\n  height: 0;\n  border-radius: 0 4px 4px 0;\n  background: var(--cmn-nav-active-border);\n  transition: height 0.2s ease, transform 0.2s ease;\n}\n.nav-item[_ngcontent-%COMP%]:hover {\n  background: rgba(99, 102, 241, 0.08);\n  color: var(--cmn-nav-hover);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .nav-item[_ngcontent-%COMP%]:hover {\n  background: rgba(99, 102, 241, 0.12);\n}\n.nav-item.active[_ngcontent-%COMP%] {\n  background: var(--cmn-nav-active-bg);\n  color: var(--cmn-nav-active);\n  box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.2), 0 4px 14px rgba(99, 102, 241, 0.12);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .nav-item.active[_ngcontent-%COMP%] {\n  box-shadow: inset 0 0 0 1px rgba(129, 140, 248, 0.25), 0 6px 20px rgba(0, 0, 0, 0.2);\n}\n.nav-item.active[_ngcontent-%COMP%]::before {\n  height: 60%;\n  transform: translateY(-50%) scaleY(1);\n}\n.nav-icon-wrap[_ngcontent-%COMP%] {\n  width: 40px;\n  height: 40px;\n  border-radius: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(99, 102, 241, 0.08);\n  color: var(--cmn-nav);\n  transition: inherit;\n}\n.nav-item[_ngcontent-%COMP%]:hover   .nav-icon-wrap[_ngcontent-%COMP%] {\n  background: rgba(99, 102, 241, 0.14);\n  color: var(--cmn-nav-hover);\n}\n.nav-item.active[_ngcontent-%COMP%]   .nav-icon-wrap[_ngcontent-%COMP%] {\n  background: rgba(99, 102, 241, 0.2);\n  color: var(--cmn-nav-active);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .nav-icon-wrap[_ngcontent-%COMP%] {\n  background: rgba(129, 140, 248, 0.1);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .nav-item.active[_ngcontent-%COMP%]   .nav-icon-wrap[_ngcontent-%COMP%] {\n  background: rgba(129, 140, 248, 0.22);\n}\n.nav-svg[_ngcontent-%COMP%] {\n  width: 20px;\n  height: 20px;\n}\n.nav-label[_ngcontent-%COMP%] {\n  flex: 1;\n}\n.sidebar-footer[_ngcontent-%COMP%] {\n  margin-top: auto;\n  padding: 8px 0 0;\n}\n.footer-card[_ngcontent-%COMP%] {\n  border-radius: 12px;\n  padding: 12px 12px;\n  background: rgba(99, 102, 241, 0.07);\n  border: 1px solid rgba(99, 102, 241, 0.12);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .footer-card[_ngcontent-%COMP%] {\n  background: rgba(30, 30, 55, 0.6);\n  border-color: rgba(129, 140, 248, 0.15);\n}\n.footer-card-title[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 0.8rem;\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 4px;\n}\n.footer-card-text[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  color: var(--cmn-text-muted);\n  line-height: 1.4;\n}\n.content-wrap[_ngcontent-%COMP%] {\n  flex: 1;\n  margin-left: var(--shell-sidebar-w);\n  min-width: 0;\n  min-height: 100vh;\n  display: flex;\n  flex-direction: column;\n}\n.main-surface[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  min-height: 100dvh;\n  background: var(--cmn-main-glow);\n  padding-top: calc(var(--shell-topbar-h) + env(safe-area-inset-top, 0px));\n}\n.top-bar[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 10px;\n  height: var(--shell-topbar-h);\n  min-height: var(--shell-topbar-h);\n  padding: 0 clamp(12px, 3vw, 24px);\n  box-sizing: border-box;\n  border-bottom: 1px solid var(--cmn-sidebar-border);\n  background: var(--cmn-topbar-bg);\n  -webkit-backdrop-filter: blur(16px);\n  backdrop-filter: blur(16px);\n  box-shadow: var(--cmn-topbar-shadow);\n  position: fixed;\n  top: env(safe-area-inset-top, 0px);\n  left: var(--shell-sidebar-w);\n  right: 0;\n  z-index: 900;\n}\n.top-bar-spacer[_ngcontent-%COMP%] {\n  flex: 1;\n}\n.top-bar-actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.icon-btn[_ngcontent-%COMP%] {\n  width: 40px;\n  height: 40px;\n  border-radius: 12px;\n  border: 1px solid var(--cmn-card-border);\n  background: var(--cmn-card-bg-solid);\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition:\n    background 0.2s ease,\n    border-color 0.2s ease,\n    transform 0.15s ease;\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .icon-btn[_ngcontent-%COMP%] {\n  background: rgba(30, 30, 50, 0.88);\n}\n.icon-btn[_ngcontent-%COMP%]:hover {\n  border-color: rgba(99, 102, 241, 0.45);\n  background: rgba(99, 102, 241, 0.1);\n  transform: translateY(-1px);\n}\n.icon-btn-emoji[_ngcontent-%COMP%] {\n  font-size: 1.15rem;\n  line-height: 1;\n}\n.notification-btn[_ngcontent-%COMP%] {\n  position: relative;\n  text-decoration: none;\n  color: var(--cmn-text);\n}\n.notification-badge[_ngcontent-%COMP%] {\n  position: absolute;\n  top: -4px;\n  right: -4px;\n  min-width: 18px;\n  height: 18px;\n  padding: 0 5px;\n  background: #ef4444;\n  border-radius: 10px;\n  border: 2px solid var(--cmn-card-bg-solid);\n  color: white;\n  font-size: 0.65rem;\n  font-weight: 800;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  line-height: 1;\n  animation: _ngcontent-%COMP%_badgePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);\n}\n@keyframes _ngcontent-%COMP%_badgePop {\n  0% {\n    transform: scale(0);\n  }\n  100% {\n    transform: scale(1);\n  }\n}\n.user-avatar[_ngcontent-%COMP%] {\n  width: 40px;\n  height: 40px;\n  border-radius: 12px;\n  background: var(--cmn-user-avatar-bg);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #4f46e5;\n  border: 1px solid var(--cmn-card-border);\n  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.15);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .user-avatar[_ngcontent-%COMP%] {\n  color: #fff;\n  border-color: rgba(129, 140, 248, 0.3);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);\n}\n.user-svg[_ngcontent-%COMP%] {\n  width: 22px;\n  height: 22px;\n}\n.btn-logout-top[_ngcontent-%COMP%] {\n  padding: 8px 16px;\n  border-radius: 12px;\n  border: 1px solid rgba(239, 68, 68, 0.22);\n  background: rgba(239, 68, 68, 0.06);\n  color: #dc2626;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition:\n    background 0.2s ease,\n    border-color 0.2s ease,\n    transform 0.15s ease;\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .btn-logout-top[_ngcontent-%COMP%] {\n  color: #f87171;\n  background: rgba(239, 68, 68, 0.1);\n  border-color: rgba(239, 68, 68, 0.25);\n}\n.btn-logout-top[_ngcontent-%COMP%]:hover {\n  background: rgba(239, 68, 68, 0.14);\n  border-color: rgba(239, 68, 68, 0.4);\n  transform: translateY(-1px);\n}\n.main-content[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: clamp(14px, 3vw, 28px) clamp(14px, 4vw, 40px) clamp(28px, 5vw, 56px);\n  padding-bottom: max(clamp(28px, 5vw, 56px), env(safe-area-inset-bottom, 0px));\n  max-width: 1400px;\n  width: 100%;\n  margin: 0 auto;\n}\n@media (max-width: 900px) {\n  [_nghost-%COMP%] {\n    --shell-sidebar-w: 76px;\n    --shell-topbar-h: 52px;\n  }\n  .sidebar[_ngcontent-%COMP%] {\n    width: var(--shell-sidebar-w);\n  }\n  .sidebar-rail[_ngcontent-%COMP%] {\n    width: 3px;\n  }\n  .sidebar-inner[_ngcontent-%COMP%] {\n    padding: 0 6px 12px;\n  }\n  .brand-text[_ngcontent-%COMP%], \n   .nav-section-label[_ngcontent-%COMP%], \n   .nav-label[_ngcontent-%COMP%], \n   .sidebar-footer[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .brand-block[_ngcontent-%COMP%] {\n    justify-content: center;\n    padding: 18px 8px;\n  }\n  .brand-logo-img[_ngcontent-%COMP%] {\n    margin: 0;\n    max-height: 44px;\n    max-width: 100%;\n    padding: 5px 6px;\n  }\n  .content-wrap[_ngcontent-%COMP%] {\n    margin-left: var(--shell-sidebar-w);\n  }\n  .nav-item[_ngcontent-%COMP%] {\n    justify-content: center;\n    padding: 12px;\n  }\n  .nav-icon-wrap[_ngcontent-%COMP%] {\n    margin: 0;\n  }\n  .main-content[_ngcontent-%COMP%] {\n    padding: 14px clamp(10px, 3vw, 16px) max(32px, env(safe-area-inset-bottom, 0px));\n  }\n}\n@media (max-width: 480px) {\n  [_nghost-%COMP%] {\n    --shell-topbar-h: 50px;\n    --shell-sidebar-w: 64px;\n  }\n  .nav-icon-wrap[_ngcontent-%COMP%] {\n    width: 36px;\n    height: 36px;\n    border-radius: 11px;\n  }\n  .nav-svg[_ngcontent-%COMP%] {\n    width: 18px;\n    height: 18px;\n  }\n  .top-bar-actions[_ngcontent-%COMP%] {\n    gap: 6px;\n  }\n  .btn-logout-top[_ngcontent-%COMP%] {\n    padding: 8px 12px;\n    font-size: 0.85rem;\n  }\n}\n@media (max-width: 600px) {\n  [_nghost-%COMP%] {\n    --shell-sidebar-w: 0px;\n    --shell-bottomnav-h: 64px;\n  }\n  .sidebar[_ngcontent-%COMP%] {\n    width: 100%;\n    height: calc(var(--shell-bottomnav-h) + env(safe-area-inset-bottom, 0px));\n    top: auto;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    border-right: none;\n    border-top: 1px solid var(--cmn-sidebar-border);\n    -webkit-backdrop-filter: blur(18px);\n    backdrop-filter: blur(18px);\n  }\n  .sidebar-rail[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .sidebar-inner[_ngcontent-%COMP%] {\n    flex-direction: row;\n    align-items: center;\n    justify-content: center;\n    padding: 6px 8px;\n    background: transparent;\n  }\n  .brand-block[_ngcontent-%COMP%], \n   .sidebar-footer[_ngcontent-%COMP%], \n   .nav-section-label[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .sidebar-nav[_ngcontent-%COMP%] {\n    flex: 1;\n    flex-direction: row;\n    justify-content: space-around;\n    align-items: center;\n    gap: 6px;\n    padding: 0;\n  }\n  .nav-item[_ngcontent-%COMP%] {\n    flex: 1;\n    justify-content: center;\n    padding: 10px 6px;\n  }\n  .nav-icon-wrap[_ngcontent-%COMP%] {\n    width: 42px;\n    height: 42px;\n    border-radius: 14px;\n  }\n  .content-wrap[_ngcontent-%COMP%] {\n    margin-left: 0;\n  }\n  .top-bar[_ngcontent-%COMP%] {\n    left: 0;\n  }\n  .main-surface[_ngcontent-%COMP%] {\n    padding-bottom: calc(var(--shell-bottomnav-h) + env(safe-area-inset-bottom, 0px));\n  }\n}\n@media (max-width: 360px) {\n  .user-avatar[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .btn-logout-top[_ngcontent-%COMP%] {\n    padding: 7px 10px;\n    font-size: 0.78rem;\n  }\n  .icon-btn[_ngcontent-%COMP%] {\n    width: 38px;\n    height: 38px;\n  }\n}\n/*# sourceMappingURL=main-layout.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MainLayoutComponent, [{
@@ -44131,6 +44217,15 @@ var MainLayoutComponent = class _MainLayoutComponent {
               </span>
               <span class="nav-label">Owners</span>
             </a>
+            <a routerLink="/app/orders" routerLinkActive="active" class="nav-item">
+              <span class="nav-icon-wrap" aria-hidden="true">
+                <!-- Shopping Bag / Box Icon -->
+                <svg class="nav-svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+              </span>
+              <span class="nav-label">Bookings</span>
+            </a>
           </nav>
 
           <div class="sidebar-footer">
@@ -44156,6 +44251,17 @@ var MainLayoutComponent = class _MainLayoutComponent {
               >
                 <span class="icon-btn-emoji" aria-hidden="true">{{ theme.themeIcon() }}</span>
               </button>
+              
+              <!-- Notification Bell for Bookings -->
+              <a routerLink="/app/orders" class="icon-btn notification-btn" title="View Bookings" (click)="markBookingsSeen()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:1.2rem;height:1.2rem;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                </svg>
+                @if (unseenCount() > 0) {
+                  <div class="notification-badge">{{ unseenCount() }}</div>
+                }
+              </a>
+
               <div class="user-avatar" title="Account" aria-hidden="true">
                 <svg class="user-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
                   <path
@@ -44175,142 +44281,11 @@ var MainLayoutComponent = class _MainLayoutComponent {
         </div>
       </div>
     </div>
-  `, styles: ['/* angular:styles/component:css;024126229f2dd6630fdb9d2fe1dab79805729142dfa614056a75e85f25070a86;C:/Users/LENOVO/Downloads/QRCodeApp/QRCodeApp/qrcode-app-ui/src/app/components/main-layout/main-layout.ts */\n:host {\n  display: block;\n  min-height: 100vh;\n  --shell-sidebar-w: 252px;\n  --shell-topbar-h: 56px;\n}\n.app-container {\n  display: flex;\n  min-height: 100vh;\n  background: var(--cmn-page-bg);\n  color: var(--cmn-text);\n}\n.sidebar {\n  width: var(--shell-sidebar-w);\n  position: fixed;\n  left: 0;\n  top: 0;\n  height: 100vh;\n  height: 100dvh;\n  z-index: 1000;\n  display: flex;\n  background: var(--cmn-sidebar-bg);\n  border-right: 1px solid var(--cmn-sidebar-border);\n  box-shadow: var(--cmn-sidebar-shadow);\n  -webkit-backdrop-filter: blur(24px);\n  backdrop-filter: blur(24px);\n}\n.sidebar-rail {\n  width: 3px;\n  flex-shrink: 0;\n  background: var(--cmn-shell-rail);\n  box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);\n}\nhtml[data-theme=dark] .sidebar-rail {\n  box-shadow: 0 0 28px rgba(129, 140, 248, 0.25);\n}\n.sidebar-inner {\n  flex: 1;\n  min-width: 0;\n  display: flex;\n  flex-direction: column;\n  padding: 0 8px 16px;\n  background:\n    linear-gradient(\n      165deg,\n      var(--cmn-sidebar-highlight) 0%,\n      transparent 42%);\n}\n.brand-block {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 12px 6px 14px;\n  text-decoration: none;\n  color: inherit;\n  border-radius: 14px;\n  margin: 0 0 4px;\n  transition: background 0.2s ease;\n}\n.brand-block:hover {\n  background: rgba(99, 102, 241, 0.06);\n}\nhtml[data-theme=dark] .brand-block:hover {\n  background: rgba(99, 102, 241, 0.1);\n}\n.brand-logo-img {\n  display: block;\n  flex-shrink: 0;\n  max-height: 48px;\n  max-width: min(240px, 100%);\n  width: auto;\n  height: auto;\n  object-fit: contain;\n  background: transparent;\n  padding: 4px 6px;\n  border-radius: 11px;\n  box-sizing: content-box;\n  box-shadow: none;\n}\n.brand-text {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  min-width: 0;\n}\n.brand-tag {\n  font-size: 0.72rem;\n  font-weight: 600;\n  color: var(--cmn-text-muted);\n  letter-spacing: 0.02em;\n  text-transform: uppercase;\n}\n.nav-section-label {\n  font-size: 0.65rem;\n  font-weight: 700;\n  letter-spacing: 0.14em;\n  text-transform: uppercase;\n  color: var(--cmn-text-muted);\n  padding: 4px 8px 8px;\n  margin: 0;\n  opacity: 0.85;\n}\n.sidebar-nav {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 3px;\n  padding: 0;\n}\n.nav-item {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 10px 10px;\n  border-radius: 14px;\n  color: var(--cmn-nav);\n  font-weight: 600;\n  font-size: 0.94rem;\n  text-decoration: none;\n  transition:\n    background 0.2s ease,\n    color 0.2s ease,\n    box-shadow 0.2s ease,\n    transform 0.15s ease;\n  position: relative;\n}\n.nav-item::before {\n  content: "";\n  position: absolute;\n  left: 0;\n  top: 50%;\n  transform: translateY(-50%) scaleY(0);\n  width: 3px;\n  height: 0;\n  border-radius: 0 4px 4px 0;\n  background: var(--cmn-nav-active-border);\n  transition: height 0.2s ease, transform 0.2s ease;\n}\n.nav-item:hover {\n  background: rgba(99, 102, 241, 0.08);\n  color: var(--cmn-nav-hover);\n}\nhtml[data-theme=dark] .nav-item:hover {\n  background: rgba(99, 102, 241, 0.12);\n}\n.nav-item.active {\n  background: var(--cmn-nav-active-bg);\n  color: var(--cmn-nav-active);\n  box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.2), 0 4px 14px rgba(99, 102, 241, 0.12);\n}\nhtml[data-theme=dark] .nav-item.active {\n  box-shadow: inset 0 0 0 1px rgba(129, 140, 248, 0.25), 0 6px 20px rgba(0, 0, 0, 0.2);\n}\n.nav-item.active::before {\n  height: 60%;\n  transform: translateY(-50%) scaleY(1);\n}\n.nav-icon-wrap {\n  width: 40px;\n  height: 40px;\n  border-radius: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(99, 102, 241, 0.08);\n  color: var(--cmn-nav);\n  transition: inherit;\n}\n.nav-item:hover .nav-icon-wrap {\n  background: rgba(99, 102, 241, 0.14);\n  color: var(--cmn-nav-hover);\n}\n.nav-item.active .nav-icon-wrap {\n  background: rgba(99, 102, 241, 0.2);\n  color: var(--cmn-nav-active);\n}\nhtml[data-theme=dark] .nav-icon-wrap {\n  background: rgba(129, 140, 248, 0.1);\n}\nhtml[data-theme=dark] .nav-item.active .nav-icon-wrap {\n  background: rgba(129, 140, 248, 0.22);\n}\n.nav-svg {\n  width: 20px;\n  height: 20px;\n}\n.nav-label {\n  flex: 1;\n}\n.sidebar-footer {\n  margin-top: auto;\n  padding: 8px 0 0;\n}\n.footer-card {\n  border-radius: 12px;\n  padding: 12px 12px;\n  background: rgba(99, 102, 241, 0.07);\n  border: 1px solid rgba(99, 102, 241, 0.12);\n}\nhtml[data-theme=dark] .footer-card {\n  background: rgba(30, 30, 55, 0.6);\n  border-color: rgba(129, 140, 248, 0.15);\n}\n.footer-card-title {\n  display: block;\n  font-size: 0.8rem;\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 4px;\n}\n.footer-card-text {\n  font-size: 0.72rem;\n  color: var(--cmn-text-muted);\n  line-height: 1.4;\n}\n.content-wrap {\n  flex: 1;\n  margin-left: var(--shell-sidebar-w);\n  min-width: 0;\n  min-height: 100vh;\n  display: flex;\n  flex-direction: column;\n}\n.main-surface {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  min-height: 100dvh;\n  background: var(--cmn-main-glow);\n  padding-top: calc(var(--shell-topbar-h) + env(safe-area-inset-top, 0px));\n}\n.top-bar {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 10px;\n  height: var(--shell-topbar-h);\n  min-height: var(--shell-topbar-h);\n  padding: 0 clamp(12px, 3vw, 24px);\n  box-sizing: border-box;\n  border-bottom: 1px solid var(--cmn-sidebar-border);\n  background: var(--cmn-topbar-bg);\n  -webkit-backdrop-filter: blur(16px);\n  backdrop-filter: blur(16px);\n  box-shadow: var(--cmn-topbar-shadow);\n  position: fixed;\n  top: env(safe-area-inset-top, 0px);\n  left: var(--shell-sidebar-w);\n  right: 0;\n  z-index: 900;\n}\n.top-bar-spacer {\n  flex: 1;\n}\n.top-bar-actions {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.icon-btn {\n  width: 40px;\n  height: 40px;\n  border-radius: 12px;\n  border: 1px solid var(--cmn-card-border);\n  background: var(--cmn-card-bg-solid);\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition:\n    background 0.2s ease,\n    border-color 0.2s ease,\n    transform 0.15s ease;\n}\nhtml[data-theme=dark] .icon-btn {\n  background: rgba(30, 30, 50, 0.88);\n}\n.icon-btn:hover {\n  border-color: rgba(99, 102, 241, 0.45);\n  background: rgba(99, 102, 241, 0.1);\n  transform: translateY(-1px);\n}\n.icon-btn-emoji {\n  font-size: 1.15rem;\n  line-height: 1;\n}\n.user-avatar {\n  width: 40px;\n  height: 40px;\n  border-radius: 12px;\n  background: var(--cmn-user-avatar-bg);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #4f46e5;\n  border: 1px solid var(--cmn-card-border);\n  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.15);\n}\nhtml[data-theme=dark] .user-avatar {\n  color: #fff;\n  border-color: rgba(129, 140, 248, 0.3);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);\n}\n.user-svg {\n  width: 22px;\n  height: 22px;\n}\n.btn-logout-top {\n  padding: 8px 16px;\n  border-radius: 12px;\n  border: 1px solid rgba(239, 68, 68, 0.22);\n  background: rgba(239, 68, 68, 0.06);\n  color: #dc2626;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition:\n    background 0.2s ease,\n    border-color 0.2s ease,\n    transform 0.15s ease;\n}\nhtml[data-theme=dark] .btn-logout-top {\n  color: #f87171;\n  background: rgba(239, 68, 68, 0.1);\n  border-color: rgba(239, 68, 68, 0.25);\n}\n.btn-logout-top:hover {\n  background: rgba(239, 68, 68, 0.14);\n  border-color: rgba(239, 68, 68, 0.4);\n  transform: translateY(-1px);\n}\n.main-content {\n  flex: 1;\n  padding: clamp(14px, 3vw, 28px) clamp(14px, 4vw, 40px) clamp(28px, 5vw, 56px);\n  padding-bottom: max(clamp(28px, 5vw, 56px), env(safe-area-inset-bottom, 0px));\n  max-width: 1400px;\n  width: 100%;\n  margin: 0 auto;\n}\n@media (max-width: 900px) {\n  :host {\n    --shell-sidebar-w: 76px;\n    --shell-topbar-h: 52px;\n  }\n  .sidebar {\n    width: var(--shell-sidebar-w);\n  }\n  .sidebar-rail {\n    width: 3px;\n  }\n  .sidebar-inner {\n    padding: 0 6px 12px;\n  }\n  .brand-text,\n  .nav-section-label,\n  .nav-label,\n  .sidebar-footer {\n    display: none;\n  }\n  .brand-block {\n    justify-content: center;\n    padding: 18px 8px;\n  }\n  .brand-logo-img {\n    margin: 0;\n    max-height: 44px;\n    max-width: 100%;\n    padding: 5px 6px;\n  }\n  .content-wrap {\n    margin-left: var(--shell-sidebar-w);\n  }\n  .nav-item {\n    justify-content: center;\n    padding: 12px;\n  }\n  .nav-icon-wrap {\n    margin: 0;\n  }\n  .main-content {\n    padding: 14px clamp(10px, 3vw, 16px) max(32px, env(safe-area-inset-bottom, 0px));\n  }\n}\n@media (max-width: 480px) {\n  :host {\n    --shell-topbar-h: 50px;\n    --shell-sidebar-w: 64px;\n  }\n  .nav-icon-wrap {\n    width: 36px;\n    height: 36px;\n    border-radius: 11px;\n  }\n  .nav-svg {\n    width: 18px;\n    height: 18px;\n  }\n  .top-bar-actions {\n    gap: 6px;\n  }\n  .btn-logout-top {\n    padding: 8px 12px;\n    font-size: 0.85rem;\n  }\n}\n@media (max-width: 600px) {\n  :host {\n    --shell-sidebar-w: 0px;\n    --shell-bottomnav-h: 64px;\n  }\n  .sidebar {\n    width: 100%;\n    height: calc(var(--shell-bottomnav-h) + env(safe-area-inset-bottom, 0px));\n    top: auto;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    border-right: none;\n    border-top: 1px solid var(--cmn-sidebar-border);\n    -webkit-backdrop-filter: blur(18px);\n    backdrop-filter: blur(18px);\n  }\n  .sidebar-rail {\n    display: none;\n  }\n  .sidebar-inner {\n    flex-direction: row;\n    align-items: center;\n    justify-content: center;\n    padding: 6px 8px;\n    background: transparent;\n  }\n  .brand-block,\n  .sidebar-footer,\n  .nav-section-label {\n    display: none;\n  }\n  .sidebar-nav {\n    flex: 1;\n    flex-direction: row;\n    justify-content: space-around;\n    align-items: center;\n    gap: 6px;\n    padding: 0;\n  }\n  .nav-item {\n    flex: 1;\n    justify-content: center;\n    padding: 10px 6px;\n  }\n  .nav-icon-wrap {\n    width: 42px;\n    height: 42px;\n    border-radius: 14px;\n  }\n  .content-wrap {\n    margin-left: 0;\n  }\n  .top-bar {\n    left: 0;\n  }\n  .main-surface {\n    padding-bottom: calc(var(--shell-bottomnav-h) + env(safe-area-inset-bottom, 0px));\n  }\n}\n@media (max-width: 360px) {\n  .user-avatar {\n    display: none;\n  }\n  .btn-logout-top {\n    padding: 7px 10px;\n    font-size: 0.78rem;\n  }\n  .icon-btn {\n    width: 38px;\n    height: 38px;\n  }\n}\n/*# sourceMappingURL=main-layout.css.map */\n'] }]
+  `, styles: ['/* angular:styles/component:css;cc3a10f798faccef4fe3c280901fc99b7c51364cad38ae45623ef5b4c56e47ac;C:/Users/LENOVO/source/repos/rk92104/callmenow/qrcode-app-ui/src/app/components/main-layout/main-layout.ts */\n:host {\n  display: block;\n  min-height: 100vh;\n  --shell-sidebar-w: 252px;\n  --shell-topbar-h: 56px;\n}\n.app-container {\n  display: flex;\n  min-height: 100vh;\n  background: var(--cmn-page-bg);\n  color: var(--cmn-text);\n}\n.sidebar {\n  width: var(--shell-sidebar-w);\n  position: fixed;\n  left: 0;\n  top: 0;\n  height: 100vh;\n  height: 100dvh;\n  z-index: 1000;\n  display: flex;\n  background: var(--cmn-sidebar-bg);\n  border-right: 1px solid var(--cmn-sidebar-border);\n  box-shadow: var(--cmn-sidebar-shadow);\n  -webkit-backdrop-filter: blur(24px);\n  backdrop-filter: blur(24px);\n}\n.sidebar-rail {\n  width: 3px;\n  flex-shrink: 0;\n  background: var(--cmn-shell-rail);\n  box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);\n}\nhtml[data-theme=dark] .sidebar-rail {\n  box-shadow: 0 0 28px rgba(129, 140, 248, 0.25);\n}\n.sidebar-inner {\n  flex: 1;\n  min-width: 0;\n  display: flex;\n  flex-direction: column;\n  padding: 0 8px 16px;\n  background:\n    linear-gradient(\n      165deg,\n      var(--cmn-sidebar-highlight) 0%,\n      transparent 42%);\n}\n.brand-block {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 12px 6px 14px;\n  text-decoration: none;\n  color: inherit;\n  border-radius: 14px;\n  margin: 0 0 4px;\n  transition: background 0.2s ease;\n}\n.brand-block:hover {\n  background: rgba(99, 102, 241, 0.06);\n}\nhtml[data-theme=dark] .brand-block:hover {\n  background: rgba(99, 102, 241, 0.1);\n}\n.brand-logo-img {\n  display: block;\n  flex-shrink: 0;\n  max-height: 48px;\n  max-width: min(240px, 100%);\n  width: auto;\n  height: auto;\n  object-fit: contain;\n  background: transparent;\n  padding: 4px 6px;\n  border-radius: 11px;\n  box-sizing: content-box;\n  box-shadow: none;\n}\n.brand-text {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  min-width: 0;\n}\n.brand-tag {\n  font-size: 0.72rem;\n  font-weight: 600;\n  color: var(--cmn-text-muted);\n  letter-spacing: 0.02em;\n  text-transform: uppercase;\n}\n.nav-section-label {\n  font-size: 0.65rem;\n  font-weight: 700;\n  letter-spacing: 0.14em;\n  text-transform: uppercase;\n  color: var(--cmn-text-muted);\n  padding: 4px 8px 8px;\n  margin: 0;\n  opacity: 0.85;\n}\n.sidebar-nav {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 3px;\n  padding: 0;\n}\n.nav-item {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 10px 10px;\n  border-radius: 14px;\n  color: var(--cmn-nav);\n  font-weight: 600;\n  font-size: 0.94rem;\n  text-decoration: none;\n  transition:\n    background 0.2s ease,\n    color 0.2s ease,\n    box-shadow 0.2s ease,\n    transform 0.15s ease;\n  position: relative;\n}\n.nav-item::before {\n  content: "";\n  position: absolute;\n  left: 0;\n  top: 50%;\n  transform: translateY(-50%) scaleY(0);\n  width: 3px;\n  height: 0;\n  border-radius: 0 4px 4px 0;\n  background: var(--cmn-nav-active-border);\n  transition: height 0.2s ease, transform 0.2s ease;\n}\n.nav-item:hover {\n  background: rgba(99, 102, 241, 0.08);\n  color: var(--cmn-nav-hover);\n}\nhtml[data-theme=dark] .nav-item:hover {\n  background: rgba(99, 102, 241, 0.12);\n}\n.nav-item.active {\n  background: var(--cmn-nav-active-bg);\n  color: var(--cmn-nav-active);\n  box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.2), 0 4px 14px rgba(99, 102, 241, 0.12);\n}\nhtml[data-theme=dark] .nav-item.active {\n  box-shadow: inset 0 0 0 1px rgba(129, 140, 248, 0.25), 0 6px 20px rgba(0, 0, 0, 0.2);\n}\n.nav-item.active::before {\n  height: 60%;\n  transform: translateY(-50%) scaleY(1);\n}\n.nav-icon-wrap {\n  width: 40px;\n  height: 40px;\n  border-radius: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(99, 102, 241, 0.08);\n  color: var(--cmn-nav);\n  transition: inherit;\n}\n.nav-item:hover .nav-icon-wrap {\n  background: rgba(99, 102, 241, 0.14);\n  color: var(--cmn-nav-hover);\n}\n.nav-item.active .nav-icon-wrap {\n  background: rgba(99, 102, 241, 0.2);\n  color: var(--cmn-nav-active);\n}\nhtml[data-theme=dark] .nav-icon-wrap {\n  background: rgba(129, 140, 248, 0.1);\n}\nhtml[data-theme=dark] .nav-item.active .nav-icon-wrap {\n  background: rgba(129, 140, 248, 0.22);\n}\n.nav-svg {\n  width: 20px;\n  height: 20px;\n}\n.nav-label {\n  flex: 1;\n}\n.sidebar-footer {\n  margin-top: auto;\n  padding: 8px 0 0;\n}\n.footer-card {\n  border-radius: 12px;\n  padding: 12px 12px;\n  background: rgba(99, 102, 241, 0.07);\n  border: 1px solid rgba(99, 102, 241, 0.12);\n}\nhtml[data-theme=dark] .footer-card {\n  background: rgba(30, 30, 55, 0.6);\n  border-color: rgba(129, 140, 248, 0.15);\n}\n.footer-card-title {\n  display: block;\n  font-size: 0.8rem;\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin-bottom: 4px;\n}\n.footer-card-text {\n  font-size: 0.72rem;\n  color: var(--cmn-text-muted);\n  line-height: 1.4;\n}\n.content-wrap {\n  flex: 1;\n  margin-left: var(--shell-sidebar-w);\n  min-width: 0;\n  min-height: 100vh;\n  display: flex;\n  flex-direction: column;\n}\n.main-surface {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  min-height: 100dvh;\n  background: var(--cmn-main-glow);\n  padding-top: calc(var(--shell-topbar-h) + env(safe-area-inset-top, 0px));\n}\n.top-bar {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 10px;\n  height: var(--shell-topbar-h);\n  min-height: var(--shell-topbar-h);\n  padding: 0 clamp(12px, 3vw, 24px);\n  box-sizing: border-box;\n  border-bottom: 1px solid var(--cmn-sidebar-border);\n  background: var(--cmn-topbar-bg);\n  -webkit-backdrop-filter: blur(16px);\n  backdrop-filter: blur(16px);\n  box-shadow: var(--cmn-topbar-shadow);\n  position: fixed;\n  top: env(safe-area-inset-top, 0px);\n  left: var(--shell-sidebar-w);\n  right: 0;\n  z-index: 900;\n}\n.top-bar-spacer {\n  flex: 1;\n}\n.top-bar-actions {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.icon-btn {\n  width: 40px;\n  height: 40px;\n  border-radius: 12px;\n  border: 1px solid var(--cmn-card-border);\n  background: var(--cmn-card-bg-solid);\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition:\n    background 0.2s ease,\n    border-color 0.2s ease,\n    transform 0.15s ease;\n}\nhtml[data-theme=dark] .icon-btn {\n  background: rgba(30, 30, 50, 0.88);\n}\n.icon-btn:hover {\n  border-color: rgba(99, 102, 241, 0.45);\n  background: rgba(99, 102, 241, 0.1);\n  transform: translateY(-1px);\n}\n.icon-btn-emoji {\n  font-size: 1.15rem;\n  line-height: 1;\n}\n.notification-btn {\n  position: relative;\n  text-decoration: none;\n  color: var(--cmn-text);\n}\n.notification-badge {\n  position: absolute;\n  top: -4px;\n  right: -4px;\n  min-width: 18px;\n  height: 18px;\n  padding: 0 5px;\n  background: #ef4444;\n  border-radius: 10px;\n  border: 2px solid var(--cmn-card-bg-solid);\n  color: white;\n  font-size: 0.65rem;\n  font-weight: 800;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  line-height: 1;\n  animation: badgePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);\n}\n@keyframes badgePop {\n  0% {\n    transform: scale(0);\n  }\n  100% {\n    transform: scale(1);\n  }\n}\n.user-avatar {\n  width: 40px;\n  height: 40px;\n  border-radius: 12px;\n  background: var(--cmn-user-avatar-bg);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #4f46e5;\n  border: 1px solid var(--cmn-card-border);\n  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.15);\n}\nhtml[data-theme=dark] .user-avatar {\n  color: #fff;\n  border-color: rgba(129, 140, 248, 0.3);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);\n}\n.user-svg {\n  width: 22px;\n  height: 22px;\n}\n.btn-logout-top {\n  padding: 8px 16px;\n  border-radius: 12px;\n  border: 1px solid rgba(239, 68, 68, 0.22);\n  background: rgba(239, 68, 68, 0.06);\n  color: #dc2626;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition:\n    background 0.2s ease,\n    border-color 0.2s ease,\n    transform 0.15s ease;\n}\nhtml[data-theme=dark] .btn-logout-top {\n  color: #f87171;\n  background: rgba(239, 68, 68, 0.1);\n  border-color: rgba(239, 68, 68, 0.25);\n}\n.btn-logout-top:hover {\n  background: rgba(239, 68, 68, 0.14);\n  border-color: rgba(239, 68, 68, 0.4);\n  transform: translateY(-1px);\n}\n.main-content {\n  flex: 1;\n  padding: clamp(14px, 3vw, 28px) clamp(14px, 4vw, 40px) clamp(28px, 5vw, 56px);\n  padding-bottom: max(clamp(28px, 5vw, 56px), env(safe-area-inset-bottom, 0px));\n  max-width: 1400px;\n  width: 100%;\n  margin: 0 auto;\n}\n@media (max-width: 900px) {\n  :host {\n    --shell-sidebar-w: 76px;\n    --shell-topbar-h: 52px;\n  }\n  .sidebar {\n    width: var(--shell-sidebar-w);\n  }\n  .sidebar-rail {\n    width: 3px;\n  }\n  .sidebar-inner {\n    padding: 0 6px 12px;\n  }\n  .brand-text,\n  .nav-section-label,\n  .nav-label,\n  .sidebar-footer {\n    display: none;\n  }\n  .brand-block {\n    justify-content: center;\n    padding: 18px 8px;\n  }\n  .brand-logo-img {\n    margin: 0;\n    max-height: 44px;\n    max-width: 100%;\n    padding: 5px 6px;\n  }\n  .content-wrap {\n    margin-left: var(--shell-sidebar-w);\n  }\n  .nav-item {\n    justify-content: center;\n    padding: 12px;\n  }\n  .nav-icon-wrap {\n    margin: 0;\n  }\n  .main-content {\n    padding: 14px clamp(10px, 3vw, 16px) max(32px, env(safe-area-inset-bottom, 0px));\n  }\n}\n@media (max-width: 480px) {\n  :host {\n    --shell-topbar-h: 50px;\n    --shell-sidebar-w: 64px;\n  }\n  .nav-icon-wrap {\n    width: 36px;\n    height: 36px;\n    border-radius: 11px;\n  }\n  .nav-svg {\n    width: 18px;\n    height: 18px;\n  }\n  .top-bar-actions {\n    gap: 6px;\n  }\n  .btn-logout-top {\n    padding: 8px 12px;\n    font-size: 0.85rem;\n  }\n}\n@media (max-width: 600px) {\n  :host {\n    --shell-sidebar-w: 0px;\n    --shell-bottomnav-h: 64px;\n  }\n  .sidebar {\n    width: 100%;\n    height: calc(var(--shell-bottomnav-h) + env(safe-area-inset-bottom, 0px));\n    top: auto;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    border-right: none;\n    border-top: 1px solid var(--cmn-sidebar-border);\n    -webkit-backdrop-filter: blur(18px);\n    backdrop-filter: blur(18px);\n  }\n  .sidebar-rail {\n    display: none;\n  }\n  .sidebar-inner {\n    flex-direction: row;\n    align-items: center;\n    justify-content: center;\n    padding: 6px 8px;\n    background: transparent;\n  }\n  .brand-block,\n  .sidebar-footer,\n  .nav-section-label {\n    display: none;\n  }\n  .sidebar-nav {\n    flex: 1;\n    flex-direction: row;\n    justify-content: space-around;\n    align-items: center;\n    gap: 6px;\n    padding: 0;\n  }\n  .nav-item {\n    flex: 1;\n    justify-content: center;\n    padding: 10px 6px;\n  }\n  .nav-icon-wrap {\n    width: 42px;\n    height: 42px;\n    border-radius: 14px;\n  }\n  .content-wrap {\n    margin-left: 0;\n  }\n  .top-bar {\n    left: 0;\n  }\n  .main-surface {\n    padding-bottom: calc(var(--shell-bottomnav-h) + env(safe-area-inset-bottom, 0px));\n  }\n}\n@media (max-width: 360px) {\n  .user-avatar {\n    display: none;\n  }\n  .btn-logout-top {\n    padding: 7px 10px;\n    font-size: 0.78rem;\n  }\n  .icon-btn {\n    width: 38px;\n    height: 38px;\n  }\n}\n/*# sourceMappingURL=main-layout.css.map */\n'] }]
   }], () => [{ type: ThemeService }, { type: AuthService }, { type: Router }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MainLayoutComponent, { className: "MainLayoutComponent", filePath: "src/app/components/main-layout/main-layout.ts", lineNumber: 673 });
-})();
-
-// src/app/components/cmn-sticker-label/cmn-sticker-label.component.ts
-function CmnStickerLabelComponent_Conditional_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275domElementStart(0, "h2", 15);
-    \u0275\u0275text(1, "Scan to contact the vehicle owner");
-    \u0275\u0275domElementEnd();
-    \u0275\u0275domElement(2, "div", 16);
-    \u0275\u0275domElementStart(3, "div", 17)(4, "p", 18);
-    \u0275\u0275text(5, " Wrong parking, Emergency contact");
-    \u0275\u0275domElement(6, "br");
-    \u0275\u0275domElementStart(7, "span", 19);
-    \u0275\u0275text(8, "or any issue with the vehicle");
-    \u0275\u0275domElementEnd()()();
-  }
-}
-function CmnStickerLabelComponent_Conditional_7_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275domElementStart(0, "h2", 15);
-    \u0275\u0275text(1, "Scan to activate");
-    \u0275\u0275domElementEnd();
-    \u0275\u0275domElement(2, "div", 16);
-    \u0275\u0275domElementStart(3, "div", 17)(4, "p", 18);
-    \u0275\u0275text(5, " Link after purchase \u2014 your number never appears");
-    \u0275\u0275domElement(6, "br");
-    \u0275\u0275domElementStart(7, "span", 19);
-    \u0275\u0275text(8, "on the sticker. Scan to set up your tag.");
-    \u0275\u0275domElementEnd()()();
-  }
-}
-var CmnStickerLabelComponent = class _CmnStickerLabelComponent {
-  qrImageUrl = input.required(...ngDevMode ? [{ debugName: "qrImageUrl" }] : []);
-  code = input.required(...ngDevMode ? [{ debugName: "code" }] : []);
-  /** `scan` = vehicle sticker copy; `activate` = packaging copy. */
-  variant = input("scan", ...ngDevMode ? [{ debugName: "variant" }] : []);
-  /** Sticker shape for screen + print (inventory preview). */
-  layout = input("horizontal", ...ngDevMode ? [{ debugName: "layout" }] : []);
-  /** Brand mark — default SVG asset; override with another URL or `data:image/svg+xml,...` if needed. */
-  logoUrl = input("assets/marketing/callmenow-logo.png", ...ngDevMode ? [{ debugName: "logoUrl" }] : []);
-  static \u0275fac = function CmnStickerLabelComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _CmnStickerLabelComponent)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _CmnStickerLabelComponent, selectors: [["app-cmn-sticker-label"]], inputs: { qrImageUrl: [1, "qrImageUrl"], code: [1, "code"], variant: [1, "variant"], layout: [1, "layout"], logoUrl: [1, "logoUrl"] }, decls: 22, vars: 3, consts: [[1, "cmn-sticker"], [1, "cmn-sticker__qr-col"], ["width", "160", "height", "160", "alt", "", "decoding", "async", 1, "cmn-sticker__qr", 3, "src"], [1, "cmn-sticker__code"], [1, "cmn-sticker__copy-col"], [1, "cmn-sticker__brand"], ["viewBox", "0 0 200 28", "xmlns", "http://www.w3.org/2000/svg", "aria-label", "CallmeNow", "role", "img", 1, "cmn-sticker__mark"], ["width", "200", "height", "28", "fill", "#ffffff", "aria-hidden", "true"], ["x", "0", "y", "20.5", "fill", "var(--cmn-sticker-orange)", "font-family", "Arial, Helvetica, sans-serif", "font-size", "14", "font-weight", "700"], ["x", "47", "y", "20.5", "fill", "#000000", "font-family", "Arial, Helvetica, sans-serif", "font-size", "14", "font-weight", "800"], ["transform", "translate(74, 1.8)", "aria-hidden", "true"], ["x", "0.3", "y", "0.3", "width", "8.2", "height", "13.4", "rx", "1.25", "fill", "none", "stroke", "var(--cmn-sticker-orange)", "stroke-width", "1.05"], ["x", "1.15", "y", "1.75", "width", "5.9", "height", "7.15", "rx", "0.45", "fill", "#fff5e6", "stroke", "var(--cmn-sticker-orange)", "stroke-width", "0.24"], ["fill", "#ffffff", "d", "M4 4.85 C3.35 4.05 2.35 4.35 2.35 5.2 C2.35 5.95 4 7.45 4 7.45 S5.65 5.95 5.65 5.2 C5.65 4.35 4.65 4.05 4 4.85 Z"], ["cx", "4", "cy", "11.15", "r", "0.52", "fill", "#ffffff", "stroke", "var(--cmn-sticker-orange)", "stroke-width", "0.22"], [1, "cmn-sticker__headline"], ["aria-hidden", "true", 1, "cmn-sticker__rule"], [1, "cmn-sticker__blurb-wrap"], [1, "cmn-sticker__blurb"], [1, "cmn-sticker__blurb-line2"]], template: function CmnStickerLabelComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275domElementStart(0, "div", 0)(1, "div", 1);
-      \u0275\u0275domElement(2, "img", 2);
-      \u0275\u0275domElementStart(3, "p", 3);
-      \u0275\u0275text(4);
-      \u0275\u0275domElementEnd()();
-      \u0275\u0275domElementStart(5, "div", 4);
-      \u0275\u0275conditionalCreate(6, CmnStickerLabelComponent_Conditional_6_Template, 9, 0)(7, CmnStickerLabelComponent_Conditional_7_Template, 9, 0);
-      \u0275\u0275domElementStart(8, "div", 5);
-      \u0275\u0275namespaceSVG();
-      \u0275\u0275domElementStart(9, "svg", 6)(10, "title");
-      \u0275\u0275text(11, "CallmeNow");
-      \u0275\u0275domElementEnd();
-      \u0275\u0275domElement(12, "rect", 7);
-      \u0275\u0275domElementStart(13, "text", 8);
-      \u0275\u0275text(14, " Callme ");
-      \u0275\u0275domElementEnd();
-      \u0275\u0275domElementStart(15, "text", 9);
-      \u0275\u0275text(16, "Now");
-      \u0275\u0275domElementEnd();
-      \u0275\u0275domElementStart(17, "g", 10);
-      \u0275\u0275domElement(18, "rect", 11)(19, "rect", 12)(20, "path", 13)(21, "circle", 14);
-      \u0275\u0275domElementEnd()()()()();
-    }
-    if (rf & 2) {
-      \u0275\u0275advance(2);
-      \u0275\u0275domProperty("src", ctx.qrImageUrl(), \u0275\u0275sanitizeUrl);
-      \u0275\u0275advance(2);
-      \u0275\u0275textInterpolate(ctx.code());
-      \u0275\u0275advance(2);
-      \u0275\u0275conditional(ctx.variant() === "scan" ? 6 : 7);
-    }
-  }, dependencies: [CommonModule], styles: ['\n\n.cmn-sticker[_ngcontent-%COMP%] {\n  --cmn-sticker-orange: #e68a4f;\n  --cmn-sticker-ink: #000000;\n  --cmn-sticker-card-bg: #ffffff;\n  --cmn-sticker-card-radius: 20px;\n  display: grid;\n  grid-template-columns: minmax(0, 30fr) minmax(0, 70fr);\n  align-items: stretch;\n  background: var(--cmn-sticker-card-bg);\n  border-radius: var(--cmn-sticker-card-radius);\n  padding: 14px 16px 12px;\n  border: 1px solid #e5e5e5;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);\n  font-family:\n    "Roboto",\n    "Helvetica Neue",\n    Arial,\n    Helvetica,\n    sans-serif;\n  max-width: 100%;\n  box-sizing: border-box;\n}\n@media (min-width: 360px) {\n  .cmn-sticker[_ngcontent-%COMP%]:not(.cmn-sticker--vertical) {\n    aspect-ratio: 97 / 34;\n    max-width: min(100%, 23.5rem);\n    margin-left: auto;\n    margin-right: auto;\n  }\n}\n.cmn-sticker__qr-col[_ngcontent-%COMP%] {\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  width: 136px;\n  gap: 0.4rem;\n  min-width: 0;\n  padding-top: 2px;\n}\n.cmn-sticker__qr[_ngcontent-%COMP%] {\n  width: min(8.15rem, 36vw);\n  height: 110px;\n  aspect-ratio: 1;\n  object-fit: contain;\n  display: block;\n  image-rendering: pixelated;\n  image-rendering: crisp-edges;\n}\n.cmn-sticker__code[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 12px;\n  font-weight: 800;\n  letter-spacing: 0.06em;\n  color: var(--cmn-sticker-ink);\n  text-align: center;\n  line-height: 1.15;\n  word-break: break-all;\n  max-width: 100%;\n}\n.cmn-sticker__copy-col[_ngcontent-%COMP%] {\n  flex-direction: column;\n  align-items: stretch;\n  justify-content: flex-start;\n  gap: 0.2rem;\n  padding: 7px 2px 0 20px;\n  min-width: 0;\n  min-height: 0;\n  height: 100%;\n  text-align: left;\n}\n.cmn-sticker__head-block[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.cmn-sticker__headline[_ngcontent-%COMP%] {\n  margin: 0;\n  padding-top: 4px;\n  width: 224px;\n  font-size: clamp(0.64rem, 2.45vw, 0.76rem);\n  font-weight: 800;\n  line-height: 1.15;\n  letter-spacing: 0.03em;\n  color: var(--cmn-sticker-ink);\n  text-transform: uppercase;\n  text-align: left;\n  font-family:\n    "Roboto",\n    "Arial Narrow",\n    "Helvetica Neue Condensed",\n    Arial,\n    Helvetica,\n    sans-serif;\n  font-stretch: condensed;\n  box-sizing: border-box;\n}\n.cmn-sticker__rule[_ngcontent-%COMP%] {\n  height: 2px;\n  width: 100%;\n  margin-top: 0.35rem;\n  background: var(--cmn-sticker-orange);\n  flex-shrink: 0;\n}\n.cmn-sticker[_ngcontent-%COMP%]:not(.cmn-sticker--vertical)   .cmn-sticker__blurb-wrap[_ngcontent-%COMP%] {\n  flex: 1 1 auto;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 100%;\n  min-height: 0;\n  margin-top: 0.25rem;\n}\n.cmn-sticker[_ngcontent-%COMP%]:not(.cmn-sticker--vertical)   .cmn-sticker__blurb[_ngcontent-%COMP%] {\n  text-align: center;\n}\n.cmn-sticker[_ngcontent-%COMP%]:not(.cmn-sticker--vertical)   .cmn-sticker__brand[_ngcontent-%COMP%] {\n  justify-content: center;\n  padding-top: 0.4rem;\n}\n.cmn-sticker__blurb-wrap[_ngcontent-%COMP%] {\n  flex: 1 1 auto;\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  width: 100%;\n  min-height: 0;\n  margin-top: 0.2rem;\n}\n.cmn-sticker__blurb[_ngcontent-%COMP%] {\n  font-size: 13px;\n  font-weight: 500;\n  line-height: 1.35;\n  color: var(--cmn-sticker-ink);\n  text-align: left;\n  max-width: 100%;\n  margin: 7px;\n}\n.cmn-sticker__blurb-line2[_ngcontent-%COMP%] {\n  display: inline-block;\n  margin-top: 0.04rem;\n}\n.cmn-sticker__brand[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: flex-end;\n  align-items: flex-end;\n  width: 100%;\n  padding-top: 0.3rem;\n  padding-bottom: 2px;\n  margin-top: auto;\n  flex-shrink: 0;\n}\n.cmn-sticker__mark[_ngcontent-%COMP%] {\n  display: block;\n  height: clamp(2.2rem, 7.5vw, 2.6rem);\n  width: auto;\n  max-width: 90%;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%] {\n  --cmn-sticker-card-bg: #ffffff;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  background: #fff;\n  border-radius: 22px;\n  padding: 20px 18px 22px;\n  max-width: min(100%, 18rem);\n  width: 100%;\n  margin-left: auto;\n  margin-right: auto;\n  aspect-ratio: 7 / 11;\n  box-sizing: border-box;\n  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);\n  border: 1px solid #ececec;\n  height: 424px;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__qr-col[_ngcontent-%COMP%] {\n  flex: 1 1 52%;\n  min-height: 0;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 0;\n  padding-top: 2px;\n  width: 100%;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__code[_ngcontent-%COMP%] {\n  display: none;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__qr[_ngcontent-%COMP%] {\n  width: min(92%, 13.75rem);\n  max-width: 220px;\n  height: auto;\n  max-height: min(46vmin, 13rem);\n  margin-top: 0;\n  flex: 0 1 auto;\n  aspect-ratio: 1;\n  object-fit: contain;\n  image-rendering: pixelated;\n  image-rendering: crisp-edges;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__copy-col[_ngcontent-%COMP%] {\n  flex: 1 1 48%;\n  min-height: 0;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  text-align: center;\n  padding: 0.55rem 0.5rem 0.15rem;\n  gap: 0;\n  width: 100%;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__head-block[_ngcontent-%COMP%] {\n  width: 100%;\n  max-width: 15.5rem;\n  margin: 0 auto;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__headline[_ngcontent-%COMP%] {\n  text-align: center;\n  width: 100%;\n  max-width: 15.5rem;\n  margin: 0 auto;\n  font-size: clamp(0.62rem, 2.8vw, 0.74rem);\n  font-weight: 800;\n  line-height: 1.2;\n  letter-spacing: 0.04em;\n  padding-top: 0.35rem;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__rule[_ngcontent-%COMP%] {\n  width: 100%;\n  max-width: 15.5rem;\n  margin: 0.45rem auto 0;\n  height: 2px;\n  background: var(--cmn-sticker-orange);\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__blurb-wrap[_ngcontent-%COMP%] {\n  flex: 0 1 auto;\n  display: flex;\n  justify-content: center;\n  align-items: flex-start;\n  margin-top: 0.5rem;\n  width: 100%;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__blurb[_ngcontent-%COMP%] {\n  margin: 0;\n  text-align: center;\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 1.3;\n  max-width: 14.5rem;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__brand[_ngcontent-%COMP%] {\n  justify-content: center;\n  margin-top: auto;\n  padding-top: 1rem;\n  padding-bottom: 4px;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__mark[_ngcontent-%COMP%] {\n  max-width: 85%;\n  height: 94px;\n  width: auto;\n}\n@media (max-width: 340px) {\n  .cmn-sticker[_ngcontent-%COMP%]:not(.cmn-sticker--vertical) {\n    grid-template-columns: 1fr;\n    aspect-ratio: auto;\n    justify-items: center;\n    padding: 14px 14px 12px;\n  }\n  .cmn-sticker[_ngcontent-%COMP%]:not(.cmn-sticker--vertical)   .cmn-sticker__copy-col[_ngcontent-%COMP%] {\n    max-width: 17.5rem;\n    width: 100%;\n  }\n}\n@media print {\n  .cmn-sticker[_ngcontent-%COMP%] {\n    box-shadow: none;\n    -webkit-print-color-adjust: exact;\n    print-color-adjust: exact;\n  }\n}\n/*# sourceMappingURL=cmn-sticker-label.component.css.map */'] });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CmnStickerLabelComponent, [{
-    type: Component,
-    args: [{ selector: "app-cmn-sticker-label", standalone: true, imports: [CommonModule], template: `<div class="cmn-sticker">
-  <div class="cmn-sticker__qr-col">
-    <img class="cmn-sticker__qr" [src]="qrImageUrl()" width="160" height="160" alt="" decoding="async" />
-    <p class="cmn-sticker__code">{{ code() }}</p>
-  </div>
-  <div class="cmn-sticker__copy-col">
-    @if (variant() === 'scan') {
-      <h2 class="cmn-sticker__headline">Scan to contact the vehicle owner</h2>
-      <div class="cmn-sticker__rule" aria-hidden="true"></div>
-      <div class="cmn-sticker__blurb-wrap">
-        <p class="cmn-sticker__blurb">
-          Wrong parking, Emergency contact<br />
-          <span class="cmn-sticker__blurb-line2">or any issue with the vehicle</span>
-        </p>
-      </div>
-    } @else {
-      <h2 class="cmn-sticker__headline">Scan to activate</h2>
-      <div class="cmn-sticker__rule" aria-hidden="true"></div>
-      <div class="cmn-sticker__blurb-wrap">
-        <p class="cmn-sticker__blurb">
-          Link after purchase \u2014 your number never appears<br />
-          <span class="cmn-sticker__blurb-line2">on the sticker. Scan to set up your tag.</span>
-        </p>
-      </div>
-    }
-    <div class="cmn-sticker__brand">
-      <svg class="cmn-sticker__mark" viewBox="0 0 200 28" xmlns="http://www.w3.org/2000/svg" aria-label="CallmeNow" role="img">
-        <title>CallmeNow</title>
-        <rect width="200" height="28" fill="#ffffff" aria-hidden="true" />
-        <text x="0" y="20.5" fill="var(--cmn-sticker-orange)" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">
-          Callme
-        </text>
-        <text x="47" y="20.5" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800">Now</text>
-        <g transform="translate(74, 1.8)" aria-hidden="true">
-          <rect x="0.3" y="0.3" width="8.2" height="13.4" rx="1.25" fill="none" stroke="var(--cmn-sticker-orange)" stroke-width="1.05" />
-          <rect x="1.15" y="1.75" width="5.9" height="7.15" rx="0.45" fill="#fff5e6" stroke="var(--cmn-sticker-orange)" stroke-width="0.24" />
-          <path
-            fill="#ffffff"
-            d="M4 4.85 C3.35 4.05 2.35 4.35 2.35 5.2 C2.35 5.95 4 7.45 4 7.45 S5.65 5.95 5.65 5.2 C5.65 4.35 4.65 4.05 4 4.85 Z" />
-          <circle cx="4" cy="11.15" r="0.52" fill="#ffffff" stroke="var(--cmn-sticker-orange)" stroke-width="0.22" />
-        </g>
-      </svg>
-    </div>
-  </div>
-</div>
-`, styles: ['/* src/app/components/cmn-sticker-label/cmn-sticker-label.component.css */\n.cmn-sticker {\n  --cmn-sticker-orange: #e68a4f;\n  --cmn-sticker-ink: #000000;\n  --cmn-sticker-card-bg: #ffffff;\n  --cmn-sticker-card-radius: 20px;\n  display: grid;\n  grid-template-columns: minmax(0, 30fr) minmax(0, 70fr);\n  align-items: stretch;\n  background: var(--cmn-sticker-card-bg);\n  border-radius: var(--cmn-sticker-card-radius);\n  padding: 14px 16px 12px;\n  border: 1px solid #e5e5e5;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);\n  font-family:\n    "Roboto",\n    "Helvetica Neue",\n    Arial,\n    Helvetica,\n    sans-serif;\n  max-width: 100%;\n  box-sizing: border-box;\n}\n@media (min-width: 360px) {\n  .cmn-sticker:not(.cmn-sticker--vertical) {\n    aspect-ratio: 97 / 34;\n    max-width: min(100%, 23.5rem);\n    margin-left: auto;\n    margin-right: auto;\n  }\n}\n.cmn-sticker__qr-col {\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  width: 136px;\n  gap: 0.4rem;\n  min-width: 0;\n  padding-top: 2px;\n}\n.cmn-sticker__qr {\n  width: min(8.15rem, 36vw);\n  height: 110px;\n  aspect-ratio: 1;\n  object-fit: contain;\n  display: block;\n  image-rendering: pixelated;\n  image-rendering: crisp-edges;\n}\n.cmn-sticker__code {\n  margin: 0;\n  font-size: 12px;\n  font-weight: 800;\n  letter-spacing: 0.06em;\n  color: var(--cmn-sticker-ink);\n  text-align: center;\n  line-height: 1.15;\n  word-break: break-all;\n  max-width: 100%;\n}\n.cmn-sticker__copy-col {\n  flex-direction: column;\n  align-items: stretch;\n  justify-content: flex-start;\n  gap: 0.2rem;\n  padding: 7px 2px 0 20px;\n  min-width: 0;\n  min-height: 0;\n  height: 100%;\n  text-align: left;\n}\n.cmn-sticker__head-block {\n  width: 100%;\n}\n.cmn-sticker__headline {\n  margin: 0;\n  padding-top: 4px;\n  width: 224px;\n  font-size: clamp(0.64rem, 2.45vw, 0.76rem);\n  font-weight: 800;\n  line-height: 1.15;\n  letter-spacing: 0.03em;\n  color: var(--cmn-sticker-ink);\n  text-transform: uppercase;\n  text-align: left;\n  font-family:\n    "Roboto",\n    "Arial Narrow",\n    "Helvetica Neue Condensed",\n    Arial,\n    Helvetica,\n    sans-serif;\n  font-stretch: condensed;\n  box-sizing: border-box;\n}\n.cmn-sticker__rule {\n  height: 2px;\n  width: 100%;\n  margin-top: 0.35rem;\n  background: var(--cmn-sticker-orange);\n  flex-shrink: 0;\n}\n.cmn-sticker:not(.cmn-sticker--vertical) .cmn-sticker__blurb-wrap {\n  flex: 1 1 auto;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 100%;\n  min-height: 0;\n  margin-top: 0.25rem;\n}\n.cmn-sticker:not(.cmn-sticker--vertical) .cmn-sticker__blurb {\n  text-align: center;\n}\n.cmn-sticker:not(.cmn-sticker--vertical) .cmn-sticker__brand {\n  justify-content: center;\n  padding-top: 0.4rem;\n}\n.cmn-sticker__blurb-wrap {\n  flex: 1 1 auto;\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  width: 100%;\n  min-height: 0;\n  margin-top: 0.2rem;\n}\n.cmn-sticker__blurb {\n  font-size: 13px;\n  font-weight: 500;\n  line-height: 1.35;\n  color: var(--cmn-sticker-ink);\n  text-align: left;\n  max-width: 100%;\n  margin: 7px;\n}\n.cmn-sticker__blurb-line2 {\n  display: inline-block;\n  margin-top: 0.04rem;\n}\n.cmn-sticker__brand {\n  display: flex;\n  justify-content: flex-end;\n  align-items: flex-end;\n  width: 100%;\n  padding-top: 0.3rem;\n  padding-bottom: 2px;\n  margin-top: auto;\n  flex-shrink: 0;\n}\n.cmn-sticker__mark {\n  display: block;\n  height: clamp(2.2rem, 7.5vw, 2.6rem);\n  width: auto;\n  max-width: 90%;\n}\n.cmn-sticker--vertical {\n  --cmn-sticker-card-bg: #ffffff;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  background: #fff;\n  border-radius: 22px;\n  padding: 20px 18px 22px;\n  max-width: min(100%, 18rem);\n  width: 100%;\n  margin-left: auto;\n  margin-right: auto;\n  aspect-ratio: 7 / 11;\n  box-sizing: border-box;\n  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);\n  border: 1px solid #ececec;\n  height: 424px;\n}\n.cmn-sticker--vertical .cmn-sticker__qr-col {\n  flex: 1 1 52%;\n  min-height: 0;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 0;\n  padding-top: 2px;\n  width: 100%;\n}\n.cmn-sticker--vertical .cmn-sticker__code {\n  display: none;\n}\n.cmn-sticker--vertical .cmn-sticker__qr {\n  width: min(92%, 13.75rem);\n  max-width: 220px;\n  height: auto;\n  max-height: min(46vmin, 13rem);\n  margin-top: 0;\n  flex: 0 1 auto;\n  aspect-ratio: 1;\n  object-fit: contain;\n  image-rendering: pixelated;\n  image-rendering: crisp-edges;\n}\n.cmn-sticker--vertical .cmn-sticker__copy-col {\n  flex: 1 1 48%;\n  min-height: 0;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  text-align: center;\n  padding: 0.55rem 0.5rem 0.15rem;\n  gap: 0;\n  width: 100%;\n}\n.cmn-sticker--vertical .cmn-sticker__head-block {\n  width: 100%;\n  max-width: 15.5rem;\n  margin: 0 auto;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n}\n.cmn-sticker--vertical .cmn-sticker__headline {\n  text-align: center;\n  width: 100%;\n  max-width: 15.5rem;\n  margin: 0 auto;\n  font-size: clamp(0.62rem, 2.8vw, 0.74rem);\n  font-weight: 800;\n  line-height: 1.2;\n  letter-spacing: 0.04em;\n  padding-top: 0.35rem;\n}\n.cmn-sticker--vertical .cmn-sticker__rule {\n  width: 100%;\n  max-width: 15.5rem;\n  margin: 0.45rem auto 0;\n  height: 2px;\n  background: var(--cmn-sticker-orange);\n}\n.cmn-sticker--vertical .cmn-sticker__blurb-wrap {\n  flex: 0 1 auto;\n  display: flex;\n  justify-content: center;\n  align-items: flex-start;\n  margin-top: 0.5rem;\n  width: 100%;\n}\n.cmn-sticker--vertical .cmn-sticker__blurb {\n  margin: 0;\n  text-align: center;\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 1.3;\n  max-width: 14.5rem;\n}\n.cmn-sticker--vertical .cmn-sticker__brand {\n  justify-content: center;\n  margin-top: auto;\n  padding-top: 1rem;\n  padding-bottom: 4px;\n}\n.cmn-sticker--vertical .cmn-sticker__mark {\n  max-width: 85%;\n  height: 94px;\n  width: auto;\n}\n@media (max-width: 340px) {\n  .cmn-sticker:not(.cmn-sticker--vertical) {\n    grid-template-columns: 1fr;\n    aspect-ratio: auto;\n    justify-items: center;\n    padding: 14px 14px 12px;\n  }\n  .cmn-sticker:not(.cmn-sticker--vertical) .cmn-sticker__copy-col {\n    max-width: 17.5rem;\n    width: 100%;\n  }\n}\n@media print {\n  .cmn-sticker {\n    box-shadow: none;\n    -webkit-print-color-adjust: exact;\n    print-color-adjust: exact;\n  }\n}\n/*# sourceMappingURL=cmn-sticker-label.component.css.map */\n'] }]
-  }], null, { qrImageUrl: [{ type: Input, args: [{ isSignal: true, alias: "qrImageUrl", required: true }] }], code: [{ type: Input, args: [{ isSignal: true, alias: "code", required: true }] }], variant: [{ type: Input, args: [{ isSignal: true, alias: "variant", required: false }] }], layout: [{ type: Input, args: [{ isSignal: true, alias: "layout", required: false }] }], logoUrl: [{ type: Input, args: [{ isSignal: true, alias: "logoUrl", required: false }] }] });
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(CmnStickerLabelComponent, { className: "CmnStickerLabelComponent", filePath: "src/app/components/cmn-sticker-label/cmn-sticker-label.component.ts", lineNumber: 14 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MainLayoutComponent, { className: "MainLayoutComponent", filePath: "src/app/components/main-layout/main-layout.ts", lineNumber: 727 });
 })();
 
 // src/app/components/cmn-sticker-label/sticker-label.utils.ts
@@ -44325,7 +44300,7 @@ var QrService = class _QrService {
   base = "/api";
   /** Bump when print HTML/CSS changes so browser does not reuse cached label document. */
   /** Bump when server print HTML/CSS changes (cache-bust for /api/.../print/label URLs). */
-  static printLabelVersion = "sticker-v8-ref-match";
+  static printLabelVersion = "sticker-v12-vert-55x748-5x5";
   constructor(http) {
     this.http = http;
   }
@@ -44337,18 +44312,26 @@ var QrService = class _QrService {
    * Exotel Connect (masked): order is server-controlled (`EXOTEL_RING_OWNER_FIRST` in PHP config).
    * Default rings scanner first; with owner-first, owner is dialed first then scanner joins.
    */
-  exotelConnectOwner(publicId, fromPhone) {
+  exotelConnectOwner(publicId, fromPhone, emergency = false) {
     const id = encodeURIComponent(publicId.trim());
     const body = {};
     const p = fromPhone?.trim();
     if (p) {
       body.fromPhone = p;
     }
-    return this.http.post(`${this.base}/qr/${id}/exotel/connect-owner`, body);
+    return this.http.post(`${this.base}/qr/${id}/exotel/connect-owner?emergency=${emergency}`, body);
+  }
+  getExotelBrowserToken(publicId) {
+    const id = encodeURIComponent(publicId.trim());
+    return this.http.get(`${this.base}/qr/${id}/exotel/browser-token`);
   }
   activate(publicId, body) {
     const id = encodeURIComponent(publicId.trim());
     return this.http.post(`${this.base}/qr/${id}/activate`, body);
+  }
+  activateFree(publicId, data) {
+    const id = encodeURIComponent(publicId.trim());
+    return this.http.post(`${this.base}/qr/${id}/activate-free`, data);
   }
   createRazorpayOrder(publicId, referralCode) {
     return this.http.post(`${this.base}/payments/razorpay/order`, {
@@ -44356,8 +44339,23 @@ var QrService = class _QrService {
       referralCode: referralCode?.trim() || void 0
     });
   }
-  listInventory() {
-    return this.http.get(`${this.base}/inventory/qr`);
+  listInventory(params) {
+    const q = new URLSearchParams();
+    if (params?.page)
+      q.set("page", String(params.page));
+    if (params?.pageSize)
+      q.set("pageSize", String(params.pageSize));
+    if (params?.from)
+      q.set("from", params.from);
+    if (params?.to)
+      q.set("to", params.to);
+    if (params?.search)
+      q.set("search", params.search);
+    if (params?.status)
+      q.set("status", params.status);
+    const qs = q.toString();
+    const url = `${this.base}/inventory/qr${qs ? `?${qs}` : ""}`;
+    return this.http.get(url);
   }
   generateInventory(count, productType) {
     return this.http.post(`${this.base}/inventory/qr/generate`, {
@@ -44373,6 +44371,19 @@ var QrService = class _QrService {
   }
   printBatch(publicIds, embed = "activate", layout = "horizontal") {
     return this.http.post(`${this.base}/inventory/qr/print/batch`, { publicIds, embed, layout }, { responseType: "text" });
+  }
+  deleteInventorySelected(publicIds) {
+    return this.http.post(`${this.base}/inventory/qr/delete`, { publicIds });
+  }
+  deleteInventoryAll(params) {
+    const q = new URLSearchParams();
+    if (params?.from)
+      q.set("from", params.from);
+    if (params?.to)
+      q.set("to", params.to);
+    const qs = q.toString();
+    const url = `${this.base}/inventory/qr/delete-all${qs ? `?${qs}` : ""}`;
+    return this.http.post(url, {});
   }
   getOwnerQrBase64(personId) {
     return this.http.get(`${this.base}/qr/by-owner/${personId}/base64`);
@@ -44402,642 +44413,544 @@ var QrService = class _QrService {
 var _forTrack03 = ($index, $item) => $item.skuHint;
 function ScanPageComponent_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 4)(1, "div", 7);
+    \u0275\u0275elementStart(0, "div", 4)(1, "div", 13);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(2, "svg", 8);
-    \u0275\u0275element(3, "path", 9);
+    \u0275\u0275elementStart(2, "svg", 14);
+    \u0275\u0275element(3, "path", 15);
     \u0275\u0275elementEnd()();
     \u0275\u0275namespaceHTML();
-    \u0275\u0275elementStart(4, "p", 10);
+    \u0275\u0275elementStart(4, "p", 16);
     \u0275\u0275text(5, "One moment\u2026");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "p", 11);
+    \u0275\u0275elementStart(6, "p", 17);
     \u0275\u0275text(7, "Loading CallMeNow");
     \u0275\u0275elementEnd()();
   }
 }
 function ScanPageComponent_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 5)(1, "span", 12);
+    \u0275\u0275elementStart(0, "div", 5)(1, "span", 18);
     \u0275\u0275text(2, "\u{1F327}\uFE0F");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "h1", 13);
-    \u0275\u0275text(4, "We couldn\u2019t find this QR");
+    \u0275\u0275elementStart(3, "h1", 19);
+    \u0275\u0275text(4, "We couldn't find this QR");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "p", 14);
-    \u0275\u0275text(6, "The code may be wrong or the sticker damaged. If it\u2019s new, contact support.");
+    \u0275\u0275elementStart(5, "p", 20);
+    \u0275\u0275text(6, "The code may be wrong or the sticker damaged. If it's new, contact support.");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "a", 15);
+    \u0275\u0275elementStart(7, "a", 21);
     \u0275\u0275text(8, "Partner login");
     \u0275\u0275elementEnd()();
   }
 }
-function ScanPageComponent_Conditional_6_Conditional_10_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 22);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const d_r2 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(d_r2.vehicleRegistration);
-  }
-}
 function ScanPageComponent_Conditional_6_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
-    const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "a", 65);
-    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Conditional_11_Template_a_click_0_listener() {
-      \u0275\u0275restoreView(_r3);
-      const ctx_r3 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r3.onCallClick());
-    });
-    \u0275\u0275elementStart(1, "span", 66);
-    \u0275\u0275text(2, "\u{1F198}");
+    \u0275\u0275elementStart(0, "div", 29)(1, "div", 68);
+    \u0275\u0275element(2, "span", 69);
+    \u0275\u0275text(3, " VEHICLE REGISTRATION ");
+    \u0275\u0275element(4, "span", 69);
     \u0275\u0275elementEnd();
-    \u0275\u0275text(3);
-    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "div", 70);
+    \u0275\u0275text(6);
+    \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const d_r2 = \u0275\u0275nextContext();
-    const ctx_r3 = \u0275\u0275nextContext();
-    \u0275\u0275property("href", d_r2.emergencyDialUri, \u0275\u0275sanitizeUrl);
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate2(" ", ctx_r3.emergencyCallLabel(d_r2), " \u2014 ", d_r2.emergencyContactMasked ?? "call", " ");
+    const d_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(6);
+    \u0275\u0275textInterpolate1(" ", d_r1.vehicleRegistration);
+  }
+}
+function ScanPageComponent_Conditional_6_Conditional_12_Conditional_1_Conditional_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 88);
+    \u0275\u0275text(1, "\u26A0\uFE0F Please enter exactly 10 digits!");
+    \u0275\u0275elementEnd();
+  }
+}
+function ScanPageComponent_Conditional_6_Conditional_12_Conditional_1_Conditional_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 89);
+    \u0275\u0275text(1, "Exotel will ring your phone first, then connect you.");
+    \u0275\u0275elementEnd();
   }
 }
 function ScanPageComponent_Conditional_6_Conditional_12_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 70)(1, "p", 71);
-    \u0275\u0275text(2, "Fastest \u2014 your phone calls the owner now");
+    const _r2 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 84)(1, "label", 85)(2, "span", 86);
+    \u0275\u0275text(3, "1. Enter your mobile number");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "a", 72);
-    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_1_Template_a_click_3_listener() {
-      \u0275\u0275restoreView(_r5);
-      const ctx_r3 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r3.onCallClick());
+    \u0275\u0275elementStart(4, "input", 87);
+    \u0275\u0275twoWayListener("ngModelChange", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_1_Template_input_ngModelChange_4_listener($event) {
+      \u0275\u0275restoreView(_r2);
+      const ctx_r2 = \u0275\u0275nextContext(3);
+      \u0275\u0275twoWayBindingSet(ctx_r2.fromPhone, $event) || (ctx_r2.fromPhone = $event);
+      return \u0275\u0275resetView($event);
     });
-    \u0275\u0275elementStart(4, "span", 66);
-    \u0275\u0275text(5, "\u{1F4F1}");
+    \u0275\u0275listener("input", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_1_Template_input_input_4_listener($event) {
+      \u0275\u0275restoreView(_r2);
+      const ctx_r2 = \u0275\u0275nextContext(3);
+      return \u0275\u0275resetView(ctx_r2.onPhoneInput($event));
+    });
     \u0275\u0275elementEnd();
-    \u0275\u0275text(6, " Open dialer \u2014 call ");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "p", 73);
-    \u0275\u0275text(8, "When prompted, enter ");
-    \u0275\u0275elementStart(9, "strong", 74);
-    \u0275\u0275text(10);
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(11, " then hash (#). Exotel connects you to the owner \u2014 no waiting for a server callback.");
+    \u0275\u0275conditionalCreate(5, ScanPageComponent_Conditional_6_Conditional_12_Conditional_1_Conditional_5_Template, 2, 0, "p", 88)(6, ScanPageComponent_Conditional_6_Conditional_12_Conditional_1_Conditional_6_Template, 2, 0, "p", 89);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(12, "p", 75);
-    \u0275\u0275text(13, "or");
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext(3);
+    \u0275\u0275classProp("v-card--err", ctx_r2.connectFeedbackIsError() && (!ctx_r2.fromPhone || ctx_r2.fromPhone.length !== 10));
+    \u0275\u0275advance(4);
+    \u0275\u0275classProp("masked-input--err", ctx_r2.connectFeedbackIsError() && (!ctx_r2.fromPhone || ctx_r2.fromPhone.length !== 10));
+    \u0275\u0275twoWayProperty("ngModel", ctx_r2.fromPhone);
+    \u0275\u0275property("disabled", ctx_r2.connectBusy());
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r2.connectFeedbackIsError() && (!ctx_r2.fromPhone || ctx_r2.fromPhone.length !== 10) ? 5 : 6);
+  }
+}
+function ScanPageComponent_Conditional_6_Conditional_12_Conditional_11_For_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 92);
+    \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const d_r2 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(3);
-    \u0275\u0275property("href", d_r2.exotelIvrDialUri, \u0275\u0275sanitizeUrl);
-    \u0275\u0275advance(7);
-    \u0275\u0275textInterpolate(d_r2.ivrAccessCode);
+    const char_r4 = ctx.$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", char_r4);
   }
 }
-function ScanPageComponent_Conditional_6_Conditional_12_Conditional_2_Template(rf, ctx) {
+function ScanPageComponent_Conditional_6_Conditional_12_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
-    const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 76);
-    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_2_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r6);
-      const ctx_r3 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r3.connectOwnerMasked());
+    \u0275\u0275elementStart(0, "div", 79)(1, "div", 90);
+    \u0275\u0275text(2, " Dialer PIN");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "div", 91);
+    \u0275\u0275repeaterCreate(4, ScanPageComponent_Conditional_6_Conditional_12_Conditional_11_For_5_Template, 2, 1, "div", 92, \u0275\u0275repeaterTrackByIndex);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(6, "div", 93)(7, "span", 94);
+    \u0275\u0275text(8, "\u{1F4A1} Tap ");
+    \u0275\u0275elementStart(9, "b");
+    \u0275\u0275text(10, "Call Now");
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(11, ", then enter this PIN on your phone keypad when the voice asks.");
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const d_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance(4);
+    \u0275\u0275repeater((d_r1.ivrAccessCode || "1234").split(""));
+  }
+}
+function ScanPageComponent_Conditional_6_Conditional_12_Conditional_12_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r5 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 95);
+    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_12_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r5);
+      const ctx_r2 = \u0275\u0275nextContext(3);
+      return \u0275\u0275resetView(ctx_r2.connectOwnerMasked());
     });
-    \u0275\u0275elementStart(1, "span", 66);
-    \u0275\u0275text(2, "\u{1F4DE}");
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(1, "svg", 96);
+    \u0275\u0275element(2, "path", 77);
     \u0275\u0275elementEnd();
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const d_r2 = \u0275\u0275nextContext(2);
-    const ctx_r3 = \u0275\u0275nextContext();
-    \u0275\u0275property("disabled", ctx_r3.connectBusy());
+    const ctx_r2 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("disabled", ctx_r2.connectBusy());
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1(" ", ctx_r3.connectBusy() ? "Connecting\u2026" : ctx_r3.ownerCallLabel(d_r2), " ");
+    \u0275\u0275textInterpolate1(" ", ctx_r2.connectBusy() ? "Connecting\u2026" : "Call Now", " ");
   }
 }
-function ScanPageComponent_Conditional_6_Conditional_12_Conditional_3_Template(rf, ctx) {
+function ScanPageComponent_Conditional_6_Conditional_12_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
-    const _r7 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "p", 77);
-    \u0275\u0275text(1, "Using your saved number on this device.");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "button", 76);
-    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_3_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r7);
-      const ctx_r3 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r3.connectOwnerMasked());
+    const _r6 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "a", 97);
+    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_13_Template_a_click_0_listener() {
+      \u0275\u0275restoreView(_r6);
+      const ctx_r2 = \u0275\u0275nextContext(3);
+      return \u0275\u0275resetView(ctx_r2.onCallClick());
     });
-    \u0275\u0275elementStart(3, "span", 66);
-    \u0275\u0275text(4, "\u{1F4DE}");
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(1, "svg", 96);
+    \u0275\u0275element(2, "path", 77);
     \u0275\u0275elementEnd();
-    \u0275\u0275text(5);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "button", 78);
-    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_3_Template_button_click_6_listener() {
-      \u0275\u0275restoreView(_r7);
-      const ctx_r3 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r3.expandExotelPhone());
-    });
-    \u0275\u0275text(7, "Use a different number");
+    \u0275\u0275text(3, " Call Now ");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const d_r2 = \u0275\u0275nextContext(2);
-    const ctx_r3 = \u0275\u0275nextContext();
-    \u0275\u0275advance(2);
-    \u0275\u0275property("disabled", ctx_r3.connectBusy());
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1(" ", ctx_r3.connectBusy() ? "Connecting\u2026" : ctx_r3.ownerCallLabel(d_r2), " ");
+    const d_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275property("href", d_r1.dialUri, \u0275\u0275sanitizeUrl);
   }
 }
-function ScanPageComponent_Conditional_6_Conditional_12_Conditional_4_Conditional_4_Template(rf, ctx) {
+function ScanPageComponent_Conditional_6_Conditional_12_Conditional_14_Conditional_7_For_5_Template(rf, ctx) {
   if (rf & 1) {
-    const _r9 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 78);
-    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_4_Conditional_4_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r9);
-      const ctx_r3 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r3.pickFromContacts());
-    });
-    \u0275\u0275text(1, "Choose from contacts");
-    \u0275\u0275elementEnd();
-  }
-}
-function ScanPageComponent_Conditional_6_Conditional_12_Conditional_4_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r8 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "label", 79)(1, "span", 80);
-    \u0275\u0275text(2, "Your mobile number");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "input", 81);
-    \u0275\u0275twoWayListener("ngModelChange", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_4_Template_input_ngModelChange_3_listener($event) {
-      \u0275\u0275restoreView(_r8);
-      const ctx_r3 = \u0275\u0275nextContext(3);
-      \u0275\u0275twoWayBindingSet(ctx_r3.fromPhone, $event) || (ctx_r3.fromPhone = $event);
-      return \u0275\u0275resetView($event);
-    });
-    \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(4, ScanPageComponent_Conditional_6_Conditional_12_Conditional_4_Conditional_4_Template, 2, 0, "button", 82);
-    \u0275\u0275elementStart(5, "label", 83)(6, "input", 84);
-    \u0275\u0275twoWayListener("ngModelChange", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_4_Template_input_ngModelChange_6_listener($event) {
-      \u0275\u0275restoreView(_r8);
-      const ctx_r3 = \u0275\u0275nextContext(3);
-      \u0275\u0275twoWayBindingSet(ctx_r3.rememberScannerPhone, $event) || (ctx_r3.rememberScannerPhone = $event);
-      return \u0275\u0275resetView($event);
-    });
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "span");
-    \u0275\u0275text(8, "Remember on this device (one-tap next time)");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(9, "button", 76);
-    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_4_Template_button_click_9_listener() {
-      \u0275\u0275restoreView(_r8);
-      const ctx_r3 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r3.connectOwnerMasked());
-    });
-    \u0275\u0275elementStart(10, "span", 66);
-    \u0275\u0275text(11, "\u{1F4DE}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(12);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const d_r2 = \u0275\u0275nextContext(2);
-    const ctx_r3 = \u0275\u0275nextContext();
-    \u0275\u0275advance(3);
-    \u0275\u0275twoWayProperty("ngModel", ctx_r3.fromPhone);
-    \u0275\u0275property("disabled", ctx_r3.connectBusy());
-    \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r3.contactPickerSupported() ? 4 : -1);
-    \u0275\u0275advance(2);
-    \u0275\u0275twoWayProperty("ngModel", ctx_r3.rememberScannerPhone);
-    \u0275\u0275property("disabled", ctx_r3.connectBusy());
-    \u0275\u0275advance(3);
-    \u0275\u0275property("disabled", ctx_r3.connectBusy());
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1(" ", ctx_r3.connectBusy() ? "Connecting\u2026" : ctx_r3.ownerCallLabel(d_r2), " ");
-  }
-}
-function ScanPageComponent_Conditional_6_Conditional_12_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 69);
+    \u0275\u0275elementStart(0, "div", 105);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const ctx_r3 = \u0275\u0275nextContext(3);
-    \u0275\u0275classProp("whisper--ok", !ctx_r3.connectFeedbackIsError())("whisper--err", ctx_r3.connectFeedbackIsError());
+    const char_r7 = ctx.$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", char_r7);
+  }
+}
+function ScanPageComponent_Conditional_6_Conditional_12_Conditional_14_Conditional_7_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 101)(1, "div", 104);
+    \u0275\u0275text(2, " Emergency PIN");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "div", 91);
+    \u0275\u0275repeaterCreate(4, ScanPageComponent_Conditional_6_Conditional_12_Conditional_14_Conditional_7_For_5_Template, 2, 1, "div", 105, \u0275\u0275repeaterTrackByIndex);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(6, "div", 106)(7, "span", 107);
+    \u0275\u0275text(8, "\u{1F4A1} Tap ");
+    \u0275\u0275elementStart(9, "b");
+    \u0275\u0275text(10, "Call Emergency");
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(11, ", then enter this PIN on your keypad when asked.");
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const d_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275advance(4);
+    \u0275\u0275repeater((d_r1.ivrEmergencyAccessCode || "9999").split(""));
+  }
+}
+function ScanPageComponent_Conditional_6_Conditional_12_Conditional_14_Conditional_8_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r8 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 108);
+    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_14_Conditional_8_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r8);
+      const ctx_r2 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r2.connectEmergencyMasked());
+    });
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(1, "svg", 96);
+    \u0275\u0275element(2, "path", 77);
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext(4);
+    \u0275\u0275property("disabled", ctx_r2.connectBusy());
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate1(" ", ctx_r2.connectBusy() ? "Connecting\u2026" : "Call Emergency", " ");
+  }
+}
+function ScanPageComponent_Conditional_6_Conditional_12_Conditional_14_Conditional_9_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r9 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "a", 109);
+    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Conditional_12_Conditional_14_Conditional_9_Template_a_click_0_listener() {
+      \u0275\u0275restoreView(_r9);
+      const ctx_r2 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r2.onCallClick());
+    });
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(1, "svg", 96);
+    \u0275\u0275element(2, "path", 77);
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(3, " Call Emergency ");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const d_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("href", d_r1.emergencyDialUri, \u0275\u0275sanitizeUrl);
+  }
+}
+function ScanPageComponent_Conditional_6_Conditional_12_Conditional_14_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 73)(1, "div", 74)(2, "div", 98);
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(3, "svg", 76);
+    \u0275\u0275element(4, "path", 99);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275namespaceHTML();
+    \u0275\u0275elementStart(5, "p", 100);
+    \u0275\u0275text(6, " Emergency Contact");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275conditionalCreate(7, ScanPageComponent_Conditional_6_Conditional_12_Conditional_14_Conditional_7_Template, 12, 0, "div", 101);
+    \u0275\u0275conditionalCreate(8, ScanPageComponent_Conditional_6_Conditional_12_Conditional_14_Conditional_8_Template, 4, 2, "button", 102)(9, ScanPageComponent_Conditional_6_Conditional_12_Conditional_14_Conditional_9_Template, 4, 1, "a", 103);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const d_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance(7);
+    \u0275\u0275conditional(!d_r1.ownerConnectViaExotel ? 7 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(d_r1.ownerConnectViaExotel ? 8 : 9);
+  }
+}
+function ScanPageComponent_Conditional_6_Conditional_12_Conditional_15_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 83);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext(3);
+    \u0275\u0275classProp("whisper--ok", !ctx_r2.connectFeedbackIsError())("whisper--err", ctx_r2.connectFeedbackIsError());
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", ctx);
   }
 }
 function ScanPageComponent_Conditional_6_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 24);
-    \u0275\u0275conditionalCreate(1, ScanPageComponent_Conditional_6_Conditional_12_Conditional_1_Template, 14, 2);
-    \u0275\u0275conditionalCreate(2, ScanPageComponent_Conditional_6_Conditional_12_Conditional_2_Template, 4, 2, "button", 67)(3, ScanPageComponent_Conditional_6_Conditional_12_Conditional_3_Template, 8, 2)(4, ScanPageComponent_Conditional_6_Conditional_12_Conditional_4_Template, 13, 7);
-    \u0275\u0275conditionalCreate(5, ScanPageComponent_Conditional_6_Conditional_12_Conditional_5_Template, 2, 5, "p", 68);
-    \u0275\u0275elementStart(6, "p", 69);
-    \u0275\u0275text(7);
+    \u0275\u0275elementStart(0, "div", 30);
+    \u0275\u0275conditionalCreate(1, ScanPageComponent_Conditional_6_Conditional_12_Conditional_1_Template, 7, 7, "div", 71);
+    \u0275\u0275elementStart(2, "p", 72);
+    \u0275\u0275text(3, " Choose who to call");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "div", 73)(5, "div", 74)(6, "div", 75);
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(7, "svg", 76);
+    \u0275\u0275element(8, "path", 77);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275namespaceHTML();
+    \u0275\u0275elementStart(9, "p", 78);
+    \u0275\u0275text(10, " Reach the Owner");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275conditionalCreate(11, ScanPageComponent_Conditional_6_Conditional_12_Conditional_11_Template, 12, 0, "div", 79);
+    \u0275\u0275conditionalCreate(12, ScanPageComponent_Conditional_6_Conditional_12_Conditional_12_Template, 4, 2, "button", 80)(13, ScanPageComponent_Conditional_6_Conditional_12_Conditional_13_Template, 4, 1, "a", 81);
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(14, ScanPageComponent_Conditional_6_Conditional_12_Conditional_14_Template, 10, 2, "div", 73);
+    \u0275\u0275conditionalCreate(15, ScanPageComponent_Conditional_6_Conditional_12_Conditional_15_Template, 2, 5, "p", 82);
+    \u0275\u0275elementStart(16, "p", 83);
+    \u0275\u0275text(17);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    let tmp_5_0;
-    const d_r2 = \u0275\u0275nextContext();
-    const ctx_r3 = \u0275\u0275nextContext();
+    let tmp_7_0;
+    const d_r1 = \u0275\u0275nextContext();
+    const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275conditional(d_r2.exotelIvrDialUri && d_r2.ivrAccessCode && !d_r2.exotelOwnerOnlyAlert ? 1 : -1);
+    \u0275\u0275conditional(d_r1.ownerConnectViaExotel ? 1 : -1);
+    \u0275\u0275advance(10);
+    \u0275\u0275conditional(!d_r1.ownerConnectViaExotel ? 11 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(d_r2.exotelOwnerOnlyAlert ? 2 : ctx_r3.exotelCompactUi() ? 3 : 4);
-    \u0275\u0275advance(3);
-    \u0275\u0275conditional((tmp_5_0 = ctx_r3.connectFeedback()) ? 5 : -1, tmp_5_0);
+    \u0275\u0275conditional(d_r1.ownerConnectViaExotel ? 12 : 13);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(d_r2.maskingNote);
-  }
-}
-function ScanPageComponent_Conditional_6_Conditional_13_Conditional_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 73);
-    \u0275\u0275text(1, "When prompted, enter ");
-    \u0275\u0275elementStart(2, "strong", 74);
-    \u0275\u0275text(3);
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(4, " then press hash (#).");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const d_r2 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(d_r2.ivrAccessCode);
+    \u0275\u0275conditional(d_r1.emergencyContactMasked ? 14 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional((tmp_7_0 = ctx_r2.connectFeedback()) ? 15 : -1, tmp_7_0);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(d_r1.maskingNote);
   }
 }
 function ScanPageComponent_Conditional_6_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
-    const _r10 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "a", 85);
-    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Conditional_13_Template_a_click_0_listener() {
-      \u0275\u0275restoreView(_r10);
-      const ctx_r3 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r3.onCallClick());
-    });
-    \u0275\u0275elementStart(1, "span", 66);
-    \u0275\u0275text(2, "\u{1F4DE}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(3);
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(4, ScanPageComponent_Conditional_6_Conditional_13_Conditional_4_Template, 5, 1, "p", 73);
-    \u0275\u0275elementStart(5, "p", 69);
-    \u0275\u0275text(6);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const d_r2 = \u0275\u0275nextContext();
-    const ctx_r3 = \u0275\u0275nextContext();
-    \u0275\u0275property("href", d_r2.dialUri, \u0275\u0275sanitizeUrl);
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1(" ", ctx_r3.ownerCallLabel(d_r2), " ");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(d_r2.ivrAccessCode ? 4 : -1);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(d_r2.maskingNote);
-  }
-}
-function ScanPageComponent_Conditional_6_Conditional_14_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 25)(1, "span", 86);
+    \u0275\u0275elementStart(0, "div", 31)(1, "span", 110);
     \u0275\u0275text(2, "\u2728");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(3, "div")(4, "strong");
     \u0275\u0275text(5, "Not activated yet");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(6, "p");
-    \u0275\u0275text(7, "Packaging QR opens ");
-    \u0275\u0275elementStart(8, "code");
-    \u0275\u0275text(9, "/activate");
+    \u0275\u0275text(7, "The owner activates this sticker after purchase.");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(10, "; the sticker on the vehicle uses ");
-    \u0275\u0275elementStart(11, "code");
-    \u0275\u0275text(12, "/q");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(13, " after setup. The owner activates after purchase.");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "a", 87);
-    \u0275\u0275text(15, "Open activate page \u2192");
+    \u0275\u0275elementStart(8, "a", 111);
+    \u0275\u0275text(9, "Open activate page \u2192");
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
-    const d_r2 = \u0275\u0275nextContext();
-    const ctx_r3 = \u0275\u0275nextContext();
-    \u0275\u0275advance(14);
-    \u0275\u0275property("href", ctx_r3.activateHref(d_r2), \u0275\u0275sanitizeUrl);
+    const d_r1 = \u0275\u0275nextContext();
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275advance(8);
+    \u0275\u0275property("href", ctx_r2.activateHref(d_r1), \u0275\u0275sanitizeUrl);
   }
 }
-function ScanPageComponent_Conditional_6_Conditional_15_Template(rf, ctx) {
+function ScanPageComponent_Conditional_6_Conditional_14_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 26)(1, "p")(2, "strong");
+    \u0275\u0275elementStart(0, "div", 32)(1, "p")(2, "strong");
     \u0275\u0275text(3, "Finished your call?");
     \u0275\u0275elementEnd();
     \u0275\u0275text(4, " Want a tag for your own vehicle?");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "a", 88);
+    \u0275\u0275elementStart(5, "a", 112);
     \u0275\u0275text(6, "Get your CallMeNow QR \u2192");
     \u0275\u0275elementEnd()();
   }
 }
-function ScanPageComponent_Conditional_6_Conditional_30_Template(rf, ctx) {
+function ScanPageComponent_Conditional_6_Conditional_29_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 35);
+    \u0275\u0275elementStart(0, "p", 41);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const d_r2 = \u0275\u0275nextContext();
+    const d_r1 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(d_r2.localizedCityLine);
+    \u0275\u0275textInterpolate(d_r1.localizedCityLine);
   }
 }
-function ScanPageComponent_Conditional_6_For_66_Template(rf, ctx) {
+function ScanPageComponent_Conditional_6_For_65_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 49)(1, "span", 89);
+    \u0275\u0275elementStart(0, "div", 55)(1, "span", 113);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "span", 90);
+    \u0275\u0275elementStart(3, "span", 114);
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const v_r11 = ctx.$implicit;
+    const v_r10 = ctx.$implicit;
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(v_r11.icon);
+    \u0275\u0275textInterpolate(v_r10.icon);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(v_r11.name);
-  }
-}
-function ScanPageComponent_Conditional_6_Conditional_81_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 57);
-    \u0275\u0275text(1, "Link copied.");
-    \u0275\u0275elementEnd();
-  }
-}
-function ScanPageComponent_Conditional_6_Conditional_87_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 59);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r3 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r3.leadErr());
-  }
-}
-function ScanPageComponent_Conditional_6_Conditional_88_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r12 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 60)(1, "input", 91);
-    \u0275\u0275twoWayListener("ngModelChange", function ScanPageComponent_Conditional_6_Conditional_88_Template_input_ngModelChange_1_listener($event) {
-      \u0275\u0275restoreView(_r12);
-      const ctx_r3 = \u0275\u0275nextContext(2);
-      \u0275\u0275twoWayBindingSet(ctx_r3.leadPhone, $event) || (ctx_r3.leadPhone = $event);
-      return \u0275\u0275resetView($event);
-    });
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "button", 92);
-    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Conditional_88_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r12);
-      const ctx_r3 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r3.submitLead());
-    });
-    \u0275\u0275text(3);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const ctx_r3 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275twoWayProperty("ngModel", ctx_r3.leadPhone);
-    \u0275\u0275advance();
-    \u0275\u0275property("disabled", ctx_r3.leadBusy());
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", ctx_r3.leadBusy() ? "Saving\u2026" : "Get coupon", " ");
-  }
-}
-function ScanPageComponent_Conditional_6_Conditional_89_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 61);
-    \u0275\u0275text(1, "Thanks! Use ");
-    \u0275\u0275elementStart(2, "strong");
-    \u0275\u0275text(3);
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(4, " at checkout.");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const d_r2 = \u0275\u0275nextContext();
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(d_r2.referralCode);
+    \u0275\u0275textInterpolate(v_r10.name);
   }
 }
 function ScanPageComponent_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
-    const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 6)(1, "section", 16);
-    \u0275\u0275element(2, "app-cmn-sticker-label", 17);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "section", 18)(4, "p", 19);
-    \u0275\u0275text(5);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "h1", 20);
-    \u0275\u0275text(7);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "p", 21);
-    \u0275\u0275text(9);
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(10, ScanPageComponent_Conditional_6_Conditional_10_Template, 2, 1, "p", 22);
-    \u0275\u0275conditionalCreate(11, ScanPageComponent_Conditional_6_Conditional_11_Template, 4, 3, "a", 23);
-    \u0275\u0275conditionalCreate(12, ScanPageComponent_Conditional_6_Conditional_12_Template, 8, 4, "div", 24)(13, ScanPageComponent_Conditional_6_Conditional_13_Template, 7, 4)(14, ScanPageComponent_Conditional_6_Conditional_14_Template, 16, 1, "div", 25);
-    \u0275\u0275conditionalCreate(15, ScanPageComponent_Conditional_6_Conditional_15_Template, 7, 0, "div", 26);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "section", 27)(17, "div", 28);
-    \u0275\u0275text(18, "Trusted by drivers");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(19, "h2", 29);
-    \u0275\u0275text(20, "This vehicle uses CallMeNow");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(21, "p", 30);
-    \u0275\u0275text(22, " Parking, blocking, or anything important \u2014 you can reach the owner without their private number on a sticker. ");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(23, "a", 31);
-    \u0275\u0275text(24, "I want one too");
+    \u0275\u0275elementStart(0, "div", 6)(1, "section", 22)(2, "div", 23);
+    \u0275\u0275element(3, "img", 24);
+    \u0275\u0275elementStart(4, "div", 25);
+    \u0275\u0275text(5, " \u{1F6E1}\uFE0F SECURE");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(25, "section", 32)(26, "p", 33);
-    \u0275\u0275text(27);
+    \u0275\u0275elementStart(6, "div", 26)(7, "h1", 27);
+    \u0275\u0275text(8, " Contact Vehicle Owner");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "p", 34);
-    \u0275\u0275text(29);
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(30, ScanPageComponent_Conditional_6_Conditional_30_Template, 2, 1, "p", 35);
-    \u0275\u0275elementStart(31, "div", 36)(32, "div", 37)(33, "span", 38);
-    \u0275\u0275text(34);
-    \u0275\u0275pipe(35, "number");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(36, "span", 39);
-    \u0275\u0275text(37, "total scans");
+    \u0275\u0275elementStart(9, "p", 28);
+    \u0275\u0275text(10, "Your number stays completely hidden \u2014 call privately with zero sharing.");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(38, "div", 40)(39, "span", 38);
-    \u0275\u0275text(40);
-    \u0275\u0275pipe(41, "number");
+    \u0275\u0275conditionalCreate(11, ScanPageComponent_Conditional_6_Conditional_11_Template, 7, 1, "div", 29);
+    \u0275\u0275conditionalCreate(12, ScanPageComponent_Conditional_6_Conditional_12_Template, 18, 6, "div", 30)(13, ScanPageComponent_Conditional_6_Conditional_13_Template, 10, 1, "div", 31);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(42, "span", 39);
-    \u0275\u0275text(43, "unique visitors");
+    \u0275\u0275conditionalCreate(14, ScanPageComponent_Conditional_6_Conditional_14_Template, 7, 0, "div", 32);
+    \u0275\u0275elementStart(15, "section", 33)(16, "div", 34);
+    \u0275\u0275text(17, "Trusted by drivers");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(18, "h2", 35);
+    \u0275\u0275text(19, "This vehicle uses CallMeNow");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(20, "p", 36);
+    \u0275\u0275text(21, " Parking, blocking, or anything important \u2014 you can reach the owner without their private number on a sticker. ");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(22, "a", 37);
+    \u0275\u0275text(23, "I want one too");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(24, "section", 38)(25, "p", 39);
+    \u0275\u0275text(26);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(27, "p", 40);
+    \u0275\u0275text(28);
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(29, ScanPageComponent_Conditional_6_Conditional_29_Template, 2, 1, "p", 41);
+    \u0275\u0275elementStart(30, "div", 42)(31, "div", 43)(32, "span", 44);
+    \u0275\u0275text(33);
+    \u0275\u0275pipe(34, "number");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(35, "span", 45);
+    \u0275\u0275text(36, "total scans");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(37, "div", 46)(38, "span", 44);
+    \u0275\u0275text(39);
+    \u0275\u0275pipe(40, "number");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(41, "span", 45);
+    \u0275\u0275text(42, "unique visitors");
     \u0275\u0275elementEnd()()()();
-    \u0275\u0275elementStart(44, "section", 41)(45, "div", 42);
-    \u0275\u0275text(46, "SCAN = SAVE");
+    \u0275\u0275elementStart(43, "section", 47)(44, "div", 48);
+    \u0275\u0275text(45, "SCAN = SAVE");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(47, "h3", 43);
-    \u0275\u0275text(48, "Scan today, save today");
+    \u0275\u0275elementStart(46, "h3", 49);
+    \u0275\u0275text(47, "Scan today, save today");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(49, "p", 30);
-    \u0275\u0275text(50, " Code ");
-    \u0275\u0275elementStart(51, "strong", 44);
+    \u0275\u0275elementStart(48, "p", 36);
+    \u0275\u0275text(49, " Code ");
+    \u0275\u0275elementStart(50, "strong", 50);
+    \u0275\u0275text(51);
+    \u0275\u0275elementEnd();
     \u0275\u0275text(52);
+    \u0275\u0275elementStart(53, "span", 51);
+    \u0275\u0275text(54);
+    \u0275\u0275elementStart(55, "strong");
+    \u0275\u0275text(56);
     \u0275\u0275elementEnd();
-    \u0275\u0275text(53);
-    \u0275\u0275elementStart(54, "span", 45);
-    \u0275\u0275text(55);
-    \u0275\u0275elementStart(56, "strong");
-    \u0275\u0275text(57);
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(58, ")");
+    \u0275\u0275text(57, ")");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(59, "a", 46);
-    \u0275\u0275text(60);
+    \u0275\u0275elementStart(58, "a", 52);
+    \u0275\u0275text(59);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(61, "section", 47)(62, "h3", 43);
-    \u0275\u0275text(63, "Full range");
+    \u0275\u0275elementStart(60, "section", 53)(61, "h3", 49);
+    \u0275\u0275text(62, "Full range");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(64, "div", 48);
-    \u0275\u0275repeaterCreate(65, ScanPageComponent_Conditional_6_For_66_Template, 5, 2, "div", 49, _forTrack03);
+    \u0275\u0275elementStart(63, "div", 54);
+    \u0275\u0275repeaterCreate(64, ScanPageComponent_Conditional_6_For_65_Template, 5, 2, "div", 55, _forTrack03);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(67, "section", 50)(68, "h3", 43);
-    \u0275\u0275text(69, "Like the idea?");
+    \u0275\u0275elementStart(66, "section", 56)(67, "div", 57)(68, "span", 58);
+    \u0275\u0275text(69, "\u{1F6A8}");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(70, "p", 51);
-    \u0275\u0275text(71, "Share with friends \u2014 spread privacy-friendly contact.");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(72, "div", 52)(73, "button", 53);
-    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Template_button_click_73_listener() {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r3 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r3.shareWhatsApp());
-    });
-    \u0275\u0275text(74, "WhatsApp");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(75, "button", 54);
-    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Template_button_click_75_listener() {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r3 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r3.shareTelegram());
-    });
-    \u0275\u0275text(76, "Telegram");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(77, "button", 55);
-    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Template_button_click_77_listener() {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r3 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r3.shareInstagram());
-    });
-    \u0275\u0275text(78, "Instagram");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(79, "button", 56);
-    \u0275\u0275listener("click", function ScanPageComponent_Conditional_6_Template_button_click_79_listener() {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r3 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r3.copyLink());
-    });
-    \u0275\u0275text(80, "Copy link");
+    \u0275\u0275elementStart(70, "h3", 59);
+    \u0275\u0275text(71, "Emergency Services");
     \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(81, ScanPageComponent_Conditional_6_Conditional_81_Template, 2, 0, "p", 57);
+    \u0275\u0275elementStart(72, "p", 60);
+    \u0275\u0275text(73, " In case of severe accidents or if the owner is non-responsive, please contact national emergency services immediately. ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(82, "section", 58)(83, "h3", 43);
-    \u0275\u0275text(84);
+    \u0275\u0275elementStart(74, "div", 61)(75, "a", 62)(76, "span", 63);
+    \u0275\u0275text(77, "\u{1F693}");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(85, "p", 51);
-    \u0275\u0275text(86, "Enter your number \u2014 demo only; no SMS is sent.");
+    \u0275\u0275elementStart(78, "strong", 64);
+    \u0275\u0275text(79, "Police");
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(87, ScanPageComponent_Conditional_6_Conditional_87_Template, 2, 1, "p", 59);
-    \u0275\u0275conditionalCreate(88, ScanPageComponent_Conditional_6_Conditional_88_Template, 4, 3, "div", 60)(89, ScanPageComponent_Conditional_6_Conditional_89_Template, 5, 1, "p", 61);
+    \u0275\u0275elementStart(80, "span", 65);
+    \u0275\u0275text(81, "112");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(82, "a", 66)(83, "span", 63);
+    \u0275\u0275text(84, "\u{1F692}");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(90, "footer", 62)(91, "span", 63);
-    \u0275\u0275text(92, "\u2665");
+    \u0275\u0275elementStart(85, "strong", 64);
+    \u0275\u0275text(86, "Fire");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(93, "span");
-    \u0275\u0275text(94, "CallMeNow \u2014 neighbourly help, built for the road");
+    \u0275\u0275elementStart(87, "span", 65);
+    \u0275\u0275text(88, "101");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(89, "a", 67)(90, "span", 63);
+    \u0275\u0275text(91, "\u{1F691}");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(95, "a", 64);
-    \u0275\u0275text(96, "Partner login");
-    \u0275\u0275elementEnd()()();
+    \u0275\u0275elementStart(92, "strong", 64);
+    \u0275\u0275text(93, "Ambulance");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(94, "span", 65);
+    \u0275\u0275text(95, "108");
+    \u0275\u0275elementEnd()()()()();
   }
   if (rf & 2) {
-    const d_r2 = ctx;
-    const ctx_r3 = \u0275\u0275nextContext();
-    \u0275\u0275advance(2);
-    \u0275\u0275property("qrImageUrl", ctx_r3.stickerQrImageUrl(d_r2))("code", ctx_r3.stickerCodeLabel(d_r2));
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(d_r2.productLabel);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(d_r2.headline);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(d_r2.subtitle);
+    const d_r1 = ctx;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275advance(11);
+    \u0275\u0275conditional(d_r1.status === "active" && d_r1.vehicleRegistration ? 11 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(d_r2.status === "active" && d_r2.vehicleRegistration ? 10 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(d_r2.status === "active" && d_r2.emergencyDialUri ? 11 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(d_r2.status === "active" && d_r2.ownerConnectViaExotel ? 12 : d_r2.status === "active" && d_r2.dialUri ? 13 : d_r2.status === "unused" ? 14 : -1);
-    \u0275\u0275advance(3);
-    \u0275\u0275conditional(ctx_r3.callDoneHint() && d_r2.status === "active" ? 15 : -1);
+    \u0275\u0275conditional(d_r1.status === "active" ? 12 : d_r1.status === "unused" ? 13 : -1);
+    \u0275\u0275advance(2);
+    \u0275\u0275conditional(ctx_r2.callDoneHint() && d_r1.status === "active" ? 14 : -1);
     \u0275\u0275advance(12);
-    \u0275\u0275textInterpolate(d_r2.trustedOwnersLine);
+    \u0275\u0275textInterpolate(d_r1.trustedOwnersLine);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(d_r2.regionTagline);
+    \u0275\u0275textInterpolate(d_r1.regionTagline);
     \u0275\u0275advance();
-    \u0275\u0275conditional(d_r2.localizedCityLine ? 30 : -1);
+    \u0275\u0275conditional(d_r1.localizedCityLine ? 29 : -1);
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(35, 23, d_r2.scanCount));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(34, 13, d_r1.scanCount));
     \u0275\u0275advance(6);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(41, 25, d_r2.uniqueScannerCount ?? 0));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(40, 15, d_r1.uniqueScannerCount ?? 0));
     \u0275\u0275advance(12);
-    \u0275\u0275textInterpolate(d_r2.referralCode);
+    \u0275\u0275textInterpolate(d_r1.referralCode);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" \u2014 \u20B9", d_r2.referralDiscountInr, " off ");
+    \u0275\u0275textInterpolate1(" \u2014 \u20B9", d_r1.referralDiscountInr, " off ");
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1("(\u20B9", d_r2.stickerPriceInr, " \u2192 ");
+    \u0275\u0275textInterpolate1("(\u20B9", d_r1.stickerPriceInr, " \u2192 ");
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1("\u20B9", d_r2.stickerPriceInr - d_r2.referralDiscountInr);
+    \u0275\u0275textInterpolate1("\u20B9", d_r1.stickerPriceInr - d_r1.referralDiscountInr);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("Order sticker \xB7 \u20B9", d_r2.stickerPriceInr);
+    \u0275\u0275textInterpolate1("Order sticker \xB7 \u20B9", d_r1.stickerPriceInr);
     \u0275\u0275advance(5);
-    \u0275\u0275repeater(d_r2.productVariants);
-    \u0275\u0275advance(16);
-    \u0275\u0275conditional(ctx_r3.copyToast() ? 81 : -1);
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("\u20B9", d_r2.referralDiscountInr, " coupon");
-    \u0275\u0275advance(3);
-    \u0275\u0275conditional(ctx_r3.leadErr() ? 87 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r3.leadSent() ? 88 : 89);
+    \u0275\u0275repeater(d_r1.productVariants);
   }
 }
 var ScanPageComponent = class _ScanPageComponent {
@@ -45122,7 +45035,8 @@ var ScanPageComponent = class _ScanPageComponent {
     if (!d.exotelOwnerOnlyAlert) {
       const digits = this.fromPhone.replace(/\D/g, "");
       if (digits.length < 10) {
-        this.connectFeedback.set("Enter a valid 10-digit mobile number.");
+        this.connectFeedbackIsError.set(true);
+        this.connectFeedback.set("Please enter your 10-digit mobile number to proceed.");
         return;
       }
     }
@@ -45148,6 +45062,33 @@ var ScanPageComponent = class _ScanPageComponent {
       }
     });
   }
+  connectEmergencyMasked() {
+    const d = this.data();
+    if (!d?.publicId || !d.ownerConnectViaExotel)
+      return;
+    const digits = this.fromPhone.replace(/\D/g, "");
+    if (digits.length < 10) {
+      this.connectFeedbackIsError.set(true);
+      this.connectFeedback.set("Please enter your 10-digit mobile number first.");
+      return;
+    }
+    this.connectBusy.set(true);
+    this.connectFeedbackIsError.set(false);
+    this.connectFeedback.set("Requesting emergency connection via Exotel\u2026");
+    this.qrService.exotelConnectOwner(d.publicId, this.fromPhone, true).subscribe({
+      next: (r) => {
+        this.connectBusy.set(false);
+        this.connectFeedbackIsError.set(false);
+        this.connectFeedback.set(r.message ?? "Emergency call started.");
+        this.onCallClick();
+      },
+      error: (err) => {
+        this.connectBusy.set(false);
+        this.connectFeedbackIsError.set(true);
+        this.connectFeedback.set(this.parseConnectErrorMessage(err));
+      }
+    });
+  }
   contactPickerSupported() {
     const n = navigator;
     return typeof navigator !== "undefined" && typeof n.contacts?.select === "function";
@@ -45164,6 +45105,16 @@ var ScanPageComponent = class _ScanPageComponent {
         this.exotelCompactUi.set(false);
       }
     } catch {
+    }
+  }
+  onPhoneInput(event) {
+    const input2 = event.target;
+    const cleaned = input2.value.replace(/\D/g, "").substring(0, 10);
+    this.fromPhone = cleaned;
+    input2.value = cleaned;
+    if (cleaned.length === 10) {
+      this.connectFeedbackIsError.set(false);
+      this.connectFeedback.set(null);
     }
   }
   expandExotelPhone() {
@@ -45264,14 +45215,25 @@ var ScanPageComponent = class _ScanPageComponent {
   static \u0275fac = function ScanPageComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ScanPageComponent)(\u0275\u0275directiveInject(ActivatedRoute), \u0275\u0275directiveInject(QrService));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ScanPageComponent, selectors: [["app-scan-page"]], decls: 7, vars: 3, consts: [[1, "scan-root"], ["aria-hidden", "true", 1, "blob", "blob-a"], ["aria-hidden", "true", 1, "blob", "blob-b"], ["aria-hidden", "true", 1, "grain"], [1, "state-card", "state-card--soft"], [1, "state-card", "state-card--soft", "state-card--oops"], [1, "scan-inner", "animate-in"], ["aria-hidden", "true", 1, "pulse-heart"], ["viewBox", "0 0 32 32", "width", "40", "height", "40", "fill", "none"], ["d", "M16 28s-9.5-6.2-12-11c-2-3.5-.5-7.5 3-9 2.8-1.3 6 .2 9 4 3-3.8 6.2-5.3 9-4 3.5 1.5 5 5.5 3 9-2.5 4.8-12 11-12 11z", "fill", "currentColor", 1, "heart-path"], [1, "state-title"], [1, "state-sub"], ["aria-hidden", "true", 1, "oops-emoji"], [1, "state-heading"], [1, "state-copy"], ["routerLink", "/login", 1, "btn-outline"], ["aria-label", "CallmeNow vehicle tag", 1, "scan-sticker-wrap"], ["variant", "scan", 3, "qrImageUrl", "code"], [1, "panel", "panel-hero", "panel-hero--below-sticker"], [1, "chip"], [1, "hero-title"], [1, "hero-lede"], ["aria-label", "Vehicle registration", 1, "reg-plate"], [1, "btn-emergency", 3, "href"], [1, "masked-call"], [1, "ribbon-wait"], [1, "soft-nudge"], [1, "panel", "panel-warm"], [1, "panel-kicker"], [1, "panel-title"], [1, "panel-text"], ["routerLink", "/product", 1, "btn-warm"], [1, "panel", "panel-proof"], [1, "proof-big"], [1, "proof-small"], [1, "proof-city"], [1, "stat-row"], [1, "stat-pill"], [1, "stat-num"], [1, "stat-lbl"], [1, "stat-pill", "stat-pill--alt"], [1, "panel", "panel-deal"], [1, "deal-badge"], [1, "panel-title-sm"], [1, "code-highlight"], [1, "deal-price"], ["routerLink", "/product", 1, "btn-dark"], [1, "panel"], [1, "variant-grid"], [1, "variant-tile"], [1, "panel", "panel-share"], [1, "panel-text", "tight"], [1, "share-chips"], ["type", "button", 1, "chip-btn", "chip-wa", 3, "click"], ["type", "button", 1, "chip-btn", "chip-tg", 3, "click"], ["type", "button", 1, "chip-btn", "chip-ig", 3, "click"], ["type", "button", 1, "chip-btn", "chip-copy", 3, "click"], [1, "copy-toast"], [1, "panel", "panel-lead"], [1, "lead-err"], [1, "lead-stack"], [1, "lead-yay"], [1, "scan-foot"], ["aria-hidden", "true", 1, "foot-heart"], ["routerLink", "/login", 1, "foot-link"], [1, "btn-emergency", 3, "click", "href"], ["aria-hidden", "true", 1, "btn-call-icon"], ["type", "button", 1, "btn-call", "btn-call--masked", 3, "disabled"], [1, "whisper", 3, "whisper--ok", "whisper--err"], [1, "whisper"], ["aria-label", "Call owner from your phone", 1, "ivr-call", "ivr-call--primary"], [1, "ivr-call-kicker"], [1, "btn-call", "btn-call--ivr", "btn-call--ivr-primary", 3, "click", "href"], [1, "whisper", "whisper--ivr"], [1, "ivr-code"], ["role", "presentation", 1, "ivr-or-divider"], ["type", "button", 1, "btn-call", "btn-call--masked", 3, "click", "disabled"], [1, "whisper", "whisper--hint"], ["type", "button", 1, "btn-exotel-link", 3, "click"], [1, "masked-label"], [1, "masked-label-text"], ["type", "tel", "name", "fromPhone", "inputmode", "tel", "autocomplete", "tel", "placeholder", "10-digit number", 1, "masked-input", 3, "ngModelChange", "ngModel", "disabled"], ["type", "button", 1, "btn-exotel-link"], [1, "masked-remember"], ["type", "checkbox", "name", "rememberExotel", 3, "ngModelChange", "ngModel", "disabled"], [1, "btn-call", 3, "click", "href"], ["aria-hidden", "true", 1, "ribbon-ico"], [1, "activate-link", 3, "href"], ["routerLink", "/product", 1, "text-link"], [1, "v-emoji"], [1, "v-label"], ["type", "tel", "placeholder", "Mobile or phone number", 1, "field", 3, "ngModelChange", "ngModel"], ["type", "button", 1, "btn-warm", "full", 3, "click", "disabled"]], template: function ScanPageComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ScanPageComponent, selectors: [["app-scan-page"]], decls: 15, vars: 3, consts: [[1, "scan-root"], ["aria-hidden", "true", 1, "blob", "blob-a"], ["aria-hidden", "true", 1, "blob", "blob-b"], ["aria-hidden", "true", 1, "grain"], [1, "state-card", "state-card--soft"], [1, "state-card", "state-card--soft", "state-card--oops"], [1, "scan-inner", "animate-in"], [1, "scan-foot"], ["aria-hidden", "true", 1, "foot-heart"], ["viewBox", "0 0 32 32", "width", "16", "height", "16", "fill", "currentColor"], ["d", "M16 28s-9.5-6.2-12-11c-2-3.5-.5-7.5 3-9 2.8-1.3 6 .2 9 4 3-3.8 6.2-5.3 9-4 3.5 1.5 5 5.5 3 9-2.5 4.8-12 11-12 11z"], [1, "foot-tagline"], ["routerLink", "/login", 1, "foot-link"], ["aria-hidden", "true", 1, "pulse-heart"], ["viewBox", "0 0 32 32", "width", "40", "height", "40", "fill", "none"], ["d", "M16 28s-9.5-6.2-12-11c-2-3.5-.5-7.5 3-9 2.8-1.3 6 .2 9 4 3-3.8 6.2-5.3 9-4 3.5 1.5 5 5.5 3 9-2.5 4.8-12 11-12 11z", "fill", "currentColor", 1, "heart-path"], [1, "state-title"], [1, "state-sub"], ["aria-hidden", "true", 1, "oops-emoji"], [1, "state-heading"], [1, "state-copy"], ["routerLink", "/login", 1, "btn-outline"], [2, "padding", "0", "overflow", "hidden", "background", "#ffffff", "border-radius", "24px", "margin-bottom", "10px", "box-shadow", "0 12px 32px rgba(15,23,42,0.06)", "border", "1px solid #e2e8f0"], [2, "padding", "16px 18px 0", "display", "flex", "align-items", "center", "gap", "12px"], ["src", "/assets/marketing/scannerlogo.png", "alt", "CallMeNow", "loading", "eager", "decoding", "async", 1, "brand-logo-img", 2, "height", "26px", "width", "auto", "border-radius", "4px"], [2, "margin-left", "auto", "background", "rgba(22,163,74,0.1)", "border", "1px solid rgba(22,163,74,0.2)", "color", "#16a34a", "padding", "4px 12px", "border-radius", "99px", "font-size", "0.68rem", "font-weight", "800", "flex-shrink", "0", "letter-spacing", "0.04em"], [2, "padding", "16px 18px 0", "text-align", "center"], [2, "font-size", "1.65rem", "font-weight", "900", "line-height", "1.15", "color", "#1f2937", "margin", "0 0 8px", "letter-spacing", "-0.5px"], [2, "color", "#64748b", "font-size", "0.88rem", "margin", "0 0 16px", "line-height", "1.5"], [1, "registration-card"], [1, "call-group", "animate-reveal", 2, "padding", "14px 14px 20px", "background", "#f8fafc", "gap", "10px"], [1, "ribbon-wait", 2, "margin", "14px"], [1, "soft-nudge"], [1, "panel", "panel-warm"], [1, "panel-kicker"], [1, "panel-title"], [1, "panel-text"], ["routerLink", "/product", 1, "btn-warm"], [1, "panel", "panel-proof"], [1, "proof-big"], [1, "proof-small"], [1, "proof-city"], [1, "stat-row"], [1, "stat-pill"], [1, "stat-num"], [1, "stat-lbl"], [1, "stat-pill", "stat-pill--alt"], [1, "panel", "panel-deal"], [1, "deal-badge"], [1, "panel-title-sm"], [1, "code-highlight"], [1, "deal-price"], ["routerLink", "/product", 1, "btn-dark"], [1, "panel"], [1, "variant-grid"], [1, "variant-tile"], [1, "panel", 2, "background", "#ffffff", "border", "1px solid #e2e8f0"], [1, "section-header", 2, "margin-bottom", "12px"], [1, "section-ico", 2, "background", "none", "font-size", "1.4rem"], [1, "panel-title-sm", 2, "margin", "0", "color", "#dc2626", "font-size", "1.1rem"], [1, "panel-text", "tight", 2, "margin-bottom", "20px", "color", "#64748b", "font-size", "0.92rem", "line-height", "1.5"], [2, "display", "flex", "gap", "12px", "justify-content", "space-between"], ["href", "tel:112", 2, "flex", "1", "display", "flex", "flex-direction", "column", "align-items", "center", "background", "#f8fafc", "color", "#1e293b", "padding", "16px 8px", "border-radius", "12px", "text-decoration", "none", "border", "1px solid #e2e8f0", "box-shadow", "0 2px 6px rgba(0,0,0,0.02)"], [2, "font-size", "1.5rem", "margin-bottom", "4px"], [2, "font-size", "0.95rem", "margin-bottom", "2px"], [2, "font-size", "1.2rem", "font-weight", "800", "color", "#dc2626"], ["href", "tel:101", 2, "flex", "1", "display", "flex", "flex-direction", "column", "align-items", "center", "background", "#f8fafc", "color", "#1e293b", "padding", "16px 8px", "border-radius", "12px", "text-decoration", "none", "border", "1px solid #e2e8f0", "box-shadow", "0 2px 6px rgba(0,0,0,0.02)"], ["href", "tel:108", 2, "flex", "1", "display", "flex", "flex-direction", "column", "align-items", "center", "background", "#f8fafc", "color", "#1e293b", "padding", "16px 8px", "border-radius", "12px", "text-decoration", "none", "border", "1px solid #e2e8f0", "box-shadow", "0 2px 6px rgba(0,0,0,0.02)"], [1, "registration-header"], [1, "registration-line"], [1, "registration-number"], [1, "visitor-input-card", 3, "v-card--err"], [2, "font-size", "0.68rem", "font-weight", "700", "color", "#64748b", "text-transform", "uppercase", "letter-spacing", "0.12em", "margin", "0 0 2px"], [2, "background", "#ffffff", "border", "1px solid #e2e8f0", "border-radius", "18px", "padding", "14px", "box-shadow", "0 4px 12px rgba(15,23,42,0.03)"], [2, "display", "flex", "align-items", "center", "gap", "10px", "margin-bottom", "16px"], [2, "width", "36px", "height", "36px", "background", "#f0fdf4", "border-radius", "10px", "display", "flex", "align-items", "center", "justify-content", "center", "color", "#16a34a"], ["viewBox", "0 0 24 24", "width", "20", "height", "20", "fill", "currentColor"], ["d", "M6.62 10.79a15.15 15.15 0 006.59 6.59l2.2-2.2a1 1 0 011.1-.27 11.36 11.36 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.43a1 1 0 011 1 11.36 11.36 0 00.57 3.58 1 1 0 01-.27 1.1l-2.2 2.2z"], [2, "font-size", "0.75rem", "font-weight", "900", "text-transform", "uppercase", "letter-spacing", "0.12em", "color", "#15803d", "margin", "0"], [2, "background", "#f0fdf4", "border", "1px solid #86efac", "border-radius", "12px", "padding", "14px", "margin-bottom", "10px"], ["type", "button", 2, "display", "flex", "align-items", "center", "justify-content", "center", "gap", "10px", "width", "100%", "background", "linear-gradient(135deg,#22c55e,#16a34a)", "color", "white", "font-weight", "800", "font-size", "1rem", "padding", "15px", "border-radius", "14px", "border", "none", "box-shadow", "0 6px 22px rgba(22,163,74,0.3)", "cursor", "pointer", "letter-spacing", "0.02em", 3, "disabled"], [2, "display", "flex", "align-items", "center", "justify-content", "center", "gap", "10px", "width", "100%", "background", "linear-gradient(135deg,#22c55e,#16a34a)", "color", "white", "font-weight", "800", "font-size", "1rem", "padding", "15px", "border-radius", "14px", "text-decoration", "none", "box-shadow", "0 6px 22px rgba(22,163,74,0.3)", "letter-spacing", "0.02em", 3, "href"], [1, "whisper", 3, "whisper--ok", "whisper--err"], [1, "whisper"], [1, "visitor-input-card"], [1, "masked-label"], [1, "masked-label-text", 2, "color", "#1e293b"], ["type", "tel", "name", "fromPhone", "inputmode", "tel", "maxlength", "10", "autocomplete", "tel", "placeholder", "10-digit mobile number", 1, "masked-input", 2, "border", "1px solid #cbd5e1", "background", "#ffffff", "color", "#0f172a", 3, "ngModelChange", "input", "ngModel", "disabled"], [1, "whisper", "whisper--err", "animate-pop"], [1, "whisper", 2, "color", "#64748b"], [2, "font-size", "0.62rem", "text-transform", "uppercase", "letter-spacing", "1.5px", "color", "#15803d", "font-weight", "800", "margin-bottom", "10px", "text-align", "center"], [2, "display", "flex", "justify-content", "center", "gap", "8px", "margin-bottom", "12px"], [2, "width", "48px", "height", "56px", "background", "#ffffff", "border-radius", "10px", "border", "2px solid #bbf7d0", "display", "flex", "align-items", "center", "justify-content", "center", "font-size", "1.8rem", "font-weight", "900", "color", "#16a34a", "font-family", "monospace", "box-shadow", "0 2px 8px rgba(22,163,74,0.06)"], [2, "background", "#dcfce7", "border", "1px solid #bbf7d0", "border-radius", "8px", "padding", "8px 10px", "text-align", "center"], [2, "font-size", "0.78rem", "color", "#166534", "line-height", "1.4"], ["type", "button", 2, "display", "flex", "align-items", "center", "justify-content", "center", "gap", "10px", "width", "100%", "background", "linear-gradient(135deg,#22c55e,#16a34a)", "color", "white", "font-weight", "800", "font-size", "1rem", "padding", "15px", "border-radius", "14px", "border", "none", "box-shadow", "0 6px 22px rgba(22,163,74,0.3)", "cursor", "pointer", "letter-spacing", "0.02em", 3, "click", "disabled"], ["viewBox", "0 0 24 24", "width", "20", "height", "20", "fill", "#ffffff"], [2, "display", "flex", "align-items", "center", "justify-content", "center", "gap", "10px", "width", "100%", "background", "linear-gradient(135deg,#22c55e,#16a34a)", "color", "white", "font-weight", "800", "font-size", "1rem", "padding", "15px", "border-radius", "14px", "text-decoration", "none", "box-shadow", "0 6px 22px rgba(22,163,74,0.3)", "letter-spacing", "0.02em", 3, "click", "href"], [2, "width", "36px", "height", "36px", "background", "#fee2e2", "border-radius", "10px", "display", "flex", "align-items", "center", "justify-content", "center", "color", "#dc2626"], ["d", "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"], [2, "font-size", "0.75rem", "font-weight", "900", "text-transform", "uppercase", "letter-spacing", "0.12em", "color", "#991b1b", "margin", "0"], [2, "background", "#fef2f2", "border", "1px solid #fecaca", "border-radius", "12px", "padding", "14px", "margin-bottom", "10px"], ["type", "button", 2, "display", "flex", "align-items", "center", "justify-content", "center", "gap", "10px", "width", "100%", "background", "linear-gradient(135deg,#dc2626,#991b1b)", "color", "white", "font-weight", "800", "font-size", "1rem", "padding", "15px", "border-radius", "14px", "border", "none", "box-shadow", "0 6px 22px rgba(220,38,38,0.35)", "cursor", "pointer", "letter-spacing", "0.02em", 3, "disabled"], [2, "display", "flex", "align-items", "center", "justify-content", "center", "gap", "10px", "width", "100%", "background", "linear-gradient(135deg,#dc2626,#991b1b)", "color", "white", "font-weight", "800", "font-size", "1rem", "padding", "15px", "border-radius", "14px", "text-decoration", "none", "box-shadow", "0 6px 22px rgba(220,38,38,0.35)", "letter-spacing", "0.02em", 3, "href"], [2, "font-size", "0.62rem", "text-transform", "uppercase", "letter-spacing", "1.5px", "color", "#b91c1c", "font-weight", "800", "margin-bottom", "10px", "text-align", "center"], [2, "width", "48px", "height", "56px", "background", "#ffffff", "border-radius", "10px", "border", "2px solid #fecaca", "display", "flex", "align-items", "center", "justify-content", "center", "font-size", "1.8rem", "font-weight", "900", "color", "#dc2626", "font-family", "monospace", "box-shadow", "0 2px 8px rgba(220,38,38,0.06)"], [2, "background", "#fee2e2", "border", "1px solid #fecaca", "border-radius", "8px", "padding", "8px 10px", "text-align", "center"], [2, "font-size", "0.78rem", "color", "#991b1b", "line-height", "1.4"], ["type", "button", 2, "display", "flex", "align-items", "center", "justify-content", "center", "gap", "10px", "width", "100%", "background", "linear-gradient(135deg,#dc2626,#991b1b)", "color", "white", "font-weight", "800", "font-size", "1rem", "padding", "15px", "border-radius", "14px", "border", "none", "box-shadow", "0 6px 22px rgba(220,38,38,0.35)", "cursor", "pointer", "letter-spacing", "0.02em", 3, "click", "disabled"], [2, "display", "flex", "align-items", "center", "justify-content", "center", "gap", "10px", "width", "100%", "background", "linear-gradient(135deg,#dc2626,#991b1b)", "color", "white", "font-weight", "800", "font-size", "1rem", "padding", "15px", "border-radius", "14px", "text-decoration", "none", "box-shadow", "0 6px 22px rgba(220,38,38,0.35)", "letter-spacing", "0.02em", 3, "click", "href"], ["aria-hidden", "true", 1, "ribbon-ico"], [1, "activate-link", 3, "href"], ["routerLink", "/product", 1, "text-link"], [1, "v-emoji"], [1, "v-label"]], template: function ScanPageComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0);
       \u0275\u0275element(1, "div", 1)(2, "div", 2)(3, "div", 3);
       \u0275\u0275conditionalCreate(4, ScanPageComponent_Conditional_4_Template, 8, 0, "div", 4);
       \u0275\u0275conditionalCreate(5, ScanPageComponent_Conditional_5_Template, 9, 0, "div", 5);
-      \u0275\u0275conditionalCreate(6, ScanPageComponent_Conditional_6_Template, 97, 27, "div", 6);
+      \u0275\u0275conditionalCreate(6, ScanPageComponent_Conditional_6_Template, 96, 17, "div", 6);
+      \u0275\u0275elementStart(7, "footer", 7)(8, "div", 8);
+      \u0275\u0275namespaceSVG();
+      \u0275\u0275elementStart(9, "svg", 9);
+      \u0275\u0275element(10, "path", 10);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275namespaceHTML();
+      \u0275\u0275elementStart(11, "span", 11);
+      \u0275\u0275text(12, "CallMeNow \u2014 neighbourly help, built for the road");
       \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(13, "a", 12);
+      \u0275\u0275text(14, "Partner login");
+      \u0275\u0275elementEnd()()();
     }
     if (rf & 2) {
       let tmp_2_0;
@@ -45282,33 +45244,35 @@ var ScanPageComponent = class _ScanPageComponent {
       \u0275\u0275advance();
       \u0275\u0275conditional((tmp_2_0 = !ctx.loading() && !ctx.notFound() && ctx.data()) ? 6 : -1, tmp_2_0);
     }
-  }, dependencies: [CommonModule, RouterLink, FormsModule, DefaultValueAccessor, CheckboxControlValueAccessor, NgControlStatus, NgModel, CmnStickerLabelComponent, DecimalPipe], styles: [`
+  }, dependencies: [CommonModule, RouterLink, FormsModule, DefaultValueAccessor, NgControlStatus, MaxLengthValidator, NgModel, DecimalPipe], styles: [`
 
 .scan-root[_ngcontent-%COMP%] {
-  --cream: #ffffff;
-  --paper: #fffdf9;
-  --ink: #1c1917;
-  --muted: #57534e;
-  --terra: #c45c4a;
-  --terra-dark: #a34738;
-  --teal: #1a535c;
-  --teal-soft: #2d7a86;
-  --saffron: #e8a838;
-  --mint: #5c9e8c;
+  --cream: #f8fafc;
+  --paper: #ffffff;
+  --ink: #1e293b;
+  --muted: #64748b;
+  --terra: #16a34a;
+  --terra-dark: #15803d;
+  --teal: #1e293b;
+  --teal-soft: #94a3b8;
+  --saffron: #22c55e;
+  --mint: #10b981;
   position: relative;
-  min-height: 100vh;
-  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   overflow-x: hidden;
-  background: var(--cream);
-  color: var(--ink);
+  background: var(--paper);
+  color: #1e293b;
   font-family:
-    "Nunito",
+    Nunito,
     system-ui,
     sans-serif;
-  padding: max(1rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 2.5rem max(1rem, env(safe-area-inset-left, 0px));
+  padding: max(1.5rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 1.5rem max(1rem, env(safe-area-inset-left, 0px));
   max-width: min(540px, 100%);
-  margin: 0 auto;
+  margin: 16px auto;
   box-sizing: border-box;
+  border-radius: 28px;
+  box-shadow: 0 10px 50px rgba(15, 23, 42, 0.1);
 }
 .blob[_ngcontent-%COMP%] {
   position: fixed;
@@ -45321,14 +45285,14 @@ var ScanPageComponent = class _ScanPageComponent {
 .blob-a[_ngcontent-%COMP%] {
   width: 280px;
   height: 280px;
-  background: #f9d4cc;
+  background: #bbf7d0;
   top: -80px;
   right: -100px;
 }
 .blob-b[_ngcontent-%COMP%] {
   width: 320px;
   height: 320px;
-  background: #c5e8e0;
+  background: #e2e8f0;
   bottom: 10%;
   left: -120px;
 }
@@ -45340,7 +45304,13 @@ var ScanPageComponent = class _ScanPageComponent {
   z-index: 1;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.scan-inner[_ngcontent-%COMP%], 
+.scan-inner[_ngcontent-%COMP%] {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 .state-card[_ngcontent-%COMP%] {
   position: relative;
   z-index: 2;
@@ -45429,21 +45399,18 @@ var ScanPageComponent = class _ScanPageComponent {
   margin-bottom: 0.85rem;
 }
 .panel[_ngcontent-%COMP%] {
-  background: var(--paper);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 22px;
   padding: 1.35rem 1.25rem 1.45rem;
   margin-bottom: 0.85rem;
-  box-shadow: 0 2px 16px rgba(28, 25, 23, 0.05), 0 0 0 1px rgba(26, 83, 92, 0.06);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.04);
 }
 .panel-hero[_ngcontent-%COMP%] {
   border-radius: 26px;
   padding: 1.5rem 1.35rem 1.6rem;
-  background:
-    linear-gradient(
-      165deg,
-      #fff 0%,
-      #fff9f5 100%);
-  box-shadow: 0 12px 40px rgba(196, 92, 74, 0.12), 0 0 0 1px rgba(196, 92, 74, 0.1);
+  background: #ffffff;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(15, 23, 42, 0.03);
 }
 .panel-hero--below-sticker[_ngcontent-%COMP%] {
   padding-top: 1.25rem;
@@ -45459,6 +45426,17 @@ var ScanPageComponent = class _ScanPageComponent {
   padding: 0.35rem 0.7rem;
   border-radius: 999px;
   margin-bottom: 0.65rem;
+}
+.hero-tagline[_ngcontent-%COMP%] {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: rgba(26, 83, 92, 0.9);
+  background: rgba(26, 83, 92, 0.08);
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
 }
 .hero-title[_ngcontent-%COMP%] {
   font-family:
@@ -45482,16 +45460,218 @@ var ScanPageComponent = class _ScanPageComponent {
   font-weight: 800;
   letter-spacing: 0.18em;
   text-align: center;
-  color: var(--ink);
+  color: #f8fafc;
   background:
     linear-gradient(
       180deg,
-      #f8fafc 0%,
-      #e2e8f0 100%);
-  border: 2px solid #94a3b8;
+      rgba(30, 41, 59, 0.8) 0%,
+      rgba(15, 23, 42, 0.8) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
   padding: 0.55rem 0.85rem;
-  margin: -0.15rem 0 0.85rem;
+  margin: -0.15rem 0 1.25rem;
+}
+.call-group[_ngcontent-%COMP%] {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+.visitor-input-card[_ngcontent-%COMP%] {
+  background: rgba(26, 83, 92, 0.05);
+  padding: 1.25rem;
+  border-radius: 24px;
+  border: 1px dashed rgba(26, 83, 92, 0.2);
+  transition: all 0.3s ease;
+}
+.v-card--err[_ngcontent-%COMP%] {
+  background: rgba(239, 68, 68, 0.05);
+  border-color: rgba(239, 68, 68, 0.4);
+  animation: _ngcontent-%COMP%_shake 0.4s ease-in-out, _ngcontent-%COMP%_pulse-red 2s infinite;
+}
+.animate-pop[_ngcontent-%COMP%] {
+  animation: _ngcontent-%COMP%_pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes _ngcontent-%COMP%_pulse-red {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1);
+  }
+}
+.pin-display-card[_ngcontent-%COMP%] {
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+.pin-title[_ngcontent-%COMP%] {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+.pin-grid[_ngcontent-%COMP%] {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.pin-digit[_ngcontent-%COMP%] {
+  width: 2.8rem;
+  height: 3.5rem;
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+}
+.pin-digit[_ngcontent-%COMP%]:hover {
+  transform: translateY(-2px);
+  border-color: #000;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.pin-note[_ngcontent-%COMP%] {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.4;
+}
+@keyframes _ngcontent-%COMP%_pop {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.pin-mini-card[_ngcontent-%COMP%] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #f8f9fa;
+  border: 1px dashed #ced4da;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.pin-mini-card--emergency[_ngcontent-%COMP%] {
+  background: #fff8f8;
+  border-color: #fca5a5;
+}
+.pin-mini-label[_ngcontent-%COMP%] {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+}
+.pin-mini-value[_ngcontent-%COMP%] {
+  font-family:
+    "Courier New",
+    Courier,
+    monospace;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #000;
+  letter-spacing: 0.1em;
+}
+@keyframes _ngcontent-%COMP%_pop-in {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.masked-input--err[_ngcontent-%COMP%] {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+}
+@keyframes _ngcontent-%COMP%_shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+.whisper--err[_ngcontent-%COMP%] {
+  color: #ef4444 !important;
+  font-weight: 700;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+.actions-stack[_ngcontent-%COMP%] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.call-section[_ngcontent-%COMP%] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem 1.25rem;
+  border-radius: 20px;
+  background: var(--paper);
+  border: 1px solid rgba(26, 83, 92, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+.call-section--emergency[_ngcontent-%COMP%] {
+  background: rgba(232, 168, 56, 0.03);
+  border-color: rgba(232, 168, 56, 0.12);
+}
+.section-header[_ngcontent-%COMP%] {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-ico[_ngcontent-%COMP%] {
+  font-size: 0.9rem;
+}
+.section-kicker[_ngcontent-%COMP%] {
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--teal);
+  margin: 0;
+}
+.section-kicker--emergency[_ngcontent-%COMP%] {
+  color: #bf710d;
+}
+.btn-call--direct[_ngcontent-%COMP%] {
+  background:
+    linear-gradient(
+      135deg,
+      var(--teal) 0%,
+      #0d4f5a 100%);
 }
 .btn-emergency[_ngcontent-%COMP%] {
   display: flex;
@@ -45505,7 +45685,7 @@ var ScanPageComponent = class _ScanPageComponent {
       135deg,
       var(--saffron) 0%,
       #d97706 100%);
-  color: #1c1917 !important;
+  color: #000000 !important;
   font-weight: 800;
   font-size: 0.98rem;
   padding: 0.85rem 1.1rem;
@@ -45532,7 +45712,7 @@ var ScanPageComponent = class _ScanPageComponent {
       135deg,
       var(--mint) 0%,
       #3d8b7a 100%);
-  color: #fff !important;
+  color: #000000 !important;
   font-weight: 800;
   font-size: 1.05rem;
   padding: 1rem 1.2rem;
@@ -45625,11 +45805,18 @@ var ScanPageComponent = class _ScanPageComponent {
 }
 .btn-call--masked[_ngcontent-%COMP%] {
   border: none;
-  cursor: pointer;
-  font-family: inherit;
+  background: var(--primary-color);
+  color: white;
 }
-.btn-call--masked[_ngcontent-%COMP%]:disabled {
-  opacity: 0.65;
+.btn-call--browser[_ngcontent-%COMP%] {
+  background: #0d4f5a;
+  border: 2px solid #0d4f5a;
+}
+.browser-call[_ngcontent-%COMP%] {
+  margin-bottom: 0.75rem;
+}
+.btn-call[_ngcontent-%COMP%]:disabled {
+  opacity: 0.7;
   cursor: not-allowed;
 }
 .btn-exotel-link[_ngcontent-%COMP%] {
@@ -45707,6 +45894,40 @@ var ScanPageComponent = class _ScanPageComponent {
   font-weight: 900;
   color: #b45309 !important;
 }
+.emergency-quick[_ngcontent-%COMP%] {
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(120, 53, 15, 0.25);
+}
+.emergency-title[_ngcontent-%COMP%] {
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(120, 53, 15, 0.85);
+  margin-bottom: 0.45rem;
+}
+.emergency-row[_ngcontent-%COMP%] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+.emergency-pill[_ngcontent-%COMP%] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(232, 168, 56, 0.35);
+  color: #7c2d12 !important;
+  font-weight: 900;
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+.emergency-pill[_ngcontent-%COMP%]:active {
+  transform: scale(0.98);
+}
 .ribbon-ico[_ngcontent-%COMP%] {
   font-size: 1.25rem;
   line-height: 1;
@@ -45780,12 +46001,8 @@ var ScanPageComponent = class _ScanPageComponent {
   width: 100%;
 }
 .panel-proof[_ngcontent-%COMP%] {
-  background:
-    linear-gradient(
-      160deg,
-      #f0faf8 0%,
-      #fff 70%);
-  border: 1px solid rgba(92, 158, 140, 0.2);
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
 }
 .proof-big[_ngcontent-%COMP%] {
   font-family:
@@ -45813,16 +46030,16 @@ var ScanPageComponent = class _ScanPageComponent {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
-  background: #fff;
+  background: #ffffff;
   padding: 0.65rem 1rem;
   border-radius: 14px;
-  border: 1px solid rgba(26, 83, 92, 0.12);
+  border: 1px solid #cbd5e1;
   flex: 1;
   min-width: 42%;
 }
 .stat-pill--alt[_ngcontent-%COMP%] {
-  border-color: rgba(196, 92, 74, 0.2);
-  background: #fffaf8;
+  border-color: #cbd5e1;
+  background: #f8fafc;
 }
 .stat-num[_ngcontent-%COMP%] {
   font-family:
@@ -45846,11 +46063,11 @@ var ScanPageComponent = class _ScanPageComponent {
   background:
     linear-gradient(
       135deg,
-      #1a535c 0%,
-      #0f3d44 100%);
-  color: #fef3c7;
+      #1e293b 0%,
+      #0f172a 100%);
+  color: #f8fafc;
   border: none;
-  box-shadow: 0 14px 36px rgba(26, 83, 92, 0.35);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.15);
 }
 .panel-deal[_ngcontent-%COMP%]   .panel-title-sm[_ngcontent-%COMP%], 
 .panel-deal[_ngcontent-%COMP%]   .panel-text[_ngcontent-%COMP%] {
@@ -45864,8 +46081,8 @@ var ScanPageComponent = class _ScanPageComponent {
   font-size: 0.65rem;
   font-weight: 900;
   letter-spacing: 0.14em;
-  color: var(--teal);
-  background: var(--saffron);
+  color: #ffffff;
+  background: #1e293b;
   padding: 0.3rem 0.55rem;
   border-radius: 6px;
   margin-bottom: 0.5rem;
@@ -45882,7 +46099,7 @@ var ScanPageComponent = class _ScanPageComponent {
   width: 100%;
   text-align: center;
   background: #fff;
-  color: var(--teal) !important;
+  color: #0f172a !important;
   font-weight: 900;
   padding: 0.9rem 1rem;
   border-radius: 16px;
@@ -45894,14 +46111,14 @@ var ScanPageComponent = class _ScanPageComponent {
   gap: 0.55rem;
 }
 .variant-tile[_ngcontent-%COMP%] {
-  border: 1px solid rgba(26, 83, 92, 0.12);
+  border: 1px solid #e2e8f0;
   border-radius: 16px;
   padding: 0.75rem 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.35rem;
-  background: #fffef9;
+  background: #f8fafc;
   transition: transform 0.15s ease;
 }
 .variant-tile[_ngcontent-%COMP%]:active {
@@ -45989,19 +46206,25 @@ var ScanPageComponent = class _ScanPageComponent {
 }
 .scan-foot[_ngcontent-%COMP%] {
   text-align: center;
-  font-size: 0.78rem;
-  color: var(--muted);
-  margin-top: 1.25rem;
-  line-height: 1.6;
+  font-size: 0.85rem;
+  color: #64748b;
+  padding: 3rem 1rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.6rem;
   align-items: center;
 }
+.foot-tagline[_ngcontent-%COMP%] {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 500;
+}
 .foot-heart[_ngcontent-%COMP%] {
-  color: var(--terra);
-  font-size: 1rem;
-  animation: _ngcontent-%COMP%_pulse-soft 2s ease-in-out infinite;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.25rem;
 }
 .foot-link[_ngcontent-%COMP%] {
   color: var(--teal) !important;
@@ -46014,12 +46237,73 @@ var ScanPageComponent = class _ScanPageComponent {
     animation: none;
   }
 }
+.registration-card[_ngcontent-%COMP%] {
+  margin: 0 16px 14px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  text-align: center;
+}
+.registration-header[_ngcontent-%COMP%] {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #94a3b8;
+  font-weight: 800;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.registration-line[_ngcontent-%COMP%] {
+  width: 12px;
+  height: 1px;
+  background: #e2e8f0;
+}
+.registration-number[_ngcontent-%COMP%] {
+  font-size: clamp(1.4rem, 8vw, 2.2rem);
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: 2px;
+  line-height: 1;
+  text-transform: uppercase;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  word-break: break-all;
+}
+@media (max-width: 480px) {
+  .scan-root[_ngcontent-%COMP%] {
+    margin: 8px auto;
+    padding: 1rem 0.75rem 1rem;
+    border-radius: 20px;
+  }
+  .registration-card[_ngcontent-%COMP%] {
+    margin: 0 10px 14px;
+    padding: 16px 8px;
+  }
+  .registration-number[_ngcontent-%COMP%] {
+    letter-spacing: 1px;
+  }
+  .hero-title[_ngcontent-%COMP%] {
+    font-size: 1.45rem;
+  }
+  .btn-call[_ngcontent-%COMP%], 
+   .btn-emergency[_ngcontent-%COMP%] {
+    font-size: 0.95rem;
+    padding: 0.85rem 1rem;
+  }
+}
 /*# sourceMappingURL=scan-page.css.map */`] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ScanPageComponent, [{
     type: Component,
-    args: [{ selector: "app-scan-page", standalone: true, imports: [CommonModule, RouterLink, FormsModule, CmnStickerLabelComponent], template: `<div class="scan-root">
+    args: [{ selector: "app-scan-page", standalone: true, imports: [CommonModule, RouterLink, FormsModule], template: `<div class="scan-root">
   <div class="blob blob-a" aria-hidden="true"></div>
   <div class="blob blob-b" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
@@ -46041,120 +46325,207 @@ var ScanPageComponent = class _ScanPageComponent {
   @if (notFound()) {
   <div class="state-card state-card--soft state-card--oops">
     <span class="oops-emoji" aria-hidden="true">\u{1F327}\uFE0F</span>
-    <h1 class="state-heading">We couldn\u2019t find this QR</h1>
-    <p class="state-copy">The code may be wrong or the sticker damaged. If it\u2019s new, contact support.</p>
+    <h1 class="state-heading">We couldn't find this QR</h1>
+    <p class="state-copy">The code may be wrong or the sticker damaged. If it's new, contact support.</p>
     <a routerLink="/login" class="btn-outline">Partner login</a>
   </div>
   }
 
   @if (!loading() && !notFound() && data(); as d) {
   <div class="scan-inner animate-in">
-    <section class="scan-sticker-wrap" aria-label="CallmeNow vehicle tag">
-      <app-cmn-sticker-label
-        [qrImageUrl]="stickerQrImageUrl(d)"
-        [code]="stickerCodeLabel(d)"
-        variant="scan"
-      />
-    </section>
 
-    <section class="panel panel-hero panel-hero--below-sticker">
-      <p class="chip">{{ d.productLabel }}</p>
-      <h1 class="hero-title">{{ d.headline }}</h1>
-      <p class="hero-lede">{{ d.subtitle }}</p>
+    <!-- \u2550\u2550\u2550 HERO PANEL \u2014 unified bright theme \u2550\u2550\u2550 -->
+    <section
+      style="padding:0; overflow:hidden; background:#ffffff; border-radius:24px; margin-bottom:10px; box-shadow:0 12px 32px rgba(15,23,42,0.06); border:1px solid #e2e8f0;">
+
+      <!-- Brand bar -->
+      <div style="padding:16px 18px 0; display:flex; align-items:center; gap:12px;">
+        <img src="/assets/marketing/scannerlogo.png" alt="CallMeNow" class="brand-logo-img"
+          style="height:26px; width:auto; border-radius: 4px;" loading="eager" decoding="async">
+
+        <div
+          style="margin-left:auto; background:rgba(22,163,74,0.1); border:1px solid rgba(22,163,74,0.2); color:#16a34a; padding:4px 12px; border-radius:99px; font-size:0.68rem; font-weight:800; flex-shrink:0; letter-spacing:0.04em;">
+          \u{1F6E1}\uFE0F SECURE</div>
+      </div>
+
+      <!-- Hero text -->
+      <div style="padding:16px 18px 0; text-align:center;">
+        <h1
+          style="font-size:1.65rem; font-weight:900; line-height:1.15; color:#1f2937; margin:0 0 8px; letter-spacing:-0.5px;">
+          Contact Vehicle Owner</h1>
+        <p style="color:#64748b; font-size:0.88rem; margin:0 0 16px; line-height:1.5;">Your number stays completely
+          hidden \u2014 call privately with zero sharing.</p>
+      </div>
 
       @if (d.status === 'active' && d.vehicleRegistration) {
-      <p class="reg-plate" aria-label="Vehicle registration">{{ d.vehicleRegistration }}</p>
-      }
-
-      @if (d.status === 'active' && d.emergencyDialUri) {
-      <a class="btn-emergency" [href]="d.emergencyDialUri" (click)="onCallClick()">
-        <span class="btn-call-icon" aria-hidden="true">\u{1F198}</span>
-        {{ emergencyCallLabel(d) }} \u2014 {{ d.emergencyContactMasked ?? 'call' }}
-      </a>
-      }
-
-      @if (d.status === 'active' && d.ownerConnectViaExotel) {
-      <div class="masked-call">
-        @if (d.exotelIvrDialUri && d.ivrAccessCode && !d.exotelOwnerOnlyAlert) {
-        <div class="ivr-call ivr-call--primary" aria-label="Call owner from your phone">
-          <p class="ivr-call-kicker">Fastest \u2014 your phone calls the owner now</p>
-          <a class="btn-call btn-call--ivr btn-call--ivr-primary" [href]="d.exotelIvrDialUri" (click)="onCallClick()">
-            <span class="btn-call-icon" aria-hidden="true">\u{1F4F1}</span>
-            Open dialer \u2014 call
-          </a>
-          <p class="whisper whisper--ivr">When prompted, enter <strong class="ivr-code">{{ d.ivrAccessCode }}</strong>
-            then hash (#). Exotel connects you to the owner \u2014 no waiting for a server callback.</p>
+      <!-- Vehicle number polished display -->
+      <div class="registration-card">
+        <div class="registration-header">
+          <span class="registration-line"></span>
+          VEHICLE REGISTRATION
+          <span class="registration-line"></span>
         </div>
-        <p class="ivr-or-divider" role="presentation">or</p>
+        <div class="registration-number">
+          {{ d.vehicleRegistration }}</div>
+      </div>
+      }
+
+      @if (d.status === 'active') {
+      <!-- Call section -->
+      <div class="call-group animate-reveal" style="padding:14px 14px 20px; background:#f8fafc; gap:10px;">
+
+        @if (d.ownerConnectViaExotel) {
+        <div class="visitor-input-card"
+          [class.v-card--err]="connectFeedbackIsError() && (!fromPhone || fromPhone.length !== 10)">
+          <label class="masked-label">
+            <span class="masked-label-text" style="color:#1e293b;">1. Enter your mobile number</span>
+            <input type="tel" class="masked-input" style="border:1px solid #cbd5e1; background:#ffffff; color:#0f172a;"
+              [class.masked-input--err]="connectFeedbackIsError() && (!fromPhone || fromPhone.length !== 10)"
+              [(ngModel)]="fromPhone" (input)="onPhoneInput($event)" name="fromPhone" inputmode="tel" maxlength="10"
+              autocomplete="tel" placeholder="10-digit mobile number" [disabled]="connectBusy()" />
+            @if (connectFeedbackIsError() && (!fromPhone || fromPhone.length !== 10)) {
+            <p class="whisper whisper--err animate-pop">\u26A0\uFE0F Please enter exactly 10 digits!</p>
+            } @else {
+            <p class="whisper" style="color:#64748b;">Exotel will ring your phone first, then connect you.</p>
+            }
+          </label>
+        </div>
         }
-        @if (d.exotelOwnerOnlyAlert) {
-        <button type="button" class="btn-call btn-call--masked" (click)="connectOwnerMasked()"
-          [disabled]="connectBusy()">
-          <span class="btn-call-icon" aria-hidden="true">\u{1F4DE}</span>
-          {{ connectBusy() ? 'Connecting\u2026' : ownerCallLabel(d) }}
-        </button>
-        } @else if (exotelCompactUi()) {
-        <p class="whisper whisper--hint">Using your saved number on this device.</p>
-        <button type="button" class="btn-call btn-call--masked" (click)="connectOwnerMasked()"
-          [disabled]="connectBusy()">
-          <span class="btn-call-icon" aria-hidden="true">\u{1F4DE}</span>
-          {{ connectBusy() ? 'Connecting\u2026' : ownerCallLabel(d) }}
-        </button>
-        <button type="button" class="btn-exotel-link" (click)="expandExotelPhone()">Use a different number</button>
-        } @else {
-        <label class="masked-label">
-          <span class="masked-label-text">Your mobile number</span>
-          <input type="tel" class="masked-input" [(ngModel)]="fromPhone" name="fromPhone" inputmode="tel"
-            autocomplete="tel" placeholder="10-digit number" [disabled]="connectBusy()" />
-        </label>
-        @if (contactPickerSupported()) {
-        <button type="button" class="btn-exotel-link" (click)="pickFromContacts()">Choose from contacts</button>
+
+        <p
+          style="font-size:0.68rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.12em; margin:0 0 2px;">
+          Choose who to call</p>
+
+        <!-- \u2500\u2500 REACH THE OWNER \u2500\u2500 -->
+        <div
+          style="background:#ffffff; border:1px solid #e2e8f0; border-radius:18px; padding:14px; box-shadow:0 4px 12px rgba(15,23,42,0.03);">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+            <div style="width:36px; height:36px; background:#f0fdf4; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#16a34a;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6.62 10.79a15.15 15.15 0 006.59 6.59l2.2-2.2a1 1 0 011.1-.27 11.36 11.36 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.43a1 1 0 011 1 11.36 11.36 0 00.57 3.58 1 1 0 01-.27 1.1l-2.2 2.2z"/></svg>
+            </div>
+            <p
+              style="font-size:0.75rem; font-weight:900; text-transform:uppercase; letter-spacing:0.12em; color:#15803d; margin:0;">
+              Reach the Owner</p>
+          </div>
+
+          @if (!d.ownerConnectViaExotel) {
+          <!-- Owner PIN -->
+          <div
+            style="background:#f0fdf4; border:1px solid #86efac; border-radius:12px; padding:14px; margin-bottom:10px;">
+            <div
+              style="font-size:0.62rem; text-transform:uppercase; letter-spacing:1.5px; color:#15803d; font-weight:800; margin-bottom:10px; text-align:center;">
+              Dialer PIN</div>
+            <div style="display:flex; justify-content:center; gap:8px; margin-bottom:12px;">
+              @for (char of (d.ivrAccessCode || '1234').split(''); track $index) {
+              <div
+                style="width:48px; height:56px; background:#ffffff; border-radius:10px; border:2px solid #bbf7d0; display:flex; align-items:center; justify-content:center; font-size:1.8rem; font-weight:900; color:#16a34a; font-family:monospace; box-shadow:0 2px 8px rgba(22,163,74,0.06);">
+                {{ char }}</div>
+              }
+            </div>
+            <div
+              style="background:#dcfce7; border:1px solid #bbf7d0; border-radius:8px; padding:8px 10px; text-align:center;">
+              <span style="font-size:0.78rem; color:#166534; line-height:1.4;">\u{1F4A1} Tap <b>Call Now</b>, then enter this
+                PIN on your phone keypad when the voice asks.</span>
+            </div>
+          </div>
+          }
+
+          @if (d.ownerConnectViaExotel) {
+          <button type="button" (click)="connectOwnerMasked()" [disabled]="connectBusy()"
+            style="display:flex; align-items:center; justify-content:center; gap:10px; width:100%; background:linear-gradient(135deg,#22c55e,#16a34a); color:white; font-weight:800; font-size:1rem; padding:15px; border-radius:14px; border:none; box-shadow:0 6px 22px rgba(22,163,74,0.3); cursor:pointer; letter-spacing:0.02em;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#ffffff"><path d="M6.62 10.79a15.15 15.15 0 006.59 6.59l2.2-2.2a1 1 0 011.1-.27 11.36 11.36 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.43a1 1 0 011 1 11.36 11.36 0 00.57 3.58 1 1 0 01-.27 1.1l-2.2 2.2z"/></svg>
+             {{ connectBusy() ? 'Connecting\u2026' : 'Call Now' }}
+          </button>
+          } @else {
+          <a [href]="d.dialUri" (click)="onCallClick()"
+            style="display:flex; align-items:center; justify-content:center; gap:10px; width:100%; background:linear-gradient(135deg,#22c55e,#16a34a); color:white; font-weight:800; font-size:1rem; padding:15px; border-radius:14px; text-decoration:none; box-shadow:0 6px 22px rgba(22,163,74,0.3); letter-spacing:0.02em;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#ffffff"><path d="M6.62 10.79a15.15 15.15 0 006.59 6.59l2.2-2.2a1 1 0 011.1-.27 11.36 11.36 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.43a1 1 0 011 1 11.36 11.36 0 00.57 3.58 1 1 0 01-.27 1.1l-2.2 2.2z"/></svg>
+             Call Now
+          </a>
+          }
+        </div>
+
+        <!-- \u2500\u2500 EMERGENCY CONTACT \u2500\u2500 -->
+        @if (d.emergencyContactMasked) {
+        <div
+          style="background:#ffffff; border:1px solid #e2e8f0; border-radius:18px; padding:14px; box-shadow:0 4px 12px rgba(15,23,42,0.03);">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+            <div style="width:36px; height:36px; background:#fee2e2; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#dc2626;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            </div>
+            <p
+              style="font-size:0.75rem; font-weight:900; text-transform:uppercase; letter-spacing:0.12em; color:#991b1b; margin:0;">
+              Emergency Contact</p>
+          </div>
+
+          @if (!d.ownerConnectViaExotel) {
+          <!-- Emergency PIN -->
+          <div
+            style="background:#fef2f2; border:1px solid #fecaca; border-radius:12px; padding:14px; margin-bottom:10px;">
+            <div
+              style="font-size:0.62rem; text-transform:uppercase; letter-spacing:1.5px; color:#b91c1c; font-weight:800; margin-bottom:10px; text-align:center;">
+              Emergency PIN</div>
+            <div style="display:flex; justify-content:center; gap:8px; margin-bottom:12px;">
+              @for (char of (d.ivrEmergencyAccessCode || '9999').split(''); track $index) {
+              <div
+                style="width:48px; height:56px; background:#ffffff; border-radius:10px; border:2px solid #fecaca; display:flex; align-items:center; justify-content:center; font-size:1.8rem; font-weight:900; color:#dc2626; font-family:monospace; box-shadow: 0 2px 8px rgba(220,38,38,0.06);">
+                {{ char }}</div>
+              }
+            </div>
+            <div
+              style="background:#fee2e2; border:1px solid #fecaca; border-radius:8px; padding:8px 10px; text-align:center;">
+              <span style="font-size:0.78rem; color:#991b1b; line-height:1.4;">\u{1F4A1} Tap <b>Call Emergency</b>, then enter
+                this PIN on your keypad when asked.</span>
+            </div>
+          </div>
+          }
+
+          @if (d.ownerConnectViaExotel) {
+          <button type="button" (click)="connectEmergencyMasked()" [disabled]="connectBusy()"
+            style="display:flex; align-items:center; justify-content:center; gap:10px; width:100%; background:linear-gradient(135deg,#dc2626,#991b1b); color:white; font-weight:800; font-size:1rem; padding:15px; border-radius:14px; border:none; box-shadow:0 6px 22px rgba(220,38,38,0.35); cursor:pointer; letter-spacing:0.02em;">
+
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#ffffff"><path d="M6.62 10.79a15.15 15.15 0 006.59 6.59l2.2-2.2a1 1 0 011.1-.27 11.36 11.36 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.43a1 1 0 011 1 11.36 11.36 0 00.57 3.58 1 1 0 01-.27 1.1l-2.2 2.2z"/></svg>
+             {{ connectBusy() ? 'Connecting\u2026' : 'Call Emergency' }}
+          </button>
+          } @else {
+          <a [href]="d.emergencyDialUri" (click)="onCallClick()"
+            style="display:flex; align-items:center; justify-content:center; gap:10px; width:100%; background:linear-gradient(135deg,#dc2626,#991b1b); color:white; font-weight:800; font-size:1rem; padding:15px; border-radius:14px; text-decoration:none; box-shadow:0 6px 22px rgba(220,38,38,0.35); letter-spacing:0.02em;">
+
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#ffffff"><path d="M6.62 10.79a15.15 15.15 0 006.59 6.59l2.2-2.2a1 1 0 011.1-.27 11.36 11.36 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.43a1 1 0 011 1 11.36 11.36 0 00.57 3.58 1 1 0 01-.27 1.1l-2.2 2.2z"/></svg>
+             Call Emergency
+          </a>
+          }
+        </div>
         }
-        <label class="masked-remember">
-          <input type="checkbox" [(ngModel)]="rememberScannerPhone" name="rememberExotel" [disabled]="connectBusy()" />
-          <span>Remember on this device (one-tap next time)</span>
-        </label>
-        <button type="button" class="btn-call btn-call--masked" (click)="connectOwnerMasked()"
-          [disabled]="connectBusy()">
-          <span class="btn-call-icon" aria-hidden="true">\u{1F4DE}</span>
-          {{ connectBusy() ? 'Connecting\u2026' : ownerCallLabel(d) }}
-        </button>
-        }
+
         @if (connectFeedback(); as ef) {
-        <p class="whisper" [class.whisper--ok]="!connectFeedbackIsError()" [class.whisper--err]="connectFeedbackIsError()">
+        <p class="whisper" [class.whisper--ok]="!connectFeedbackIsError()"
+          [class.whisper--err]="connectFeedbackIsError()">
           {{ ef }}</p>
         }
         <p class="whisper">{{ d.maskingNote }}</p>
       </div>
-      } @else if (d.status === 'active' && d.dialUri) {
-      <a class="btn-call" [href]="d.dialUri" (click)="onCallClick()">
-        <span class="btn-call-icon" aria-hidden="true">\u{1F4DE}</span>
-        {{ ownerCallLabel(d) }}
-      </a>
-      @if (d.ivrAccessCode) {
-      <p class="whisper whisper--ivr">When prompted, enter <strong class="ivr-code">{{ d.ivrAccessCode }}</strong>
-        then press hash (#).</p>
       }
-      <p class="whisper">{{ d.maskingNote }}</p>
-      } @else if (d.status === 'unused') {
-      <div class="ribbon-wait">
+
+      @else if (d.status === 'unused') {
+      <div class="ribbon-wait" style="margin:14px;">
         <span class="ribbon-ico" aria-hidden="true">\u2728</span>
         <div>
           <strong>Not activated yet</strong>
-          <p>Packaging QR opens <code>/activate</code>; the sticker on the vehicle uses <code>/q</code> after setup. The
-            owner activates after purchase.</p>
+          <p>The owner activates this sticker after purchase.</p>
           <a class="activate-link" [href]="activateHref(d)">Open activate page \u2192</a>
         </div>
       </div>
       }
 
-      @if (callDoneHint() && d.status === 'active') {
-      <div class="soft-nudge">
-        <p><strong>Finished your call?</strong> Want a tag for your own vehicle?</p>
-        <a routerLink="/product" class="text-link">Get your CallMeNow QR \u2192</a>
-      </div>
-      }
     </section>
+
+    @if (callDoneHint() && d.status === 'active') {
+    <div class="soft-nudge">
+      <p><strong>Finished your call?</strong> Want a tag for your own vehicle?</p>
+      <a routerLink="/product" class="text-link">Get your CallMeNow QR \u2192</a>
+    </div>
+    }
 
     <section class="panel panel-warm">
       <div class="panel-kicker">Trusted by drivers</div>
@@ -46206,71 +46577,79 @@ var ScanPageComponent = class _ScanPageComponent {
       </div>
     </section>
 
-    <section class="panel panel-share">
-      <h3 class="panel-title-sm">Like the idea?</h3>
-      <p class="panel-text tight">Share with friends \u2014 spread privacy-friendly contact.</p>
-      <div class="share-chips">
-        <button type="button" class="chip-btn chip-wa" (click)="shareWhatsApp()">WhatsApp</button>
-        <button type="button" class="chip-btn chip-tg" (click)="shareTelegram()">Telegram</button>
-        <button type="button" class="chip-btn chip-ig" (click)="shareInstagram()">Instagram</button>
-        <button type="button" class="chip-btn chip-copy" (click)="copyLink()">Copy link</button>
+    <!-- Emergency Services -->
+    <section class="panel" style="background:#ffffff; border:1px solid #e2e8f0;">
+      <div class="section-header" style="margin-bottom:12px;">
+        <span class="section-ico" style="background:none; font-size:1.4rem;">\u{1F6A8}</span>
+        <h3 class="panel-title-sm" style="margin:0; color:#dc2626; font-size:1.1rem;">Emergency Services</h3>
       </div>
-      @if (copyToast()) {
-      <p class="copy-toast">Link copied.</p>
-      }
+      <p class="panel-text tight" style="margin-bottom:20px; color:#64748b; font-size:0.92rem; line-height:1.5;">
+        In case of severe accidents or if the owner is non-responsive, please contact national emergency services
+        immediately.
+      </p>
+      <div style="display:flex; gap:12px; justify-content:space-between;">
+        <a href="tel:112"
+          style="flex:1; display:flex; flex-direction:column; align-items:center; background:#f8fafc; color:#1e293b; padding:16px 8px; border-radius:12px; text-decoration:none; border:1px solid #e2e8f0; box-shadow:0 2px 6px rgba(0,0,0,0.02);">
+          <span style="font-size:1.5rem; margin-bottom:4px;">\u{1F693}</span>
+          <strong style="font-size:0.95rem; margin-bottom:2px;">Police</strong>
+          <span style="font-size:1.2rem; font-weight:800; color:#dc2626;">112</span>
+        </a>
+        <a href="tel:101"
+          style="flex:1; display:flex; flex-direction:column; align-items:center; background:#f8fafc; color:#1e293b; padding:16px 8px; border-radius:12px; text-decoration:none; border:1px solid #e2e8f0; box-shadow:0 2px 6px rgba(0,0,0,0.02);">
+          <span style="font-size:1.5rem; margin-bottom:4px;">\u{1F692}</span>
+          <strong style="font-size:0.95rem; margin-bottom:2px;">Fire</strong>
+          <span style="font-size:1.2rem; font-weight:800; color:#dc2626;">101</span>
+        </a>
+        <a href="tel:108"
+          style="flex:1; display:flex; flex-direction:column; align-items:center; background:#f8fafc; color:#1e293b; padding:16px 8px; border-radius:12px; text-decoration:none; border:1px solid #e2e8f0; box-shadow:0 2px 6px rgba(0,0,0,0.02);">
+          <span style="font-size:1.5rem; margin-bottom:4px;">\u{1F691}</span>
+          <strong style="font-size:0.95rem; margin-bottom:2px;">Ambulance</strong>
+          <span style="font-size:1.2rem; font-weight:800; color:#dc2626;">108</span>
+        </a>
+      </div>
     </section>
 
-    <section class="panel panel-lead">
-      <h3 class="panel-title-sm">\u20B9{{ d.referralDiscountInr }} coupon</h3>
-      <p class="panel-text tight">Enter your number \u2014 demo only; no SMS is sent.</p>
-      @if (leadErr()) {
-      <p class="lead-err">{{ leadErr() }}</p>
-      }
-      @if (!leadSent()) {
-      <div class="lead-stack">
-        <input type="tel" [(ngModel)]="leadPhone" placeholder="Mobile or phone number" class="field" />
-        <button type="button" class="btn-warm full" (click)="submitLead()" [disabled]="leadBusy()">
-          {{ leadBusy() ? 'Saving\u2026' : 'Get coupon' }}
-        </button>
-      </div>
-      } @else {
-      <p class="lead-yay">Thanks! Use <strong>{{ d.referralCode }}</strong> at checkout.</p>
-      }
-    </section>
-
-    <footer class="scan-foot">
-      <span class="foot-heart" aria-hidden="true">\u2665</span>
-      <span>CallMeNow \u2014 neighbourly help, built for the road</span>
-      <a routerLink="/login" class="foot-link">Partner login</a>
-    </footer>
   </div>
   }
+
+  <footer class="scan-foot">
+    <div class="foot-heart" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="16" height="16" fill="currentColor">
+        <path d="M16 28s-9.5-6.2-12-11c-2-3.5-.5-7.5 3-9 2.8-1.3 6 .2 9 4 3-3.8 6.2-5.3 9-4 3.5 1.5 5 5.5 3 9-2.5 4.8-12 11-12 11z"/>
+      </svg>
+    </div>
+    <span class="foot-tagline">CallMeNow \u2014 neighbourly help, built for the road</span>
+    <a routerLink="/login" class="foot-link">Partner login</a>
+  </footer>
+
 </div>`, styles: [`/* src/app/components/scan-page/scan-page.css */
 .scan-root {
-  --cream: #ffffff;
-  --paper: #fffdf9;
-  --ink: #1c1917;
-  --muted: #57534e;
-  --terra: #c45c4a;
-  --terra-dark: #a34738;
-  --teal: #1a535c;
-  --teal-soft: #2d7a86;
-  --saffron: #e8a838;
-  --mint: #5c9e8c;
+  --cream: #f8fafc;
+  --paper: #ffffff;
+  --ink: #1e293b;
+  --muted: #64748b;
+  --terra: #16a34a;
+  --terra-dark: #15803d;
+  --teal: #1e293b;
+  --teal-soft: #94a3b8;
+  --saffron: #22c55e;
+  --mint: #10b981;
   position: relative;
-  min-height: 100vh;
-  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   overflow-x: hidden;
-  background: var(--cream);
-  color: var(--ink);
+  background: var(--paper);
+  color: #1e293b;
   font-family:
-    "Nunito",
+    Nunito,
     system-ui,
     sans-serif;
-  padding: max(1rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 2.5rem max(1rem, env(safe-area-inset-left, 0px));
+  padding: max(1.5rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 1.5rem max(1rem, env(safe-area-inset-left, 0px));
   max-width: min(540px, 100%);
-  margin: 0 auto;
+  margin: 16px auto;
   box-sizing: border-box;
+  border-radius: 28px;
+  box-shadow: 0 10px 50px rgba(15, 23, 42, 0.1);
 }
 .blob {
   position: fixed;
@@ -46283,14 +46662,14 @@ var ScanPageComponent = class _ScanPageComponent {
 .blob-a {
   width: 280px;
   height: 280px;
-  background: #f9d4cc;
+  background: #bbf7d0;
   top: -80px;
   right: -100px;
 }
 .blob-b {
   width: 320px;
   height: 320px;
-  background: #c5e8e0;
+  background: #e2e8f0;
   bottom: 10%;
   left: -120px;
 }
@@ -46302,7 +46681,13 @@ var ScanPageComponent = class _ScanPageComponent {
   z-index: 1;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.scan-inner,
+.scan-inner {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 .state-card {
   position: relative;
   z-index: 2;
@@ -46391,21 +46776,18 @@ var ScanPageComponent = class _ScanPageComponent {
   margin-bottom: 0.85rem;
 }
 .panel {
-  background: var(--paper);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 22px;
   padding: 1.35rem 1.25rem 1.45rem;
   margin-bottom: 0.85rem;
-  box-shadow: 0 2px 16px rgba(28, 25, 23, 0.05), 0 0 0 1px rgba(26, 83, 92, 0.06);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.04);
 }
 .panel-hero {
   border-radius: 26px;
   padding: 1.5rem 1.35rem 1.6rem;
-  background:
-    linear-gradient(
-      165deg,
-      #fff 0%,
-      #fff9f5 100%);
-  box-shadow: 0 12px 40px rgba(196, 92, 74, 0.12), 0 0 0 1px rgba(196, 92, 74, 0.1);
+  background: #ffffff;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(15, 23, 42, 0.03);
 }
 .panel-hero--below-sticker {
   padding-top: 1.25rem;
@@ -46421,6 +46803,17 @@ var ScanPageComponent = class _ScanPageComponent {
   padding: 0.35rem 0.7rem;
   border-radius: 999px;
   margin-bottom: 0.65rem;
+}
+.hero-tagline {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: rgba(26, 83, 92, 0.9);
+  background: rgba(26, 83, 92, 0.08);
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
 }
 .hero-title {
   font-family:
@@ -46444,16 +46837,218 @@ var ScanPageComponent = class _ScanPageComponent {
   font-weight: 800;
   letter-spacing: 0.18em;
   text-align: center;
-  color: var(--ink);
+  color: #f8fafc;
   background:
     linear-gradient(
       180deg,
-      #f8fafc 0%,
-      #e2e8f0 100%);
-  border: 2px solid #94a3b8;
+      rgba(30, 41, 59, 0.8) 0%,
+      rgba(15, 23, 42, 0.8) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
   padding: 0.55rem 0.85rem;
-  margin: -0.15rem 0 0.85rem;
+  margin: -0.15rem 0 1.25rem;
+}
+.call-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+.visitor-input-card {
+  background: rgba(26, 83, 92, 0.05);
+  padding: 1.25rem;
+  border-radius: 24px;
+  border: 1px dashed rgba(26, 83, 92, 0.2);
+  transition: all 0.3s ease;
+}
+.v-card--err {
+  background: rgba(239, 68, 68, 0.05);
+  border-color: rgba(239, 68, 68, 0.4);
+  animation: shake 0.4s ease-in-out, pulse-red 2s infinite;
+}
+.animate-pop {
+  animation: pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes pulse-red {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1);
+  }
+}
+.pin-display-card {
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+.pin-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+.pin-grid {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.pin-digit {
+  width: 2.8rem;
+  height: 3.5rem;
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+}
+.pin-digit:hover {
+  transform: translateY(-2px);
+  border-color: #000;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.pin-note {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.4;
+}
+@keyframes pop {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.pin-mini-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #f8f9fa;
+  border: 1px dashed #ced4da;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.pin-mini-card--emergency {
+  background: #fff8f8;
+  border-color: #fca5a5;
+}
+.pin-mini-label {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+}
+.pin-mini-value {
+  font-family:
+    "Courier New",
+    Courier,
+    monospace;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #000;
+  letter-spacing: 0.1em;
+}
+@keyframes pop-in {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.masked-input--err {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+}
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+.whisper--err {
+  color: #ef4444 !important;
+  font-weight: 700;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+.actions-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.call-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem 1.25rem;
+  border-radius: 20px;
+  background: var(--paper);
+  border: 1px solid rgba(26, 83, 92, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+.call-section--emergency {
+  background: rgba(232, 168, 56, 0.03);
+  border-color: rgba(232, 168, 56, 0.12);
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-ico {
+  font-size: 0.9rem;
+}
+.section-kicker {
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--teal);
+  margin: 0;
+}
+.section-kicker--emergency {
+  color: #bf710d;
+}
+.btn-call--direct {
+  background:
+    linear-gradient(
+      135deg,
+      var(--teal) 0%,
+      #0d4f5a 100%);
 }
 .btn-emergency {
   display: flex;
@@ -46467,7 +47062,7 @@ var ScanPageComponent = class _ScanPageComponent {
       135deg,
       var(--saffron) 0%,
       #d97706 100%);
-  color: #1c1917 !important;
+  color: #000000 !important;
   font-weight: 800;
   font-size: 0.98rem;
   padding: 0.85rem 1.1rem;
@@ -46494,7 +47089,7 @@ var ScanPageComponent = class _ScanPageComponent {
       135deg,
       var(--mint) 0%,
       #3d8b7a 100%);
-  color: #fff !important;
+  color: #000000 !important;
   font-weight: 800;
   font-size: 1.05rem;
   padding: 1rem 1.2rem;
@@ -46587,11 +47182,18 @@ var ScanPageComponent = class _ScanPageComponent {
 }
 .btn-call--masked {
   border: none;
-  cursor: pointer;
-  font-family: inherit;
+  background: var(--primary-color);
+  color: white;
 }
-.btn-call--masked:disabled {
-  opacity: 0.65;
+.btn-call--browser {
+  background: #0d4f5a;
+  border: 2px solid #0d4f5a;
+}
+.browser-call {
+  margin-bottom: 0.75rem;
+}
+.btn-call:disabled {
+  opacity: 0.7;
   cursor: not-allowed;
 }
 .btn-exotel-link {
@@ -46669,6 +47271,40 @@ var ScanPageComponent = class _ScanPageComponent {
   font-weight: 900;
   color: #b45309 !important;
 }
+.emergency-quick {
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(120, 53, 15, 0.25);
+}
+.emergency-title {
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(120, 53, 15, 0.85);
+  margin-bottom: 0.45rem;
+}
+.emergency-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+.emergency-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(232, 168, 56, 0.35);
+  color: #7c2d12 !important;
+  font-weight: 900;
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+.emergency-pill:active {
+  transform: scale(0.98);
+}
 .ribbon-ico {
   font-size: 1.25rem;
   line-height: 1;
@@ -46742,12 +47378,8 @@ var ScanPageComponent = class _ScanPageComponent {
   width: 100%;
 }
 .panel-proof {
-  background:
-    linear-gradient(
-      160deg,
-      #f0faf8 0%,
-      #fff 70%);
-  border: 1px solid rgba(92, 158, 140, 0.2);
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
 }
 .proof-big {
   font-family:
@@ -46775,16 +47407,16 @@ var ScanPageComponent = class _ScanPageComponent {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
-  background: #fff;
+  background: #ffffff;
   padding: 0.65rem 1rem;
   border-radius: 14px;
-  border: 1px solid rgba(26, 83, 92, 0.12);
+  border: 1px solid #cbd5e1;
   flex: 1;
   min-width: 42%;
 }
 .stat-pill--alt {
-  border-color: rgba(196, 92, 74, 0.2);
-  background: #fffaf8;
+  border-color: #cbd5e1;
+  background: #f8fafc;
 }
 .stat-num {
   font-family:
@@ -46808,11 +47440,11 @@ var ScanPageComponent = class _ScanPageComponent {
   background:
     linear-gradient(
       135deg,
-      #1a535c 0%,
-      #0f3d44 100%);
-  color: #fef3c7;
+      #1e293b 0%,
+      #0f172a 100%);
+  color: #f8fafc;
   border: none;
-  box-shadow: 0 14px 36px rgba(26, 83, 92, 0.35);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.15);
 }
 .panel-deal .panel-title-sm,
 .panel-deal .panel-text {
@@ -46826,8 +47458,8 @@ var ScanPageComponent = class _ScanPageComponent {
   font-size: 0.65rem;
   font-weight: 900;
   letter-spacing: 0.14em;
-  color: var(--teal);
-  background: var(--saffron);
+  color: #ffffff;
+  background: #1e293b;
   padding: 0.3rem 0.55rem;
   border-radius: 6px;
   margin-bottom: 0.5rem;
@@ -46844,7 +47476,7 @@ var ScanPageComponent = class _ScanPageComponent {
   width: 100%;
   text-align: center;
   background: #fff;
-  color: var(--teal) !important;
+  color: #0f172a !important;
   font-weight: 900;
   padding: 0.9rem 1rem;
   border-radius: 16px;
@@ -46856,14 +47488,14 @@ var ScanPageComponent = class _ScanPageComponent {
   gap: 0.55rem;
 }
 .variant-tile {
-  border: 1px solid rgba(26, 83, 92, 0.12);
+  border: 1px solid #e2e8f0;
   border-radius: 16px;
   padding: 0.75rem 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.35rem;
-  background: #fffef9;
+  background: #f8fafc;
   transition: transform 0.15s ease;
 }
 .variant-tile:active {
@@ -46951,19 +47583,25 @@ var ScanPageComponent = class _ScanPageComponent {
 }
 .scan-foot {
   text-align: center;
-  font-size: 0.78rem;
-  color: var(--muted);
-  margin-top: 1.25rem;
-  line-height: 1.6;
+  font-size: 0.85rem;
+  color: #64748b;
+  padding: 3rem 1rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.6rem;
   align-items: center;
 }
+.foot-tagline {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 500;
+}
 .foot-heart {
-  color: var(--terra);
-  font-size: 1rem;
-  animation: pulse-soft 2s ease-in-out infinite;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.25rem;
 }
 .foot-link {
   color: var(--teal) !important;
@@ -46976,12 +47614,73 @@ var ScanPageComponent = class _ScanPageComponent {
     animation: none;
   }
 }
+.registration-card {
+  margin: 0 16px 14px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  text-align: center;
+}
+.registration-header {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #94a3b8;
+  font-weight: 800;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.registration-line {
+  width: 12px;
+  height: 1px;
+  background: #e2e8f0;
+}
+.registration-number {
+  font-size: clamp(1.4rem, 8vw, 2.2rem);
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: 2px;
+  line-height: 1;
+  text-transform: uppercase;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  word-break: break-all;
+}
+@media (max-width: 480px) {
+  .scan-root {
+    margin: 8px auto;
+    padding: 1rem 0.75rem 1rem;
+    border-radius: 20px;
+  }
+  .registration-card {
+    margin: 0 10px 14px;
+    padding: 16px 8px;
+  }
+  .registration-number {
+    letter-spacing: 1px;
+  }
+  .hero-title {
+    font-size: 1.45rem;
+  }
+  .btn-call,
+  .btn-emergency {
+    font-size: 0.95rem;
+    padding: 0.85rem 1rem;
+  }
+}
 /*# sourceMappingURL=scan-page.css.map */
 `] }]
   }], () => [{ type: ActivatedRoute }, { type: QrService }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ScanPageComponent, { className: "ScanPageComponent", filePath: "src/app/components/scan-page/scan-page.ts", lineNumber: 17 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ScanPageComponent, { className: "ScanPageComponent", filePath: "src/app/components/scan-page/scan-page.ts", lineNumber: 16 });
 })();
 
 // src/app/components/activate-page/activate-page.ts
@@ -47073,9 +47772,9 @@ function ActivatePageComponent_Conditional_5_Template(rf, ctx) {
     \u0275\u0275property("href", ctx_r0.printStickerLabelHref(), \u0275\u0275sanitizeUrl);
   }
 }
-function ActivatePageComponent_Conditional_6_Conditional_19_Template(rf, ctx) {
+function ActivatePageComponent_Conditional_6_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 18);
+    \u0275\u0275elementStart(0, "div", 17);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -47085,9 +47784,9 @@ function ActivatePageComponent_Conditional_6_Conditional_19_Template(rf, ctx) {
     \u0275\u0275textInterpolate(ctx_r0.errorMessage());
   }
 }
-function ActivatePageComponent_Conditional_6_Conditional_55_Template(rf, ctx) {
+function ActivatePageComponent_Conditional_6_Conditional_47_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 43);
+    \u0275\u0275elementStart(0, "span", 44);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -47098,11 +47797,75 @@ function ActivatePageComponent_Conditional_6_Conditional_55_Template(rf, ctx) {
     \u0275\u0275textInterpolate(vr_r3.text);
   }
 }
-function ActivatePageComponent_Conditional_6_Conditional_79_Template(rf, ctx) {
+function ActivatePageComponent_Conditional_6_Conditional_69_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 40);
-    \u0275\u0275text(1, "Securing your tag\u2026");
+    \u0275\u0275element(0, "span", 46);
+    \u0275\u0275text(1, " Opening Razorpay\u2026 ");
+  }
+}
+function ActivatePageComponent_Conditional_6_Conditional_69_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 47);
+    \u0275\u0275text(1, "\u{1F4B3}");
     \u0275\u0275elementEnd();
+    \u0275\u0275text(2);
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(3);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" Pay \u20B9", ctx_r0.effectiveAmountInr(), " & Activate ");
+  }
+}
+function ActivatePageComponent_Conditional_6_Conditional_69_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r4 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 45);
+    \u0275\u0275listener("click", function ActivatePageComponent_Conditional_6_Conditional_69_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r4);
+      const ctx_r0 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r0.payWithRazorpay());
+    });
+    \u0275\u0275conditionalCreate(1, ActivatePageComponent_Conditional_6_Conditional_69_Conditional_1_Template, 2, 0)(2, ActivatePageComponent_Conditional_6_Conditional_69_Conditional_2_Template, 3, 1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275property("disabled", !ctx_r0.scanData() || ctx_r0.paymentBusy() || ctx_r0.submitting());
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r0.paymentBusy() ? 1 : 2);
+  }
+}
+function ActivatePageComponent_Conditional_6_Conditional_70_Conditional_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 46);
+    \u0275\u0275text(1, " Finalizing activation\u2026 ");
+  }
+}
+function ActivatePageComponent_Conditional_6_Conditional_70_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 47);
+    \u0275\u0275text(1, "\u2728");
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(2, " Complete Activation ");
+  }
+}
+function ActivatePageComponent_Conditional_6_Conditional_70_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r5 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 48);
+    \u0275\u0275listener("click", function ActivatePageComponent_Conditional_6_Conditional_70_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r5);
+      const ctx_r0 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r0.submit());
+    });
+    \u0275\u0275conditionalCreate(1, ActivatePageComponent_Conditional_6_Conditional_70_Conditional_1_Template, 2, 0)(2, ActivatePageComponent_Conditional_6_Conditional_70_Conditional_2_Template, 3, 0);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275property("disabled", ctx_r0.submitting() || ctx_r0.done());
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r0.submitting() ? 1 : 2);
   }
 }
 function ActivatePageComponent_Conditional_6_Template(rf, ctx) {
@@ -47121,190 +47884,163 @@ function ActivatePageComponent_Conditional_6_Template(rf, ctx) {
     \u0275\u0275text(8, "ID \xB7 ");
     \u0275\u0275elementStart(9, "strong");
     \u0275\u0275text(10);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(11, "p", 17);
-    \u0275\u0275text(12, " Enter your details, then ");
-    \u0275\u0275elementStart(13, "strong");
-    \u0275\u0275text(14, "Pay");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(15, " to open Razorpay. On a phone (especially Android + Chrome), you should see ");
-    \u0275\u0275elementStart(16, "strong");
-    \u0275\u0275text(17, "Google Pay");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(18, ", PhonePe, etc.; on desktop you may see UPI QR or other methods. Activation runs after payment. ");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(19, ActivatePageComponent_Conditional_6_Conditional_19_Template, 2, 1, "div", 18);
-    \u0275\u0275elementStart(20, "form", 19);
-    \u0275\u0275listener("ngSubmit", function ActivatePageComponent_Conditional_6_Template_form_ngSubmit_20_listener() {
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275conditionalCreate(11, ActivatePageComponent_Conditional_6_Conditional_11_Template, 2, 1, "div", 17);
+    \u0275\u0275elementStart(12, "form", 18);
+    \u0275\u0275listener("ngSubmit", function ActivatePageComponent_Conditional_6_Template_form_ngSubmit_12_listener() {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r0.submit());
     });
-    \u0275\u0275elementStart(21, "label", 20)(22, "span");
-    \u0275\u0275text(23, "Full name");
+    \u0275\u0275elementStart(13, "label", 19)(14, "span");
+    \u0275\u0275text(15, "Full name");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "input", 21);
-    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_24_listener($event) {
+    \u0275\u0275elementStart(16, "input", 20);
+    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_16_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r0.form.name, $event) || (ctx_r0.form.name = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(25, "fieldset", 22)(26, "legend", 23);
-    \u0275\u0275text(27, "Owner contact number");
+    \u0275\u0275elementStart(17, "fieldset", 21)(18, "legend", 22);
+    \u0275\u0275text(19, "Owner contact number");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "div", 24)(29, "label", 25)(30, "input", 26);
-    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_30_listener($event) {
+    \u0275\u0275elementStart(20, "div", 23)(21, "label", 24)(22, "input", 25);
+    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_22_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r0.form.phoneNumberType, $event) || (ctx_r0.form.phoneNumberType = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275text(31, " Mobile");
+    \u0275\u0275text(23, " Mobile");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(32, "label", 25)(33, "input", 27);
-    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_33_listener($event) {
+    \u0275\u0275elementStart(24, "label", 24)(25, "input", 26);
+    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_25_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r0.form.phoneNumberType, $event) || (ctx_r0.form.phoneNumberType = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275text(34, " Phone (landline)");
+    \u0275\u0275text(26, " Phone (landline)");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(35, "label", 28)(36, "span");
-    \u0275\u0275text(37, "Number");
+    \u0275\u0275elementStart(27, "label", 27)(28, "span");
+    \u0275\u0275text(29, "Number");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(38, "input", 29);
-    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_38_listener($event) {
+    \u0275\u0275elementStart(30, "input", 28);
+    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_30_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r0.form.phoneNumber, $event) || (ctx_r0.form.phoneNumber = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(39, "label", 20)(40, "span");
-    \u0275\u0275text(41, "Email");
+    \u0275\u0275elementStart(31, "label", 19)(32, "span");
+    \u0275\u0275text(33, "Email");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(42, "input", 30);
-    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_42_listener($event) {
+    \u0275\u0275elementStart(34, "input", 29);
+    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_34_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r0.form.email, $event) || (ctx_r0.form.email = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(43, "label", 20)(44, "span");
-    \u0275\u0275text(45, "Address");
+    \u0275\u0275elementStart(35, "label", 19)(36, "span");
+    \u0275\u0275text(37, "Address");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(46, "textarea", 31);
-    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_textarea_ngModelChange_46_listener($event) {
+    \u0275\u0275elementStart(38, "textarea", 30);
+    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_textarea_ngModelChange_38_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r0.form.address, $event) || (ctx_r0.form.address = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(47, "label", 20)(48, "span");
-    \u0275\u0275text(49, "Father\u2019s name");
+    \u0275\u0275elementStart(39, "label", 19)(40, "span");
+    \u0275\u0275text(41, "Father\u2019s name");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(50, "input", 32);
-    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_50_listener($event) {
+    \u0275\u0275elementStart(42, "input", 31);
+    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_42_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r0.form.fatherName, $event) || (ctx_r0.form.fatherName = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(51, "label", 20)(52, "span");
-    \u0275\u0275text(53, "Vehicle registration");
+    \u0275\u0275elementStart(43, "label", 19)(44, "span");
+    \u0275\u0275text(45, "Vehicle registration");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(54, "input", 33);
-    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_54_listener($event) {
+    \u0275\u0275elementStart(46, "input", 32);
+    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_46_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r0.form.vehicleRegistration, $event) || (ctx_r0.form.vehicleRegistration = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275listener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_54_listener($event) {
+    \u0275\u0275listener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_46_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r0.onVehicleRegistrationInput($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(55, ActivatePageComponent_Conditional_6_Conditional_55_Template, 2, 5, "span", 34);
+    \u0275\u0275conditionalCreate(47, ActivatePageComponent_Conditional_6_Conditional_47_Template, 2, 5, "span", 33);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(56, "fieldset", 22)(57, "legend", 23);
-    \u0275\u0275text(58, "Emergency contact number");
+    \u0275\u0275elementStart(48, "fieldset", 21)(49, "legend", 22);
+    \u0275\u0275text(50, "Emergency contact number");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(59, "div", 24)(60, "label", 25)(61, "input", 35);
-    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_61_listener($event) {
+    \u0275\u0275elementStart(51, "div", 23)(52, "label", 24)(53, "input", 34);
+    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_53_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r0.form.emergencyContactPhoneType, $event) || (ctx_r0.form.emergencyContactPhoneType = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275text(62, " Mobile");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(63, "label", 25)(64, "input", 36);
-    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_64_listener($event) {
-      \u0275\u0275restoreView(_r2);
-      const ctx_r0 = \u0275\u0275nextContext();
-      \u0275\u0275twoWayBindingSet(ctx_r0.form.emergencyContactPhoneType, $event) || (ctx_r0.form.emergencyContactPhoneType = $event);
-      return \u0275\u0275resetView($event);
-    });
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(65, " Phone (landline)");
+    \u0275\u0275text(54, " Phone (landline)");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(66, "label", 28)(67, "span");
-    \u0275\u0275text(68, "Number");
+    \u0275\u0275elementStart(55, "label", 27)(56, "span");
+    \u0275\u0275text(57, "Number");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(69, "input", 37);
-    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_69_listener($event) {
+    \u0275\u0275elementStart(58, "input", 35);
+    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_58_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r0.form.emergencyContactPhone, $event) || (ctx_r0.form.emergencyContactPhone = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(70, "div", 38)(71, "label", 20)(72, "span");
-    \u0275\u0275text(73, "Referral code (optional)");
+    \u0275\u0275elementStart(59, "label", 19)(60, "span");
+    \u0275\u0275text(61, "Referral code (optional)");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(74, "input", 39);
-    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_74_listener($event) {
+    \u0275\u0275elementStart(62, "input", 36);
+    \u0275\u0275twoWayListener("ngModelChange", function ActivatePageComponent_Conditional_6_Template_input_ngModelChange_62_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r0.form.referralCode, $event) || (ctx_r0.form.referralCode = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(75, "p", 40);
-    \u0275\u0275text(76);
+    \u0275\u0275elementStart(63, "div", 37)(64, "div", 38)(65, "span", 39);
+    \u0275\u0275text(66, "Total to pay");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(77, "button", 41);
-    \u0275\u0275listener("click", function ActivatePageComponent_Conditional_6_Template_button_click_77_listener() {
-      \u0275\u0275restoreView(_r2);
-      const ctx_r0 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r0.payWithRazorpay());
-    });
-    \u0275\u0275text(78);
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(79, ActivatePageComponent_Conditional_6_Conditional_79_Template, 2, 0, "p", 40);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(80, "button", 42);
-    \u0275\u0275text(81);
+    \u0275\u0275elementStart(67, "span", 40);
+    \u0275\u0275text(68);
     \u0275\u0275elementEnd()();
+    \u0275\u0275conditionalCreate(69, ActivatePageComponent_Conditional_6_Conditional_69_Template, 3, 2, "button", 41)(70, ActivatePageComponent_Conditional_6_Conditional_70_Template, 3, 2, "button", 42);
+    \u0275\u0275elementStart(71, "p", 43);
+    \u0275\u0275text(72, "Payment is verified instantly on the server via Razorpay.");
+    \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
     let tmp_11_0;
     const ctx_r0 = \u0275\u0275nextContext();
     \u0275\u0275advance(10);
     \u0275\u0275textInterpolate(ctx_r0.publicId());
-    \u0275\u0275advance(9);
-    \u0275\u0275conditional(ctx_r0.errorMessage() ? 19 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r0.errorMessage() ? 11 : -1);
     \u0275\u0275advance(5);
     \u0275\u0275twoWayProperty("ngModel", ctx_r0.form.name);
     \u0275\u0275advance(6);
@@ -47322,27 +48058,17 @@ function ActivatePageComponent_Conditional_6_Template(rf, ctx) {
     \u0275\u0275advance(4);
     \u0275\u0275twoWayProperty("ngModel", ctx_r0.form.vehicleRegistration);
     \u0275\u0275advance();
-    \u0275\u0275conditional((tmp_11_0 = ctx_r0.vehicleRegistrationFieldMessage()) ? 55 : -1, tmp_11_0);
+    \u0275\u0275conditional((tmp_11_0 = ctx_r0.vehicleRegistrationFieldMessage()) ? 47 : -1, tmp_11_0);
     \u0275\u0275advance(6);
-    \u0275\u0275twoWayProperty("ngModel", ctx_r0.form.emergencyContactPhoneType);
-    \u0275\u0275advance(3);
     \u0275\u0275twoWayProperty("ngModel", ctx_r0.form.emergencyContactPhoneType);
     \u0275\u0275advance(5);
     \u0275\u0275twoWayProperty("ngModel", ctx_r0.form.emergencyContactPhone);
-    \u0275\u0275advance(5);
+    \u0275\u0275advance(4);
     \u0275\u0275twoWayProperty("ngModel", ctx_r0.form.referralCode);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1("You will pay \u20B9", ctx_r0.effectiveAmountInr(), " (INR) \u2014 verified on the server after Razorpay.");
+    \u0275\u0275advance(6);
+    \u0275\u0275textInterpolate1("\u20B9", ctx_r0.effectiveAmountInr());
     \u0275\u0275advance();
-    \u0275\u0275property("disabled", !ctx_r0.scanData() || ctx_r0.paymentBusy() || ctx_r0.submitting() || ctx_r0.form.paymentCompleted);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", ctx_r0.form.paymentCompleted ? "Paid \u2014 activating\u2026" : ctx_r0.submitting() ? "Activating\u2026" : ctx_r0.paymentBusy() ? "Opening Razorpay\u2026" : "Pay \u20B9" + ctx_r0.effectiveAmountInr() + " with Razorpay", " ");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r0.form.paymentCompleted && !ctx_r0.done() ? 79 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275property("disabled", ctx_r0.submitting() || !ctx_r0.form.paymentCompleted);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", ctx_r0.submitting() ? "Activating\u2026" : !ctx_r0.form.paymentCompleted ? "Pay with Razorpay above first" : "Try again if activation failed", " ");
+    \u0275\u0275conditional(!ctx_r0.form.paymentCompleted ? 69 : 70);
   }
 }
 var ActivatePageComponent = class _ActivatePageComponent {
@@ -47589,7 +48315,7 @@ var ActivatePageComponent = class _ActivatePageComponent {
   static \u0275fac = function ActivatePageComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ActivatePageComponent)(\u0275\u0275directiveInject(ActivatedRoute), \u0275\u0275directiveInject(QrService), \u0275\u0275directiveInject(NgZone));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ActivatePageComponent, selectors: [["app-activate-page"]], decls: 7, vars: 5, consts: [[1, "act-root"], ["aria-hidden", "true", 1, "act-glow"], [1, "act-card", "act-center"], [1, "act-card", "act-center", "act-win"], [1, "act-spinner"], [1, "act-lead"], [1, "act-emoji"], [1, "act-h1"], [1, "act-muted"], ["routerLink", "/", 1, "act-link"], [1, "act-btn-primary", 3, "routerLink"], [1, "act-mono"], ["target", "_blank", "rel", "noopener", 1, "act-link", "act-link-block", 3, "href"], [1, "act-head"], ["routerLink", "/", 1, "act-back"], [1, "act-tagline-en"], [1, "act-pid"], [1, "act-sub"], [1, "act-alert"], [1, "act-form", 3, "ngSubmit"], [1, "act-label"], ["name", "name", "required", "", 3, "ngModelChange", "ngModel"], [1, "act-fieldset"], [1, "act-legend"], [1, "act-radio-row"], [1, "act-radio"], ["type", "radio", "name", "ownerLine", "value", "Mobile", 3, "ngModelChange", "ngModel"], ["type", "radio", "name", "ownerLine", "value", "Landline", 3, "ngModelChange", "ngModel"], [1, "act-label", "act-label-tight"], ["name", "phone", "type", "tel", "required", "", "autocomplete", "tel", 3, "ngModelChange", "ngModel"], ["name", "email", "type", "email", "required", "", 3, "ngModelChange", "ngModel"], ["name", "addr", "rows", "2", "required", "", 3, "ngModelChange", "ngModel"], ["name", "father", "required", "", 3, "ngModelChange", "ngModel"], ["name", "vreg", "required", "", "placeholder", "e.g. DL01AB1234", "autocapitalize", "characters", "autocomplete", "off", "maxlength", "14", "spellcheck", "false", 1, "act-input-upper", 3, "ngModelChange", "ngModel"], ["role", "status", 1, "act-field-msg", 3, "act-field-msg--hint", "act-field-msg--err"], ["type", "radio", "name", "emLine", "value", "Mobile", 3, "ngModelChange", "ngModel"], ["type", "radio", "name", "emLine", "value", "Landline", 3, "ngModelChange", "ngModel"], ["name", "emergency", "type", "tel", "required", "", "autocomplete", "tel", 3, "ngModelChange", "ngModel"], [1, "act-pay"], ["name", "refcode", "placeholder", "e.g. SCAN50", "autocomplete", "off", 3, "ngModelChange", "ngModel"], [1, "act-muted", "act-pay-hint"], ["type", "button", 1, "act-btn-razorpay", 3, "click", "disabled"], ["type", "submit", 1, "act-btn-submit", 3, "disabled"], ["role", "status", 1, "act-field-msg"]], template: function ActivatePageComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ActivatePageComponent, selectors: [["app-activate-page"]], decls: 7, vars: 5, consts: [[1, "act-root"], ["aria-hidden", "true", 1, "act-glow"], [1, "act-card", "act-center"], [1, "act-card", "act-center", "act-win"], [1, "act-spinner"], [1, "act-lead"], [1, "act-emoji"], [1, "act-h1"], [1, "act-muted"], ["routerLink", "/", 1, "act-link"], [1, "act-btn-primary", 3, "routerLink"], [1, "act-mono"], ["target", "_blank", "rel", "noopener", 1, "act-link", "act-link-block", 3, "href"], [1, "act-head"], ["routerLink", "/", 1, "act-back"], [1, "act-tagline-en"], [1, "act-pid"], [1, "act-alert"], [1, "act-form", 3, "ngSubmit"], [1, "act-label"], ["name", "name", "required", "", 3, "ngModelChange", "ngModel"], [1, "act-fieldset"], [1, "act-legend"], [1, "act-radio-row"], [1, "act-radio"], ["type", "radio", "name", "ownerLine", "value", "Mobile", 3, "ngModelChange", "ngModel"], ["type", "radio", "name", "ownerLine", "value", "Landline", 3, "ngModelChange", "ngModel"], [1, "act-label", "act-label-tight"], ["name", "phone", "type", "tel", "required", "", "autocomplete", "tel", 3, "ngModelChange", "ngModel"], ["name", "email", "type", "email", "required", "", 3, "ngModelChange", "ngModel"], ["name", "addr", "rows", "2", "required", "", 3, "ngModelChange", "ngModel"], ["name", "father", "required", "", 3, "ngModelChange", "ngModel"], ["name", "vreg", "required", "", "placeholder", "e.g. DL01AB1234", "autocapitalize", "characters", "autocomplete", "off", "maxlength", "14", "spellcheck", "false", 1, "act-input-upper", 3, "ngModelChange", "ngModel"], ["role", "status", 1, "act-field-msg", 3, "act-field-msg--hint", "act-field-msg--err"], ["type", "radio", "name", "emLine", "value", "Landline", 3, "ngModelChange", "ngModel"], ["name", "emergency", "type", "tel", "required", "", "autocomplete", "tel", 3, "ngModelChange", "ngModel"], ["name", "refcode", "placeholder", "e.g. SCAN50", "autocomplete", "off", 3, "ngModelChange", "ngModel"], [1, "act-footer"], [1, "act-pay-summary"], [1, "act-pay-label"], [1, "act-pay-value"], ["type", "button", 1, "act-btn-main", "act-btn-pay", 3, "disabled"], ["type", "button", 1, "act-btn-main", "act-btn-final", 3, "disabled"], [1, "act-muted", "act-pay-note"], ["role", "status", 1, "act-field-msg"], ["type", "button", 1, "act-btn-main", "act-btn-pay", 3, "click", "disabled"], [1, "act-btn-loader"], [1, "act-btn-icon"], ["type", "button", 1, "act-btn-main", "act-btn-final", 3, "click", "disabled"]], template: function ActivatePageComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0);
       \u0275\u0275element(1, "div", 1);
@@ -47597,7 +48323,7 @@ var ActivatePageComponent = class _ActivatePageComponent {
       \u0275\u0275conditionalCreate(3, ActivatePageComponent_Conditional_3_Template, 9, 0, "div", 2);
       \u0275\u0275conditionalCreate(4, ActivatePageComponent_Conditional_4_Template, 9, 3, "div", 2);
       \u0275\u0275conditionalCreate(5, ActivatePageComponent_Conditional_5_Template, 12, 5, "div", 3);
-      \u0275\u0275conditionalCreate(6, ActivatePageComponent_Conditional_6_Template, 82, 21);
+      \u0275\u0275conditionalCreate(6, ActivatePageComponent_Conditional_6_Template, 73, 16);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -47612,7 +48338,7 @@ var ActivatePageComponent = class _ActivatePageComponent {
       \u0275\u0275advance();
       \u0275\u0275conditional(!ctx.loading() && !ctx.notFound() && !ctx.alreadyActive() && !ctx.done() ? 6 : -1);
     }
-  }, dependencies: [CommonModule, FormsModule, \u0275NgNoValidate, DefaultValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, RequiredValidator, MaxLengthValidator, NgModel, NgForm, RouterLink], styles: ['\n\n.act-root[_ngcontent-%COMP%] {\n  --teal-deep: #063a42;\n  --teal-mid: #0d4f5a;\n  --cream: #fffdf9;\n  --terra: #c45c4a;\n  --terra-d: #a34738;\n  --ink: #1c1917;\n  --muted: #78716c;\n  position: relative;\n  min-height: 100vh;\n  min-height: 100dvh;\n  overflow-x: hidden;\n  background:\n    linear-gradient(\n      168deg,\n      var(--teal-deep) 0%,\n      #042a30 45%,\n      #0a1620 100%);\n  color: #e7e5e4;\n  font-family:\n    "Nunito",\n    system-ui,\n    sans-serif;\n  padding: max(1.35rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 3rem max(1rem, env(safe-area-inset-left, 0px));\n  max-width: min(520px, 100%);\n  margin: 0 auto;\n  box-sizing: border-box;\n}\n.act-glow[_ngcontent-%COMP%] {\n  position: fixed;\n  width: 320px;\n  height: 320px;\n  border-radius: 50%;\n  background:\n    radial-gradient(\n      circle,\n      rgba(196, 92, 74, 0.25) 0%,\n      transparent 70%);\n  top: -100px;\n  right: -80px;\n  pointer-events: none;\n  z-index: 0;\n}\n.act-card[_ngcontent-%COMP%], \n.act-head[_ngcontent-%COMP%], \n.act-form[_ngcontent-%COMP%], \n.act-alert[_ngcontent-%COMP%] {\n  position: relative;\n  z-index: 1;\n}\n.act-card[_ngcontent-%COMP%] {\n  background: var(--cream);\n  color: var(--ink);\n  border-radius: 24px;\n  padding: clamp(1.35rem, 4vw, 2rem) clamp(1rem, 4vw, 1.5rem);\n  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.08);\n}\n.act-center[_ngcontent-%COMP%] {\n  text-align: center;\n  margin-top: 2.5rem;\n}\n.act-spinner[_ngcontent-%COMP%] {\n  width: 44px;\n  height: 44px;\n  border: 3px solid rgba(13, 79, 90, 0.2);\n  border-top-color: var(--teal-mid);\n  border-radius: 50%;\n  margin: 0 auto 1rem;\n  animation: _ngcontent-%COMP%_spin 0.85s linear infinite;\n}\n@keyframes _ngcontent-%COMP%_spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n.act-lead[_ngcontent-%COMP%] {\n  font-weight: 700;\n  color: var(--teal-mid);\n}\n.act-emoji[_ngcontent-%COMP%] {\n  font-size: 2.5rem;\n  display: block;\n  margin-bottom: 0.5rem;\n}\n.act-h1[_ngcontent-%COMP%] {\n  font-family:\n    "Fraunces",\n    Georgia,\n    serif;\n  font-size: 1.55rem;\n  font-weight: 700;\n  color: var(--teal-mid);\n  margin-bottom: 0.45rem;\n}\n.act-head[_ngcontent-%COMP%]   .act-h1[_ngcontent-%COMP%] {\n  color: #ffffff;\n  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.35);\n}\n.act-muted[_ngcontent-%COMP%] {\n  font-size: 0.92rem;\n  color: var(--muted);\n  line-height: 1.5;\n  margin-bottom: 1.1rem;\n}\n.act-link[_ngcontent-%COMP%] {\n  color: var(--terra) !important;\n  font-weight: 800;\n}\n.act-link-block[_ngcontent-%COMP%] {\n  display: block;\n  margin-top: 1rem;\n  text-align: center;\n}\n.act-btn-primary[_ngcontent-%COMP%], \n.act-btn-submit[_ngcontent-%COMP%] {\n  display: inline-block;\n  width: 100%;\n  text-align: center;\n  padding: 0.9rem 1.2rem;\n  border-radius: 16px;\n  border: none;\n  font-family: inherit;\n  font-weight: 800;\n  font-size: 0.95rem;\n  cursor: pointer;\n  background:\n    linear-gradient(\n      135deg,\n      var(--terra) 0%,\n      var(--terra-d) 100%);\n  color: #fff !important;\n  box-shadow: 0 10px 28px rgba(196, 92, 74, 0.35);\n}\n.act-btn-primary[_ngcontent-%COMP%] {\n  width: auto;\n  min-width: 200px;\n}\n.act-btn-submit[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.act-win[_ngcontent-%COMP%]   .act-mono[_ngcontent-%COMP%] {\n  font-size: 0.78rem;\n  word-break: break-all;\n  color: var(--muted);\n  margin: 0.75rem 0 1rem;\n  text-align: left;\n  background: #f5f5f4;\n  padding: 0.65rem 0.75rem;\n  border-radius: 10px;\n}\n.act-back[_ngcontent-%COMP%] {\n  color: #fdba74 !important;\n  font-size: 0.88rem;\n  font-weight: 700;\n}\n.act-head[_ngcontent-%COMP%] {\n  margin-bottom: 1rem;\n}\n.act-tagline-hi[_ngcontent-%COMP%], \n.act-tagline-en[_ngcontent-%COMP%] {\n  font-size: 0.82rem;\n  font-weight: 800;\n  color: #fdba74;\n  margin: 0.75rem 0 0.15rem;\n  letter-spacing: 0.04em;\n}\n.act-fieldset[_ngcontent-%COMP%] {\n  border: 1px dashed rgba(253, 186, 116, 0.28);\n  border-radius: 16px;\n  padding: 0.85rem 1rem 1rem;\n  margin: 0;\n}\n.act-legend[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  font-weight: 800;\n  color: #d6d3d1;\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  padding: 0 0.35rem;\n}\n.act-radio-row[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.85rem 1.25rem;\n  margin-bottom: 0.65rem;\n}\n.act-radio[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  font-size: 0.9rem;\n  color: #e7e5e4;\n  cursor: pointer;\n}\n.act-radio[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  accent-color: #c45c4a;\n}\n.act-label-tight[_ngcontent-%COMP%] {\n  margin-top: 0;\n}\n.act-pid[_ngcontent-%COMP%] {\n  font-size: 0.88rem;\n  color: #a8a29e;\n  margin: 0.35rem 0 0.65rem;\n}\n.act-pid[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  color: #fef3c7;\n  font-family: ui-monospace, monospace;\n  font-size: 0.85rem;\n}\n.act-sub[_ngcontent-%COMP%] {\n  font-size: 0.86rem;\n  color: #a8a29e;\n  line-height: 1.55;\n}\n.act-alert[_ngcontent-%COMP%] {\n  background: rgba(196, 92, 74, 0.2);\n  border: 1px solid rgba(252, 165, 165, 0.35);\n  color: #fecaca;\n  padding: 0.75rem 1rem;\n  border-radius: 14px;\n  margin-bottom: 1rem;\n  font-size: 0.88rem;\n}\n.act-form[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.85rem;\n}\n.act-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n}\n.act-label[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 0.78rem;\n  font-weight: 800;\n  color: #d6d3d1;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n}\n.act-label[_ngcontent-%COMP%]   input[_ngcontent-%COMP%], \n.act-label[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%] {\n  border-radius: 14px;\n  border: 2px solid rgba(255, 255, 255, 0.12);\n  background: rgba(6, 42, 48, 0.55);\n  color: #fafaf9;\n  padding: 0.65rem 0.85rem;\n  font-size: 1rem;\n  font-family: inherit;\n}\n.act-label[_ngcontent-%COMP%]   input[_ngcontent-%COMP%]:focus, \n.act-label[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%]:focus {\n  outline: none;\n  border-color: rgba(253, 186, 116, 0.5);\n}\n.act-input-upper[_ngcontent-%COMP%] {\n  text-transform: uppercase;\n  font-variant-numeric: tabular-nums;\n}\n.act-field-msg[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 0.78rem;\n  font-weight: 700;\n  line-height: 1.4;\n  margin: 0.15rem 0 0;\n}\n.act-field-msg--hint[_ngcontent-%COMP%] {\n  color: #fcd34d;\n}\n.act-field-msg--err[_ngcontent-%COMP%] {\n  color: #fecaca;\n}\n.act-pay[_ngcontent-%COMP%] {\n  border: 1px dashed rgba(253, 186, 116, 0.35);\n  border-radius: 18px;\n  padding: 1rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.act-check[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.55rem;\n  font-size: 0.88rem;\n  font-weight: 600;\n  color: #e7e5e4;\n  cursor: pointer;\n}\n.act-check[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  width: auto;\n  accent-color: var(--terra);\n}\n.act-pay-hint[_ngcontent-%COMP%] {\n  font-size: 0.82rem;\n  margin: 0;\n  color: #d6d3d1;\n}\n.act-btn-razorpay[_ngcontent-%COMP%] {\n  display: inline-block;\n  width: 100%;\n  text-align: center;\n  padding: 0.9rem 1.2rem;\n  border-radius: 16px;\n  border: none;\n  font-family: inherit;\n  font-weight: 800;\n  font-size: 0.95rem;\n  cursor: pointer;\n  background:\n    linear-gradient(\n      135deg,\n      #2b6cb8 0%,\n      #1c3d78 100%);\n  color: #fff !important;\n  box-shadow: 0 10px 28px rgba(28, 61, 120, 0.35);\n}\n.act-btn-razorpay[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n/*# sourceMappingURL=activate-page.css.map */'] });
+  }, dependencies: [CommonModule, FormsModule, \u0275NgNoValidate, DefaultValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, RequiredValidator, MaxLengthValidator, NgModel, NgForm, RouterLink], styles: ['\n\n.act-root[_ngcontent-%COMP%] {\n  --teal-deep: #063a42;\n  --teal-mid: #0d4f5a;\n  --cream: #fffdf9;\n  --terra: #c45c4a;\n  --terra-d: #a34738;\n  --ink: #1c1917;\n  --muted: #78716c;\n  position: relative;\n  min-height: 100vh;\n  min-height: 100dvh;\n  overflow-x: hidden;\n  background:\n    linear-gradient(\n      168deg,\n      var(--teal-deep) 0%,\n      #042a30 45%,\n      #0a1620 100%);\n  color: #e7e5e4;\n  font-family:\n    "Nunito",\n    system-ui,\n    sans-serif;\n  padding: max(1.35rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 3rem max(1rem, env(safe-area-inset-left, 0px));\n  max-width: min(520px, 100%);\n  margin: 0 auto;\n  box-sizing: border-box;\n}\n.act-glow[_ngcontent-%COMP%] {\n  position: fixed;\n  width: 320px;\n  height: 320px;\n  border-radius: 50%;\n  background:\n    radial-gradient(\n      circle,\n      rgba(196, 92, 74, 0.25) 0%,\n      transparent 70%);\n  top: -100px;\n  right: -80px;\n  pointer-events: none;\n  z-index: 0;\n}\n.act-card[_ngcontent-%COMP%], \n.act-head[_ngcontent-%COMP%], \n.act-form[_ngcontent-%COMP%], \n.act-alert[_ngcontent-%COMP%] {\n  position: relative;\n  z-index: 1;\n}\n.act-card[_ngcontent-%COMP%] {\n  background: var(--cream);\n  color: var(--ink);\n  border-radius: 24px;\n  padding: clamp(1.35rem, 4vw, 2rem) clamp(1rem, 4vw, 1.5rem);\n  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.08);\n}\n.act-center[_ngcontent-%COMP%] {\n  text-align: center;\n  margin-top: 2.5rem;\n}\n.act-spinner[_ngcontent-%COMP%] {\n  width: 44px;\n  height: 44px;\n  border: 3px solid rgba(13, 79, 90, 0.2);\n  border-top-color: var(--teal-mid);\n  border-radius: 50%;\n  margin: 0 auto 1rem;\n  animation: _ngcontent-%COMP%_spin 0.85s linear infinite;\n}\n@keyframes _ngcontent-%COMP%_spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n.act-lead[_ngcontent-%COMP%] {\n  font-weight: 700;\n  color: var(--teal-mid);\n}\n.act-emoji[_ngcontent-%COMP%] {\n  font-size: 2.5rem;\n  display: block;\n  margin-bottom: 0.5rem;\n}\n.act-h1[_ngcontent-%COMP%] {\n  font-family:\n    "Fraunces",\n    Georgia,\n    serif;\n  font-size: 1.55rem;\n  font-weight: 700;\n  color: var(--teal-mid);\n  margin-bottom: 0.45rem;\n}\n.act-head[_ngcontent-%COMP%]   .act-h1[_ngcontent-%COMP%] {\n  color: #ffffff;\n  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.35);\n}\n.act-muted[_ngcontent-%COMP%] {\n  font-size: 0.92rem;\n  color: var(--muted);\n  line-height: 1.5;\n  margin-bottom: 1.1rem;\n}\n.act-link[_ngcontent-%COMP%] {\n  color: var(--terra) !important;\n  font-weight: 800;\n}\n.act-link-block[_ngcontent-%COMP%] {\n  display: block;\n  margin-top: 1rem;\n  text-align: center;\n}\n.act-btn-primary[_ngcontent-%COMP%], \n.act-btn-submit[_ngcontent-%COMP%] {\n  display: inline-block;\n  width: 100%;\n  text-align: center;\n  padding: 0.9rem 1.2rem;\n  border-radius: 16px;\n  border: none;\n  font-family: inherit;\n  font-weight: 800;\n  font-size: 0.95rem;\n  cursor: pointer;\n  background:\n    linear-gradient(\n      135deg,\n      var(--terra) 0%,\n      var(--terra-d) 100%);\n  color: #fff !important;\n  box-shadow: 0 10px 28px rgba(196, 92, 74, 0.35);\n}\n.act-btn-primary[_ngcontent-%COMP%] {\n  width: auto;\n  min-width: 200px;\n}\n.act-btn-submit[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.act-win[_ngcontent-%COMP%]   .act-mono[_ngcontent-%COMP%] {\n  font-size: 0.78rem;\n  word-break: break-all;\n  color: var(--muted);\n  margin: 0.75rem 0 1rem;\n  text-align: left;\n  background: #f5f5f4;\n  padding: 0.65rem 0.75rem;\n  border-radius: 10px;\n}\n.act-back[_ngcontent-%COMP%] {\n  color: #fdba74 !important;\n  font-size: 0.88rem;\n  font-weight: 700;\n}\n.act-head[_ngcontent-%COMP%] {\n  margin-bottom: 1rem;\n}\n.act-tagline-hi[_ngcontent-%COMP%], \n.act-tagline-en[_ngcontent-%COMP%] {\n  font-size: 0.82rem;\n  font-weight: 800;\n  color: #fdba74;\n  margin: 0.75rem 0 0.15rem;\n  letter-spacing: 0.04em;\n}\n.act-fieldset[_ngcontent-%COMP%] {\n  border: 1px dashed rgba(253, 186, 116, 0.28);\n  border-radius: 16px;\n  padding: 0.85rem 1rem 1rem;\n  margin: 0;\n}\n.act-legend[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  font-weight: 800;\n  color: #d6d3d1;\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  padding: 0 0.35rem;\n}\n.act-radio-row[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.85rem 1.25rem;\n  margin-bottom: 0.65rem;\n}\n.act-radio[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  font-size: 0.9rem;\n  color: #e7e5e4;\n  cursor: pointer;\n}\n.act-radio[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  accent-color: #c45c4a;\n}\n.act-label-tight[_ngcontent-%COMP%] {\n  margin-top: 0;\n}\n.act-pid[_ngcontent-%COMP%] {\n  font-size: 0.88rem;\n  color: #a8a29e;\n  margin: 0.35rem 0 0.65rem;\n}\n.act-pid[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  color: #fef3c7;\n  font-family: ui-monospace, monospace;\n  font-size: 0.85rem;\n}\n.act-sub[_ngcontent-%COMP%] {\n  font-size: 0.86rem;\n  color: #a8a29e;\n  line-height: 1.55;\n}\n.act-alert[_ngcontent-%COMP%] {\n  background: rgba(196, 92, 74, 0.2);\n  border: 1px solid rgba(252, 165, 165, 0.35);\n  color: #fecaca;\n  padding: 0.75rem 1rem;\n  border-radius: 14px;\n  margin-bottom: 1rem;\n  font-size: 0.88rem;\n}\n.act-form[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.85rem;\n}\n.act-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n}\n.act-label[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 0.78rem;\n  font-weight: 800;\n  color: #d6d3d1;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n}\n.act-label[_ngcontent-%COMP%]   input[_ngcontent-%COMP%], \n.act-label[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%] {\n  border-radius: 14px;\n  border: 2px solid rgba(255, 255, 255, 0.12);\n  background: rgba(6, 42, 48, 0.55);\n  color: #fafaf9;\n  padding: 0.65rem 0.85rem;\n  font-size: 1rem;\n  font-family: inherit;\n}\n.act-label[_ngcontent-%COMP%]   input[_ngcontent-%COMP%]:focus, \n.act-label[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%]:focus {\n  outline: none;\n  border-color: rgba(253, 186, 116, 0.5);\n}\n.act-input-upper[_ngcontent-%COMP%] {\n  text-transform: uppercase;\n  font-variant-numeric: tabular-nums;\n}\n.act-field-msg[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 0.78rem;\n  font-weight: 700;\n  line-height: 1.4;\n  margin: 0.15rem 0 0;\n}\n.act-field-msg--hint[_ngcontent-%COMP%] {\n  color: #fcd34d;\n}\n.act-field-msg--err[_ngcontent-%COMP%] {\n  color: #fecaca;\n}\n.act-footer[_ngcontent-%COMP%] {\n  margin-top: 1rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1.15rem;\n  background: rgba(255, 255, 255, 0.04);\n  padding: 1.5rem;\n  border-radius: 20px;\n  border: 1px solid rgba(253, 186, 116, 0.1);\n  box-shadow: inset 0 1px 20px rgba(253, 186, 116, 0.05);\n}\n.act-pay-summary[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.25rem;\n}\n.act-pay-label[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  font-weight: 800;\n  color: #a8a29e;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n}\n.act-pay-value[_ngcontent-%COMP%] {\n  font-size: 1.6rem;\n  font-weight: 900;\n  color: #ffffff;\n  font-family: "Fraunces", serif;\n}\n.act-btn-main[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 1.15rem;\n  border-radius: 18px;\n  border: none;\n  font-family: inherit;\n  font-weight: 900;\n  font-size: 1.05rem;\n  cursor: pointer;\n  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 14px;\n}\n.act-btn-pay[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #4f46e5,\n      #7c3aed);\n  color: #ffffff;\n  box-shadow: 0 12px 35px rgba(99, 102, 241, 0.35);\n}\n.act-btn-final[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #10b981,\n      #059669);\n  color: #ffffff;\n  box-shadow: 0 12px 35px rgba(16, 185, 129, 0.3);\n}\n.act-btn-main[_ngcontent-%COMP%]:hover:not(:disabled) {\n  transform: translateY(-2px) scale(1.01);\n  filter: brightness(1.15);\n}\n.act-btn-main[_ngcontent-%COMP%]:active:not(:disabled) {\n  transform: scale(0.98);\n}\n.act-btn-main[_ngcontent-%COMP%]:disabled {\n  opacity: 0.45;\n  cursor: not-allowed;\n  filter: grayscale(0.6);\n}\n.act-btn-icon[_ngcontent-%COMP%] {\n  font-size: 1.2rem;\n}\n.act-btn-loader[_ngcontent-%COMP%] {\n  width: 20px;\n  height: 20px;\n  border: 3px solid rgba(255, 255, 255, 0.3);\n  border-top-color: #fff;\n  border-radius: 50%;\n  animation: _ngcontent-%COMP%_spin 0.8s linear infinite;\n}\n.act-pay-note[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  text-align: center;\n  margin: 0;\n  color: #78716c;\n  line-height: 1.4;\n}\n@media (max-width: 480px) {\n  .act-footer[_ngcontent-%COMP%] {\n    padding: 1.25rem;\n    margin: 0 -0.5rem;\n    border-radius: 20px;\n  }\n}\n/*# sourceMappingURL=activate-page.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ActivatePageComponent, [{
@@ -47664,9 +48390,6 @@ var ActivatePageComponent = class _ActivatePageComponent {
     <p class="act-tagline-en">Activate your sticker</p>
     <h1 class="act-h1">Activate your tag</h1>
     <p class="act-pid">ID \xB7 <strong>{{ publicId() }}</strong></p>
-    <p class="act-sub">
-      Enter your details, then <strong>Pay</strong> to open Razorpay. On a phone (especially Android + Chrome), you should see <strong>Google Pay</strong>, PhonePe, etc.; on desktop you may see UPI QR or other methods. Activation runs after payment.
-    </p>
   </header>
 
   @if (errorMessage()) {
@@ -47715,52 +48438,54 @@ var ActivatePageComponent = class _ActivatePageComponent {
     <fieldset class="act-fieldset">
       <legend class="act-legend">Emergency contact number</legend>
       <div class="act-radio-row">
-        <label class="act-radio"><input type="radio" name="emLine" value="Mobile" [(ngModel)]="form.emergencyContactPhoneType" /> Mobile</label>
         <label class="act-radio"><input type="radio" name="emLine" value="Landline" [(ngModel)]="form.emergencyContactPhoneType" /> Phone (landline)</label>
       </div>
       <label class="act-label act-label-tight"><span>Number</span><input [(ngModel)]="form.emergencyContactPhone" name="emergency" type="tel" required autocomplete="tel" /></label>
     </fieldset>
 
-    <div class="act-pay">
-      <label class="act-label"
-        ><span>Referral code (optional)</span
-        ><input [(ngModel)]="form.referralCode" name="refcode" placeholder="e.g. SCAN50" autocomplete="off"
-      /></label>
-      <p class="act-muted act-pay-hint">You will pay \u20B9{{ effectiveAmountInr() }} (INR) \u2014 verified on the server after Razorpay.</p>
-      <button
-        type="button"
-        class="act-btn-razorpay"
-        (click)="payWithRazorpay()"
-        [disabled]="!scanData() || paymentBusy() || submitting() || form.paymentCompleted"
-      >
-        {{
-          form.paymentCompleted
-            ? 'Paid \u2014 activating\u2026'
-            : submitting()
-              ? 'Activating\u2026'
-              : paymentBusy()
-                ? 'Opening Razorpay\u2026'
-                : 'Pay \u20B9' + effectiveAmountInr() + ' with Razorpay'
-        }}
-      </button>
-      @if (form.paymentCompleted && !done()) {
-      <p class="act-muted act-pay-hint">Securing your tag\u2026</p>
-      }
-    </div>
+    <label class="act-label"><span>Referral code (optional)</span><input [(ngModel)]="form.referralCode" name="refcode" placeholder="e.g. SCAN50" autocomplete="off" /></label>
 
-    <button type="submit" class="act-btn-submit" [disabled]="submitting() || !form.paymentCompleted">
-      {{
-        submitting()
-          ? 'Activating\u2026'
-          : !form.paymentCompleted
-            ? 'Pay with Razorpay above first'
-            : 'Try again if activation failed'
-      }}
-    </button>
+
+    <div class="act-footer">
+      <div class="act-pay-summary">
+        <span class="act-pay-label">Total to pay</span>
+        <span class="act-pay-value">\u20B9{{ effectiveAmountInr() }}</span>
+      </div>
+
+      @if (!form.paymentCompleted) {
+        <button
+          type="button"
+          class="act-btn-main act-btn-pay"
+          (click)="payWithRazorpay()"
+          [disabled]="!scanData() || paymentBusy() || submitting()"
+        >
+          @if (paymentBusy()) {
+            <span class="act-btn-loader"></span> Opening Razorpay\u2026
+          } @else {
+            <span class="act-btn-icon">\u{1F4B3}</span> Pay \u20B9{{ effectiveAmountInr() }} & Activate
+          }
+        </button>
+      } @else {
+        <button
+          type="button"
+          class="act-btn-main act-btn-final"
+          (click)="submit()"
+          [disabled]="submitting() || done()"
+        >
+          @if (submitting()) {
+            <span class="act-btn-loader"></span> Finalizing activation\u2026
+          } @else {
+            <span class="act-btn-icon">\u2728</span> Complete Activation
+          }
+        </button>
+      }
+
+      <p class="act-muted act-pay-note">Payment is verified instantly on the server via Razorpay.</p>
+    </div>
   </form>
   }
 </div>
-`, styles: ['/* src/app/components/activate-page/activate-page.css */\n.act-root {\n  --teal-deep: #063a42;\n  --teal-mid: #0d4f5a;\n  --cream: #fffdf9;\n  --terra: #c45c4a;\n  --terra-d: #a34738;\n  --ink: #1c1917;\n  --muted: #78716c;\n  position: relative;\n  min-height: 100vh;\n  min-height: 100dvh;\n  overflow-x: hidden;\n  background:\n    linear-gradient(\n      168deg,\n      var(--teal-deep) 0%,\n      #042a30 45%,\n      #0a1620 100%);\n  color: #e7e5e4;\n  font-family:\n    "Nunito",\n    system-ui,\n    sans-serif;\n  padding: max(1.35rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 3rem max(1rem, env(safe-area-inset-left, 0px));\n  max-width: min(520px, 100%);\n  margin: 0 auto;\n  box-sizing: border-box;\n}\n.act-glow {\n  position: fixed;\n  width: 320px;\n  height: 320px;\n  border-radius: 50%;\n  background:\n    radial-gradient(\n      circle,\n      rgba(196, 92, 74, 0.25) 0%,\n      transparent 70%);\n  top: -100px;\n  right: -80px;\n  pointer-events: none;\n  z-index: 0;\n}\n.act-card,\n.act-head,\n.act-form,\n.act-alert {\n  position: relative;\n  z-index: 1;\n}\n.act-card {\n  background: var(--cream);\n  color: var(--ink);\n  border-radius: 24px;\n  padding: clamp(1.35rem, 4vw, 2rem) clamp(1rem, 4vw, 1.5rem);\n  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.08);\n}\n.act-center {\n  text-align: center;\n  margin-top: 2.5rem;\n}\n.act-spinner {\n  width: 44px;\n  height: 44px;\n  border: 3px solid rgba(13, 79, 90, 0.2);\n  border-top-color: var(--teal-mid);\n  border-radius: 50%;\n  margin: 0 auto 1rem;\n  animation: spin 0.85s linear infinite;\n}\n@keyframes spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n.act-lead {\n  font-weight: 700;\n  color: var(--teal-mid);\n}\n.act-emoji {\n  font-size: 2.5rem;\n  display: block;\n  margin-bottom: 0.5rem;\n}\n.act-h1 {\n  font-family:\n    "Fraunces",\n    Georgia,\n    serif;\n  font-size: 1.55rem;\n  font-weight: 700;\n  color: var(--teal-mid);\n  margin-bottom: 0.45rem;\n}\n.act-head .act-h1 {\n  color: #ffffff;\n  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.35);\n}\n.act-muted {\n  font-size: 0.92rem;\n  color: var(--muted);\n  line-height: 1.5;\n  margin-bottom: 1.1rem;\n}\n.act-link {\n  color: var(--terra) !important;\n  font-weight: 800;\n}\n.act-link-block {\n  display: block;\n  margin-top: 1rem;\n  text-align: center;\n}\n.act-btn-primary,\n.act-btn-submit {\n  display: inline-block;\n  width: 100%;\n  text-align: center;\n  padding: 0.9rem 1.2rem;\n  border-radius: 16px;\n  border: none;\n  font-family: inherit;\n  font-weight: 800;\n  font-size: 0.95rem;\n  cursor: pointer;\n  background:\n    linear-gradient(\n      135deg,\n      var(--terra) 0%,\n      var(--terra-d) 100%);\n  color: #fff !important;\n  box-shadow: 0 10px 28px rgba(196, 92, 74, 0.35);\n}\n.act-btn-primary {\n  width: auto;\n  min-width: 200px;\n}\n.act-btn-submit:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.act-win .act-mono {\n  font-size: 0.78rem;\n  word-break: break-all;\n  color: var(--muted);\n  margin: 0.75rem 0 1rem;\n  text-align: left;\n  background: #f5f5f4;\n  padding: 0.65rem 0.75rem;\n  border-radius: 10px;\n}\n.act-back {\n  color: #fdba74 !important;\n  font-size: 0.88rem;\n  font-weight: 700;\n}\n.act-head {\n  margin-bottom: 1rem;\n}\n.act-tagline-hi,\n.act-tagline-en {\n  font-size: 0.82rem;\n  font-weight: 800;\n  color: #fdba74;\n  margin: 0.75rem 0 0.15rem;\n  letter-spacing: 0.04em;\n}\n.act-fieldset {\n  border: 1px dashed rgba(253, 186, 116, 0.28);\n  border-radius: 16px;\n  padding: 0.85rem 1rem 1rem;\n  margin: 0;\n}\n.act-legend {\n  font-size: 0.72rem;\n  font-weight: 800;\n  color: #d6d3d1;\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  padding: 0 0.35rem;\n}\n.act-radio-row {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.85rem 1.25rem;\n  margin-bottom: 0.65rem;\n}\n.act-radio {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  font-size: 0.9rem;\n  color: #e7e5e4;\n  cursor: pointer;\n}\n.act-radio input {\n  accent-color: #c45c4a;\n}\n.act-label-tight {\n  margin-top: 0;\n}\n.act-pid {\n  font-size: 0.88rem;\n  color: #a8a29e;\n  margin: 0.35rem 0 0.65rem;\n}\n.act-pid strong {\n  color: #fef3c7;\n  font-family: ui-monospace, monospace;\n  font-size: 0.85rem;\n}\n.act-sub {\n  font-size: 0.86rem;\n  color: #a8a29e;\n  line-height: 1.55;\n}\n.act-alert {\n  background: rgba(196, 92, 74, 0.2);\n  border: 1px solid rgba(252, 165, 165, 0.35);\n  color: #fecaca;\n  padding: 0.75rem 1rem;\n  border-radius: 14px;\n  margin-bottom: 1rem;\n  font-size: 0.88rem;\n}\n.act-form {\n  display: flex;\n  flex-direction: column;\n  gap: 0.85rem;\n}\n.act-label {\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n}\n.act-label span {\n  font-size: 0.78rem;\n  font-weight: 800;\n  color: #d6d3d1;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n}\n.act-label input,\n.act-label textarea {\n  border-radius: 14px;\n  border: 2px solid rgba(255, 255, 255, 0.12);\n  background: rgba(6, 42, 48, 0.55);\n  color: #fafaf9;\n  padding: 0.65rem 0.85rem;\n  font-size: 1rem;\n  font-family: inherit;\n}\n.act-label input:focus,\n.act-label textarea:focus {\n  outline: none;\n  border-color: rgba(253, 186, 116, 0.5);\n}\n.act-input-upper {\n  text-transform: uppercase;\n  font-variant-numeric: tabular-nums;\n}\n.act-field-msg {\n  display: block;\n  font-size: 0.78rem;\n  font-weight: 700;\n  line-height: 1.4;\n  margin: 0.15rem 0 0;\n}\n.act-field-msg--hint {\n  color: #fcd34d;\n}\n.act-field-msg--err {\n  color: #fecaca;\n}\n.act-pay {\n  border: 1px dashed rgba(253, 186, 116, 0.35);\n  border-radius: 18px;\n  padding: 1rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.act-check {\n  display: flex;\n  align-items: center;\n  gap: 0.55rem;\n  font-size: 0.88rem;\n  font-weight: 600;\n  color: #e7e5e4;\n  cursor: pointer;\n}\n.act-check input {\n  width: auto;\n  accent-color: var(--terra);\n}\n.act-pay-hint {\n  font-size: 0.82rem;\n  margin: 0;\n  color: #d6d3d1;\n}\n.act-btn-razorpay {\n  display: inline-block;\n  width: 100%;\n  text-align: center;\n  padding: 0.9rem 1.2rem;\n  border-radius: 16px;\n  border: none;\n  font-family: inherit;\n  font-weight: 800;\n  font-size: 0.95rem;\n  cursor: pointer;\n  background:\n    linear-gradient(\n      135deg,\n      #2b6cb8 0%,\n      #1c3d78 100%);\n  color: #fff !important;\n  box-shadow: 0 10px 28px rgba(28, 61, 120, 0.35);\n}\n.act-btn-razorpay:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n/*# sourceMappingURL=activate-page.css.map */\n'] }]
+`, styles: ['/* src/app/components/activate-page/activate-page.css */\n.act-root {\n  --teal-deep: #063a42;\n  --teal-mid: #0d4f5a;\n  --cream: #fffdf9;\n  --terra: #c45c4a;\n  --terra-d: #a34738;\n  --ink: #1c1917;\n  --muted: #78716c;\n  position: relative;\n  min-height: 100vh;\n  min-height: 100dvh;\n  overflow-x: hidden;\n  background:\n    linear-gradient(\n      168deg,\n      var(--teal-deep) 0%,\n      #042a30 45%,\n      #0a1620 100%);\n  color: #e7e5e4;\n  font-family:\n    "Nunito",\n    system-ui,\n    sans-serif;\n  padding: max(1.35rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 3rem max(1rem, env(safe-area-inset-left, 0px));\n  max-width: min(520px, 100%);\n  margin: 0 auto;\n  box-sizing: border-box;\n}\n.act-glow {\n  position: fixed;\n  width: 320px;\n  height: 320px;\n  border-radius: 50%;\n  background:\n    radial-gradient(\n      circle,\n      rgba(196, 92, 74, 0.25) 0%,\n      transparent 70%);\n  top: -100px;\n  right: -80px;\n  pointer-events: none;\n  z-index: 0;\n}\n.act-card,\n.act-head,\n.act-form,\n.act-alert {\n  position: relative;\n  z-index: 1;\n}\n.act-card {\n  background: var(--cream);\n  color: var(--ink);\n  border-radius: 24px;\n  padding: clamp(1.35rem, 4vw, 2rem) clamp(1rem, 4vw, 1.5rem);\n  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.08);\n}\n.act-center {\n  text-align: center;\n  margin-top: 2.5rem;\n}\n.act-spinner {\n  width: 44px;\n  height: 44px;\n  border: 3px solid rgba(13, 79, 90, 0.2);\n  border-top-color: var(--teal-mid);\n  border-radius: 50%;\n  margin: 0 auto 1rem;\n  animation: spin 0.85s linear infinite;\n}\n@keyframes spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n.act-lead {\n  font-weight: 700;\n  color: var(--teal-mid);\n}\n.act-emoji {\n  font-size: 2.5rem;\n  display: block;\n  margin-bottom: 0.5rem;\n}\n.act-h1 {\n  font-family:\n    "Fraunces",\n    Georgia,\n    serif;\n  font-size: 1.55rem;\n  font-weight: 700;\n  color: var(--teal-mid);\n  margin-bottom: 0.45rem;\n}\n.act-head .act-h1 {\n  color: #ffffff;\n  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.35);\n}\n.act-muted {\n  font-size: 0.92rem;\n  color: var(--muted);\n  line-height: 1.5;\n  margin-bottom: 1.1rem;\n}\n.act-link {\n  color: var(--terra) !important;\n  font-weight: 800;\n}\n.act-link-block {\n  display: block;\n  margin-top: 1rem;\n  text-align: center;\n}\n.act-btn-primary,\n.act-btn-submit {\n  display: inline-block;\n  width: 100%;\n  text-align: center;\n  padding: 0.9rem 1.2rem;\n  border-radius: 16px;\n  border: none;\n  font-family: inherit;\n  font-weight: 800;\n  font-size: 0.95rem;\n  cursor: pointer;\n  background:\n    linear-gradient(\n      135deg,\n      var(--terra) 0%,\n      var(--terra-d) 100%);\n  color: #fff !important;\n  box-shadow: 0 10px 28px rgba(196, 92, 74, 0.35);\n}\n.act-btn-primary {\n  width: auto;\n  min-width: 200px;\n}\n.act-btn-submit:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.act-win .act-mono {\n  font-size: 0.78rem;\n  word-break: break-all;\n  color: var(--muted);\n  margin: 0.75rem 0 1rem;\n  text-align: left;\n  background: #f5f5f4;\n  padding: 0.65rem 0.75rem;\n  border-radius: 10px;\n}\n.act-back {\n  color: #fdba74 !important;\n  font-size: 0.88rem;\n  font-weight: 700;\n}\n.act-head {\n  margin-bottom: 1rem;\n}\n.act-tagline-hi,\n.act-tagline-en {\n  font-size: 0.82rem;\n  font-weight: 800;\n  color: #fdba74;\n  margin: 0.75rem 0 0.15rem;\n  letter-spacing: 0.04em;\n}\n.act-fieldset {\n  border: 1px dashed rgba(253, 186, 116, 0.28);\n  border-radius: 16px;\n  padding: 0.85rem 1rem 1rem;\n  margin: 0;\n}\n.act-legend {\n  font-size: 0.72rem;\n  font-weight: 800;\n  color: #d6d3d1;\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  padding: 0 0.35rem;\n}\n.act-radio-row {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.85rem 1.25rem;\n  margin-bottom: 0.65rem;\n}\n.act-radio {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  font-size: 0.9rem;\n  color: #e7e5e4;\n  cursor: pointer;\n}\n.act-radio input {\n  accent-color: #c45c4a;\n}\n.act-label-tight {\n  margin-top: 0;\n}\n.act-pid {\n  font-size: 0.88rem;\n  color: #a8a29e;\n  margin: 0.35rem 0 0.65rem;\n}\n.act-pid strong {\n  color: #fef3c7;\n  font-family: ui-monospace, monospace;\n  font-size: 0.85rem;\n}\n.act-sub {\n  font-size: 0.86rem;\n  color: #a8a29e;\n  line-height: 1.55;\n}\n.act-alert {\n  background: rgba(196, 92, 74, 0.2);\n  border: 1px solid rgba(252, 165, 165, 0.35);\n  color: #fecaca;\n  padding: 0.75rem 1rem;\n  border-radius: 14px;\n  margin-bottom: 1rem;\n  font-size: 0.88rem;\n}\n.act-form {\n  display: flex;\n  flex-direction: column;\n  gap: 0.85rem;\n}\n.act-label {\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n}\n.act-label span {\n  font-size: 0.78rem;\n  font-weight: 800;\n  color: #d6d3d1;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n}\n.act-label input,\n.act-label textarea {\n  border-radius: 14px;\n  border: 2px solid rgba(255, 255, 255, 0.12);\n  background: rgba(6, 42, 48, 0.55);\n  color: #fafaf9;\n  padding: 0.65rem 0.85rem;\n  font-size: 1rem;\n  font-family: inherit;\n}\n.act-label input:focus,\n.act-label textarea:focus {\n  outline: none;\n  border-color: rgba(253, 186, 116, 0.5);\n}\n.act-input-upper {\n  text-transform: uppercase;\n  font-variant-numeric: tabular-nums;\n}\n.act-field-msg {\n  display: block;\n  font-size: 0.78rem;\n  font-weight: 700;\n  line-height: 1.4;\n  margin: 0.15rem 0 0;\n}\n.act-field-msg--hint {\n  color: #fcd34d;\n}\n.act-field-msg--err {\n  color: #fecaca;\n}\n.act-footer {\n  margin-top: 1rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1.15rem;\n  background: rgba(255, 255, 255, 0.04);\n  padding: 1.5rem;\n  border-radius: 20px;\n  border: 1px solid rgba(253, 186, 116, 0.1);\n  box-shadow: inset 0 1px 20px rgba(253, 186, 116, 0.05);\n}\n.act-pay-summary {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.25rem;\n}\n.act-pay-label {\n  font-size: 0.8rem;\n  font-weight: 800;\n  color: #a8a29e;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n}\n.act-pay-value {\n  font-size: 1.6rem;\n  font-weight: 900;\n  color: #ffffff;\n  font-family: "Fraunces", serif;\n}\n.act-btn-main {\n  width: 100%;\n  padding: 1.15rem;\n  border-radius: 18px;\n  border: none;\n  font-family: inherit;\n  font-weight: 900;\n  font-size: 1.05rem;\n  cursor: pointer;\n  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 14px;\n}\n.act-btn-pay {\n  background:\n    linear-gradient(\n      135deg,\n      #4f46e5,\n      #7c3aed);\n  color: #ffffff;\n  box-shadow: 0 12px 35px rgba(99, 102, 241, 0.35);\n}\n.act-btn-final {\n  background:\n    linear-gradient(\n      135deg,\n      #10b981,\n      #059669);\n  color: #ffffff;\n  box-shadow: 0 12px 35px rgba(16, 185, 129, 0.3);\n}\n.act-btn-main:hover:not(:disabled) {\n  transform: translateY(-2px) scale(1.01);\n  filter: brightness(1.15);\n}\n.act-btn-main:active:not(:disabled) {\n  transform: scale(0.98);\n}\n.act-btn-main:disabled {\n  opacity: 0.45;\n  cursor: not-allowed;\n  filter: grayscale(0.6);\n}\n.act-btn-icon {\n  font-size: 1.2rem;\n}\n.act-btn-loader {\n  width: 20px;\n  height: 20px;\n  border: 3px solid rgba(255, 255, 255, 0.3);\n  border-top-color: #fff;\n  border-radius: 50%;\n  animation: spin 0.8s linear infinite;\n}\n.act-pay-note {\n  font-size: 0.72rem;\n  text-align: center;\n  margin: 0;\n  color: #78716c;\n  line-height: 1.4;\n}\n@media (max-width: 480px) {\n  .act-footer {\n    padding: 1.25rem;\n    margin: 0 -0.5rem;\n    border-radius: 20px;\n  }\n}\n/*# sourceMappingURL=activate-page.css.map */\n'] }]
   }], () => [{ type: ActivatedRoute }, { type: QrService }, { type: NgZone }], null);
 })();
 (() => {
@@ -47783,154 +48508,408 @@ function InventoryPageComponent_Conditional_1_Template(rf, ctx) {
     \u0275\u0275textInterpolate(ctx_r0.toast());
   }
 }
-function InventoryPageComponent_Conditional_49_Template(rf, ctx) {
+function InventoryPageComponent_For_34_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 19);
+    \u0275\u0275elementStart(0, "option", 14);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const s_r2 = ctx.$implicit;
+    \u0275\u0275property("value", s_r2);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(s_r2);
+  }
+}
+function InventoryPageComponent_Conditional_82_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 29);
     \u0275\u0275text(1, "Loading\u2026");
     \u0275\u0275elementEnd();
   }
 }
-function InventoryPageComponent_Conditional_50_For_22_Conditional_22_Template(rf, ctx) {
+function InventoryPageComponent_Conditional_83_For_26_Conditional_28_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "a", 27);
-    \u0275\u0275text(1, "Packaging label");
+    const _r6 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 50);
+    \u0275\u0275listener("click", function InventoryPageComponent_Conditional_83_For_26_Conditional_28_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r6);
+      const row_r5 = \u0275\u0275nextContext().$implicit;
+      const ctx_r0 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r0.openActivateFree(row_r5));
+    });
+    \u0275\u0275text(1, " \u{1FA84} Free ");
+    \u0275\u0275elementEnd();
+  }
+}
+function InventoryPageComponent_Conditional_83_For_26_Conditional_31_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "a", 47);
+    \u0275\u0275text(1, " \u{1F4E6} Pack ");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const row_r2 = \u0275\u0275nextContext().$implicit;
+    const row_r5 = \u0275\u0275nextContext().$implicit;
     const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("href", ctx_r0.labelPackHref(row_r2), \u0275\u0275sanitizeUrl);
+    \u0275\u0275property("href", ctx_r0.labelPackHref(row_r5), \u0275\u0275sanitizeUrl);
   }
 }
-function InventoryPageComponent_Conditional_50_For_22_Conditional_23_Template(rf, ctx) {
+function InventoryPageComponent_Conditional_83_For_26_Conditional_32_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 28);
+    \u0275\u0275elementStart(0, "span", 48);
     \u0275\u0275text(1, "Packaging \u2014");
     \u0275\u0275elementEnd();
   }
 }
-function InventoryPageComponent_Conditional_50_For_22_Conditional_24_Template(rf, ctx) {
+function InventoryPageComponent_Conditional_83_For_26_Conditional_33_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "a", 27);
-    \u0275\u0275text(1, "Sticker label");
+    \u0275\u0275elementStart(0, "a", 47);
+    \u0275\u0275text(1, " \u{1F3F7}\uFE0F Tag ");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const row_r2 = \u0275\u0275nextContext().$implicit;
+    const row_r5 = \u0275\u0275nextContext().$implicit;
     const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("href", ctx_r0.labelStickerHref(row_r2), \u0275\u0275sanitizeUrl);
+    \u0275\u0275property("href", ctx_r0.labelStickerHref(row_r5), \u0275\u0275sanitizeUrl);
   }
 }
-function InventoryPageComponent_Conditional_50_For_22_Conditional_25_Template(rf, ctx) {
+function InventoryPageComponent_Conditional_83_For_26_Conditional_34_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 29);
+    \u0275\u0275elementStart(0, "span", 49);
     \u0275\u0275text(1, "Sticker \u2014");
     \u0275\u0275elementEnd();
   }
 }
-function InventoryPageComponent_Conditional_50_For_22_Template(rf, ctx) {
+function InventoryPageComponent_Conditional_83_For_26_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "tr")(1, "td", 21);
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "td");
+    const _r4 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "tr")(1, "td")(2, "input", 39);
+    \u0275\u0275listener("change", function InventoryPageComponent_Conditional_83_For_26_Template_input_change_2_listener($event) {
+      const row_r5 = \u0275\u0275restoreView(_r4).$implicit;
+      const ctx_r0 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r0.toggleSelected(row_r5.publicId, $event.target.checked));
+    });
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(3, "td", 32);
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "td")(6, "span", 22);
+    \u0275\u0275elementStart(5, "td", 33)(6, "span", 40);
     \u0275\u0275text(7);
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(8, "td");
     \u0275\u0275text(9);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "td");
-    \u0275\u0275text(11);
+    \u0275\u0275elementStart(10, "td")(11, "span", 41);
+    \u0275\u0275text(12);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(13, "td", 34)(14, "strong");
+    \u0275\u0275text(15);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(16, "td");
+    \u0275\u0275text(17);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "td", 23);
-    \u0275\u0275text(13);
+    \u0275\u0275elementStart(18, "td", 42);
+    \u0275\u0275text(19);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "td")(15, "div", 24)(16, "a", 25);
-    \u0275\u0275text(17, "Activate");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "a", 25);
-    \u0275\u0275text(19, "Scan");
-    \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(20, "td")(21, "div", 26);
-    \u0275\u0275conditionalCreate(22, InventoryPageComponent_Conditional_50_For_22_Conditional_22_Template, 2, 1, "a", 27)(23, InventoryPageComponent_Conditional_50_For_22_Conditional_23_Template, 2, 0, "span", 28);
-    \u0275\u0275conditionalCreate(24, InventoryPageComponent_Conditional_50_For_22_Conditional_24_Template, 2, 1, "a", 27)(25, InventoryPageComponent_Conditional_50_For_22_Conditional_25_Template, 2, 0, "span", 29);
+    \u0275\u0275elementStart(20, "td")(21, "div", 43)(22, "a", 44)(23, "span");
+    \u0275\u0275text(24, "Setup");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(25, "a", 45)(26, "span");
+    \u0275\u0275text(27, "Scan");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275conditionalCreate(28, InventoryPageComponent_Conditional_83_For_26_Conditional_28_Template, 2, 0, "button", 46);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(29, "td")(30, "div", 43);
+    \u0275\u0275conditionalCreate(31, InventoryPageComponent_Conditional_83_For_26_Conditional_31_Template, 2, 1, "a", 47)(32, InventoryPageComponent_Conditional_83_For_26_Conditional_32_Template, 2, 0, "span", 48);
+    \u0275\u0275conditionalCreate(33, InventoryPageComponent_Conditional_83_For_26_Conditional_33_Template, 2, 1, "a", 47)(34, InventoryPageComponent_Conditional_83_For_26_Conditional_34_Template, 2, 0, "span", 49);
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
-    const row_r2 = ctx.$implicit;
+    const row_r5 = ctx.$implicit;
+    const ctx_r0 = \u0275\u0275nextContext(2);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(row_r2.publicId);
+    \u0275\u0275property("checked", ctx_r0.selected()[row_r5.publicId]);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(row_r2.productType);
-    \u0275\u0275advance(2);
-    \u0275\u0275classProp("on", row_r2.status === "Active");
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(row_r2.status);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(row_r2.scanCount);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(row_r2.ownerName ?? "\u2014");
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(row_r2.paymentTransactionId ?? "\u2014");
+    \u0275\u0275textInterpolate(ctx_r0.formatDateTime(row_r5.createdAt));
     \u0275\u0275advance(3);
-    \u0275\u0275property("routerLink", \u0275\u0275pureFunction1(12, _c04, row_r2.publicId));
+    \u0275\u0275textInterpolate(row_r5.publicId);
     \u0275\u0275advance(2);
-    \u0275\u0275property("routerLink", \u0275\u0275pureFunction1(14, _c1, row_r2.publicId));
-    \u0275\u0275advance(4);
-    \u0275\u0275conditional(row_r2.status === "Unused" ? 22 : 23);
+    \u0275\u0275textInterpolate(row_r5.productType);
     \u0275\u0275advance(2);
-    \u0275\u0275conditional(row_r2.status === "Unused" || row_r2.status === "Active" ? 24 : 25);
+    \u0275\u0275classProp("on", row_r5.status === "Active");
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", row_r5.status, " ");
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(row_r5.scanCount);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(row_r5.ownerName ?? "\u2014");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(row_r5.paymentTransactionId ?? "\u2014");
+    \u0275\u0275advance(3);
+    \u0275\u0275property("routerLink", \u0275\u0275pureFunction1(15, _c04, row_r5.publicId));
+    \u0275\u0275advance(3);
+    \u0275\u0275property("routerLink", \u0275\u0275pureFunction1(17, _c1, row_r5.publicId));
+    \u0275\u0275advance(3);
+    \u0275\u0275conditional(row_r5.status === "Unused" ? 28 : -1);
+    \u0275\u0275advance(3);
+    \u0275\u0275conditional(row_r5.status === "Unused" ? 31 : 32);
+    \u0275\u0275advance(2);
+    \u0275\u0275conditional(row_r5.status === "Unused" || row_r5.status === "Active" ? 33 : 34);
   }
 }
-function InventoryPageComponent_Conditional_50_ForEmpty_23_Template(rf, ctx) {
+function InventoryPageComponent_Conditional_83_ForEmpty_27_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "tr")(1, "td", 30);
-    \u0275\u0275text(2, "No rows. Generate inventory or run the API (dev seeds sample tags).");
+    \u0275\u0275elementStart(0, "tr")(1, "td", 51);
+    \u0275\u0275text(2, "No rows. Date range ya pagination change karke try karo.");
     \u0275\u0275elementEnd()();
   }
 }
-function InventoryPageComponent_Conditional_50_Template(rf, ctx) {
+function InventoryPageComponent_Conditional_83_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 20)(1, "table")(2, "thead")(3, "tr")(4, "th");
-    \u0275\u0275text(5, "Public ID");
+    const _r3 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 31)(1, "table")(2, "thead")(3, "tr")(4, "th");
+    \u0275\u0275text(5, "Select");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "th");
-    \u0275\u0275text(7, "Product");
+    \u0275\u0275elementStart(6, "th", 32);
+    \u0275\u0275text(7, "Date");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "th");
-    \u0275\u0275text(9, "Status");
+    \u0275\u0275elementStart(8, "th", 33);
+    \u0275\u0275text(9, "Public ID");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(10, "th");
-    \u0275\u0275text(11, "Scans");
+    \u0275\u0275text(11, "Product");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(12, "th");
-    \u0275\u0275text(13, "Owner");
+    \u0275\u0275text(13, "Status");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "th");
-    \u0275\u0275text(15, "Txn / payment id");
+    \u0275\u0275elementStart(14, "th", 34);
+    \u0275\u0275text(15, "Scans");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(16, "th");
-    \u0275\u0275text(17, "Pages");
+    \u0275\u0275text(17, "Owner");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(18, "th");
-    \u0275\u0275text(19, "A4 labels");
+    \u0275\u0275text(19, "Transaction ID");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(20, "th");
+    \u0275\u0275text(21, "Actions");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(22, "th");
+    \u0275\u0275text(23, "Print Labels");
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(20, "tbody");
-    \u0275\u0275repeaterCreate(21, InventoryPageComponent_Conditional_50_For_22_Template, 26, 16, "tr", null, _forTrack04, false, InventoryPageComponent_Conditional_50_ForEmpty_23_Template, 3, 0, "tr");
+    \u0275\u0275elementStart(24, "tbody");
+    \u0275\u0275repeaterCreate(25, InventoryPageComponent_Conditional_83_For_26_Template, 35, 19, "tr", null, _forTrack04, false, InventoryPageComponent_Conditional_83_ForEmpty_27_Template, 3, 0, "tr");
     \u0275\u0275elementEnd()()();
+    \u0275\u0275elementStart(28, "div", 35)(29, "button", 36);
+    \u0275\u0275listener("click", function InventoryPageComponent_Conditional_83_Template_button_click_29_listener() {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r0 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r0.prevPage());
+    });
+    \u0275\u0275text(30, " \u2190 ");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(31, "div", 37);
+    \u0275\u0275text(32);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(33, "button", 38);
+    \u0275\u0275listener("click", function InventoryPageComponent_Conditional_83_Template_button_click_33_listener() {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r0 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r0.nextPage());
+    });
+    \u0275\u0275text(34, " \u2192 ");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(35, "button", 17);
+    \u0275\u0275listener("click", function InventoryPageComponent_Conditional_83_Template_button_click_35_listener() {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r0 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r0.requestDeleteSelected());
+    });
+    \u0275\u0275text(36);
+    \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
     const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance(21);
+    \u0275\u0275advance(25);
     \u0275\u0275repeater(ctx_r0.items());
+    \u0275\u0275advance(4);
+    \u0275\u0275property("disabled", ctx_r0.loading() || ctx_r0.page <= 1);
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate3("Page ", ctx_r0.page, " / ", ctx_r0.totalPages(), " \xB7 Total ", ctx_r0.total());
+    \u0275\u0275advance();
+    \u0275\u0275property("disabled", ctx_r0.loading() || ctx_r0.page >= ctx_r0.totalPages());
+    \u0275\u0275advance(2);
+    \u0275\u0275property("disabled", ctx_r0.deleting() || ctx_r0.selectedCount() === 0);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", ctx_r0.deleting() ? "Deleting\u2026" : "Delete selected", " ");
+  }
+}
+function InventoryPageComponent_Conditional_84_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r7 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 52);
+    \u0275\u0275listener("click", function InventoryPageComponent_Conditional_84_Template_div_click_0_listener() {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r0 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r0.closeConfirm());
+    });
+    \u0275\u0275elementStart(1, "div", 53);
+    \u0275\u0275listener("click", function InventoryPageComponent_Conditional_84_Template_div_click_1_listener($event) {
+      return $event.stopPropagation();
+    });
+    \u0275\u0275elementStart(2, "h3");
+    \u0275\u0275text(3, "Delete Confirmation");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "p");
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(6, "div", 54)(7, "button", 17);
+    \u0275\u0275listener("click", function InventoryPageComponent_Conditional_84_Template_button_click_7_listener() {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r0 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r0.confirmDelete());
+    });
+    \u0275\u0275text(8);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "button", 16);
+    \u0275\u0275listener("click", function InventoryPageComponent_Conditional_84_Template_button_click_9_listener() {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r0 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r0.closeConfirm());
+    });
+    \u0275\u0275text(10, "No");
+    \u0275\u0275elementEnd()()()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate(ctx_r0.confirmMessage());
+    \u0275\u0275advance(2);
+    \u0275\u0275property("disabled", ctx_r0.deleting());
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", ctx_r0.deleting() ? "Deleting\u2026" : "Yes", " ");
+    \u0275\u0275advance();
+    \u0275\u0275property("disabled", ctx_r0.deleting());
+  }
+}
+function InventoryPageComponent_Conditional_85_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r8 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 52);
+    \u0275\u0275listener("click", function InventoryPageComponent_Conditional_85_Template_div_click_0_listener() {
+      \u0275\u0275restoreView(_r8);
+      const ctx_r0 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r0.closeActivateFree());
+    });
+    \u0275\u0275elementStart(1, "div", 55);
+    \u0275\u0275listener("click", function InventoryPageComponent_Conditional_85_Template_div_click_1_listener($event) {
+      return $event.stopPropagation();
+    });
+    \u0275\u0275elementStart(2, "h3");
+    \u0275\u0275text(3, "\u{1FA84} Free Activation (Admin)");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "p", 29);
+    \u0275\u0275text(5, "Activating ");
+    \u0275\u0275elementStart(6, "strong");
+    \u0275\u0275text(7);
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(8, " for free.");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "form", 56);
+    \u0275\u0275listener("submit", function InventoryPageComponent_Conditional_85_Template_form_submit_9_listener($event) {
+      \u0275\u0275restoreView(_r8);
+      const ctx_r0 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r0.submitActivateFree($event));
+    });
+    \u0275\u0275elementStart(10, "div", 57)(11, "label");
+    \u0275\u0275text(12, "Name");
+    \u0275\u0275elementStart(13, "input", 58);
+    \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Conditional_85_Template_input_ngModelChange_13_listener($event) {
+      \u0275\u0275restoreView(_r8);
+      const ctx_r0 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r0.freeFormData.name, $event) || (ctx_r0.freeFormData.name = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(14, "label");
+    \u0275\u0275text(15, "Phone");
+    \u0275\u0275elementStart(16, "input", 59);
+    \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Conditional_85_Template_input_ngModelChange_16_listener($event) {
+      \u0275\u0275restoreView(_r8);
+      const ctx_r0 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r0.freeFormData.phoneNumber, $event) || (ctx_r0.freeFormData.phoneNumber = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(17, "label");
+    \u0275\u0275text(18, "Email");
+    \u0275\u0275elementStart(19, "input", 60);
+    \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Conditional_85_Template_input_ngModelChange_19_listener($event) {
+      \u0275\u0275restoreView(_r8);
+      const ctx_r0 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r0.freeFormData.email, $event) || (ctx_r0.freeFormData.email = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(20, "label");
+    \u0275\u0275text(21, "Vehicle Reg.");
+    \u0275\u0275elementStart(22, "input", 61);
+    \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Conditional_85_Template_input_ngModelChange_22_listener($event) {
+      \u0275\u0275restoreView(_r8);
+      const ctx_r0 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r0.freeFormData.vehicleRegistration, $event) || (ctx_r0.freeFormData.vehicleRegistration = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(23, "label");
+    \u0275\u0275text(24, "Emergency Phone");
+    \u0275\u0275elementStart(25, "input", 62);
+    \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Conditional_85_Template_input_ngModelChange_25_listener($event) {
+      \u0275\u0275restoreView(_r8);
+      const ctx_r0 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r0.freeFormData.emergencyContactPhone, $event) || (ctx_r0.freeFormData.emergencyContactPhone = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275elementStart(26, "div", 54)(27, "button", 63);
+    \u0275\u0275text(28);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(29, "button", 16);
+    \u0275\u0275listener("click", function InventoryPageComponent_Conditional_85_Template_button_click_29_listener() {
+      \u0275\u0275restoreView(_r8);
+      const ctx_r0 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r0.closeActivateFree());
+    });
+    \u0275\u0275text(30, "Cancel");
+    \u0275\u0275elementEnd()()()()();
+  }
+  if (rf & 2) {
+    let tmp_1_0;
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(7);
+    \u0275\u0275textInterpolate((tmp_1_0 = ctx_r0.selectedSticker()) == null ? null : tmp_1_0.publicId);
+    \u0275\u0275advance(6);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r0.freeFormData.name);
+    \u0275\u0275advance(3);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r0.freeFormData.phoneNumber);
+    \u0275\u0275advance(3);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r0.freeFormData.email);
+    \u0275\u0275advance(3);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r0.freeFormData.vehicleRegistration);
+    \u0275\u0275advance(3);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r0.freeFormData.emergencyContactPhone);
+    \u0275\u0275advance(2);
+    \u0275\u0275property("disabled", ctx_r0.submittingFree());
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", ctx_r0.submittingFree() ? "Activating\u2026" : "Activate Now", " ");
+    \u0275\u0275advance();
+    \u0275\u0275property("disabled", ctx_r0.submittingFree());
   }
 }
 var InventoryPageComponent = class _InventoryPageComponent {
   qrService;
   items = signal([], ...ngDevMode ? [{ debugName: "items" }] : []);
+  total = signal(0, ...ngDevMode ? [{ debugName: "total" }] : []);
   loading = signal(true, ...ngDevMode ? [{ debugName: "loading" }] : []);
   generating = signal(false, ...ngDevMode ? [{ debugName: "generating" }] : []);
   genCount = 5;
@@ -47941,17 +48920,66 @@ var InventoryPageComponent = class _InventoryPageComponent {
   batchEmbed = "activate";
   batchLayout = "horizontal";
   batchPrinting = signal(false, ...ngDevMode ? [{ debugName: "batchPrinting" }] : []);
+  deleting = signal(false, ...ngDevMode ? [{ debugName: "deleting" }] : []);
+  confirmOpen = signal(false, ...ngDevMode ? [{ debugName: "confirmOpen" }] : []);
+  confirmMessage = signal("", ...ngDevMode ? [{ debugName: "confirmMessage" }] : []);
+  /** Selected publicIds for manual print. */
+  selected = signal({}, ...ngDevMode ? [{ debugName: "selected" }] : []);
+  selectedLayout = "horizontal";
+  page = 1;
+  pageSize = 20;
+  pageSizeOptions = [5, 10, 20, 100, 500, 1e3, 2e3];
+  fromDate = "";
+  toDate = "";
+  searchNumber = "";
+  statusFilter = "all";
+  pendingDeleteAction = null;
+  activeFreeOpen = signal(false, ...ngDevMode ? [{ debugName: "activeFreeOpen" }] : []);
+  submittingFree = signal(false, ...ngDevMode ? [{ debugName: "submittingFree" }] : []);
+  selectedSticker = signal(null, ...ngDevMode ? [{ debugName: "selectedSticker" }] : []);
+  freeFormData = {
+    name: "",
+    phoneNumber: "",
+    phoneNumberType: "Mobile",
+    email: "",
+    address: "",
+    fatherName: "",
+    vehicleRegistration: "",
+    emergencyContactPhone: "",
+    emergencyContactPhoneType: "Mobile"
+  };
   constructor(qrService) {
     this.qrService = qrService;
   }
   ngOnInit() {
+    this.setDefaultDateRange();
+    this.batchCount = this.pageSize;
     this.reload();
   }
   reload() {
     this.loading.set(true);
-    this.qrService.listInventory().subscribe({
-      next: (rows) => {
+    this.qrService.listInventory({
+      page: this.page,
+      pageSize: this.pageSize,
+      from: this.fromDate || void 0,
+      to: this.toDate || void 0,
+      search: this.searchNumber || void 0,
+      status: this.statusFilter === "all" ? void 0 : this.statusFilter
+    }).subscribe({
+      next: (res) => {
+        const rows = res.items ?? [];
         this.items.set(rows);
+        this.total.set(res.total ?? 0);
+        this.page = Math.max(1, res.page || this.page);
+        this.pageSize = res.pageSize || this.pageSize;
+        const alive = new Set(rows.map((r) => r.publicId));
+        const nextSel = {};
+        const cur = this.selected();
+        for (const k of Object.keys(cur)) {
+          if (cur[k] && alive.has(k))
+            nextSel[k] = true;
+        }
+        this.selected.set(nextSel);
         this.loading.set(false);
       },
       error: (err) => {
@@ -47959,6 +48987,37 @@ var InventoryPageComponent = class _InventoryPageComponent {
         this.flash(this.apiErrorText(err, "Could not load inventory. Is the API running?"));
       }
     });
+  }
+  applyFilters() {
+    this.page = 1;
+    this.reload();
+  }
+  resetFilters() {
+    this.setDefaultDateRange();
+    this.searchNumber = "";
+    this.statusFilter = "all";
+    this.page = 1;
+    this.reload();
+  }
+  onPageSizeChanged() {
+    this.batchCount = this.pageSize;
+    this.page = 1;
+    this.reload();
+  }
+  nextPage() {
+    if (this.page < this.totalPages()) {
+      this.page += 1;
+      this.reload();
+    }
+  }
+  prevPage() {
+    if (this.page > 1) {
+      this.page -= 1;
+      this.reload();
+    }
+  }
+  totalPages() {
+    return Math.max(1, Math.ceil(this.total() / this.pageSize));
   }
   generate() {
     const n = Math.min(500, Math.max(1, Number(this.genCount) || 1));
@@ -47986,6 +49045,122 @@ var InventoryPageComponent = class _InventoryPageComponent {
   labelStickerHref(row) {
     return this.qrService.printLabelHref(row.publicId, "scan");
   }
+  toggleSelected(publicId, on) {
+    const cur = this.selected();
+    const next = __spreadValues({}, cur);
+    if (on)
+      next[publicId] = true;
+    else
+      delete next[publicId];
+    this.selected.set(next);
+  }
+  clearSelected() {
+    this.selected.set({});
+  }
+  selectedCount() {
+    return Object.keys(this.selected()).length;
+  }
+  requestDeleteSelected() {
+    const ids = Object.keys(this.selected());
+    if (ids.length === 0) {
+      this.flash("Select rows first.");
+      return;
+    }
+    this.pendingDeleteAction = "selected";
+    this.confirmMessage.set(`Are you sure? Delete ${ids.length} selected unused sticker(s).`);
+    this.confirmOpen.set(true);
+  }
+  deleteSelected() {
+    const ids = Object.keys(this.selected());
+    if (ids.length === 0)
+      return;
+    this.deleting.set(true);
+    this.qrService.deleteInventorySelected(ids).subscribe({
+      next: (res) => {
+        this.deleting.set(false);
+        this.clearSelected();
+        this.flash(res?.message || "Selected stickers deleted.");
+        this.reload();
+      },
+      error: (err) => {
+        this.deleting.set(false);
+        this.flash(this.apiErrorText(err, "Delete selected failed."));
+      }
+    });
+  }
+  requestDeleteAllFiltered() {
+    this.pendingDeleteAction = "all";
+    this.confirmMessage.set("Are you sure? Delete all UNUSED stickers in current filter range.");
+    this.confirmOpen.set(true);
+  }
+  deleteAllFiltered() {
+    this.deleting.set(true);
+    this.qrService.deleteInventoryAll({
+      from: this.fromDate || void 0,
+      to: this.toDate || void 0
+    }).subscribe({
+      next: (res) => {
+        this.deleting.set(false);
+        this.clearSelected();
+        this.flash(res?.message || "Filtered stickers deleted.");
+        this.page = 1;
+        this.reload();
+      },
+      error: (err) => {
+        this.deleting.set(false);
+        this.flash(this.apiErrorText(err, "Delete all failed."));
+      }
+    });
+  }
+  closeConfirm() {
+    if (this.deleting())
+      return;
+    this.confirmOpen.set(false);
+    this.confirmMessage.set("");
+    this.pendingDeleteAction = null;
+  }
+  confirmDelete() {
+    if (this.pendingDeleteAction === "selected") {
+      this.closeConfirm();
+      this.deleteSelected();
+      return;
+    }
+    if (this.pendingDeleteAction === "all") {
+      this.closeConfirm();
+      this.deleteAllFiltered();
+    }
+  }
+  isUnused(row) {
+    return row.status === "Unused";
+  }
+  printSelected() {
+    const selectedIds = new Set(Object.keys(this.selected()));
+    const ids = this.items().filter((r) => selectedIds.has(r.publicId) && this.isUnused(r)).map((r) => r.publicId);
+    if (ids.length === 0) {
+      this.flash("Select at least one unused sticker.");
+      return;
+    }
+    this.batchPrinting.set(true);
+    this.qrService.printBatch(ids, this.batchEmbed, this.selectedLayout).subscribe({
+      next: (html) => {
+        this.batchPrinting.set(false);
+        const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const win = window.open(url, "_blank", "noopener");
+        if (!win) {
+          URL.revokeObjectURL(url);
+          this.flash("Pop-up blocked \u2014 allow pop-ups for this site, then try again.");
+          return;
+        }
+        setTimeout(() => URL.revokeObjectURL(url), 12e4);
+        this.flash(`Opened print view for ${ids.length} selected label(s).`);
+      },
+      error: (err) => {
+        this.batchPrinting.set(false);
+        this.flash(this.apiErrorText(err, "Print selected failed."));
+      }
+    });
+  }
   /** QR PNG: unused → activate URL, active → /q (server embed=auto). */
   qrPngHref(row) {
     const id = encodeURIComponent(row.publicId.trim());
@@ -47996,15 +49171,15 @@ var InventoryPageComponent = class _InventoryPageComponent {
    * Packaging = /activate QR (unused). Sticker = /q layout + URL (unused + active).
    */
   printBatch() {
-    const n = Math.min(500, Math.max(1, Number(this.batchCount) || 1));
+    const n = Math.min(this.pageSize, Math.max(1, Number(this.batchCount) || 1));
     this.batchCount = n;
     this.batchPrinting.set(true);
     const runPrint = (rows) => {
-      const filtered = this.batchEmbed === "scan" ? rows.filter((r) => r.status === "Unused" || r.status === "Active") : rows.filter((r) => r.status === "Unused");
+      const filtered = rows.filter((r) => r.status === "Unused");
       const ids = filtered.slice(0, n).map((r) => r.publicId);
       if (ids.length === 0) {
         this.batchPrinting.set(false);
-        this.flash(this.batchEmbed === "scan" ? "No unused or active tags to print. Generate inventory or activate a tag." : "No unused tags in the list. Generate inventory first.");
+        this.flash("No unused tags in the list. Generate inventory first.");
         return;
       }
       this.qrService.printBatch(ids, this.batchEmbed, this.batchLayout).subscribe({
@@ -48030,30 +49205,8 @@ var InventoryPageComponent = class _InventoryPageComponent {
       });
     };
     const rowsNow = this.items();
-    const filteredNow = this.batchEmbed === "scan" ? rowsNow.filter((r) => r.status === "Unused" || r.status === "Active") : rowsNow.filter((r) => r.status === "Unused");
-    const missing = Math.max(0, n - filteredNow.length);
-    if (missing === 0) {
-      runPrint(rowsNow);
-      return;
-    }
-    this.qrService.generateInventory(missing, this.genProduct).subscribe({
-      next: () => {
-        this.qrService.listInventory().subscribe({
-          next: (rows) => {
-            this.items.set(rows);
-            runPrint(rows);
-          },
-          error: (err) => {
-            this.batchPrinting.set(false);
-            this.flash(this.apiErrorText(err, "Could not reload inventory after generating."));
-          }
-        });
-      },
-      error: (err) => {
-        this.batchPrinting.set(false);
-        this.flash(this.apiErrorText(err, "Could not generate enough inventory for batch print."));
-      }
-    });
+    const filteredNow = rowsNow.filter((r) => r.status === "Unused");
+    runPrint(rowsNow);
   }
   /** Surfaces server message when present (e.g. DB / validation errors). */
   apiErrorText(err, fallback) {
@@ -48070,10 +49223,71 @@ var InventoryPageComponent = class _InventoryPageComponent {
     }
     return fallback;
   }
+  formatDateTime(value) {
+    if (!value)
+      return "\u2014";
+    const dt = new Date(value);
+    if (Number.isNaN(dt.getTime()))
+      return value;
+    return dt.toLocaleString();
+  }
+  setDefaultDateRange() {
+    const today = /* @__PURE__ */ new Date();
+    const monthBack = new Date(today);
+    monthBack.setMonth(monthBack.getMonth() - 1);
+    this.fromDate = this.formatDateInput(monthBack);
+    this.toDate = this.formatDateInput(today);
+  }
+  formatDateInput(dt) {
+    const y = dt.getFullYear();
+    const m = String(dt.getMonth() + 1).padStart(2, "0");
+    const d = String(dt.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+  openActivateFree(row) {
+    this.selectedSticker.set(row);
+    this.freeFormData = {
+      name: "",
+      phoneNumber: "",
+      phoneNumberType: "Mobile",
+      email: "",
+      address: "",
+      fatherName: "",
+      vehicleRegistration: "",
+      emergencyContactPhone: "",
+      emergencyContactPhoneType: "Mobile"
+    };
+    this.activeFreeOpen.set(true);
+  }
+  closeActivateFree() {
+    if (this.submittingFree())
+      return;
+    this.activeFreeOpen.set(false);
+    this.selectedSticker.set(null);
+  }
+  submitActivateFree(ev) {
+    ev.preventDefault();
+    const row = this.selectedSticker();
+    if (!row)
+      return;
+    this.submittingFree.set(true);
+    this.qrService.activateFree(row.publicId, this.freeFormData).subscribe({
+      next: (res) => {
+        this.submittingFree.set(false);
+        this.activeFreeOpen.set(false);
+        this.flash(res?.message || "Free activation successful.");
+        this.reload();
+      },
+      error: (err) => {
+        this.submittingFree.set(false);
+        this.flash(this.apiErrorText(err, "Free activation failed."));
+      }
+    });
+  }
   static \u0275fac = function InventoryPageComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _InventoryPageComponent)(\u0275\u0275directiveInject(QrService));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _InventoryPageComponent, selectors: [["app-inventory-page"]], decls: 51, vars: 11, consts: [[1, "inv-wrap"], [1, "toast"], [1, "inv-header"], [1, "grad"], [1, "inv-tools"], [1, "gen-card"], [1, "gen-row"], ["type", "number", "min", "1", "max", "500", 3, "ngModelChange", "ngModel"], [3, "ngModelChange", "ngModel"], ["value", "CarSticker"], ["value", "KeyFinder"], ["value", "LuggageTag"], ["type", "button", 1, "btn-gen", 3, "click", "disabled"], [1, "gen-card", "batch-print-card"], ["value", "activate"], ["value", "scan"], ["value", "horizontal"], ["value", "vertical"], ["type", "button", 1, "btn-gen", "btn-batch", 3, "click", "disabled"], [1, "muted"], [1, "table-wrap"], [1, "mono"], [1, "pill"], [1, "mono", "txn-cell"], [1, "links"], [3, "routerLink"], [1, "label-links"], ["target", "_blank", "rel", "noopener", 3, "href"], ["title", "Packaging QR is for unused inventory only", 1, "lbl-off"], ["title", "Sticker layout needs unused or active tag", 1, "lbl-off"], ["colspan", "9", 1, "muted"]], template: function InventoryPageComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _InventoryPageComponent, selectors: [["app-inventory-page"]], decls: 86, vars: 24, consts: [[1, "inv-wrap"], [1, "toast"], [1, "inv-header"], [1, "grad"], [1, "inv-tools"], [1, "gen-card"], [1, "gen-row"], ["type", "text", "placeholder", "e.g. CMN...", 3, "ngModelChange", "ngModel"], ["type", "date", 3, "ngModelChange", "ngModel"], [3, "ngModelChange", "ngModel"], ["value", "all"], ["value", "active"], ["value", "unused"], [3, "ngModelChange", "change", "ngModel"], [3, "value"], ["type", "button", 1, "btn-gen", 3, "click", "disabled"], ["type", "button", 1, "btn-gen", "btn-ghost", 3, "click", "disabled"], ["type", "button", 1, "btn-gen", "btn-danger", 3, "click", "disabled"], ["type", "number", "min", "1", "max", "500", 3, "ngModelChange", "ngModel"], ["value", "CarSticker"], ["value", "KeyFinder"], ["value", "LuggageTag"], [1, "gen-card", "batch-print-card"], ["type", "number", "min", "1", 3, "ngModelChange", "max", "ngModel"], ["value", "activate"], ["value", "scan"], ["value", "horizontal"], ["value", "vertical"], ["type", "button", 1, "btn-gen", "btn-batch", 3, "click", "disabled"], [1, "muted"], [1, "confirm-backdrop"], [1, "table-wrap"], [1, "col-date"], [1, "col-id"], [1, "col-scans"], [1, "pager"], ["type", "button", "aria-label", "Previous page", 1, "pager-btn", 3, "click", "disabled"], [1, "pager-info"], ["type", "button", "aria-label", "Next page", 1, "pager-btn", 3, "click", "disabled"], ["type", "checkbox", 3, "change", "checked"], [1, "mono"], [1, "pill"], [1, "mono", "txn-cell"], [1, "action-stack"], [1, "btn-table", "btn-table--primary", 3, "routerLink"], [1, "btn-table", "btn-table--ghost", 3, "routerLink"], ["type", "button", 1, "btn-table", "btn-table--magic"], ["target", "_blank", 1, "btn-table", "btn-table--outline", 3, "href"], ["title", "Packaging QR is for unused inventory only", 1, "lbl-off"], ["title", "Sticker layout needs unused or active tag", 1, "lbl-off"], ["type", "button", 1, "btn-table", "btn-table--magic", 3, "click"], ["colspan", "10", 1, "muted"], [1, "confirm-backdrop", 3, "click"], ["role", "dialog", "aria-modal", "true", 1, "confirm-modal", 3, "click"], [1, "confirm-actions"], [1, "confirm-modal", "active-free-modal", 3, "click"], [1, "free-form", 3, "submit"], [1, "form-grid"], ["type", "text", "name", "name", "required", "", 3, "ngModelChange", "ngModel"], ["type", "tel", "name", "phone", "required", "", 3, "ngModelChange", "ngModel"], ["type", "email", "name", "email", 3, "ngModelChange", "ngModel"], ["type", "text", "name", "reg", "placeholder", "e.g. MH12AB1234", 3, "ngModelChange", "ngModel"], ["type", "tel", "name", "ephone", 3, "ngModelChange", "ngModel"], ["type", "submit", 1, "btn-gen", 3, "disabled"]], template: function InventoryPageComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0);
       \u0275\u0275conditionalCreate(1, InventoryPageComponent_Conditional_1_Template, 2, 1, "div", 1);
@@ -48083,88 +49297,183 @@ var InventoryPageComponent = class _InventoryPageComponent {
       \u0275\u0275text(6, "Inventory");
       \u0275\u0275elementEnd()()();
       \u0275\u0275elementStart(7, "div", 4)(8, "section", 5)(9, "h2");
-      \u0275\u0275text(10, "Generate batch");
+      \u0275\u0275text(10, "Filters");
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(11, "div", 6)(12, "label");
-      \u0275\u0275text(13, "Count (1\u2013500) ");
+      \u0275\u0275text(13, "Number / Public ID ");
       \u0275\u0275elementStart(14, "input", 7);
       \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_input_ngModelChange_14_listener($event) {
-        \u0275\u0275twoWayBindingSet(ctx.genCount, $event) || (ctx.genCount = $event);
+        \u0275\u0275twoWayBindingSet(ctx.searchNumber, $event) || (ctx.searchNumber = $event);
         return $event;
       });
       \u0275\u0275elementEnd()();
       \u0275\u0275elementStart(15, "label");
-      \u0275\u0275text(16, "Product ");
-      \u0275\u0275elementStart(17, "select", 8);
-      \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_select_ngModelChange_17_listener($event) {
+      \u0275\u0275text(16, "From date ");
+      \u0275\u0275elementStart(17, "input", 8);
+      \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_input_ngModelChange_17_listener($event) {
+        \u0275\u0275twoWayBindingSet(ctx.fromDate, $event) || (ctx.fromDate = $event);
+        return $event;
+      });
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(18, "label");
+      \u0275\u0275text(19, "To date ");
+      \u0275\u0275elementStart(20, "input", 8);
+      \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_input_ngModelChange_20_listener($event) {
+        \u0275\u0275twoWayBindingSet(ctx.toDate, $event) || (ctx.toDate = $event);
+        return $event;
+      });
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(21, "label");
+      \u0275\u0275text(22, "Status ");
+      \u0275\u0275elementStart(23, "select", 9);
+      \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_select_ngModelChange_23_listener($event) {
+        \u0275\u0275twoWayBindingSet(ctx.statusFilter, $event) || (ctx.statusFilter = $event);
+        return $event;
+      });
+      \u0275\u0275elementStart(24, "option", 10);
+      \u0275\u0275text(25, "All");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(26, "option", 11);
+      \u0275\u0275text(27, "Active");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(28, "option", 12);
+      \u0275\u0275text(29, "Unused");
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275elementStart(30, "label");
+      \u0275\u0275text(31, "Page size ");
+      \u0275\u0275elementStart(32, "select", 13);
+      \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_select_ngModelChange_32_listener($event) {
+        \u0275\u0275twoWayBindingSet(ctx.pageSize, $event) || (ctx.pageSize = $event);
+        return $event;
+      });
+      \u0275\u0275listener("change", function InventoryPageComponent_Template_select_change_32_listener() {
+        return ctx.onPageSizeChanged();
+      });
+      \u0275\u0275repeaterCreate(33, InventoryPageComponent_For_34_Template, 2, 2, "option", 14, \u0275\u0275repeaterTrackByIdentity);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(35, "button", 15);
+      \u0275\u0275listener("click", function InventoryPageComponent_Template_button_click_35_listener() {
+        return ctx.applyFilters();
+      });
+      \u0275\u0275text(36, "Apply");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(37, "button", 16);
+      \u0275\u0275listener("click", function InventoryPageComponent_Template_button_click_37_listener() {
+        return ctx.resetFilters();
+      });
+      \u0275\u0275text(38, "Reset");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(39, "button", 17);
+      \u0275\u0275listener("click", function InventoryPageComponent_Template_button_click_39_listener() {
+        return ctx.requestDeleteAllFiltered();
+      });
+      \u0275\u0275text(40);
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275elementStart(41, "section", 5)(42, "h2");
+      \u0275\u0275text(43, "Generate batch");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(44, "div", 6)(45, "label");
+      \u0275\u0275text(46, "Count (1\u2013500) ");
+      \u0275\u0275elementStart(47, "input", 18);
+      \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_input_ngModelChange_47_listener($event) {
+        \u0275\u0275twoWayBindingSet(ctx.genCount, $event) || (ctx.genCount = $event);
+        return $event;
+      });
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(48, "label");
+      \u0275\u0275text(49, "Product ");
+      \u0275\u0275elementStart(50, "select", 9);
+      \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_select_ngModelChange_50_listener($event) {
         \u0275\u0275twoWayBindingSet(ctx.genProduct, $event) || (ctx.genProduct = $event);
         return $event;
       });
-      \u0275\u0275elementStart(18, "option", 9);
-      \u0275\u0275text(19, "Car sticker");
+      \u0275\u0275elementStart(51, "option", 19);
+      \u0275\u0275text(52, "Car sticker");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(20, "option", 10);
-      \u0275\u0275text(21, "Key finder");
+      \u0275\u0275elementStart(53, "option", 20);
+      \u0275\u0275text(54, "Key finder");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(22, "option", 11);
-      \u0275\u0275text(23, "Luggage tag");
+      \u0275\u0275elementStart(55, "option", 21);
+      \u0275\u0275text(56, "Luggage tag");
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(24, "button", 12);
-      \u0275\u0275listener("click", function InventoryPageComponent_Template_button_click_24_listener() {
+      \u0275\u0275elementStart(57, "button", 15);
+      \u0275\u0275listener("click", function InventoryPageComponent_Template_button_click_57_listener() {
         return ctx.generate();
       });
-      \u0275\u0275text(25);
+      \u0275\u0275text(58);
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(26, "section", 13)(27, "h2");
-      \u0275\u0275text(28, "Batch print labels");
+      \u0275\u0275elementStart(59, "section", 22)(60, "h2");
+      \u0275\u0275text(61, "Batch print labels");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(29, "div", 6)(30, "label");
-      \u0275\u0275text(31, "How many (1\u2013500) ");
-      \u0275\u0275elementStart(32, "input", 7);
-      \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_input_ngModelChange_32_listener($event) {
+      \u0275\u0275elementStart(62, "div", 6)(63, "label");
+      \u0275\u0275text(64);
+      \u0275\u0275elementStart(65, "input", 23);
+      \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_input_ngModelChange_65_listener($event) {
         \u0275\u0275twoWayBindingSet(ctx.batchCount, $event) || (ctx.batchCount = $event);
         return $event;
       });
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(33, "label");
-      \u0275\u0275text(34, "Label type ");
-      \u0275\u0275elementStart(35, "select", 8);
-      \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_select_ngModelChange_35_listener($event) {
+      \u0275\u0275elementStart(66, "label");
+      \u0275\u0275text(67, "Label type ");
+      \u0275\u0275elementStart(68, "select", 9);
+      \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_select_ngModelChange_68_listener($event) {
         \u0275\u0275twoWayBindingSet(ctx.batchEmbed, $event) || (ctx.batchEmbed = $event);
         return $event;
       });
-      \u0275\u0275elementStart(36, "option", 14);
-      \u0275\u0275text(37, "Packaging \xB7 /activate");
+      \u0275\u0275elementStart(69, "option", 24);
+      \u0275\u0275text(70, "Packaging \xB7 /activate");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(38, "option", 15);
-      \u0275\u0275text(39, "Sticker \xB7 /q (unused + active)");
+      \u0275\u0275elementStart(71, "option", 25);
+      \u0275\u0275text(72, "Sticker \xB7 /q (unused)");
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(40, "label");
-      \u0275\u0275text(41, "Layout ");
-      \u0275\u0275elementStart(42, "select", 8);
-      \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_select_ngModelChange_42_listener($event) {
+      \u0275\u0275elementStart(73, "label");
+      \u0275\u0275text(74, "Layout ");
+      \u0275\u0275elementStart(75, "select", 9);
+      \u0275\u0275twoWayListener("ngModelChange", function InventoryPageComponent_Template_select_ngModelChange_75_listener($event) {
         \u0275\u0275twoWayBindingSet(ctx.batchLayout, $event) || (ctx.batchLayout = $event);
         return $event;
       });
-      \u0275\u0275elementStart(43, "option", 16);
-      \u0275\u0275text(44, "Horizontal");
+      \u0275\u0275elementStart(76, "option", 26);
+      \u0275\u0275text(77, "Horizontal");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(45, "option", 17);
-      \u0275\u0275text(46, "Vertical");
+      \u0275\u0275elementStart(78, "option", 27);
+      \u0275\u0275text(79, "Vertical");
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(47, "button", 18);
-      \u0275\u0275listener("click", function InventoryPageComponent_Template_button_click_47_listener() {
+      \u0275\u0275elementStart(80, "button", 28);
+      \u0275\u0275listener("click", function InventoryPageComponent_Template_button_click_80_listener() {
         return ctx.printBatch();
       });
-      \u0275\u0275text(48);
+      \u0275\u0275text(81);
       \u0275\u0275elementEnd()()()();
-      \u0275\u0275conditionalCreate(49, InventoryPageComponent_Conditional_49_Template, 2, 0, "p", 19)(50, InventoryPageComponent_Conditional_50_Template, 24, 1, "div", 20);
+      \u0275\u0275conditionalCreate(82, InventoryPageComponent_Conditional_82_Template, 2, 0, "p", 29)(83, InventoryPageComponent_Conditional_83_Template, 37, 8);
+      \u0275\u0275conditionalCreate(84, InventoryPageComponent_Conditional_84_Template, 11, 4, "div", 30);
+      \u0275\u0275conditionalCreate(85, InventoryPageComponent_Conditional_85_Template, 31, 9, "div", 30);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
       \u0275\u0275advance();
       \u0275\u0275conditional(ctx.toast() ? 1 : -1);
       \u0275\u0275advance(13);
+      \u0275\u0275twoWayProperty("ngModel", ctx.searchNumber);
+      \u0275\u0275advance(3);
+      \u0275\u0275twoWayProperty("ngModel", ctx.fromDate);
+      \u0275\u0275advance(3);
+      \u0275\u0275twoWayProperty("ngModel", ctx.toDate);
+      \u0275\u0275advance(3);
+      \u0275\u0275twoWayProperty("ngModel", ctx.statusFilter);
+      \u0275\u0275advance(9);
+      \u0275\u0275twoWayProperty("ngModel", ctx.pageSize);
+      \u0275\u0275advance();
+      \u0275\u0275repeater(ctx.pageSizeOptions);
+      \u0275\u0275advance(2);
+      \u0275\u0275property("disabled", ctx.loading());
+      \u0275\u0275advance(2);
+      \u0275\u0275property("disabled", ctx.loading());
+      \u0275\u0275advance(2);
+      \u0275\u0275property("disabled", ctx.loading() || ctx.deleting());
+      \u0275\u0275advance();
+      \u0275\u0275textInterpolate1(" ", ctx.deleting() ? "Deleting\u2026" : "Delete all (filtered)", " ");
+      \u0275\u0275advance(7);
       \u0275\u0275twoWayProperty("ngModel", ctx.genCount);
       \u0275\u0275advance(3);
       \u0275\u0275twoWayProperty("ngModel", ctx.genProduct);
@@ -48172,7 +49481,10 @@ var InventoryPageComponent = class _InventoryPageComponent {
       \u0275\u0275property("disabled", ctx.generating());
       \u0275\u0275advance();
       \u0275\u0275textInterpolate1(" ", ctx.generating() ? "Working\u2026" : "Generate", " ");
-      \u0275\u0275advance(7);
+      \u0275\u0275advance(6);
+      \u0275\u0275textInterpolate1("How many (1\u2013", ctx.pageSize, ") ");
+      \u0275\u0275advance();
+      \u0275\u0275property("max", ctx.pageSize);
       \u0275\u0275twoWayProperty("ngModel", ctx.batchCount);
       \u0275\u0275advance(3);
       \u0275\u0275twoWayProperty("ngModel", ctx.batchEmbed);
@@ -48183,134 +49495,256 @@ var InventoryPageComponent = class _InventoryPageComponent {
       \u0275\u0275advance();
       \u0275\u0275textInterpolate1(" ", ctx.batchPrinting() ? "Preparing\u2026" : "Print batch", " ");
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.loading() ? 49 : 50);
+      \u0275\u0275conditional(ctx.loading() ? 82 : 83);
+      \u0275\u0275advance(2);
+      \u0275\u0275conditional(ctx.confirmOpen() ? 84 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.activeFreeOpen() ? 85 : -1);
     }
-  }, dependencies: [CommonModule, FormsModule, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor, SelectControlValueAccessor, NgControlStatus, MinValidator, MaxValidator, NgModel, RouterLink], styles: ["\n\n.inv-wrap[_ngcontent-%COMP%] {\n  max-width: min(1200px, 100%);\n  width: 100%;\n  margin: 0 auto;\n  padding: 0 clamp(0px, 2vw, 6px);\n  box-sizing: border-box;\n}\n.inv-header[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: clamp(1.45rem, 4vw, 2rem);\n  font-weight: 800;\n  margin-bottom: 0.75rem;\n  color: var(--cmn-heading);\n}\n.grad[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #7c3aed 50%,\n      #a855f7);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n.inv-tools[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n  margin-bottom: 1.25rem;\n}\n.inv-tools[_ngcontent-%COMP%]   .gen-card[_ngcontent-%COMP%] {\n  margin-bottom: 0;\n}\n@media (max-width: 900px) {\n  .inv-tools[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n  .inv-tools[_ngcontent-%COMP%]   .gen-card[_ngcontent-%COMP%] {\n    margin-bottom: 0;\n  }\n}\n.sub[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n  font-size: clamp(0.88rem, 2.5vw, 0.95rem);\n  line-height: 1.5;\n  margin-bottom: 1.25rem;\n}\n.sub[_ngcontent-%COMP%]   code[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: var(--cmn-mono);\n}\n.gen-card[_ngcontent-%COMP%] {\n  background: var(--cmn-card-bg-solid);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 18px;\n  padding: clamp(1rem, 3vw, 1.25rem) clamp(1rem, 3vw, 1.5rem);\n  margin-bottom: 1.25rem;\n  box-shadow: var(--cmn-panel-shadow);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .gen-card[_ngcontent-%COMP%] {\n  background: var(--cmn-card-bg);\n  -webkit-backdrop-filter: blur(12px);\n  backdrop-filter: blur(12px);\n}\n.gen-card[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  font-size: clamp(0.95rem, 2.5vw, 1.05rem);\n  font-weight: 700;\n  margin-bottom: 0.85rem;\n  color: var(--cmn-heading);\n}\n.batch-print-card[_ngcontent-%COMP%]   .batch-hint[_ngcontent-%COMP%] {\n  font-size: clamp(0.82rem, 2.2vw, 0.88rem);\n  color: var(--cmn-text-muted);\n  line-height: 1.55;\n  margin: -0.25rem 0 1rem;\n  max-width: 52rem;\n}\n.batch-print-card[_ngcontent-%COMP%]   .batch-hint[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  color: var(--cmn-label);\n}\n.batch-print-card[_ngcontent-%COMP%]   .batch-hint[_ngcontent-%COMP%]   code[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: var(--cmn-mono);\n}\n@media (min-width: 641px) {\n  .btn-batch[_ngcontent-%COMP%] {\n    align-self: flex-end;\n  }\n}\n.gen-row[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.85rem 1rem;\n  align-items: flex-end;\n}\n.gen-row[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: var(--cmn-label);\n  flex: 1 1 140px;\n  min-width: 0;\n}\n.gen-row[_ngcontent-%COMP%]   input[_ngcontent-%COMP%], \n.gen-row[_ngcontent-%COMP%]   select[_ngcontent-%COMP%] {\n  min-width: 0;\n  width: 100%;\n  min-height: 44px;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-input-border);\n  background: var(--cmn-input-bg);\n  color: var(--cmn-input-text);\n  padding: 0.5rem 0.75rem;\n  font-size: 1rem;\n}\n.btn-gen[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #7c3aed 55%,\n      #9333ea);\n  color: #fff;\n  border: none;\n  font-weight: 700;\n  padding: 0.65rem 1.25rem;\n  min-height: 44px;\n  border-radius: 12px;\n  cursor: pointer;\n  height: fit-content;\n  flex: 0 0 auto;\n  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);\n  transition: transform 0.15s ease, box-shadow 0.2s ease;\n}\n.btn-gen[_ngcontent-%COMP%]:hover:not(:disabled) {\n  transform: translateY(-1px);\n  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);\n}\n.label-links[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.25rem;\n  font-size: 0.78rem;\n}\n.label-links[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: var(--cmn-link);\n}\n.lbl-off[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n  font-size: 0.78rem;\n  cursor: help;\n}\n.btn-gen[_ngcontent-%COMP%]:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.table-wrap[_ngcontent-%COMP%] {\n  width: 100%;\n  max-width: 100%;\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 16px;\n  background: var(--cmn-card-bg-solid);\n  box-shadow: var(--cmn-panel-shadow);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .table-wrap[_ngcontent-%COMP%] {\n  background: var(--cmn-card-bg);\n}\n.txn-cell[_ngcontent-%COMP%] {\n  max-width: 12rem;\n  word-break: break-all;\n  font-size: 0.8rem;\n}\ntable[_ngcontent-%COMP%] {\n  width: 100%;\n  min-width: 880px;\n  border-collapse: collapse;\n  font-size: clamp(0.8rem, 2vw, 0.88rem);\n}\nth[_ngcontent-%COMP%], \ntd[_ngcontent-%COMP%] {\n  text-align: left;\n  padding: 0.65rem 0.75rem;\n  border-bottom: 1px solid var(--cmn-table-border);\n  color: var(--cmn-text);\n}\nth[_ngcontent-%COMP%] {\n  color: var(--cmn-table-head);\n  font-weight: 700;\n  text-transform: uppercase;\n  font-size: 0.68rem;\n  letter-spacing: 0.06em;\n  white-space: nowrap;\n}\n.mono[_ngcontent-%COMP%] {\n  font-family: ui-monospace, monospace;\n  font-size: 0.82rem;\n  color: var(--cmn-mono);\n}\n.pill[_ngcontent-%COMP%] {\n  display: inline-block;\n  padding: 0.2rem 0.5rem;\n  border-radius: 999px;\n  background: rgba(148, 163, 184, 0.18);\n  font-size: 0.75rem;\n  font-weight: 700;\n  color: var(--cmn-text-muted);\n}\n.pill.on[_ngcontent-%COMP%] {\n  background: var(--cmn-success-soft);\n  color: var(--cmn-success);\n}\n.qr-dl[_ngcontent-%COMP%]   .png-link[_ngcontent-%COMP%] {\n  font-weight: 700;\n  color: var(--cmn-success) !important;\n  font-size: 0.85rem;\n  min-width: 44px;\n  min-height: 44px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\n.links[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem 0.65rem;\n}\n.links[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: var(--cmn-link) !important;\n  font-weight: 600;\n  font-size: 0.82rem;\n  padding: 0.2rem 0;\n}\n.muted[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n  padding: 1rem;\n}\n.toast[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: max(1rem, env(safe-area-inset-bottom, 0px));\n  right: max(1rem, env(safe-area-inset-right, 0px));\n  left: auto;\n  max-width: calc(100vw - 2rem);\n  background: var(--cmn-modal-bg);\n  border: 1px solid var(--cmn-card-border);\n  color: var(--cmn-text);\n  padding: 0.75rem 1rem;\n  border-radius: 12px;\n  z-index: 2000;\n  font-size: 0.9rem;\n  box-shadow: var(--cmn-panel-shadow);\n}\n@media (max-width: 900px) {\n  .gen-row[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n    flex: 1 1 calc(50% - 0.5rem);\n  }\n  .btn-batch[_ngcontent-%COMP%], \n   .btn-gen[_ngcontent-%COMP%] {\n    flex: 1 1 auto;\n    width: 100%;\n    justify-content: center;\n  }\n}\n@media (max-width: 640px) {\n  .inv-wrap[_ngcontent-%COMP%] {\n    padding: 0;\n  }\n  .gen-row[_ngcontent-%COMP%] {\n    flex-direction: column;\n    align-items: stretch;\n  }\n  .gen-row[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n    flex: 1 1 auto;\n  }\n  .btn-batch[_ngcontent-%COMP%] {\n    align-self: stretch;\n  }\n  table[_ngcontent-%COMP%] {\n    min-width: 880px;\n  }\n}\n@media (max-width: 400px) {\n  .inv-header[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n    line-height: 1.2;\n  }\n}\n/*# sourceMappingURL=inventory-page.css.map */"] });
+  }, dependencies: [CommonModule, FormsModule, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor, SelectControlValueAccessor, NgControlStatus, NgControlStatusGroup, RequiredValidator, MinValidator, MaxValidator, NgModel, NgForm, RouterLink], styles: ["\n\n.inv-wrap[_ngcontent-%COMP%] {\n  max-width: min(1200px, 100%);\n  width: 100%;\n  margin: 0 auto;\n  padding: 0 clamp(0px, 2vw, 6px);\n  box-sizing: border-box;\n}\n.inv-header[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: clamp(1.45rem, 4vw, 2rem);\n  font-weight: 800;\n  margin-bottom: 0.75rem;\n  color: var(--cmn-heading);\n}\n.grad[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #7c3aed 50%,\n      #a855f7);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n.inv-tools[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n  margin-bottom: 1.25rem;\n}\n.inv-tools[_ngcontent-%COMP%]   .gen-card[_ngcontent-%COMP%] {\n  margin-bottom: 0;\n}\n@media (max-width: 900px) {\n  .inv-tools[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n  .inv-tools[_ngcontent-%COMP%]   .gen-card[_ngcontent-%COMP%] {\n    margin-bottom: 0;\n  }\n}\n.sub[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n  font-size: clamp(0.88rem, 2.5vw, 0.95rem);\n  line-height: 1.5;\n  margin-bottom: 1.25rem;\n}\n.sub[_ngcontent-%COMP%]   code[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: var(--cmn-mono);\n}\n.gen-card[_ngcontent-%COMP%] {\n  background: var(--cmn-card-bg-solid);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 18px;\n  padding: clamp(1rem, 3vw, 1.25rem) clamp(1rem, 3vw, 1.5rem);\n  margin-bottom: 1.25rem;\n  box-shadow: var(--cmn-panel-shadow);\n}\nhtml[data-theme=dark][_ngcontent-%COMP%]   .gen-card[_ngcontent-%COMP%] {\n  background: var(--cmn-card-bg);\n  -webkit-backdrop-filter: blur(12px);\n  backdrop-filter: blur(12px);\n}\n.gen-card[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  font-size: clamp(0.95rem, 2.5vw, 1.05rem);\n  font-weight: 700;\n  margin-bottom: 0.85rem;\n  color: var(--cmn-heading);\n}\n.batch-print-card[_ngcontent-%COMP%]   .batch-hint[_ngcontent-%COMP%] {\n  font-size: clamp(0.82rem, 2.2vw, 0.88rem);\n  color: var(--cmn-text-muted);\n  line-height: 1.55;\n  margin: -0.25rem 0 1rem;\n  max-width: 52rem;\n}\n.batch-print-card[_ngcontent-%COMP%]   .batch-hint[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  color: var(--cmn-label);\n}\n.batch-print-card[_ngcontent-%COMP%]   .batch-hint[_ngcontent-%COMP%]   code[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: var(--cmn-mono);\n}\n@media (min-width: 641px) {\n  .btn-batch[_ngcontent-%COMP%] {\n    align-self: flex-end;\n  }\n}\n.gen-row[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.85rem 1rem;\n  align-items: flex-end;\n}\n.gen-row[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: var(--cmn-label);\n  flex: 1 1 140px;\n  min-width: 0;\n}\n.gen-row[_ngcontent-%COMP%]   input[_ngcontent-%COMP%], \n.gen-row[_ngcontent-%COMP%]   select[_ngcontent-%COMP%] {\n  min-width: 0;\n  width: 100%;\n  min-height: 44px;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-input-border);\n  background: var(--cmn-input-bg);\n  color: var(--cmn-input-text);\n  padding: 0.5rem 0.75rem;\n  font-size: 1rem;\n}\n.btn-gen[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #7c3aed 55%,\n      #9333ea);\n  color: #fff;\n  border: none;\n  font-weight: 700;\n  padding: 0.65rem 1.25rem;\n  min-height: 44px;\n  border-radius: 12px;\n  cursor: pointer;\n  height: fit-content;\n  flex: 0 0 auto;\n  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);\n  transition: transform 0.15s ease, box-shadow 0.2s ease;\n}\n.btn-gen[_ngcontent-%COMP%]:hover:not(:disabled) {\n  transform: translateY(-1px);\n  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);\n}\ntable[_ngcontent-%COMP%] {\n  width: 100%;\n  min-width: 1000px;\n  border-collapse: separate;\n  border-spacing: 0;\n  font-size: 0.85rem;\n}\nth[_ngcontent-%COMP%], \ntd[_ngcontent-%COMP%] {\n  text-align: left;\n  padding: 1rem 0.85rem;\n  border-bottom: 1px solid var(--cmn-table-border);\n  color: var(--cmn-text);\n  vertical-align: middle;\n}\nth[_ngcontent-%COMP%] {\n  color: var(--cmn-table-head);\n  font-weight: 800;\n  text-transform: uppercase;\n  font-size: 0.65rem;\n  letter-spacing: 0.1em;\n  white-space: nowrap;\n  background: var(--cmn-card-bg-solid);\n  position: sticky;\n  top: 0;\n  z-index: 10;\n  -webkit-backdrop-filter: blur(8px);\n  backdrop-filter: blur(8px);\n}\n.col-date[_ngcontent-%COMP%] {\n  min-width: 160px;\n}\n.col-id[_ngcontent-%COMP%] {\n  min-width: 140px;\n}\n.col-scans[_ngcontent-%COMP%] {\n  text-align: center;\n  width: 80px;\n}\n.col-scans[_ngcontent-%COMP%]    + td[_ngcontent-%COMP%] {\n  text-align: center;\n}\n.mono[_ngcontent-%COMP%] {\n  font-family: ui-monospace, monospace;\n  font-size: 0.8rem;\n  color: var(--cmn-mono);\n  white-space: nowrap;\n}\n.pill[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0.25rem 0.65rem;\n  border-radius: 99px;\n  background: rgba(148, 163, 184, 0.15);\n  font-size: 0.72rem;\n  font-weight: 800;\n  color: var(--cmn-text-muted);\n  text-transform: uppercase;\n  letter-spacing: 0.04em;\n}\n.btn-ghost[_ngcontent-%COMP%] {\n  background: transparent;\n  border: 1px solid var(--cmn-input-border);\n  color: var(--cmn-text);\n  box-shadow: none;\n}\n.btn-danger[_ngcontent-%COMP%] {\n  background: #dc2626;\n  box-shadow: none;\n}\n.action-stack[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n}\n.btn-table[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0.35rem 0.65rem;\n  border-radius: 8px;\n  font-size: 0.75rem;\n  font-weight: 700;\n  text-decoration: none;\n  cursor: pointer;\n  border: 1px solid transparent;\n  transition: all 0.15s ease;\n  white-space: nowrap;\n}\n.btn-table--primary[_ngcontent-%COMP%] {\n  background: var(--cmn-link);\n  color: #fff !important;\n}\n.btn-table--primary[_ngcontent-%COMP%]:hover {\n  filter: brightness(1.1);\n  transform: translateY(-1px);\n}\n.btn-table--ghost[_ngcontent-%COMP%] {\n  background: rgba(148, 163, 184, 0.1);\n  color: var(--cmn-text) !important;\n}\n.btn-table--ghost[_ngcontent-%COMP%]:hover {\n  background: rgba(148, 163, 184, 0.2);\n}\n.btn-table--magic[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #f59e0b,\n      #d97706);\n  color: #fff !important;\n  border: none;\n  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.2);\n}\n.btn-table--magic[_ngcontent-%COMP%]:hover {\n  transform: scale(1.05);\n  box-shadow: 0 4px 10px rgba(217, 119, 6, 0.3);\n}\n.btn-table--outline[_ngcontent-%COMP%] {\n  border-color: var(--cmn-card-border);\n  background: transparent;\n  color: var(--cmn-text-muted) !important;\n}\n.btn-table--outline[_ngcontent-%COMP%]:hover {\n  border-color: var(--cmn-link);\n  color: var(--cmn-link) !important;\n}\n.lbl-off[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n  font-size: 0.75rem;\n  opacity: 0.6;\n}\ntable[_ngcontent-%COMP%]   tr[_ngcontent-%COMP%]:hover   td[_ngcontent-%COMP%] {\n  background: rgba(148, 163, 184, 0.05);\n}\n.pager[_ngcontent-%COMP%] {\n  margin-top: 0.9rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.9rem;\n}\n.pager-info[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n  font-size: 0.88rem;\n}\n.pager-btn[_ngcontent-%COMP%] {\n  width: 40px;\n  height: 40px;\n  border-radius: 999px;\n  border: 1px solid var(--cmn-input-border);\n  background: var(--cmn-input-bg);\n  color: var(--cmn-text);\n  font-size: 1.05rem;\n  font-weight: 700;\n  cursor: pointer;\n}\n.pager-btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.45;\n  cursor: not-allowed;\n}\n.confirm-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.45);\n  display: grid;\n  place-items: center;\n  z-index: 3000;\n  padding: 1rem;\n}\n.confirm-modal[_ngcontent-%COMP%] {\n  width: min(460px, 100%);\n  background: var(--cmn-card-bg-solid);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 14px;\n  box-shadow: var(--cmn-panel-shadow);\n  padding: 1rem 1rem 0.9rem;\n}\n.confirm-modal[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin: 0 0 0.4rem;\n  color: var(--cmn-heading);\n}\n.confirm-modal[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 0;\n  color: var(--cmn-text);\n}\n.confirm-actions[_ngcontent-%COMP%] {\n  margin-top: 1rem;\n  display: flex;\n  gap: 0.6rem;\n  justify-content: flex-end;\n}\n.toast[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: max(1rem, env(safe-area-inset-bottom, 0px));\n  right: max(1rem, env(safe-area-inset-right, 0px));\n  left: auto;\n  max-width: calc(100vw - 2rem);\n  background: var(--cmn-modal-bg);\n  border: 1px solid var(--cmn-card-border);\n  color: var(--cmn-text);\n  padding: 0.75rem 1rem;\n  border-radius: 12px;\n  z-index: 2000;\n  font-size: 0.9rem;\n  box-shadow: var(--cmn-panel-shadow);\n}\n@media (max-width: 900px) {\n  .gen-row[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n    flex: 1 1 calc(50% - 0.5rem);\n  }\n  .btn-batch[_ngcontent-%COMP%], \n   .btn-gen[_ngcontent-%COMP%] {\n    flex: 1 1 auto;\n    width: 100%;\n    justify-content: center;\n  }\n}\n@media (max-width: 640px) {\n  .inv-wrap[_ngcontent-%COMP%] {\n    padding: 0;\n  }\n  .gen-row[_ngcontent-%COMP%] {\n    flex-direction: column;\n    align-items: stretch;\n  }\n  .gen-row[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n    flex: 1 1 auto;\n  }\n  .btn-batch[_ngcontent-%COMP%] {\n    align-self: stretch;\n  }\n  table[_ngcontent-%COMP%] {\n    min-width: 880px;\n  }\n}\n@media (max-width: 400px) {\n  .inv-header[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n    line-height: 1.2;\n  }\n}\n.btn-link-action[_ngcontent-%COMP%] {\n  background: none;\n  border: none;\n  padding: 0;\n  margin: 0;\n  color: var(--cmn-link);\n  font-weight: 600;\n  font-size: 0.82rem;\n  cursor: pointer;\n  text-decoration: underline;\n}\n.active-free-modal[_ngcontent-%COMP%] {\n  width: min(600px, 100%);\n}\n.active-free-modal[_ngcontent-%COMP%]   .muted[_ngcontent-%COMP%] {\n  padding: 0;\n  margin-bottom: 1.25rem;\n  font-size: 0.88rem;\n}\n.free-form[_ngcontent-%COMP%]   .form-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 1rem;\n  margin-bottom: 1.5rem;\n}\n.free-form[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: var(--cmn-label);\n}\n.free-form[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  min-height: 44px;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-input-border);\n  background: var(--cmn-input-bg);\n  color: var(--cmn-input-text);\n  padding: 0.5rem 0.75rem;\n  font-size: 1rem;\n  outline: none;\n}\n.free-form[_ngcontent-%COMP%]   input[_ngcontent-%COMP%]:focus {\n  border-color: #6366f1;\n  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);\n}\n@media (max-width: 600px) {\n  .free-form[_ngcontent-%COMP%]   .form-grid[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n/*# sourceMappingURL=inventory-page.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(InventoryPageComponent, [{
     type: Component,
-    args: [{ selector: "app-inventory-page", standalone: true, imports: [CommonModule, FormsModule, RouterLink], template: `<div class="inv-wrap">\r
-  @if (toast()) {\r
-  <div class="toast">{{ toast() }}</div>\r
-  }\r
-\r
-  <div class="inv-header">\r
-    <h1>QR <span class="grad">Inventory</span></h1>\r
-   \r
-  </div>\r
-\r
-  <div class="inv-tools">\r
-    <section class="gen-card">\r
-      <h2>Generate batch</h2>\r
-      <div class="gen-row">\r
-        <label\r
-          >Count (1\u2013500)\r
-          <input type="number" min="1" max="500" [(ngModel)]="genCount" />\r
-        </label>\r
-        <label\r
-          >Product\r
-          <select [(ngModel)]="genProduct">\r
-            <option value="CarSticker">Car sticker</option>\r
-            <option value="KeyFinder">Key finder</option>\r
-            <option value="LuggageTag">Luggage tag</option>\r
-          </select>\r
-        </label>\r
-        <button type="button" class="btn-gen" (click)="generate()" [disabled]="generating()">\r
-          {{ generating() ? 'Working\u2026' : 'Generate' }}\r
-        </button>\r
-      </div>\r
-    </section>\r
-\r
-    <section class="gen-card batch-print-card">\r
-      <h2>Batch print labels</h2>\r
-    \r
-      <div class="gen-row">\r
-        <label\r
-          >How many (1\u2013500)\r
-          <input type="number" min="1" max="500" [(ngModel)]="batchCount" />\r
-        </label>\r
-        <label\r
-          >Label type\r
-          <select [(ngModel)]="batchEmbed">\r
-            <option value="activate">Packaging \xB7 /activate</option>\r
-            <option value="scan">Sticker \xB7 /q (unused + active)</option>\r
-          </select>\r
-        </label>\r
-        <label\r
-          >Layout\r
-          <select [(ngModel)]="batchLayout">\r
-            <option value="horizontal">Horizontal</option>\r
-            <option value="vertical">Vertical</option>\r
-          </select>\r
-        </label>\r
-        <button type="button" class="btn-gen btn-batch" (click)="printBatch()" [disabled]="batchPrinting() || loading()">\r
-          {{ batchPrinting() ? 'Preparing\u2026' : 'Print batch' }}\r
-        </button>\r
-      </div>\r
-    </section>\r
-  </div>\r
-\r
-  @if (loading()) {\r
-  <p class="muted">Loading\u2026</p>\r
-  } @else {\r
-  <div class="table-wrap">\r
-    <table>\r
-      <thead>\r
-        <tr>\r
-          <th>Public ID</th>\r
-          <th>Product</th>\r
-          <th>Status</th>\r
-          <th>Scans</th>\r
-          <th>Owner</th>\r
-          <th>Txn / payment id</th>\r
-          <th>Pages</th>\r
-          <th>A4 labels</th>\r
-        </tr>\r
-      </thead>\r
-      <tbody>\r
-        @for (row of items(); track row.id) {\r
-        <tr>\r
-          <td class="mono">{{ row.publicId }}</td>\r
-          <td>{{ row.productType }}</td>\r
-          <td><span class="pill" [class.on]="row.status === 'Active'">{{ row.status }}</span></td>\r
-          <td>{{ row.scanCount }}</td>\r
-          <td>{{ row.ownerName ?? '\u2014' }}</td>\r
-          <td class="mono txn-cell">{{ row.paymentTransactionId ?? '\u2014' }}</td>\r
-          <td>\r
-            <div class="links">\r
-              <a [routerLink]="['/activate', row.publicId]">Activate</a>\r
-              <a [routerLink]="['/q', row.publicId]">Scan</a>\r
-            </div>\r
-          </td>\r
-          <td>\r
-            <div class="label-links">\r
-              @if (row.status === 'Unused') {\r
-              <a [href]="labelPackHref(row)" target="_blank" rel="noopener">Packaging label</a>\r
-              } @else {\r
-              <span class="lbl-off" title="Packaging QR is for unused inventory only">Packaging \u2014</span>\r
-              }\r
-              @if (row.status === 'Unused' || row.status === 'Active') {\r
-              <a [href]="labelStickerHref(row)" target="_blank" rel="noopener">Sticker label</a>\r
-              } @else {\r
-              <span class="lbl-off" title="Sticker layout needs unused or active tag">Sticker \u2014</span>\r
-              }\r
-            </div>\r
-          </td>\r
-         \r
-          \r
-        </tr>\r
-        } @empty {\r
-        <tr>\r
-          <td colspan="9" class="muted">No rows. Generate inventory or run the API (dev seeds sample tags).</td>\r
-        </tr>\r
-        }\r
-      </tbody>\r
-    </table>\r
-  </div>\r
-  }\r
-</div>\r
-`, styles: ["/* src/app/components/inventory-page/inventory-page.css */\n.inv-wrap {\n  max-width: min(1200px, 100%);\n  width: 100%;\n  margin: 0 auto;\n  padding: 0 clamp(0px, 2vw, 6px);\n  box-sizing: border-box;\n}\n.inv-header h1 {\n  font-size: clamp(1.45rem, 4vw, 2rem);\n  font-weight: 800;\n  margin-bottom: 0.75rem;\n  color: var(--cmn-heading);\n}\n.grad {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #7c3aed 50%,\n      #a855f7);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n.inv-tools {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n  margin-bottom: 1.25rem;\n}\n.inv-tools .gen-card {\n  margin-bottom: 0;\n}\n@media (max-width: 900px) {\n  .inv-tools {\n    grid-template-columns: 1fr;\n  }\n  .inv-tools .gen-card {\n    margin-bottom: 0;\n  }\n}\n.sub {\n  color: var(--cmn-text-muted);\n  font-size: clamp(0.88rem, 2.5vw, 0.95rem);\n  line-height: 1.5;\n  margin-bottom: 1.25rem;\n}\n.sub code {\n  font-size: 0.8rem;\n  color: var(--cmn-mono);\n}\n.gen-card {\n  background: var(--cmn-card-bg-solid);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 18px;\n  padding: clamp(1rem, 3vw, 1.25rem) clamp(1rem, 3vw, 1.5rem);\n  margin-bottom: 1.25rem;\n  box-shadow: var(--cmn-panel-shadow);\n}\nhtml[data-theme=dark] .gen-card {\n  background: var(--cmn-card-bg);\n  -webkit-backdrop-filter: blur(12px);\n  backdrop-filter: blur(12px);\n}\n.gen-card h2 {\n  font-size: clamp(0.95rem, 2.5vw, 1.05rem);\n  font-weight: 700;\n  margin-bottom: 0.85rem;\n  color: var(--cmn-heading);\n}\n.batch-print-card .batch-hint {\n  font-size: clamp(0.82rem, 2.2vw, 0.88rem);\n  color: var(--cmn-text-muted);\n  line-height: 1.55;\n  margin: -0.25rem 0 1rem;\n  max-width: 52rem;\n}\n.batch-print-card .batch-hint strong {\n  color: var(--cmn-label);\n}\n.batch-print-card .batch-hint code {\n  font-size: 0.8rem;\n  color: var(--cmn-mono);\n}\n@media (min-width: 641px) {\n  .btn-batch {\n    align-self: flex-end;\n  }\n}\n.gen-row {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.85rem 1rem;\n  align-items: flex-end;\n}\n.gen-row label {\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: var(--cmn-label);\n  flex: 1 1 140px;\n  min-width: 0;\n}\n.gen-row input,\n.gen-row select {\n  min-width: 0;\n  width: 100%;\n  min-height: 44px;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-input-border);\n  background: var(--cmn-input-bg);\n  color: var(--cmn-input-text);\n  padding: 0.5rem 0.75rem;\n  font-size: 1rem;\n}\n.btn-gen {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #7c3aed 55%,\n      #9333ea);\n  color: #fff;\n  border: none;\n  font-weight: 700;\n  padding: 0.65rem 1.25rem;\n  min-height: 44px;\n  border-radius: 12px;\n  cursor: pointer;\n  height: fit-content;\n  flex: 0 0 auto;\n  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);\n  transition: transform 0.15s ease, box-shadow 0.2s ease;\n}\n.btn-gen:hover:not(:disabled) {\n  transform: translateY(-1px);\n  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);\n}\n.label-links {\n  display: flex;\n  flex-direction: column;\n  gap: 0.25rem;\n  font-size: 0.78rem;\n}\n.label-links a {\n  color: var(--cmn-link);\n}\n.lbl-off {\n  color: var(--cmn-text-muted);\n  font-size: 0.78rem;\n  cursor: help;\n}\n.btn-gen:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.table-wrap {\n  width: 100%;\n  max-width: 100%;\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 16px;\n  background: var(--cmn-card-bg-solid);\n  box-shadow: var(--cmn-panel-shadow);\n}\nhtml[data-theme=dark] .table-wrap {\n  background: var(--cmn-card-bg);\n}\n.txn-cell {\n  max-width: 12rem;\n  word-break: break-all;\n  font-size: 0.8rem;\n}\ntable {\n  width: 100%;\n  min-width: 880px;\n  border-collapse: collapse;\n  font-size: clamp(0.8rem, 2vw, 0.88rem);\n}\nth,\ntd {\n  text-align: left;\n  padding: 0.65rem 0.75rem;\n  border-bottom: 1px solid var(--cmn-table-border);\n  color: var(--cmn-text);\n}\nth {\n  color: var(--cmn-table-head);\n  font-weight: 700;\n  text-transform: uppercase;\n  font-size: 0.68rem;\n  letter-spacing: 0.06em;\n  white-space: nowrap;\n}\n.mono {\n  font-family: ui-monospace, monospace;\n  font-size: 0.82rem;\n  color: var(--cmn-mono);\n}\n.pill {\n  display: inline-block;\n  padding: 0.2rem 0.5rem;\n  border-radius: 999px;\n  background: rgba(148, 163, 184, 0.18);\n  font-size: 0.75rem;\n  font-weight: 700;\n  color: var(--cmn-text-muted);\n}\n.pill.on {\n  background: var(--cmn-success-soft);\n  color: var(--cmn-success);\n}\n.qr-dl .png-link {\n  font-weight: 700;\n  color: var(--cmn-success) !important;\n  font-size: 0.85rem;\n  min-width: 44px;\n  min-height: 44px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\n.links {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem 0.65rem;\n}\n.links a {\n  color: var(--cmn-link) !important;\n  font-weight: 600;\n  font-size: 0.82rem;\n  padding: 0.2rem 0;\n}\n.muted {\n  color: var(--cmn-text-muted);\n  padding: 1rem;\n}\n.toast {\n  position: fixed;\n  bottom: max(1rem, env(safe-area-inset-bottom, 0px));\n  right: max(1rem, env(safe-area-inset-right, 0px));\n  left: auto;\n  max-width: calc(100vw - 2rem);\n  background: var(--cmn-modal-bg);\n  border: 1px solid var(--cmn-card-border);\n  color: var(--cmn-text);\n  padding: 0.75rem 1rem;\n  border-radius: 12px;\n  z-index: 2000;\n  font-size: 0.9rem;\n  box-shadow: var(--cmn-panel-shadow);\n}\n@media (max-width: 900px) {\n  .gen-row label {\n    flex: 1 1 calc(50% - 0.5rem);\n  }\n  .btn-batch,\n  .btn-gen {\n    flex: 1 1 auto;\n    width: 100%;\n    justify-content: center;\n  }\n}\n@media (max-width: 640px) {\n  .inv-wrap {\n    padding: 0;\n  }\n  .gen-row {\n    flex-direction: column;\n    align-items: stretch;\n  }\n  .gen-row label {\n    flex: 1 1 auto;\n  }\n  .btn-batch {\n    align-self: stretch;\n  }\n  table {\n    min-width: 880px;\n  }\n}\n@media (max-width: 400px) {\n  .inv-header h1 {\n    line-height: 1.2;\n  }\n}\n/*# sourceMappingURL=inventory-page.css.map */\n"] }]
+    args: [{ selector: "app-inventory-page", standalone: true, imports: [CommonModule, FormsModule, RouterLink], template: `<div class="inv-wrap">
+  @if (toast()) {
+  <div class="toast">{{ toast() }}</div>
+  }
+
+  <div class="inv-header">
+    <h1>QR <span class="grad">Inventory</span></h1>
+   
+  </div>
+
+  <div class="inv-tools">
+    <section class="gen-card">
+      <h2>Filters</h2>
+      <div class="gen-row">
+        <label
+          >Number / Public ID
+          <input type="text" [(ngModel)]="searchNumber" placeholder="e.g. CMN..." />
+        </label>
+        <label
+          >From date
+          <input type="date" [(ngModel)]="fromDate" />
+        </label>
+        <label
+          >To date
+          <input type="date" [(ngModel)]="toDate" />
+        </label>
+        <label
+          >Status
+          <select [(ngModel)]="statusFilter">
+            <option value="all">All</option>
+            <option value="active">Active</option>
+            <option value="unused">Unused</option>
+          </select>
+        </label>
+        <label
+          >Page size
+          <select [(ngModel)]="pageSize" (change)="onPageSizeChanged()">
+            @for (s of pageSizeOptions; track s) {
+            <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </label>
+        <button type="button" class="btn-gen" (click)="applyFilters()" [disabled]="loading()">Apply</button>
+        <button type="button" class="btn-gen btn-ghost" (click)="resetFilters()" [disabled]="loading()">Reset</button>
+        <button type="button" class="btn-gen btn-danger" (click)="requestDeleteAllFiltered()" [disabled]="loading() || deleting()">
+          {{ deleting() ? 'Deleting\u2026' : 'Delete all (filtered)' }}
+        </button>
+      </div>
+    </section>
+
+    <section class="gen-card">
+      <h2>Generate batch</h2>
+      <div class="gen-row">
+        <label
+          >Count (1\u2013500)
+          <input type="number" min="1" max="500" [(ngModel)]="genCount" />
+        </label>
+        <label
+          >Product
+          <select [(ngModel)]="genProduct">
+            <option value="CarSticker">Car sticker</option>
+            <option value="KeyFinder">Key finder</option>
+            <option value="LuggageTag">Luggage tag</option>
+          </select>
+        </label>
+        <button type="button" class="btn-gen" (click)="generate()" [disabled]="generating()">
+          {{ generating() ? 'Working\u2026' : 'Generate' }}
+        </button>
+      </div>
+    </section>
+
+    <section class="gen-card batch-print-card">
+      <h2>Batch print labels</h2>
+    
+      <div class="gen-row">
+        <label
+          >How many (1\u2013{{ pageSize }})
+          <input type="number" min="1" [max]="pageSize" [(ngModel)]="batchCount" />
+        </label>
+        <label
+          >Label type
+          <select [(ngModel)]="batchEmbed">
+            <option value="activate">Packaging \xB7 /activate</option>
+            <option value="scan">Sticker \xB7 /q (unused)</option>
+          </select>
+        </label>
+        <label
+          >Layout
+          <select [(ngModel)]="batchLayout">
+            <option value="horizontal">Horizontal</option>
+            <option value="vertical">Vertical</option>
+          </select>
+        </label>
+        <button type="button" class="btn-gen btn-batch" (click)="printBatch()" [disabled]="batchPrinting() || loading()">
+          {{ batchPrinting() ? 'Preparing\u2026' : 'Print batch' }}
+        </button>
+      </div>
+    </section>
+  </div>
+
+  @if (loading()) {
+  <p class="muted">Loading\u2026</p>
+  } @else {
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Select</th>
+          <th class="col-date">Date</th>
+          <th class="col-id">Public ID</th>
+          <th>Product</th>
+          <th>Status</th>
+          <th class="col-scans">Scans</th>
+          <th>Owner</th>
+          <th>Transaction ID</th>
+          <th>Actions</th>
+          <th>Print Labels</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of items(); track row.id) {
+        <tr>
+          <td>
+            <input type="checkbox" [checked]="selected()[row.publicId]"
+              (change)="toggleSelected(row.publicId, $any($event.target).checked)" />
+          </td>
+          <td class="col-date">{{ formatDateTime(row.createdAt) }}</td>
+          <td class="col-id">
+            <span class="mono">{{ row.publicId }}</span>
+          </td>
+          <td>{{ row.productType }}</td>
+          <td>
+            <span class="pill" [class.on]="row.status === 'Active'">
+              {{ row.status }}
+            </span>
+          </td>
+          <td class="col-scans"><strong>{{ row.scanCount }}</strong></td>
+          <td>{{ row.ownerName ?? '\u2014' }}</td>
+          <td class="mono txn-cell">{{ row.paymentTransactionId ?? '\u2014' }}</td>
+          <td>
+            <div class="action-stack">
+              <a [routerLink]="['/activate', row.publicId]" class="btn-table btn-table--primary">
+                <span>Setup</span>
+              </a>
+              <a [routerLink]="['/q', row.publicId]" class="btn-table btn-table--ghost">
+                <span>Scan</span>
+              </a>
+              @if (row.status === 'Unused') {
+                <button type="button" class="btn-table btn-table--magic" (click)="openActivateFree(row)">
+                  \u{1FA84} Free
+                </button>
+              }
+            </div>
+          </td>
+          <td>
+            <div class="action-stack">
+              @if (row.status === 'Unused') {
+                <a [href]="labelPackHref(row)" target="_blank" class="btn-table btn-table--outline">
+                  \u{1F4E6} Pack
+                </a>
+              } @else {
+                <span class="lbl-off" title="Packaging QR is for unused inventory only">Packaging \u2014</span>
+              }
+              @if (row.status === 'Unused' || row.status === 'Active') {
+                <a [href]="labelStickerHref(row)" target="_blank" class="btn-table btn-table--outline">
+                  \u{1F3F7}\uFE0F Tag
+                </a>
+              } @else {
+                <span class="lbl-off" title="Sticker layout needs unused or active tag">Sticker \u2014</span>
+              }
+            </div>
+          </td>
+         
+          
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="10" class="muted">No rows. Date range ya pagination change karke try karo.</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="pager">
+    <button class="pager-btn" type="button" (click)="prevPage()" [disabled]="loading() || page <= 1" aria-label="Previous page">
+      &#8592;
+    </button>
+    <div class="pager-info">Page {{ page }} / {{ totalPages() }} \xB7 Total {{ total() }}</div>
+    <button class="pager-btn" type="button" (click)="nextPage()" [disabled]="loading() || page >= totalPages()" aria-label="Next page">
+      &#8594;
+    </button>
+    <button class="btn-gen btn-danger" type="button" (click)="requestDeleteSelected()" [disabled]="deleting() || selectedCount() === 0">
+      {{ deleting() ? 'Deleting\u2026' : 'Delete selected' }}
+    </button>
+  </div>
+  }
+
+  @if (confirmOpen()) {
+  <div class="confirm-backdrop" (click)="closeConfirm()">
+    <div class="confirm-modal" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <h3>Delete Confirmation</h3>
+      <p>{{ confirmMessage() }}</p>
+      <div class="confirm-actions">
+        <button type="button" class="btn-gen btn-danger" (click)="confirmDelete()" [disabled]="deleting()">
+          {{ deleting() ? 'Deleting\u2026' : 'Yes' }}
+        </button>
+        <button type="button" class="btn-gen btn-ghost" (click)="closeConfirm()" [disabled]="deleting()">No</button>
+      </div>
+    </div>
+  </div>
+  }
+
+  @if (activeFreeOpen()) {
+    <div class="confirm-backdrop" (click)="closeActivateFree()">
+      <div class="confirm-modal active-free-modal" (click)="$event.stopPropagation()">
+        <h3>\u{1FA84} Free Activation (Admin)</h3>
+        <p class="muted">Activating <strong>{{ selectedSticker()?.publicId }}</strong> for free.</p>
+        
+        <form class="free-form" (submit)="submitActivateFree($event)">
+          <div class="form-grid">
+            <label>Name<input type="text" name="name" [(ngModel)]="freeFormData.name" required /></label>
+            <label>Phone<input type="tel" name="phone" [(ngModel)]="freeFormData.phoneNumber" required /></label>
+            <label>Email<input type="email" name="email" [(ngModel)]="freeFormData.email" /></label>
+            <label>Vehicle Reg.<input type="text" name="reg" [(ngModel)]="freeFormData.vehicleRegistration" placeholder="e.g. MH12AB1234" /></label>
+            <label>Emergency Phone<input type="tel" name="ephone" [(ngModel)]="freeFormData.emergencyContactPhone" /></label>
+          </div>
+
+          <div class="confirm-actions">
+            <button type="submit" class="btn-gen" [disabled]="submittingFree()">
+              {{ submittingFree() ? 'Activating\u2026' : 'Activate Now' }}
+            </button>
+            <button type="button" class="btn-gen btn-ghost" (click)="closeActivateFree()" [disabled]="submittingFree()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>
+`, styles: ["/* src/app/components/inventory-page/inventory-page.css */\n.inv-wrap {\n  max-width: min(1200px, 100%);\n  width: 100%;\n  margin: 0 auto;\n  padding: 0 clamp(0px, 2vw, 6px);\n  box-sizing: border-box;\n}\n.inv-header h1 {\n  font-size: clamp(1.45rem, 4vw, 2rem);\n  font-weight: 800;\n  margin-bottom: 0.75rem;\n  color: var(--cmn-heading);\n}\n.grad {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #7c3aed 50%,\n      #a855f7);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n.inv-tools {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n  margin-bottom: 1.25rem;\n}\n.inv-tools .gen-card {\n  margin-bottom: 0;\n}\n@media (max-width: 900px) {\n  .inv-tools {\n    grid-template-columns: 1fr;\n  }\n  .inv-tools .gen-card {\n    margin-bottom: 0;\n  }\n}\n.sub {\n  color: var(--cmn-text-muted);\n  font-size: clamp(0.88rem, 2.5vw, 0.95rem);\n  line-height: 1.5;\n  margin-bottom: 1.25rem;\n}\n.sub code {\n  font-size: 0.8rem;\n  color: var(--cmn-mono);\n}\n.gen-card {\n  background: var(--cmn-card-bg-solid);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 18px;\n  padding: clamp(1rem, 3vw, 1.25rem) clamp(1rem, 3vw, 1.5rem);\n  margin-bottom: 1.25rem;\n  box-shadow: var(--cmn-panel-shadow);\n}\nhtml[data-theme=dark] .gen-card {\n  background: var(--cmn-card-bg);\n  -webkit-backdrop-filter: blur(12px);\n  backdrop-filter: blur(12px);\n}\n.gen-card h2 {\n  font-size: clamp(0.95rem, 2.5vw, 1.05rem);\n  font-weight: 700;\n  margin-bottom: 0.85rem;\n  color: var(--cmn-heading);\n}\n.batch-print-card .batch-hint {\n  font-size: clamp(0.82rem, 2.2vw, 0.88rem);\n  color: var(--cmn-text-muted);\n  line-height: 1.55;\n  margin: -0.25rem 0 1rem;\n  max-width: 52rem;\n}\n.batch-print-card .batch-hint strong {\n  color: var(--cmn-label);\n}\n.batch-print-card .batch-hint code {\n  font-size: 0.8rem;\n  color: var(--cmn-mono);\n}\n@media (min-width: 641px) {\n  .btn-batch {\n    align-self: flex-end;\n  }\n}\n.gen-row {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.85rem 1rem;\n  align-items: flex-end;\n}\n.gen-row label {\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: var(--cmn-label);\n  flex: 1 1 140px;\n  min-width: 0;\n}\n.gen-row input,\n.gen-row select {\n  min-width: 0;\n  width: 100%;\n  min-height: 44px;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-input-border);\n  background: var(--cmn-input-bg);\n  color: var(--cmn-input-text);\n  padding: 0.5rem 0.75rem;\n  font-size: 1rem;\n}\n.btn-gen {\n  background:\n    linear-gradient(\n      135deg,\n      #6366f1,\n      #7c3aed 55%,\n      #9333ea);\n  color: #fff;\n  border: none;\n  font-weight: 700;\n  padding: 0.65rem 1.25rem;\n  min-height: 44px;\n  border-radius: 12px;\n  cursor: pointer;\n  height: fit-content;\n  flex: 0 0 auto;\n  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);\n  transition: transform 0.15s ease, box-shadow 0.2s ease;\n}\n.btn-gen:hover:not(:disabled) {\n  transform: translateY(-1px);\n  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);\n}\ntable {\n  width: 100%;\n  min-width: 1000px;\n  border-collapse: separate;\n  border-spacing: 0;\n  font-size: 0.85rem;\n}\nth,\ntd {\n  text-align: left;\n  padding: 1rem 0.85rem;\n  border-bottom: 1px solid var(--cmn-table-border);\n  color: var(--cmn-text);\n  vertical-align: middle;\n}\nth {\n  color: var(--cmn-table-head);\n  font-weight: 800;\n  text-transform: uppercase;\n  font-size: 0.65rem;\n  letter-spacing: 0.1em;\n  white-space: nowrap;\n  background: var(--cmn-card-bg-solid);\n  position: sticky;\n  top: 0;\n  z-index: 10;\n  -webkit-backdrop-filter: blur(8px);\n  backdrop-filter: blur(8px);\n}\n.col-date {\n  min-width: 160px;\n}\n.col-id {\n  min-width: 140px;\n}\n.col-scans {\n  text-align: center;\n  width: 80px;\n}\n.col-scans + td {\n  text-align: center;\n}\n.mono {\n  font-family: ui-monospace, monospace;\n  font-size: 0.8rem;\n  color: var(--cmn-mono);\n  white-space: nowrap;\n}\n.pill {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0.25rem 0.65rem;\n  border-radius: 99px;\n  background: rgba(148, 163, 184, 0.15);\n  font-size: 0.72rem;\n  font-weight: 800;\n  color: var(--cmn-text-muted);\n  text-transform: uppercase;\n  letter-spacing: 0.04em;\n}\n.btn-ghost {\n  background: transparent;\n  border: 1px solid var(--cmn-input-border);\n  color: var(--cmn-text);\n  box-shadow: none;\n}\n.btn-danger {\n  background: #dc2626;\n  box-shadow: none;\n}\n.action-stack {\n  display: flex;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n}\n.btn-table {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0.35rem 0.65rem;\n  border-radius: 8px;\n  font-size: 0.75rem;\n  font-weight: 700;\n  text-decoration: none;\n  cursor: pointer;\n  border: 1px solid transparent;\n  transition: all 0.15s ease;\n  white-space: nowrap;\n}\n.btn-table--primary {\n  background: var(--cmn-link);\n  color: #fff !important;\n}\n.btn-table--primary:hover {\n  filter: brightness(1.1);\n  transform: translateY(-1px);\n}\n.btn-table--ghost {\n  background: rgba(148, 163, 184, 0.1);\n  color: var(--cmn-text) !important;\n}\n.btn-table--ghost:hover {\n  background: rgba(148, 163, 184, 0.2);\n}\n.btn-table--magic {\n  background:\n    linear-gradient(\n      135deg,\n      #f59e0b,\n      #d97706);\n  color: #fff !important;\n  border: none;\n  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.2);\n}\n.btn-table--magic:hover {\n  transform: scale(1.05);\n  box-shadow: 0 4px 10px rgba(217, 119, 6, 0.3);\n}\n.btn-table--outline {\n  border-color: var(--cmn-card-border);\n  background: transparent;\n  color: var(--cmn-text-muted) !important;\n}\n.btn-table--outline:hover {\n  border-color: var(--cmn-link);\n  color: var(--cmn-link) !important;\n}\n.lbl-off {\n  color: var(--cmn-text-muted);\n  font-size: 0.75rem;\n  opacity: 0.6;\n}\ntable tr:hover td {\n  background: rgba(148, 163, 184, 0.05);\n}\n.pager {\n  margin-top: 0.9rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.9rem;\n}\n.pager-info {\n  color: var(--cmn-text-muted);\n  font-size: 0.88rem;\n}\n.pager-btn {\n  width: 40px;\n  height: 40px;\n  border-radius: 999px;\n  border: 1px solid var(--cmn-input-border);\n  background: var(--cmn-input-bg);\n  color: var(--cmn-text);\n  font-size: 1.05rem;\n  font-weight: 700;\n  cursor: pointer;\n}\n.pager-btn:disabled {\n  opacity: 0.45;\n  cursor: not-allowed;\n}\n.confirm-backdrop {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.45);\n  display: grid;\n  place-items: center;\n  z-index: 3000;\n  padding: 1rem;\n}\n.confirm-modal {\n  width: min(460px, 100%);\n  background: var(--cmn-card-bg-solid);\n  border: 1px solid var(--cmn-card-border);\n  border-radius: 14px;\n  box-shadow: var(--cmn-panel-shadow);\n  padding: 1rem 1rem 0.9rem;\n}\n.confirm-modal h3 {\n  margin: 0 0 0.4rem;\n  color: var(--cmn-heading);\n}\n.confirm-modal p {\n  margin: 0;\n  color: var(--cmn-text);\n}\n.confirm-actions {\n  margin-top: 1rem;\n  display: flex;\n  gap: 0.6rem;\n  justify-content: flex-end;\n}\n.toast {\n  position: fixed;\n  bottom: max(1rem, env(safe-area-inset-bottom, 0px));\n  right: max(1rem, env(safe-area-inset-right, 0px));\n  left: auto;\n  max-width: calc(100vw - 2rem);\n  background: var(--cmn-modal-bg);\n  border: 1px solid var(--cmn-card-border);\n  color: var(--cmn-text);\n  padding: 0.75rem 1rem;\n  border-radius: 12px;\n  z-index: 2000;\n  font-size: 0.9rem;\n  box-shadow: var(--cmn-panel-shadow);\n}\n@media (max-width: 900px) {\n  .gen-row label {\n    flex: 1 1 calc(50% - 0.5rem);\n  }\n  .btn-batch,\n  .btn-gen {\n    flex: 1 1 auto;\n    width: 100%;\n    justify-content: center;\n  }\n}\n@media (max-width: 640px) {\n  .inv-wrap {\n    padding: 0;\n  }\n  .gen-row {\n    flex-direction: column;\n    align-items: stretch;\n  }\n  .gen-row label {\n    flex: 1 1 auto;\n  }\n  .btn-batch {\n    align-self: stretch;\n  }\n  table {\n    min-width: 880px;\n  }\n}\n@media (max-width: 400px) {\n  .inv-header h1 {\n    line-height: 1.2;\n  }\n}\n.btn-link-action {\n  background: none;\n  border: none;\n  padding: 0;\n  margin: 0;\n  color: var(--cmn-link);\n  font-weight: 600;\n  font-size: 0.82rem;\n  cursor: pointer;\n  text-decoration: underline;\n}\n.active-free-modal {\n  width: min(600px, 100%);\n}\n.active-free-modal .muted {\n  padding: 0;\n  margin-bottom: 1.25rem;\n  font-size: 0.88rem;\n}\n.free-form .form-grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 1rem;\n  margin-bottom: 1.5rem;\n}\n.free-form label {\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: var(--cmn-label);\n}\n.free-form input {\n  min-height: 44px;\n  border-radius: 10px;\n  border: 1px solid var(--cmn-input-border);\n  background: var(--cmn-input-bg);\n  color: var(--cmn-input-text);\n  padding: 0.5rem 0.75rem;\n  font-size: 1rem;\n  outline: none;\n}\n.free-form input:focus {\n  border-color: #6366f1;\n  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);\n}\n@media (max-width: 600px) {\n  .free-form .form-grid {\n    grid-template-columns: 1fr;\n  }\n}\n/*# sourceMappingURL=inventory-page.css.map */\n"] }]
   }], () => [{ type: QrService }], null);
 })();
 (() => {
@@ -48385,6 +49819,137 @@ function createDebugNameObject2(toSignalDebugName, internalSignalDebugName) {
   };
 }
 
+// src/app/components/cmn-sticker-label/cmn-sticker-label.component.ts
+function CmnStickerLabelComponent_Conditional_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275domElementStart(0, "h2", 15);
+    \u0275\u0275text(1, "Scan to contact the vehicle owner");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElement(2, "div", 16);
+    \u0275\u0275domElementStart(3, "div", 17)(4, "p", 18);
+    \u0275\u0275text(5, " Wrong parking, Emergency contact");
+    \u0275\u0275domElement(6, "br");
+    \u0275\u0275domElementStart(7, "span", 19);
+    \u0275\u0275text(8, "or any issue with the vehicle");
+    \u0275\u0275domElementEnd()()();
+  }
+}
+function CmnStickerLabelComponent_Conditional_7_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275domElementStart(0, "h2", 15);
+    \u0275\u0275text(1, "Scan to activate");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElement(2, "div", 16);
+    \u0275\u0275domElementStart(3, "div", 17)(4, "p", 18);
+    \u0275\u0275text(5, " Link after purchase \u2014 your number never appears");
+    \u0275\u0275domElement(6, "br");
+    \u0275\u0275domElementStart(7, "span", 19);
+    \u0275\u0275text(8, "on the sticker. Scan to set up your tag.");
+    \u0275\u0275domElementEnd()()();
+  }
+}
+var CmnStickerLabelComponent = class _CmnStickerLabelComponent {
+  qrImageUrl = input.required(...ngDevMode ? [{ debugName: "qrImageUrl" }] : []);
+  code = input.required(...ngDevMode ? [{ debugName: "code" }] : []);
+  /** `scan` = vehicle sticker copy; `activate` = packaging copy. */
+  variant = input("scan", ...ngDevMode ? [{ debugName: "variant" }] : []);
+  /** Sticker shape for screen + print (inventory preview). */
+  layout = input("horizontal", ...ngDevMode ? [{ debugName: "layout" }] : []);
+  /** Brand mark — default SVG asset; override with another URL or `data:image/svg+xml,...` if needed. */
+  logoUrl = input("assets/marketing/callmenow-logo.png", ...ngDevMode ? [{ debugName: "logoUrl" }] : []);
+  static \u0275fac = function CmnStickerLabelComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _CmnStickerLabelComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _CmnStickerLabelComponent, selectors: [["app-cmn-sticker-label"]], inputs: { qrImageUrl: [1, "qrImageUrl"], code: [1, "code"], variant: [1, "variant"], layout: [1, "layout"], logoUrl: [1, "logoUrl"] }, decls: 22, vars: 3, consts: [[1, "cmn-sticker"], [1, "cmn-sticker__qr-col"], ["width", "160", "height", "160", "alt", "", "decoding", "async", 1, "cmn-sticker__qr", 3, "src"], [1, "cmn-sticker__code"], [1, "cmn-sticker__copy-col"], [1, "cmn-sticker__brand"], ["viewBox", "0 0 200 28", "xmlns", "http://www.w3.org/2000/svg", "aria-label", "CallmeNow", "role", "img", 1, "cmn-sticker__mark"], ["width", "200", "height", "28", "fill", "#ffffff", "aria-hidden", "true"], ["x", "0", "y", "20.5", "fill", "var(--cmn-sticker-orange)", "font-family", "Arial, Helvetica, sans-serif", "font-size", "14", "font-weight", "700"], ["x", "47", "y", "20.5", "fill", "#000000", "font-family", "Arial, Helvetica, sans-serif", "font-size", "14", "font-weight", "800"], ["transform", "translate(74, 1.8)", "aria-hidden", "true"], ["x", "0.3", "y", "0.3", "width", "8.2", "height", "13.4", "rx", "1.25", "fill", "none", "stroke", "var(--cmn-sticker-orange)", "stroke-width", "1.05"], ["x", "1.15", "y", "1.75", "width", "5.9", "height", "7.15", "rx", "0.45", "fill", "#fff5e6", "stroke", "var(--cmn-sticker-orange)", "stroke-width", "0.24"], ["fill", "#ffffff", "d", "M4 4.85 C3.35 4.05 2.35 4.35 2.35 5.2 C2.35 5.95 4 7.45 4 7.45 S5.65 5.95 5.65 5.2 C5.65 4.35 4.65 4.05 4 4.85 Z"], ["cx", "4", "cy", "11.15", "r", "0.52", "fill", "#ffffff", "stroke", "var(--cmn-sticker-orange)", "stroke-width", "0.22"], [1, "cmn-sticker__headline"], ["aria-hidden", "true", 1, "cmn-sticker__rule"], [1, "cmn-sticker__blurb-wrap"], [1, "cmn-sticker__blurb"], [1, "cmn-sticker__blurb-line2"]], template: function CmnStickerLabelComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275domElementStart(0, "div", 0)(1, "div", 1);
+      \u0275\u0275domElement(2, "img", 2);
+      \u0275\u0275domElementStart(3, "p", 3);
+      \u0275\u0275text(4);
+      \u0275\u0275domElementEnd()();
+      \u0275\u0275domElementStart(5, "div", 4);
+      \u0275\u0275conditionalCreate(6, CmnStickerLabelComponent_Conditional_6_Template, 9, 0)(7, CmnStickerLabelComponent_Conditional_7_Template, 9, 0);
+      \u0275\u0275domElementStart(8, "div", 5);
+      \u0275\u0275namespaceSVG();
+      \u0275\u0275domElementStart(9, "svg", 6)(10, "title");
+      \u0275\u0275text(11, "CallmeNow");
+      \u0275\u0275domElementEnd();
+      \u0275\u0275domElement(12, "rect", 7);
+      \u0275\u0275domElementStart(13, "text", 8);
+      \u0275\u0275text(14, " Callme ");
+      \u0275\u0275domElementEnd();
+      \u0275\u0275domElementStart(15, "text", 9);
+      \u0275\u0275text(16, "Now");
+      \u0275\u0275domElementEnd();
+      \u0275\u0275domElementStart(17, "g", 10);
+      \u0275\u0275domElement(18, "rect", 11)(19, "rect", 12)(20, "path", 13)(21, "circle", 14);
+      \u0275\u0275domElementEnd()()()()();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance(2);
+      \u0275\u0275domProperty("src", ctx.qrImageUrl(), \u0275\u0275sanitizeUrl);
+      \u0275\u0275advance(2);
+      \u0275\u0275textInterpolate(ctx.code());
+      \u0275\u0275advance(2);
+      \u0275\u0275conditional(ctx.variant() === "scan" ? 6 : 7);
+    }
+  }, dependencies: [CommonModule], styles: ['\n\n.cmn-sticker[_ngcontent-%COMP%] {\n  --cmn-sticker-orange: #e68a4f;\n  --cmn-sticker-ink: #000000;\n  --cmn-sticker-card-bg: #ffffff;\n  --cmn-sticker-card-radius: 20px;\n  display: grid;\n  grid-template-columns: minmax(0, 30fr) minmax(0, 70fr);\n  align-items: stretch;\n  background: var(--cmn-sticker-card-bg);\n  border-radius: var(--cmn-sticker-card-radius);\n  padding: 14px 16px 12px;\n  border: 1px solid #e5e5e5;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);\n  font-family:\n    "Roboto",\n    "Helvetica Neue",\n    Arial,\n    Helvetica,\n    sans-serif;\n  max-width: 100%;\n  box-sizing: border-box;\n}\n@media (min-width: 360px) {\n  .cmn-sticker[_ngcontent-%COMP%]:not(.cmn-sticker--vertical) {\n    aspect-ratio: 97 / 34;\n    max-width: min(100%, 23.5rem);\n    margin-left: auto;\n    margin-right: auto;\n  }\n}\n.cmn-sticker__qr-col[_ngcontent-%COMP%] {\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  width: 136px;\n  gap: 0.4rem;\n  min-width: 0;\n  padding-top: 2px;\n}\n.cmn-sticker__qr[_ngcontent-%COMP%] {\n  width: min(8.15rem, 36vw);\n  height: 110px;\n  aspect-ratio: 1;\n  object-fit: contain;\n  display: block;\n  image-rendering: pixelated;\n  image-rendering: crisp-edges;\n}\n.cmn-sticker__code[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 12px;\n  font-weight: 800;\n  letter-spacing: 0.06em;\n  color: var(--cmn-sticker-ink);\n  text-align: center;\n  line-height: 1.15;\n  word-break: break-all;\n  max-width: 100%;\n}\n.cmn-sticker__copy-col[_ngcontent-%COMP%] {\n  flex-direction: column;\n  align-items: stretch;\n  justify-content: flex-start;\n  gap: 0.2rem;\n  padding: 7px 2px 0 20px;\n  min-width: 0;\n  min-height: 0;\n  height: 100%;\n  text-align: left;\n}\n.cmn-sticker__head-block[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.cmn-sticker__headline[_ngcontent-%COMP%] {\n  margin: 0;\n  padding-top: 4px;\n  width: 224px;\n  font-size: clamp(0.64rem, 2.45vw, 0.76rem);\n  font-weight: 800;\n  line-height: 1.15;\n  letter-spacing: 0.03em;\n  color: var(--cmn-sticker-ink);\n  text-transform: uppercase;\n  text-align: left;\n  font-family:\n    "Roboto",\n    "Arial Narrow",\n    "Helvetica Neue Condensed",\n    Arial,\n    Helvetica,\n    sans-serif;\n  font-stretch: condensed;\n  box-sizing: border-box;\n}\n.cmn-sticker__rule[_ngcontent-%COMP%] {\n  height: 2px;\n  width: 100%;\n  margin-top: 0.35rem;\n  background: var(--cmn-sticker-orange);\n  flex-shrink: 0;\n}\n.cmn-sticker[_ngcontent-%COMP%]:not(.cmn-sticker--vertical)   .cmn-sticker__blurb-wrap[_ngcontent-%COMP%] {\n  flex: 1 1 auto;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 100%;\n  min-height: 0;\n  margin-top: 0.25rem;\n}\n.cmn-sticker[_ngcontent-%COMP%]:not(.cmn-sticker--vertical)   .cmn-sticker__blurb[_ngcontent-%COMP%] {\n  text-align: center;\n}\n.cmn-sticker[_ngcontent-%COMP%]:not(.cmn-sticker--vertical)   .cmn-sticker__brand[_ngcontent-%COMP%] {\n  justify-content: center;\n  padding-top: 0.4rem;\n}\n.cmn-sticker__blurb-wrap[_ngcontent-%COMP%] {\n  flex: 1 1 auto;\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  width: 100%;\n  min-height: 0;\n  margin-top: 0.2rem;\n}\n.cmn-sticker__blurb[_ngcontent-%COMP%] {\n  font-size: 13px;\n  font-weight: 500;\n  line-height: 1.35;\n  color: var(--cmn-sticker-ink);\n  text-align: left;\n  max-width: 100%;\n  margin: 7px;\n}\n.cmn-sticker__blurb-line2[_ngcontent-%COMP%] {\n  display: inline-block;\n  margin-top: 0.04rem;\n}\n.cmn-sticker__brand[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: flex-end;\n  align-items: flex-end;\n  width: 100%;\n  padding-top: 0.3rem;\n  padding-bottom: 2px;\n  margin-top: auto;\n  flex-shrink: 0;\n}\n.cmn-sticker__mark[_ngcontent-%COMP%] {\n  display: block;\n  height: clamp(2.2rem, 7.5vw, 2.6rem);\n  width: auto;\n  max-width: 90%;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%] {\n  --cmn-sticker-card-bg: #ffffff;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  background: #fff;\n  border-radius: 22px;\n  padding: 20px 18px 22px;\n  max-width: min(100%, 18rem);\n  width: 100%;\n  margin-left: auto;\n  margin-right: auto;\n  aspect-ratio: 7 / 11;\n  box-sizing: border-box;\n  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);\n  border: 1px solid #ececec;\n  height: 424px;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__qr-col[_ngcontent-%COMP%] {\n  flex: 1 1 52%;\n  min-height: 0;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 0;\n  padding-top: 2px;\n  width: 100%;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__code[_ngcontent-%COMP%] {\n  display: none;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__qr[_ngcontent-%COMP%] {\n  width: min(92%, 13.75rem);\n  max-width: 220px;\n  height: auto;\n  max-height: min(46vmin, 13rem);\n  margin-top: 0;\n  flex: 0 1 auto;\n  aspect-ratio: 1;\n  object-fit: contain;\n  image-rendering: pixelated;\n  image-rendering: crisp-edges;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__copy-col[_ngcontent-%COMP%] {\n  flex: 1 1 48%;\n  min-height: 0;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  text-align: center;\n  padding: 0.55rem 0.5rem 0.15rem;\n  gap: 0;\n  width: 100%;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__head-block[_ngcontent-%COMP%] {\n  width: 100%;\n  max-width: 15.5rem;\n  margin: 0 auto;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__headline[_ngcontent-%COMP%] {\n  text-align: center;\n  width: 100%;\n  max-width: 15.5rem;\n  margin: 0 auto;\n  font-size: clamp(0.62rem, 2.8vw, 0.74rem);\n  font-weight: 800;\n  line-height: 1.2;\n  letter-spacing: 0.04em;\n  padding-top: 0.35rem;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__rule[_ngcontent-%COMP%] {\n  width: 100%;\n  max-width: 15.5rem;\n  margin: 0.45rem auto 0;\n  height: 2px;\n  background: var(--cmn-sticker-orange);\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__blurb-wrap[_ngcontent-%COMP%] {\n  flex: 0 1 auto;\n  display: flex;\n  justify-content: center;\n  align-items: flex-start;\n  margin-top: 0.5rem;\n  width: 100%;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__blurb[_ngcontent-%COMP%] {\n  margin: 0;\n  text-align: center;\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 1.3;\n  max-width: 14.5rem;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__brand[_ngcontent-%COMP%] {\n  justify-content: center;\n  margin-top: auto;\n  padding-top: 1rem;\n  padding-bottom: 4px;\n}\n.cmn-sticker--vertical[_ngcontent-%COMP%]   .cmn-sticker__mark[_ngcontent-%COMP%] {\n  max-width: 85%;\n  height: 94px;\n  width: auto;\n}\n@media (max-width: 340px) {\n  .cmn-sticker[_ngcontent-%COMP%]:not(.cmn-sticker--vertical) {\n    grid-template-columns: 1fr;\n    aspect-ratio: auto;\n    justify-items: center;\n    padding: 14px 14px 12px;\n  }\n  .cmn-sticker[_ngcontent-%COMP%]:not(.cmn-sticker--vertical)   .cmn-sticker__copy-col[_ngcontent-%COMP%] {\n    max-width: 17.5rem;\n    width: 100%;\n  }\n}\n@media print {\n  .cmn-sticker[_ngcontent-%COMP%] {\n    box-shadow: none;\n    -webkit-print-color-adjust: exact;\n    print-color-adjust: exact;\n  }\n}\n/*# sourceMappingURL=cmn-sticker-label.component.css.map */'] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CmnStickerLabelComponent, [{
+    type: Component,
+    args: [{ selector: "app-cmn-sticker-label", standalone: true, imports: [CommonModule], template: `<div class="cmn-sticker">
+  <div class="cmn-sticker__qr-col">
+    <img class="cmn-sticker__qr" [src]="qrImageUrl()" width="160" height="160" alt="" decoding="async" />
+    <p class="cmn-sticker__code">{{ code() }}</p>
+  </div>
+  <div class="cmn-sticker__copy-col">
+    @if (variant() === 'scan') {
+      <h2 class="cmn-sticker__headline">Scan to contact the vehicle owner</h2>
+      <div class="cmn-sticker__rule" aria-hidden="true"></div>
+      <div class="cmn-sticker__blurb-wrap">
+        <p class="cmn-sticker__blurb">
+          Wrong parking, Emergency contact<br />
+          <span class="cmn-sticker__blurb-line2">or any issue with the vehicle</span>
+        </p>
+      </div>
+    } @else {
+      <h2 class="cmn-sticker__headline">Scan to activate</h2>
+      <div class="cmn-sticker__rule" aria-hidden="true"></div>
+      <div class="cmn-sticker__blurb-wrap">
+        <p class="cmn-sticker__blurb">
+          Link after purchase \u2014 your number never appears<br />
+          <span class="cmn-sticker__blurb-line2">on the sticker. Scan to set up your tag.</span>
+        </p>
+      </div>
+    }
+    <div class="cmn-sticker__brand">
+      <svg class="cmn-sticker__mark" viewBox="0 0 200 28" xmlns="http://www.w3.org/2000/svg" aria-label="CallmeNow" role="img">
+        <title>CallmeNow</title>
+        <rect width="200" height="28" fill="#ffffff" aria-hidden="true" />
+        <text x="0" y="20.5" fill="var(--cmn-sticker-orange)" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">
+          Callme
+        </text>
+        <text x="47" y="20.5" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800">Now</text>
+        <g transform="translate(74, 1.8)" aria-hidden="true">
+          <rect x="0.3" y="0.3" width="8.2" height="13.4" rx="1.25" fill="none" stroke="var(--cmn-sticker-orange)" stroke-width="1.05" />
+          <rect x="1.15" y="1.75" width="5.9" height="7.15" rx="0.45" fill="#fff5e6" stroke="var(--cmn-sticker-orange)" stroke-width="0.24" />
+          <path
+            fill="#ffffff"
+            d="M4 4.85 C3.35 4.05 2.35 4.35 2.35 5.2 C2.35 5.95 4 7.45 4 7.45 S5.65 5.95 5.65 5.2 C5.65 4.35 4.65 4.05 4 4.85 Z" />
+          <circle cx="4" cy="11.15" r="0.52" fill="#ffffff" stroke="var(--cmn-sticker-orange)" stroke-width="0.22" />
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+`, styles: ['/* src/app/components/cmn-sticker-label/cmn-sticker-label.component.css */\n.cmn-sticker {\n  --cmn-sticker-orange: #e68a4f;\n  --cmn-sticker-ink: #000000;\n  --cmn-sticker-card-bg: #ffffff;\n  --cmn-sticker-card-radius: 20px;\n  display: grid;\n  grid-template-columns: minmax(0, 30fr) minmax(0, 70fr);\n  align-items: stretch;\n  background: var(--cmn-sticker-card-bg);\n  border-radius: var(--cmn-sticker-card-radius);\n  padding: 14px 16px 12px;\n  border: 1px solid #e5e5e5;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);\n  font-family:\n    "Roboto",\n    "Helvetica Neue",\n    Arial,\n    Helvetica,\n    sans-serif;\n  max-width: 100%;\n  box-sizing: border-box;\n}\n@media (min-width: 360px) {\n  .cmn-sticker:not(.cmn-sticker--vertical) {\n    aspect-ratio: 97 / 34;\n    max-width: min(100%, 23.5rem);\n    margin-left: auto;\n    margin-right: auto;\n  }\n}\n.cmn-sticker__qr-col {\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  width: 136px;\n  gap: 0.4rem;\n  min-width: 0;\n  padding-top: 2px;\n}\n.cmn-sticker__qr {\n  width: min(8.15rem, 36vw);\n  height: 110px;\n  aspect-ratio: 1;\n  object-fit: contain;\n  display: block;\n  image-rendering: pixelated;\n  image-rendering: crisp-edges;\n}\n.cmn-sticker__code {\n  margin: 0;\n  font-size: 12px;\n  font-weight: 800;\n  letter-spacing: 0.06em;\n  color: var(--cmn-sticker-ink);\n  text-align: center;\n  line-height: 1.15;\n  word-break: break-all;\n  max-width: 100%;\n}\n.cmn-sticker__copy-col {\n  flex-direction: column;\n  align-items: stretch;\n  justify-content: flex-start;\n  gap: 0.2rem;\n  padding: 7px 2px 0 20px;\n  min-width: 0;\n  min-height: 0;\n  height: 100%;\n  text-align: left;\n}\n.cmn-sticker__head-block {\n  width: 100%;\n}\n.cmn-sticker__headline {\n  margin: 0;\n  padding-top: 4px;\n  width: 224px;\n  font-size: clamp(0.64rem, 2.45vw, 0.76rem);\n  font-weight: 800;\n  line-height: 1.15;\n  letter-spacing: 0.03em;\n  color: var(--cmn-sticker-ink);\n  text-transform: uppercase;\n  text-align: left;\n  font-family:\n    "Roboto",\n    "Arial Narrow",\n    "Helvetica Neue Condensed",\n    Arial,\n    Helvetica,\n    sans-serif;\n  font-stretch: condensed;\n  box-sizing: border-box;\n}\n.cmn-sticker__rule {\n  height: 2px;\n  width: 100%;\n  margin-top: 0.35rem;\n  background: var(--cmn-sticker-orange);\n  flex-shrink: 0;\n}\n.cmn-sticker:not(.cmn-sticker--vertical) .cmn-sticker__blurb-wrap {\n  flex: 1 1 auto;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 100%;\n  min-height: 0;\n  margin-top: 0.25rem;\n}\n.cmn-sticker:not(.cmn-sticker--vertical) .cmn-sticker__blurb {\n  text-align: center;\n}\n.cmn-sticker:not(.cmn-sticker--vertical) .cmn-sticker__brand {\n  justify-content: center;\n  padding-top: 0.4rem;\n}\n.cmn-sticker__blurb-wrap {\n  flex: 1 1 auto;\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  width: 100%;\n  min-height: 0;\n  margin-top: 0.2rem;\n}\n.cmn-sticker__blurb {\n  font-size: 13px;\n  font-weight: 500;\n  line-height: 1.35;\n  color: var(--cmn-sticker-ink);\n  text-align: left;\n  max-width: 100%;\n  margin: 7px;\n}\n.cmn-sticker__blurb-line2 {\n  display: inline-block;\n  margin-top: 0.04rem;\n}\n.cmn-sticker__brand {\n  display: flex;\n  justify-content: flex-end;\n  align-items: flex-end;\n  width: 100%;\n  padding-top: 0.3rem;\n  padding-bottom: 2px;\n  margin-top: auto;\n  flex-shrink: 0;\n}\n.cmn-sticker__mark {\n  display: block;\n  height: clamp(2.2rem, 7.5vw, 2.6rem);\n  width: auto;\n  max-width: 90%;\n}\n.cmn-sticker--vertical {\n  --cmn-sticker-card-bg: #ffffff;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  background: #fff;\n  border-radius: 22px;\n  padding: 20px 18px 22px;\n  max-width: min(100%, 18rem);\n  width: 100%;\n  margin-left: auto;\n  margin-right: auto;\n  aspect-ratio: 7 / 11;\n  box-sizing: border-box;\n  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);\n  border: 1px solid #ececec;\n  height: 424px;\n}\n.cmn-sticker--vertical .cmn-sticker__qr-col {\n  flex: 1 1 52%;\n  min-height: 0;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 0;\n  padding-top: 2px;\n  width: 100%;\n}\n.cmn-sticker--vertical .cmn-sticker__code {\n  display: none;\n}\n.cmn-sticker--vertical .cmn-sticker__qr {\n  width: min(92%, 13.75rem);\n  max-width: 220px;\n  height: auto;\n  max-height: min(46vmin, 13rem);\n  margin-top: 0;\n  flex: 0 1 auto;\n  aspect-ratio: 1;\n  object-fit: contain;\n  image-rendering: pixelated;\n  image-rendering: crisp-edges;\n}\n.cmn-sticker--vertical .cmn-sticker__copy-col {\n  flex: 1 1 48%;\n  min-height: 0;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  text-align: center;\n  padding: 0.55rem 0.5rem 0.15rem;\n  gap: 0;\n  width: 100%;\n}\n.cmn-sticker--vertical .cmn-sticker__head-block {\n  width: 100%;\n  max-width: 15.5rem;\n  margin: 0 auto;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n}\n.cmn-sticker--vertical .cmn-sticker__headline {\n  text-align: center;\n  width: 100%;\n  max-width: 15.5rem;\n  margin: 0 auto;\n  font-size: clamp(0.62rem, 2.8vw, 0.74rem);\n  font-weight: 800;\n  line-height: 1.2;\n  letter-spacing: 0.04em;\n  padding-top: 0.35rem;\n}\n.cmn-sticker--vertical .cmn-sticker__rule {\n  width: 100%;\n  max-width: 15.5rem;\n  margin: 0.45rem auto 0;\n  height: 2px;\n  background: var(--cmn-sticker-orange);\n}\n.cmn-sticker--vertical .cmn-sticker__blurb-wrap {\n  flex: 0 1 auto;\n  display: flex;\n  justify-content: center;\n  align-items: flex-start;\n  margin-top: 0.5rem;\n  width: 100%;\n}\n.cmn-sticker--vertical .cmn-sticker__blurb {\n  margin: 0;\n  text-align: center;\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 1.3;\n  max-width: 14.5rem;\n}\n.cmn-sticker--vertical .cmn-sticker__brand {\n  justify-content: center;\n  margin-top: auto;\n  padding-top: 1rem;\n  padding-bottom: 4px;\n}\n.cmn-sticker--vertical .cmn-sticker__mark {\n  max-width: 85%;\n  height: 94px;\n  width: auto;\n}\n@media (max-width: 340px) {\n  .cmn-sticker:not(.cmn-sticker--vertical) {\n    grid-template-columns: 1fr;\n    aspect-ratio: auto;\n    justify-items: center;\n    padding: 14px 14px 12px;\n  }\n  .cmn-sticker:not(.cmn-sticker--vertical) .cmn-sticker__copy-col {\n    max-width: 17.5rem;\n    width: 100%;\n  }\n}\n@media print {\n  .cmn-sticker {\n    box-shadow: none;\n    -webkit-print-color-adjust: exact;\n    print-color-adjust: exact;\n  }\n}\n/*# sourceMappingURL=cmn-sticker-label.component.css.map */\n'] }]
+  }], null, { qrImageUrl: [{ type: Input, args: [{ isSignal: true, alias: "qrImageUrl", required: true }] }], code: [{ type: Input, args: [{ isSignal: true, alias: "code", required: true }] }], variant: [{ type: Input, args: [{ isSignal: true, alias: "variant", required: false }] }], layout: [{ type: Input, args: [{ isSignal: true, alias: "layout", required: false }] }], logoUrl: [{ type: Input, args: [{ isSignal: true, alias: "logoUrl", required: false }] }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(CmnStickerLabelComponent, { className: "CmnStickerLabelComponent", filePath: "src/app/components/cmn-sticker-label/cmn-sticker-label.component.ts", lineNumber: 14 });
+})();
+
 // src/app/components/label-print-preview/label-print-preview.component.ts
 function LabelPrintPreviewComponent_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
@@ -48394,6 +49959,26 @@ function LabelPrintPreviewComponent_Conditional_0_Template(rf, ctx) {
     \u0275\u0275elementStart(3, "a", 2);
     \u0275\u0275text(4, "Back to inventory");
     \u0275\u0275elementEnd()();
+  }
+}
+function LabelPrintPreviewComponent_Conditional_1_Conditional_23_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "app-cmn-sticker-label", 17)(1, "app-cmn-sticker-label", 18);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275property("qrImageUrl", ctx_r1.qrImageUrl())("code", ctx_r1.code())("variant", ctx_r1.embed());
+    \u0275\u0275advance();
+    \u0275\u0275property("qrImageUrl", ctx_r1.qrImageUrl())("code", ctx_r1.code())("variant", ctx_r1.embed());
+  }
+}
+function LabelPrintPreviewComponent_Conditional_1_Conditional_24_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "app-cmn-sticker-label", 16);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275property("qrImageUrl", ctx_r1.qrImageUrl())("code", ctx_r1.code())("variant", ctx_r1.embed())("layout", ctx_r1.printLayout());
   }
 }
 function LabelPrintPreviewComponent_Conditional_1_Template(rf, ctx) {
@@ -48439,7 +50024,7 @@ function LabelPrintPreviewComponent_Conditional_1_Template(rf, ctx) {
     \u0275\u0275text(21, "Print this view");
     \u0275\u0275elementEnd()()();
     \u0275\u0275elementStart(22, "main", 15);
-    \u0275\u0275element(23, "app-cmn-sticker-label", 16);
+    \u0275\u0275conditionalCreate(23, LabelPrintPreviewComponent_Conditional_1_Conditional_23_Template, 2, 6)(24, LabelPrintPreviewComponent_Conditional_1_Conditional_24_Template, 1, 4, "app-cmn-sticker-label", 16);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -48453,9 +50038,9 @@ function LabelPrintPreviewComponent_Conditional_1_Template(rf, ctx) {
     \u0275\u0275advance(2);
     \u0275\u0275property("href", ctx_r1.apiPrintHref(), \u0275\u0275sanitizeUrl);
     \u0275\u0275advance(4);
-    \u0275\u0275classProp("lpp-canvas--print-landscape", ctx_r1.printLayout() === "horizontal")("lpp-canvas--print-portrait", ctx_r1.printLayout() === "vertical");
+    \u0275\u0275classProp("lpp-canvas--print-landscape", ctx_r1.printLayout() === "horizontal")("lpp-canvas--print-portrait", ctx_r1.printLayout() === "vertical")("lpp-canvas--family", ctx_r1.isFamilyPack());
     \u0275\u0275advance();
-    \u0275\u0275property("qrImageUrl", ctx_r1.qrImageUrl())("code", ctx_r1.code())("variant", ctx_r1.embed())("layout", ctx_r1.printLayout());
+    \u0275\u0275conditional(ctx_r1.isFamilyPack() ? 23 : 24);
   }
 }
 var LabelPrintPreviewComponent = class _LabelPrintPreviewComponent {
@@ -48468,6 +50053,10 @@ var LabelPrintPreviewComponent = class _LabelPrintPreviewComponent {
   }
   publicId = toSignal(this.route.paramMap.pipe(map((p) => decodeURIComponent(p.get("publicId") ?? "").trim())), { initialValue: "" });
   embed = toSignal(this.route.queryParamMap.pipe(map((q) => (q.get("embed") ?? "activate").toLowerCase() === "scan" ? "scan" : "activate")), { initialValue: "activate" });
+  isFamilyPack = toSignal(this.route.paramMap.pipe(map((p) => decodeURIComponent(p.get("publicId") ?? "").trim()), switchMap((id) => this.qrService.scan(id).pipe(catchError(() => of(null)))), map((res) => {
+    const t = res?.productType?.toLowerCase() || "";
+    return t === "family" || t === "familypack" || t === "family pack";
+  })), { initialValue: false });
   qrImageUrl = computed(() => {
     const id = encodeURIComponent(this.publicId());
     const e = this.embed();
@@ -48483,14 +50072,14 @@ var LabelPrintPreviewComponent = class _LabelPrintPreviewComponent {
   static \u0275fac = function LabelPrintPreviewComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _LabelPrintPreviewComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LabelPrintPreviewComponent, selectors: [["app-label-print-preview"]], decls: 2, vars: 1, consts: [[1, "lpp-empty"], [1, "lpp-root"], ["routerLink", "/app/inventory"], [1, "lpp-toolbar", "no-print"], ["routerLink", "/app/inventory", 1, "lpp-back"], [1, "lpp-title-block"], [1, "lpp-title"], [1, "lpp-sub"], [1, "lpp-actions"], ["role", "group", "aria-label", "Sticker orientation", 1, "lpp-layout"], [1, "lpp-layout-label"], [1, "lpp-segment"], ["type", "button", 1, "lpp-segment__btn", 3, "click"], ["target", "_blank", "rel", "noopener", 1, "lpp-btn", "lpp-btn-primary", 3, "href"], ["type", "button", 1, "lpp-btn", "lpp-btn-ghost", 3, "click"], [1, "lpp-canvas"], [3, "qrImageUrl", "code", "variant", "layout"]], template: function LabelPrintPreviewComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LabelPrintPreviewComponent, selectors: [["app-label-print-preview"]], decls: 2, vars: 1, consts: [[1, "lpp-empty"], [1, "lpp-root"], ["routerLink", "/app/inventory"], [1, "lpp-toolbar", "no-print"], ["routerLink", "/app/inventory", 1, "lpp-back"], [1, "lpp-title-block"], [1, "lpp-title"], [1, "lpp-sub"], [1, "lpp-actions"], ["role", "group", "aria-label", "Sticker orientation", 1, "lpp-layout"], [1, "lpp-layout-label"], [1, "lpp-segment"], ["type", "button", 1, "lpp-segment__btn", 3, "click"], ["target", "_blank", "rel", "noopener", 1, "lpp-btn", "lpp-btn-primary", 3, "href"], ["type", "button", 1, "lpp-btn", "lpp-btn-ghost", 3, "click"], [1, "lpp-canvas"], [3, "qrImageUrl", "code", "variant", "layout"], ["layout", "horizontal", 3, "qrImageUrl", "code", "variant"], ["layout", "vertical", 3, "qrImageUrl", "code", "variant"]], template: function LabelPrintPreviewComponent_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275conditionalCreate(0, LabelPrintPreviewComponent_Conditional_0_Template, 5, 0, "div", 0)(1, LabelPrintPreviewComponent_Conditional_1_Template, 24, 15, "div", 1);
+      \u0275\u0275conditionalCreate(0, LabelPrintPreviewComponent_Conditional_0_Template, 5, 0, "div", 0)(1, LabelPrintPreviewComponent_Conditional_1_Template, 25, 14, "div", 1);
     }
     if (rf & 2) {
       \u0275\u0275conditional(ctx.publicId().length === 0 ? 0 : 1);
     }
-  }, dependencies: [CommonModule, RouterLink, CmnStickerLabelComponent], styles: ["\n\n.lpp-root[_ngcontent-%COMP%] {\n  min-height: 100%;\n  background: #e8e8e8;\n  box-sizing: border-box;\n}\n.lpp-toolbar[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: flex-start;\n  gap: 1rem 1.25rem;\n  padding: 1rem 1.25rem 1.25rem;\n  background: #f4f4f5;\n  border-bottom: 1px solid #e4e4e7;\n}\n.lpp-back[_ngcontent-%COMP%] {\n  color: #3b82f6;\n  font-weight: 600;\n  text-decoration: none;\n  font-size: 0.9rem;\n}\n.lpp-back[_ngcontent-%COMP%]:hover {\n  text-decoration: underline;\n}\n.lpp-title-block[_ngcontent-%COMP%] {\n  flex: 1 1 12rem;\n  min-width: 0;\n}\n.lpp-title[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: 800;\n  letter-spacing: -0.02em;\n  color: #18181b;\n}\n.lpp-sub[_ngcontent-%COMP%] {\n  margin: 0.25rem 0 0;\n  font-size: 0.8rem;\n  color: #71717a;\n  word-break: break-all;\n}\n.lpp-actions[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n  align-items: center;\n}\n.lpp-layout[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 0.35rem 0.5rem;\n  margin-right: 0.25rem;\n}\n.lpp-layout-label[_ngcontent-%COMP%] {\n  font-size: 0.7rem;\n  font-weight: 700;\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  color: #71717a;\n}\n.lpp-segment[_ngcontent-%COMP%] {\n  display: inline-flex;\n  border-radius: 0.5rem;\n  border: 1px solid #d4d4d8;\n  overflow: hidden;\n  background: #fff;\n}\n.lpp-segment__btn[_ngcontent-%COMP%] {\n  border: none;\n  background: transparent;\n  padding: 0.35rem 0.65rem;\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: #52525b;\n  cursor: pointer;\n}\n.lpp-segment__btn[_ngcontent-%COMP%]:hover {\n  background: #fafafa;\n}\n.lpp-segment__btn--on[_ngcontent-%COMP%] {\n  background: #18181b;\n  color: #fff;\n}\n.lpp-segment__btn--on[_ngcontent-%COMP%]:hover {\n  background: #27272a;\n}\n.lpp-btn[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0.5rem 1rem;\n  border-radius: 0.5rem;\n  font-size: 0.875rem;\n  font-weight: 600;\n  border: none;\n  cursor: pointer;\n  text-decoration: none;\n  box-sizing: border-box;\n}\n.lpp-btn-primary[_ngcontent-%COMP%] {\n  background: #18181b;\n  color: #fff;\n}\n.lpp-btn-primary[_ngcontent-%COMP%]:hover {\n  background: #27272a;\n}\n.lpp-btn-ghost[_ngcontent-%COMP%] {\n  background: #fff;\n  color: #18181b;\n  border: 1px solid #d4d4d8;\n}\n.lpp-btn-ghost[_ngcontent-%COMP%]:hover {\n  background: #fafafa;\n}\n.lpp-canvas[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  align-items: flex-start;\n  padding: 2rem 1rem 3rem;\n  min-height: calc(100vh - 5rem);\n}\n.lpp-empty[_ngcontent-%COMP%] {\n  padding: 2rem;\n  text-align: center;\n}\n.lpp-empty[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: #3b82f6;\n}\n@page cmnStickerLandscape {\n  size: A6 landscape;\n  margin: 10mm;\n}\n@page cmnStickerPortrait {\n  size: A6 portrait;\n  margin: 10mm;\n}\n@media print {\n  .no-print[_ngcontent-%COMP%] {\n    display: none !important;\n  }\n  .lpp-root[_ngcontent-%COMP%] {\n    background: #fff;\n  }\n  .lpp-canvas[_ngcontent-%COMP%] {\n    min-height: 0;\n    padding: 8mm;\n    align-items: center;\n  }\n  .lpp-canvas--print-landscape[_ngcontent-%COMP%] {\n    page: cmnStickerLandscape;\n  }\n  .lpp-canvas--print-portrait[_ngcontent-%COMP%] {\n    page: cmnStickerPortrait;\n  }\n}\n/*# sourceMappingURL=label-print-preview.component.css.map */"] });
+  }, dependencies: [CommonModule, RouterLink, CmnStickerLabelComponent], styles: ["\n\n.lpp-root[_ngcontent-%COMP%] {\n  min-height: 100%;\n  background: #e8e8e8;\n  box-sizing: border-box;\n}\n.lpp-toolbar[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: flex-start;\n  gap: 1rem 1.25rem;\n  padding: 1rem 1.25rem 1.25rem;\n  background: #f4f4f5;\n  border-bottom: 1px solid #e4e4e7;\n}\n.lpp-back[_ngcontent-%COMP%] {\n  color: #3b82f6;\n  font-weight: 600;\n  text-decoration: none;\n  font-size: 0.9rem;\n}\n.lpp-back[_ngcontent-%COMP%]:hover {\n  text-decoration: underline;\n}\n.lpp-title-block[_ngcontent-%COMP%] {\n  flex: 1 1 12rem;\n  min-width: 0;\n}\n.lpp-title[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: 800;\n  letter-spacing: -0.02em;\n  color: #18181b;\n}\n.lpp-sub[_ngcontent-%COMP%] {\n  margin: 0.25rem 0 0;\n  font-size: 0.8rem;\n  color: #71717a;\n  word-break: break-all;\n}\n.lpp-actions[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n  align-items: center;\n}\n.lpp-layout[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 0.35rem 0.5rem;\n  margin-right: 0.25rem;\n}\n.lpp-layout-label[_ngcontent-%COMP%] {\n  font-size: 0.7rem;\n  font-weight: 700;\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  color: #71717a;\n}\n.lpp-segment[_ngcontent-%COMP%] {\n  display: inline-flex;\n  border-radius: 0.5rem;\n  border: 1px solid #d4d4d8;\n  overflow: hidden;\n  background: #fff;\n}\n.lpp-segment__btn[_ngcontent-%COMP%] {\n  border: none;\n  background: transparent;\n  padding: 0.35rem 0.65rem;\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: #52525b;\n  cursor: pointer;\n}\n.lpp-segment__btn[_ngcontent-%COMP%]:hover {\n  background: #fafafa;\n}\n.lpp-segment__btn--on[_ngcontent-%COMP%] {\n  background: #18181b;\n  color: #fff;\n}\n.lpp-segment__btn--on[_ngcontent-%COMP%]:hover {\n  background: #27272a;\n}\n.lpp-btn[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0.5rem 1rem;\n  border-radius: 0.5rem;\n  font-size: 0.875rem;\n  font-weight: 600;\n  border: none;\n  cursor: pointer;\n  text-decoration: none;\n  box-sizing: border-box;\n}\n.lpp-btn-primary[_ngcontent-%COMP%] {\n  background: #18181b;\n  color: #fff;\n}\n.lpp-btn-primary[_ngcontent-%COMP%]:hover {\n  background: #27272a;\n}\n.lpp-btn-ghost[_ngcontent-%COMP%] {\n  background: #fff;\n  color: #18181b;\n  border: 1px solid #d4d4d8;\n}\n.lpp-btn-ghost[_ngcontent-%COMP%]:hover {\n  background: #fafafa;\n}\n.lpp-canvas[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  align-items: flex-start;\n  padding: 2rem 1rem 3rem;\n  min-height: calc(100vh - 5rem);\n}\n.lpp-empty[_ngcontent-%COMP%] {\n  padding: 2rem;\n  text-align: center;\n}\n.lpp-empty[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: #3b82f6;\n}\n@page cmnStickerLandscape {\n  size: A6 landscape;\n  margin: 10mm;\n}\n@page cmnStickerPortrait {\n  size: A6 portrait;\n  margin: 10mm;\n}\n@media print {\n  .no-print[_ngcontent-%COMP%] {\n    display: none !important;\n  }\n  .lpp-root[_ngcontent-%COMP%] {\n    background: #fff;\n  }\n  .lpp-canvas[_ngcontent-%COMP%] {\n    min-height: 0;\n    padding: 8mm;\n    align-items: center;\n  }\n  .lpp-canvas--print-landscape[_ngcontent-%COMP%] {\n    page: cmnStickerLandscape;\n  }\n  .lpp-canvas--print-portrait[_ngcontent-%COMP%] {\n    page: cmnStickerPortrait;\n  }\n  .lpp-canvas--family[_ngcontent-%COMP%] {\n    flex-direction: column;\n    gap: 10mm;\n    page: cmnStickerPortrait;\n  }\n}\n.lpp-canvas--family[_ngcontent-%COMP%] {\n  flex-direction: column;\n  gap: 2rem;\n  align-items: center;\n}\n/*# sourceMappingURL=label-print-preview.component.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LabelPrintPreviewComponent, [{
@@ -48539,12 +50128,18 @@ var LabelPrintPreviewComponent = class _LabelPrintPreviewComponent {
       class="lpp-canvas"
       [class.lpp-canvas--print-landscape]="printLayout() === 'horizontal'"
       [class.lpp-canvas--print-portrait]="printLayout() === 'vertical'"
+      [class.lpp-canvas--family]="isFamilyPack()"
     >
-      <app-cmn-sticker-label [qrImageUrl]="qrImageUrl()" [code]="code()" [variant]="embed()" [layout]="printLayout()" />
+      @if (isFamilyPack()) {
+        <app-cmn-sticker-label [qrImageUrl]="qrImageUrl()" [code]="code()" [variant]="embed()" layout="horizontal" />
+        <app-cmn-sticker-label [qrImageUrl]="qrImageUrl()" [code]="code()" [variant]="embed()" layout="vertical" />
+      } @else {
+        <app-cmn-sticker-label [qrImageUrl]="qrImageUrl()" [code]="code()" [variant]="embed()" [layout]="printLayout()" />
+      }
     </main>
   </div>
 }
-`, styles: ["/* src/app/components/label-print-preview/label-print-preview.component.css */\n.lpp-root {\n  min-height: 100%;\n  background: #e8e8e8;\n  box-sizing: border-box;\n}\n.lpp-toolbar {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: flex-start;\n  gap: 1rem 1.25rem;\n  padding: 1rem 1.25rem 1.25rem;\n  background: #f4f4f5;\n  border-bottom: 1px solid #e4e4e7;\n}\n.lpp-back {\n  color: #3b82f6;\n  font-weight: 600;\n  text-decoration: none;\n  font-size: 0.9rem;\n}\n.lpp-back:hover {\n  text-decoration: underline;\n}\n.lpp-title-block {\n  flex: 1 1 12rem;\n  min-width: 0;\n}\n.lpp-title {\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: 800;\n  letter-spacing: -0.02em;\n  color: #18181b;\n}\n.lpp-sub {\n  margin: 0.25rem 0 0;\n  font-size: 0.8rem;\n  color: #71717a;\n  word-break: break-all;\n}\n.lpp-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n  align-items: center;\n}\n.lpp-layout {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 0.35rem 0.5rem;\n  margin-right: 0.25rem;\n}\n.lpp-layout-label {\n  font-size: 0.7rem;\n  font-weight: 700;\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  color: #71717a;\n}\n.lpp-segment {\n  display: inline-flex;\n  border-radius: 0.5rem;\n  border: 1px solid #d4d4d8;\n  overflow: hidden;\n  background: #fff;\n}\n.lpp-segment__btn {\n  border: none;\n  background: transparent;\n  padding: 0.35rem 0.65rem;\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: #52525b;\n  cursor: pointer;\n}\n.lpp-segment__btn:hover {\n  background: #fafafa;\n}\n.lpp-segment__btn--on {\n  background: #18181b;\n  color: #fff;\n}\n.lpp-segment__btn--on:hover {\n  background: #27272a;\n}\n.lpp-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0.5rem 1rem;\n  border-radius: 0.5rem;\n  font-size: 0.875rem;\n  font-weight: 600;\n  border: none;\n  cursor: pointer;\n  text-decoration: none;\n  box-sizing: border-box;\n}\n.lpp-btn-primary {\n  background: #18181b;\n  color: #fff;\n}\n.lpp-btn-primary:hover {\n  background: #27272a;\n}\n.lpp-btn-ghost {\n  background: #fff;\n  color: #18181b;\n  border: 1px solid #d4d4d8;\n}\n.lpp-btn-ghost:hover {\n  background: #fafafa;\n}\n.lpp-canvas {\n  display: flex;\n  justify-content: center;\n  align-items: flex-start;\n  padding: 2rem 1rem 3rem;\n  min-height: calc(100vh - 5rem);\n}\n.lpp-empty {\n  padding: 2rem;\n  text-align: center;\n}\n.lpp-empty a {\n  color: #3b82f6;\n}\n@page cmnStickerLandscape {\n  size: A6 landscape;\n  margin: 10mm;\n}\n@page cmnStickerPortrait {\n  size: A6 portrait;\n  margin: 10mm;\n}\n@media print {\n  .no-print {\n    display: none !important;\n  }\n  .lpp-root {\n    background: #fff;\n  }\n  .lpp-canvas {\n    min-height: 0;\n    padding: 8mm;\n    align-items: center;\n  }\n  .lpp-canvas--print-landscape {\n    page: cmnStickerLandscape;\n  }\n  .lpp-canvas--print-portrait {\n    page: cmnStickerPortrait;\n  }\n}\n/*# sourceMappingURL=label-print-preview.component.css.map */\n"] }]
+`, styles: ["/* src/app/components/label-print-preview/label-print-preview.component.css */\n.lpp-root {\n  min-height: 100%;\n  background: #e8e8e8;\n  box-sizing: border-box;\n}\n.lpp-toolbar {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: flex-start;\n  gap: 1rem 1.25rem;\n  padding: 1rem 1.25rem 1.25rem;\n  background: #f4f4f5;\n  border-bottom: 1px solid #e4e4e7;\n}\n.lpp-back {\n  color: #3b82f6;\n  font-weight: 600;\n  text-decoration: none;\n  font-size: 0.9rem;\n}\n.lpp-back:hover {\n  text-decoration: underline;\n}\n.lpp-title-block {\n  flex: 1 1 12rem;\n  min-width: 0;\n}\n.lpp-title {\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: 800;\n  letter-spacing: -0.02em;\n  color: #18181b;\n}\n.lpp-sub {\n  margin: 0.25rem 0 0;\n  font-size: 0.8rem;\n  color: #71717a;\n  word-break: break-all;\n}\n.lpp-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n  align-items: center;\n}\n.lpp-layout {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 0.35rem 0.5rem;\n  margin-right: 0.25rem;\n}\n.lpp-layout-label {\n  font-size: 0.7rem;\n  font-weight: 700;\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  color: #71717a;\n}\n.lpp-segment {\n  display: inline-flex;\n  border-radius: 0.5rem;\n  border: 1px solid #d4d4d8;\n  overflow: hidden;\n  background: #fff;\n}\n.lpp-segment__btn {\n  border: none;\n  background: transparent;\n  padding: 0.35rem 0.65rem;\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: #52525b;\n  cursor: pointer;\n}\n.lpp-segment__btn:hover {\n  background: #fafafa;\n}\n.lpp-segment__btn--on {\n  background: #18181b;\n  color: #fff;\n}\n.lpp-segment__btn--on:hover {\n  background: #27272a;\n}\n.lpp-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0.5rem 1rem;\n  border-radius: 0.5rem;\n  font-size: 0.875rem;\n  font-weight: 600;\n  border: none;\n  cursor: pointer;\n  text-decoration: none;\n  box-sizing: border-box;\n}\n.lpp-btn-primary {\n  background: #18181b;\n  color: #fff;\n}\n.lpp-btn-primary:hover {\n  background: #27272a;\n}\n.lpp-btn-ghost {\n  background: #fff;\n  color: #18181b;\n  border: 1px solid #d4d4d8;\n}\n.lpp-btn-ghost:hover {\n  background: #fafafa;\n}\n.lpp-canvas {\n  display: flex;\n  justify-content: center;\n  align-items: flex-start;\n  padding: 2rem 1rem 3rem;\n  min-height: calc(100vh - 5rem);\n}\n.lpp-empty {\n  padding: 2rem;\n  text-align: center;\n}\n.lpp-empty a {\n  color: #3b82f6;\n}\n@page cmnStickerLandscape {\n  size: A6 landscape;\n  margin: 10mm;\n}\n@page cmnStickerPortrait {\n  size: A6 portrait;\n  margin: 10mm;\n}\n@media print {\n  .no-print {\n    display: none !important;\n  }\n  .lpp-root {\n    background: #fff;\n  }\n  .lpp-canvas {\n    min-height: 0;\n    padding: 8mm;\n    align-items: center;\n  }\n  .lpp-canvas--print-landscape {\n    page: cmnStickerLandscape;\n  }\n  .lpp-canvas--print-portrait {\n    page: cmnStickerPortrait;\n  }\n  .lpp-canvas--family {\n    flex-direction: column;\n    gap: 10mm;\n    page: cmnStickerPortrait;\n  }\n}\n.lpp-canvas--family {\n  flex-direction: column;\n  gap: 2rem;\n  align-items: center;\n}\n/*# sourceMappingURL=label-print-preview.component.css.map */\n"] }]
   }], null, null);
 })();
 (() => {
@@ -48584,7 +50179,7 @@ function PublicShellComponent_Conditional_22_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.onMobileNavClick());
     });
-    \u0275\u0275text(4, "Product");
+    \u0275\u0275text(4, "Buy sticker");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(5, "a", 40);
     \u0275\u0275listener("click", function PublicShellComponent_Conditional_22_Template_a_click_5_listener() {
@@ -48592,7 +50187,7 @@ function PublicShellComponent_Conditional_22_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.onMobileNavClick());
     });
-    \u0275\u0275text(6, "About");
+    \u0275\u0275text(6, "Product");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(7, "a", 41);
     \u0275\u0275listener("click", function PublicShellComponent_Conditional_22_Template_a_click_7_listener() {
@@ -48600,15 +50195,23 @@ function PublicShellComponent_Conditional_22_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.onMobileNavClick());
     });
-    \u0275\u0275text(8, "Contact");
+    \u0275\u0275text(8, "About");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "a", 35);
+    \u0275\u0275elementStart(9, "a", 42);
     \u0275\u0275listener("click", function PublicShellComponent_Conditional_22_Template_a_click_9_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.onMobileNavClick());
     });
-    \u0275\u0275text(10, "Partner login");
+    \u0275\u0275text(10, "Contact");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(11, "a", 35);
+    \u0275\u0275listener("click", function PublicShellComponent_Conditional_22_Template_a_click_11_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onMobileNavClick());
+    });
+    \u0275\u0275text(12, "Partner login");
     \u0275\u0275elementEnd()();
   }
 }
@@ -48642,7 +50245,7 @@ var PublicShellComponent = class _PublicShellComponent {
   static \u0275fac = function PublicShellComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _PublicShellComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _PublicShellComponent, selectors: [["app-public-shell"]], decls: 70, vars: 5, consts: [[1, "mpub-wrap"], [1, "mpub-header"], [1, "mpub-header-inner"], ["routerLink", "/", 1, "mpub-logo", 3, "click"], ["src", "/assets/marketing/callmenow-logo.png", "width", "200", "height", "48", "alt", "CallMeNow", 1, "mpub-logo-img"], ["aria-label", "Primary", 1, "mpub-nav"], ["routerLink", "/", "routerLinkActive", "mpub-active", 3, "routerLinkActiveOptions"], ["routerLink", "/product", "routerLinkActive", "mpub-active"], ["routerLink", "/about", "routerLinkActive", "mpub-active"], ["routerLink", "/contact", "routerLinkActive", "mpub-active"], [1, "mpub-header-cta"], ["routerLink", "/login", 1, "mpub-btn-ghost", 3, "click"], ["routerLink", "/product", 1, "mpub-btn-primary", 3, "click"], ["type", "button", "aria-label", "Menu", 1, "mpub-burger", 3, "click"], ["aria-hidden", "true"], ["aria-label", "Mobile", 1, "mpub-mobile-nav"], [1, "mpub-main"], [1, "mpub-footer"], [1, "mpub-footer-inner"], [1, "mpub-footer-brand"], [1, "mpub-footer-brand-teal"], [1, "mpub-footer-brand-terra"], ["routerLink", "/"], ["routerLink", "/product"], ["routerLink", "/about"], ["routerLink", "/contact"], [1, "mpub-footer-contact"], ["href", "mailto:support@callmenow.in"], ["href", "tel:+919814667274"], ["href", "https://wa.me/919814667274", "target", "_blank", "rel", "noopener noreferrer"], [1, "mpub-footer-address"], ["routerLink", "/privacy", 3, "click"], ["routerLink", "/terms", 3, "click"], ["routerLink", "/refund", 3, "click"], ["routerLink", "/shipping", 3, "click"], ["routerLink", "/login", 3, "click"], ["routerLink", "/app/dashboard", 3, "click"], [1, "mpub-foot-note"], ["routerLink", "/", 3, "click"], ["routerLink", "/product", 3, "click"], ["routerLink", "/about", 3, "click"], ["routerLink", "/contact", 3, "click"]], template: function PublicShellComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _PublicShellComponent, selectors: [["app-public-shell"]], decls: 70, vars: 5, consts: [[1, "mpub-wrap"], [1, "mpub-header"], [1, "mpub-header-inner"], ["routerLink", "/", 1, "mpub-logo", 3, "click"], ["src", "/assets/marketing/callmenow-logo.png", "width", "200", "height", "48", "alt", "CallMeNow", 1, "mpub-logo-img"], ["aria-label", "Primary", 1, "mpub-nav"], ["routerLink", "/", "routerLinkActive", "mpub-active", 3, "routerLinkActiveOptions"], ["routerLink", "/product", "routerLinkActive", "mpub-active"], ["routerLink", "/about", "routerLinkActive", "mpub-active"], ["routerLink", "/contact", "routerLinkActive", "mpub-active"], [1, "mpub-header-cta"], ["routerLink", "/login", 1, "mpub-btn-ghost", 3, "click"], ["routerLink", "/shop", "routerLinkActive", "mpub-shop-active", 1, "mpub-btn-primary", 3, "click"], ["type", "button", "aria-label", "Menu", 1, "mpub-burger", 3, "click"], ["aria-hidden", "true"], ["aria-label", "Mobile", 1, "mpub-mobile-nav"], [1, "mpub-main"], [1, "mpub-footer"], [1, "mpub-footer-inner"], [1, "mpub-footer-brand"], [1, "mpub-footer-brand-teal"], [1, "mpub-footer-brand-terra"], ["routerLink", "/"], ["routerLink", "/product"], ["routerLink", "/about"], ["routerLink", "/contact"], [1, "mpub-footer-contact"], ["href", "mailto:support@callmenow.in"], ["href", "tel:+919814667274"], ["href", "https://wa.me/919814667274", "target", "_blank", "rel", "noopener noreferrer"], [1, "mpub-footer-address"], ["routerLink", "/privacy", 3, "click"], ["routerLink", "/terms", 3, "click"], ["routerLink", "/refund", 3, "click"], ["routerLink", "/shipping", 3, "click"], ["routerLink", "/login", 3, "click"], ["routerLink", "/app/dashboard", 3, "click"], [1, "mpub-foot-note"], ["routerLink", "/", 3, "click"], ["routerLink", "/shop", "routerLinkActive", "mpub-active", 2, "font-weight", "800", "color", "var(--cmn-pub-terra)", 3, "click"], ["routerLink", "/product", 3, "click"], ["routerLink", "/about", 3, "click"], ["routerLink", "/contact", 3, "click"]], template: function PublicShellComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "div", 2)(3, "a", 3);
       \u0275\u0275listener("click", function PublicShellComponent_Template_a_click_3_listener() {
@@ -48680,7 +50283,7 @@ var PublicShellComponent = class _PublicShellComponent {
       });
       \u0275\u0275conditionalCreate(20, PublicShellComponent_Conditional_20_Template, 2, 0, "span", 14)(21, PublicShellComponent_Conditional_21_Template, 2, 0, "span", 14);
       \u0275\u0275elementEnd()()();
-      \u0275\u0275conditionalCreate(22, PublicShellComponent_Conditional_22_Template, 11, 0, "nav", 15);
+      \u0275\u0275conditionalCreate(22, PublicShellComponent_Conditional_22_Template, 13, 0, "nav", 15);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(23, "main", 16);
       \u0275\u0275element(24, "router-outlet");
@@ -48776,7 +50379,7 @@ var PublicShellComponent = class _PublicShellComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PublicShellComponent, [{
     type: Component,
-    args: [{ selector: "app-public-shell", standalone: true, imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive], template: '<div class="mpub-wrap">\n  <header class="mpub-header">\n    <div class="mpub-header-inner">\n      <a routerLink="/" class="mpub-logo" (click)="onLogoClick()">\n        <img\n          src="/assets/marketing/callmenow-logo.png"\n          width="200"\n          height="48"\n          alt="CallMeNow"\n          class="mpub-logo-img"\n        />\n      </a>\n      <nav class="mpub-nav" aria-label="Primary">\n        <a routerLink="/" routerLinkActive="mpub-active" [routerLinkActiveOptions]="{ exact: true }">Home</a>\n        <a routerLink="/product" routerLinkActive="mpub-active">Product</a>\n        <a routerLink="/about" routerLinkActive="mpub-active">About</a>\n        <a routerLink="/contact" routerLinkActive="mpub-active">Contact</a>\n      </nav>\n      <div class="mpub-header-cta">\n        <a routerLink="/login" class="mpub-btn-ghost" (click)="onPublicNavClick()">Partner login</a>\n        <a routerLink="/product" class="mpub-btn-primary" (click)="onPublicNavClick()">Buy sticker</a>\n        <button type="button" class="mpub-burger" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen()" aria-label="Menu">\n          @if (menuOpen()) {\n          <span aria-hidden="true">\u2715</span>\n          } @else {\n          <span aria-hidden="true">\u2630</span>\n          }\n        </button>\n      </div>\n    </div>\n    @if (menuOpen()) {\n    <nav class="mpub-mobile-nav" aria-label="Mobile">\n      <a routerLink="/" (click)="onMobileNavClick()">Home</a>\n      <a routerLink="/product" (click)="onMobileNavClick()">Product</a>\n      <a routerLink="/about" (click)="onMobileNavClick()">About</a>\n      <a routerLink="/contact" (click)="onMobileNavClick()">Contact</a>\n      <a routerLink="/login" (click)="onMobileNavClick()">Partner login</a>\n    </nav>\n    }\n  </header>\n\n  <main class="mpub-main">\n    <router-outlet />\n  </main>\n\n  <footer class="mpub-footer">\n    <div class="mpub-footer-inner">\n      <div>\n        <p class="mpub-footer-brand">\n          <span class="mpub-footer-brand-teal">CallMe</span><span class="mpub-footer-brand-terra">Now</span>\n        </p>\n        <a routerLink="/">Home</a>\n        <a routerLink="/product">Product &amp; pricing</a>\n        <a routerLink="/about">About</a>\n        <a routerLink="/contact">Contact</a>\n        <div class="mpub-footer-contact">\n          <a href="mailto:support@callmenow.in">Support@callmenow.in</a>\n          <a href="tel:+919814667274">+91 98146 67274</a>\n          <a href="https://wa.me/919814667274" target="_blank" rel="noopener noreferrer">WhatsApp</a>\n          <p class="mpub-footer-address">Plot no. 35, New Timber Market, Sector 26, Chandigarh</p>\n        </div>\n      </div>\n      <div>\n        <h3>Legal</h3>\n        <a routerLink="/privacy" (click)="onPublicNavClick()">Privacy Policy</a>\n        <a routerLink="/terms" (click)="onPublicNavClick()">Terms &amp; Conditions</a>\n        <a routerLink="/refund" (click)="onPublicNavClick()">Refund Policy</a>\n        <a routerLink="/shipping" (click)="onPublicNavClick()">Shipping Policy</a>\n      </div>\n      <div>\n        <h3>Merchants</h3>\n        <a routerLink="/login" (click)="onPublicNavClick()">Partner login</a>\n        <a routerLink="/app/dashboard" (click)="onPublicNavClick()">Dashboard</a>\n      </div>\n    </div>\n    <p class="mpub-foot-note">Replace legal pages with counsel-reviewed text before Razorpay / ads compliance.</p>\n  </footer>\n</div>\n' }]
+    args: [{ selector: "app-public-shell", standalone: true, imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive], template: '<div class="mpub-wrap">\n  <header class="mpub-header">\n    <div class="mpub-header-inner">\n      <a routerLink="/" class="mpub-logo" (click)="onLogoClick()">\n        <img\n          src="/assets/marketing/callmenow-logo.png"\n          width="200"\n          height="48"\n          alt="CallMeNow"\n          class="mpub-logo-img"\n        />\n      </a>\n      <nav class="mpub-nav" aria-label="Primary">\n        <a routerLink="/" routerLinkActive="mpub-active" [routerLinkActiveOptions]="{ exact: true }">Home</a>\n        <a routerLink="/product" routerLinkActive="mpub-active">Product</a>\n        <a routerLink="/about" routerLinkActive="mpub-active">About</a>\n        <a routerLink="/contact" routerLinkActive="mpub-active">Contact</a>\n      </nav>\n      <div class="mpub-header-cta">\n        <a routerLink="/login" class="mpub-btn-ghost" (click)="onPublicNavClick()">Partner login</a>\n        <a routerLink="/shop" routerLinkActive="mpub-shop-active" class="mpub-btn-primary" (click)="onPublicNavClick()">Buy sticker</a>\n        <button type="button" class="mpub-burger" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen()" aria-label="Menu">\n          @if (menuOpen()) {\n          <span aria-hidden="true">\u2715</span>\n          } @else {\n          <span aria-hidden="true">\u2630</span>\n          }\n        </button>\n      </div>\n    </div>\n    @if (menuOpen()) {\n    <nav class="mpub-mobile-nav" aria-label="Mobile">\n      <a routerLink="/" (click)="onMobileNavClick()">Home</a>\n      <a routerLink="/shop" (click)="onMobileNavClick()" routerLinkActive="mpub-active" style="font-weight: 800; color: var(--cmn-pub-terra)">Buy sticker</a>\n      <a routerLink="/product" (click)="onMobileNavClick()">Product</a>\n      <a routerLink="/about" (click)="onMobileNavClick()">About</a>\n      <a routerLink="/contact" (click)="onMobileNavClick()">Contact</a>\n      <a routerLink="/login" (click)="onMobileNavClick()">Partner login</a>\n    </nav>\n    }\n  </header>\n\n  <main class="mpub-main">\n    <router-outlet />\n  </main>\n\n  <footer class="mpub-footer">\n    <div class="mpub-footer-inner">\n      <div>\n        <p class="mpub-footer-brand">\n          <span class="mpub-footer-brand-teal">CallMe</span><span class="mpub-footer-brand-terra">Now</span>\n        </p>\n        <a routerLink="/">Home</a>\n        <a routerLink="/product">Product &amp; pricing</a>\n        <a routerLink="/about">About</a>\n        <a routerLink="/contact">Contact</a>\n        <div class="mpub-footer-contact">\n          <a href="mailto:support@callmenow.in">Support@callmenow.in</a>\n          <a href="tel:+919814667274">+91 98146 67274</a>\n          <a href="https://wa.me/919814667274" target="_blank" rel="noopener noreferrer">WhatsApp</a>\n          <p class="mpub-footer-address">Plot no. 35, New Timber Market, Sector 26, Chandigarh</p>\n        </div>\n      </div>\n      <div>\n        <h3>Legal</h3>\n        <a routerLink="/privacy" (click)="onPublicNavClick()">Privacy Policy</a>\n        <a routerLink="/terms" (click)="onPublicNavClick()">Terms &amp; Conditions</a>\n        <a routerLink="/refund" (click)="onPublicNavClick()">Refund Policy</a>\n        <a routerLink="/shipping" (click)="onPublicNavClick()">Shipping Policy</a>\n      </div>\n      <div>\n        <h3>Merchants</h3>\n        <a routerLink="/login" (click)="onPublicNavClick()">Partner login</a>\n        <a routerLink="/app/dashboard" (click)="onPublicNavClick()">Dashboard</a>\n      </div>\n    </div>\n    <p class="mpub-foot-note">Replace legal pages with counsel-reviewed text before Razorpay / ads compliance.</p>\n  </footer>\n</div>\n' }]
   }], null, null);
 })();
 (() => {
@@ -48900,7 +50503,7 @@ var HomePageComponent = class _HomePageComponent {
   static \u0275fac = function HomePageComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _HomePageComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HomePageComponent, selectors: [["app-home-page"]], decls: 178, vars: 1, consts: [[1, "mpub-hero-band"], ["aria-hidden", "true", 1, "mpub-hero-blobs"], [1, "mpub-hero", "mpub-container"], [1, "mpub-hero-copy"], [1, "mpub-hero-lead"], [1, "mpub-kicker", "mpub-hero-kicker"], [1, "mpub-head-gradient"], [1, "mpub-hero-lede"], [1, "mpub-hero-cta"], ["routerLink", "/product", 1, "mpub-btn-primary", "mpub-btn-lg"], ["routerLink", "/login", 1, "mpub-btn-ghost", "mpub-btn-lg"], [1, "mpub-hero-stats"], [1, "mpub-hero-stat"], ["aria-hidden", "true", 1, "mpub-hero-stat-ico"], [1, "mpub-hero-stat-copy"], [1, "mpub-hero-visual"], ["aria-hidden", "true", 1, "mpub-visual-glow"], [1, "mpub-visual-card", "mpub-hero-carousel-wrap"], ["role", "region", "aria-roledescription", "carousel", "aria-label", "CallMeNow on real vehicles", 1, "mpub-hero-carousel"], ["width", "1600", "height", "900", "loading", "eager", "decoding", "async", 1, "mpub-hero-slide", 3, "mpub-hero-slide--active", "src", "alt"], [1, "mpub-hero-carousel-ui"], ["type", "button", "aria-label", "Previous slide", 1, "mpub-hero-carousel-btn", 3, "click"], ["type", "button", "aria-label", "Next slide", 1, "mpub-hero-carousel-btn", 3, "click"], ["role", "tablist", "aria-label", "Choose slide", 1, "mpub-hero-dots"], ["type", "button", "role", "tab", 1, "mpub-hero-dot", 3, "mpub-hero-dot--active"], [1, "mpub-section", "mpub-section--cream"], [1, "mpub-container"], [1, "mpub-kicker"], [1, "mpub-muted"], [1, "mpub-steps"], [1, "mpub-step"], [1, "mpub-step-num"], [1, "mpub-section"], [1, "mpub-grid-2"], [1, "mpub-pain"], [1, "mpub-muted", "mpub-pain-footer"], [1, "mpub-features"], ["aria-hidden", "true", 1, "ico"], ["id", "product", 1, "mpub-section", "mpub-section--spotlight"], [1, "mpub-product-card", "mpub-product-card--lift"], [1, "mpub-product-visual"], ["width", "1600", "height", "900", "alt", "CallMeNow QR sticker on vehicle glass \u2014 real-world look", "loading", "lazy", "decoding", "async", 3, "src"], [1, "mpub-price"], [1, "mpub-price-note"], [1, "mpub-muted", "mpub-product-blurb"], [1, "mpub-hero-cta", "mpub-product-cta"], ["routerLink", "/product", 1, "mpub-btn-primary"], [1, "mpub-section", "mpub-section--dark"], [1, "mpub-grid-2", "mpub-testimonial-grid"], [1, "mpub-testimonial"], [1, "mpub-muted", "mpub-trust-line"], [1, "mpub-cta-band", "mpub-section--cream", "mpub-cta-band--pop"], [1, "mpub-muted", "mpub-cta-lede"], [1, "mpub-hero-cta", "mpub-cta-center"], ["routerLink", "/contact", 1, "mpub-btn-ghost", "mpub-btn-lg"], ["width", "1600", "height", "900", "loading", "eager", "decoding", "async", 1, "mpub-hero-slide", 3, "src", "alt"], ["type", "button", "role", "tab", 1, "mpub-hero-dot", 3, "click"]], template: function HomePageComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HomePageComponent, selectors: [["app-home-page"]], decls: 178, vars: 1, consts: [[1, "mpub-hero-band"], ["aria-hidden", "true", 1, "mpub-hero-blobs"], [1, "mpub-hero", "mpub-container"], [1, "mpub-hero-copy"], [1, "mpub-hero-lead"], [1, "mpub-kicker", "mpub-hero-kicker"], [1, "mpub-head-gradient"], [1, "mpub-hero-lede"], [1, "mpub-hero-cta"], ["routerLink", "/shop", 1, "mpub-btn-primary", "mpub-btn-lg"], ["routerLink", "/login", 1, "mpub-btn-ghost", "mpub-btn-lg"], [1, "mpub-hero-stats"], [1, "mpub-hero-stat"], ["aria-hidden", "true", 1, "mpub-hero-stat-ico"], [1, "mpub-hero-stat-copy"], [1, "mpub-hero-visual"], ["aria-hidden", "true", 1, "mpub-visual-glow"], [1, "mpub-visual-card", "mpub-hero-carousel-wrap"], ["role", "region", "aria-roledescription", "carousel", "aria-label", "CallMeNow on real vehicles", 1, "mpub-hero-carousel"], ["width", "1600", "height", "900", "loading", "eager", "decoding", "async", 1, "mpub-hero-slide", 3, "mpub-hero-slide--active", "src", "alt"], [1, "mpub-hero-carousel-ui"], ["type", "button", "aria-label", "Previous slide", 1, "mpub-hero-carousel-btn", 3, "click"], ["type", "button", "aria-label", "Next slide", 1, "mpub-hero-carousel-btn", 3, "click"], ["role", "tablist", "aria-label", "Choose slide", 1, "mpub-hero-dots"], ["type", "button", "role", "tab", 1, "mpub-hero-dot", 3, "mpub-hero-dot--active"], [1, "mpub-section", "mpub-section--cream"], [1, "mpub-container"], [1, "mpub-kicker"], [1, "mpub-muted"], [1, "mpub-steps"], [1, "mpub-step"], [1, "mpub-step-num"], [1, "mpub-section"], [1, "mpub-grid-2"], [1, "mpub-pain"], [1, "mpub-muted", "mpub-pain-footer"], [1, "mpub-features"], ["aria-hidden", "true", 1, "ico"], ["id", "product", 1, "mpub-section", "mpub-section--spotlight"], [1, "mpub-product-card", "mpub-product-card--lift"], [1, "mpub-product-visual"], ["width", "1600", "height", "900", "alt", "CallMeNow QR sticker on vehicle glass \u2014 real-world look", "loading", "lazy", "decoding", "async", 3, "src"], [1, "mpub-price"], [1, "mpub-price-note"], [1, "mpub-muted", "mpub-product-blurb"], [1, "mpub-hero-cta", "mpub-product-cta"], ["routerLink", "/product", 1, "mpub-btn-primary"], [1, "mpub-section", "mpub-section--dark"], [1, "mpub-grid-2", "mpub-testimonial-grid"], [1, "mpub-testimonial"], [1, "mpub-muted", "mpub-trust-line"], [1, "mpub-cta-band", "mpub-section--cream", "mpub-cta-band--pop"], [1, "mpub-muted", "mpub-cta-lede"], [1, "mpub-hero-cta", "mpub-cta-center"], ["routerLink", "/contact", 1, "mpub-btn-ghost", "mpub-btn-lg"], ["width", "1600", "height", "900", "loading", "eager", "decoding", "async", 1, "mpub-hero-slide", 3, "src", "alt"], ["type", "button", "role", "tab", 1, "mpub-hero-dot", 3, "click"]], template: function HomePageComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "section", 0);
       \u0275\u0275element(1, "div", 1);
@@ -49136,7 +50739,7 @@ var HomePageComponent = class _HomePageComponent {
         </p>\r
       </div>\r
       <div class="mpub-hero-cta">\r
-        <a routerLink="/product" class="mpub-btn-primary mpub-btn-lg">Buy sticker</a>\r
+        <a routerLink="/shop" class="mpub-btn-primary mpub-btn-lg">Buy sticker</a>\r
         <a routerLink="/login" class="mpub-btn-ghost mpub-btn-lg">Partner login</a>\r
       </div>\r
       <div class="mpub-hero-stats">\r
@@ -49316,7 +50919,7 @@ var HomePageComponent = class _HomePageComponent {
     <h2>Ready when you are</h2>\r
     <p class="mpub-muted mpub-cta-lede">Get a sticker, activate, and make your vehicle reachable the smart way.</p>\r
     <div class="mpub-hero-cta mpub-cta-center">\r
-      <a routerLink="/product" class="mpub-btn-primary mpub-btn-lg">Buy sticker</a>\r
+      <a routerLink="/shop" class="mpub-btn-primary mpub-btn-lg">Buy sticker</a>\r
       <a routerLink="/contact" class="mpub-btn-ghost mpub-btn-lg">Talk to us</a>\r
     </div>\r
   </div>\r
@@ -49333,7 +50936,7 @@ var ProductPageComponent = class _ProductPageComponent {
   static \u0275fac = function ProductPageComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ProductPageComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ProductPageComponent, selectors: [["app-product-page"]], decls: 65, vars: 0, consts: [[1, "mpub-section", 2, "padding-top", "2rem"], [1, "mpub-container"], [1, "mpub-kicker"], [1, "mpub-page-title"], [1, "mpub-muted", "mpub-prose"], [1, "mpub-product-card", 2, "margin-top", "2rem"], [1, "mpub-product-qr-showcase"], [1, "mpub-product-qr-frame"], ["aria-hidden", "true", 1, "mpub-qr-finder", "mpub-qr-finder--tl"], ["aria-hidden", "true", 1, "mpub-qr-finder", "mpub-qr-finder--tr"], ["aria-hidden", "true", 1, "mpub-qr-finder", "mpub-qr-finder--bl"], ["aria-hidden", "true", 1, "mpub-product-qr-scanline"], ["src", "/marketing/hero-vehicle-qr.png", "width", "1600", "height", "900", "alt", "CallMeNow vehicle QR sticker on windshield \u2014 premium finish", "loading", "eager", "decoding", "async", 1, "mpub-product-page-img", "mpub-product-qr-img"], [1, "mpub-product-qr-caption"], [2, "font-family", "Fraunces, Georgia, serif", "font-size", "1.35rem", "margin", "0 0 0.5rem", "color", "var(--cmn-pub-teal-d)"], [1, "mpub-features", 2, "display", "block", "margin-top", "0"], ["aria-hidden", "true", 1, "ico"], [1, "mpub-price", 2, "margin-top", "1.25rem"], [1, "mpub-price-note"], [1, "mpub-hero-cta", 2, "margin-top", "1.25rem"], ["routerLink", "/login", 1, "mpub-btn-primary"], ["routerLink", "/contact", 1, "mpub-btn-ghost"], [1, "mpub-prose", 2, "margin-top", "2.5rem"], ["routerLink", "/contact"]], template: function ProductPageComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ProductPageComponent, selectors: [["app-product-page"]], decls: 65, vars: 0, consts: [[1, "mpub-section", 2, "padding-top", "2rem"], [1, "mpub-container"], [1, "mpub-kicker"], [1, "mpub-page-title"], [1, "mpub-muted", "mpub-prose"], [1, "mpub-product-card", 2, "margin-top", "2rem"], [1, "mpub-product-qr-showcase"], [1, "mpub-product-qr-frame"], ["aria-hidden", "true", 1, "mpub-qr-finder", "mpub-qr-finder--tl"], ["aria-hidden", "true", 1, "mpub-qr-finder", "mpub-qr-finder--tr"], ["aria-hidden", "true", 1, "mpub-qr-finder", "mpub-qr-finder--bl"], ["aria-hidden", "true", 1, "mpub-product-qr-scanline"], ["src", "/marketing/hero-vehicle-qr.png", "width", "1600", "height", "900", "alt", "CallMeNow vehicle QR sticker on windshield \u2014 premium finish", "loading", "eager", "decoding", "async", 1, "mpub-product-page-img", "mpub-product-qr-img"], [1, "mpub-product-qr-caption"], [2, "font-family", "Fraunces, Georgia, serif", "font-size", "1.35rem", "margin", "0 0 0.5rem", "color", "var(--cmn-pub-teal-d)"], [1, "mpub-features", 2, "display", "block", "margin-top", "0"], ["aria-hidden", "true", 1, "ico"], [1, "mpub-price", 2, "margin-top", "1.25rem"], [1, "mpub-price-note"], [1, "mpub-hero-cta", 2, "margin-top", "1.25rem"], ["routerLink", "/shop", 1, "mpub-btn-primary"], ["routerLink", "/contact", 1, "mpub-btn-ghost"], [1, "mpub-prose", 2, "margin-top", "2.5rem"], ["routerLink", "/contact"]], template: function ProductPageComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "div", 1)(2, "p", 2);
       \u0275\u0275text(3, "CallMeNow sticker");
@@ -49375,7 +50978,7 @@ var ProductPageComponent = class _ProductPageComponent {
       \u0275\u0275text(37, "Confirm at checkout / partner console. Offers or referrals may change the final amount.");
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(38, "div", 19)(39, "a", 20);
-      \u0275\u0275text(40, "Order via partner console");
+      \u0275\u0275text(40, "Book Sticker Online");
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(41, "a", 21);
       \u0275\u0275text(42, "Bulk / delivery questions");
@@ -49414,7 +51017,7 @@ var ProductPageComponent = class _ProductPageComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ProductPageComponent, [{
     type: Component,
-    args: [{ selector: "app-product-page", standalone: true, imports: [RouterLink], template: '<div class="mpub-section" style="padding-top: 2rem">\r\n  <div class="mpub-container">\r\n    <p class="mpub-kicker">CallMeNow sticker</p>\r\n    <h1 class="mpub-page-title">Vehicle QR that respects privacy</h1>\r\n    <p class="mpub-muted mpub-prose">Everything you need to know before you order \u2014 sticker, delivery, and how privacy works.</p>\r\n\r\n    <div class="mpub-product-card" style="margin-top: 2rem">\r\n      <div class="mpub-product-qr-showcase">\r\n        <div class="mpub-product-qr-frame">\r\n          <span class="mpub-qr-finder mpub-qr-finder--tl" aria-hidden="true"></span>\r\n          <span class="mpub-qr-finder mpub-qr-finder--tr" aria-hidden="true"></span>\r\n          <span class="mpub-qr-finder mpub-qr-finder--bl" aria-hidden="true"></span>\r\n          <div class="mpub-product-qr-scanline" aria-hidden="true"></div>\r\n          <img\r\n            src="/marketing/hero-vehicle-qr.png"\r\n            width="1600"\r\n            height="900"\r\n            alt="CallMeNow vehicle QR sticker on windshield \u2014 premium finish"\r\n            loading="eager"\r\n            decoding="async"\r\n            class="mpub-product-page-img mpub-product-qr-img"\r\n          />\r\n        </div>\r\n        <p class="mpub-product-qr-caption">Scan-ready QR \xB7 weather-safe laminate \xB7 glass adhesive</p>\r\n      </div>\r\n      <div>\r\n        <h2 style="font-family: Fraunces, Georgia, serif; font-size: 1.35rem; margin: 0 0 0.5rem; color: var(--cmn-pub-teal-d)">What you get</h2>\r\n        <ul class="mpub-features" style="display: block; margin-top: 0">\r\n          <li><span class="ico" aria-hidden="true">\u25AA</span> Printed QR linked to your CallMeNow scan flow</li>\r\n          <li><span class="ico" aria-hidden="true">\u25AA</span> Laminate / weather-resistant finish (describe your spec)</li>\r\n          <li><span class="ico" aria-hidden="true">\u25AA</span> Adhesive suited for glass \u2014 placement guide with order</li>\r\n        </ul>\r\n        <p class="mpub-price" style="margin-top: 1.25rem">\u20B9299</p>\r\n        <p class="mpub-price-note">Confirm at checkout / partner console. Offers or referrals may change the final amount.</p>\r\n        <div class="mpub-hero-cta" style="margin-top: 1.25rem">\r\n          <a routerLink="/login" class="mpub-btn-primary">Order via partner console</a>\r\n          <a routerLink="/contact" class="mpub-btn-ghost">Bulk / delivery questions</a>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class="mpub-prose" style="margin-top: 2.5rem">\r\n      <h2>Delivery</h2>\r\n      <p>Orders are fulfilled from Chandigarh (Plot no. 35, New Timber Market, Sector 26). Share your PIN code on <a routerLink="/contact">Contact</a> for bulk or coverage questions.</p>\r\n      <h2>FAQ</h2>\r\n      <p><strong>Do I need an app?</strong> No \u2014 scanners use their phone browser.</p>\r\n      <p><strong>Is my number visible?</strong> Not on the sticker; they use the CallMeNow flow you configure.</p>\r\n      <p><strong>Can I change vehicle details later?</strong> Yes through your merchant tools after login.</p>\r\n    </div>\r\n  </div>\r\n</div>\r\n' }]
+    args: [{ selector: "app-product-page", standalone: true, imports: [RouterLink], template: '<div class="mpub-section" style="padding-top: 2rem">\r\n  <div class="mpub-container">\r\n    <p class="mpub-kicker">CallMeNow sticker</p>\r\n    <h1 class="mpub-page-title">Vehicle QR that respects privacy</h1>\r\n    <p class="mpub-muted mpub-prose">Everything you need to know before you order \u2014 sticker, delivery, and how privacy works.</p>\r\n\r\n    <div class="mpub-product-card" style="margin-top: 2rem">\r\n      <div class="mpub-product-qr-showcase">\r\n        <div class="mpub-product-qr-frame">\r\n          <span class="mpub-qr-finder mpub-qr-finder--tl" aria-hidden="true"></span>\r\n          <span class="mpub-qr-finder mpub-qr-finder--tr" aria-hidden="true"></span>\r\n          <span class="mpub-qr-finder mpub-qr-finder--bl" aria-hidden="true"></span>\r\n          <div class="mpub-product-qr-scanline" aria-hidden="true"></div>\r\n          <img\r\n            src="/marketing/hero-vehicle-qr.png"\r\n            width="1600"\r\n            height="900"\r\n            alt="CallMeNow vehicle QR sticker on windshield \u2014 premium finish"\r\n            loading="eager"\r\n            decoding="async"\r\n            class="mpub-product-page-img mpub-product-qr-img"\r\n          />\r\n        </div>\r\n        <p class="mpub-product-qr-caption">Scan-ready QR \xB7 weather-safe laminate \xB7 glass adhesive</p>\r\n      </div>\r\n      <div>\r\n        <h2 style="font-family: Fraunces, Georgia, serif; font-size: 1.35rem; margin: 0 0 0.5rem; color: var(--cmn-pub-teal-d)">What you get</h2>\r\n        <ul class="mpub-features" style="display: block; margin-top: 0">\r\n          <li><span class="ico" aria-hidden="true">\u25AA</span> Printed QR linked to your CallMeNow scan flow</li>\r\n          <li><span class="ico" aria-hidden="true">\u25AA</span> Laminate / weather-resistant finish (describe your spec)</li>\r\n          <li><span class="ico" aria-hidden="true">\u25AA</span> Adhesive suited for glass \u2014 placement guide with order</li>\r\n        </ul>\r\n        <p class="mpub-price" style="margin-top: 1.25rem">\u20B9299</p>\r\n        <p class="mpub-price-note">Confirm at checkout / partner console. Offers or referrals may change the final amount.</p>\r\n        <div class="mpub-hero-cta" style="margin-top: 1.25rem">\r\n          <a routerLink="/shop" class="mpub-btn-primary">Book Sticker Online</a>\r\n          <a routerLink="/contact" class="mpub-btn-ghost">Bulk / delivery questions</a>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class="mpub-prose" style="margin-top: 2.5rem">\r\n      <h2>Delivery</h2>\r\n      <p>Orders are fulfilled from Chandigarh (Plot no. 35, New Timber Market, Sector 26). Share your PIN code on <a routerLink="/contact">Contact</a> for bulk or coverage questions.</p>\r\n      <h2>FAQ</h2>\r\n      <p><strong>Do I need an app?</strong> No \u2014 scanners use their phone browser.</p>\r\n      <p><strong>Is my number visible?</strong> Not on the sticker; they use the CallMeNow flow you configure.</p>\r\n      <p><strong>Can I change vehicle details later?</strong> Yes through your merchant tools after login.</p>\r\n    </div>\r\n  </div>\r\n</div>\r\n' }]
   }], null, null);
 })();
 (() => {
@@ -49845,6 +51448,1622 @@ var LegacyEditRedirectComponent = class _LegacyEditRedirectComponent {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LegacyEditRedirectComponent, { className: "LegacyEditRedirectComponent", filePath: "src/app/components/marketing/legacy-edit-redirect.component.ts", lineNumber: 10 });
 })();
 
+// src/app/services/ecomm.service.ts
+var EcommService = class _EcommService {
+  http;
+  base = "/api/ecomm";
+  constructor(http) {
+    this.http = http;
+  }
+  bookSticker(order) {
+    return this.http.post(`${this.base}/book`, order);
+  }
+  static \u0275fac = function EcommService_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _EcommService)(\u0275\u0275inject(HttpClient));
+  };
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({ token: _EcommService, factory: _EcommService.\u0275fac, providedIn: "root" });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(EcommService, [{
+    type: Injectable,
+    args: [{
+      providedIn: "root"
+    }]
+  }], () => [{ type: HttpClient }], null);
+})();
+
+// src/app/components/marketing/shop-page.component.ts
+var _forTrack06 = ($index, $item) => $item.id;
+var _forTrack1 = ($index, $item) => $item.productId;
+function ShopPageComponent_div_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 20)(1, "button", 21);
+    \u0275\u0275listener("click", function ShopPageComponent_div_2_Template_button_click_1_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.toggleCart());
+    });
+    \u0275\u0275elementStart(2, "span", 22);
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(3, "svg", 23);
+    \u0275\u0275element(4, "path", 24);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275text(5, " My Cart ");
+    \u0275\u0275namespaceHTML();
+    \u0275\u0275elementStart(6, "span", 25);
+    \u0275\u0275text(7);
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(7);
+    \u0275\u0275textInterpolate(ctx_r1.cartCount);
+  }
+}
+function ShopPageComponent_Conditional_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 10)(1, "div", 26);
+    \u0275\u0275text(2, " 1. Choose Sticker ");
+    \u0275\u0275elementEnd();
+    \u0275\u0275element(3, "div", 27);
+    \u0275\u0275elementStart(4, "div", 26);
+    \u0275\u0275text(5, " 2. Delivery Details ");
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275classProp("active", ctx_r1.orderStep() === 1)("completed", ctx_r1.orderStep() > 1);
+    \u0275\u0275advance(2);
+    \u0275\u0275classProp("active", ctx_r1.orderStep() > 1);
+    \u0275\u0275advance();
+    \u0275\u0275classProp("active", ctx_r1.orderStep() === 2);
+  }
+}
+function ShopPageComponent_Conditional_4_For_9_Conditional_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 39);
+    \u0275\u0275text(1, "Popular");
+    \u0275\u0275elementEnd();
+  }
+}
+function ShopPageComponent_Conditional_4_For_9_For_13_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "li")(1, "span", 46);
+    \u0275\u0275text(2, "\u2713");
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const feature_r6 = ctx.$implicit;
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate1(" ", feature_r6);
+  }
+}
+function ShopPageComponent_Conditional_4_For_9_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r4 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 36);
+    \u0275\u0275listener("click", function ShopPageComponent_Conditional_4_For_9_Template_div_click_0_listener() {
+      const product_r5 = \u0275\u0275restoreView(_r4).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.addToCart(product_r5.id));
+    });
+    \u0275\u0275elementStart(1, "div", 37);
+    \u0275\u0275element(2, "img", 38);
+    \u0275\u0275conditionalCreate(3, ShopPageComponent_Conditional_4_For_9_Conditional_3_Template, 2, 0, "div", 39);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "div", 40)(5, "h3");
+    \u0275\u0275text(6);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "p", 41);
+    \u0275\u0275text(8);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "p", 42);
+    \u0275\u0275text(10);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(11, "ul", 43);
+    \u0275\u0275repeaterCreate(12, ShopPageComponent_Conditional_4_For_9_For_13_Template, 4, 1, "li", null, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(14, "div", 44)(15, "button", 45);
+    \u0275\u0275text(16, "Add to Cart");
+    \u0275\u0275elementEnd()()()();
+  }
+  if (rf & 2) {
+    const product_r5 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275property("src", product_r5.image, \u0275\u0275sanitizeUrl)("alt", product_r5.name);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(product_r5.id === "family" ? 3 : -1);
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(product_r5.name);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1("\u20B9", product_r5.price);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(product_r5.description);
+    \u0275\u0275advance(2);
+    \u0275\u0275repeater(product_r5.features);
+  }
+}
+function ShopPageComponent_Conditional_4_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r3 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 11)(1, "p", 28);
+    \u0275\u0275text(2, "Premium QR Stickers");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "h1", 29);
+    \u0275\u0275text(4, "Book Your Sticker Online");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "p", 30);
+    \u0275\u0275text(6, "Select a pack that fits your needs. Each sticker comes with a lifetime link and 24/7 privacy protection.");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "div", 31);
+    \u0275\u0275repeaterCreate(8, ShopPageComponent_Conditional_4_For_9_Template, 17, 6, "div", 32, _forTrack06);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(10, "div", 33)(11, "button", 34);
+    \u0275\u0275listener("click", function ShopPageComponent_Conditional_4_Template_button_click_11_listener() {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.nextStep());
+    });
+    \u0275\u0275text(12, " Proceed to Checkout ");
+    \u0275\u0275elementStart(13, "span", 35);
+    \u0275\u0275text(14, "\u2192");
+    \u0275\u0275elementEnd()()()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(8);
+    \u0275\u0275repeater(ctx_r1.products);
+    \u0275\u0275advance(3);
+    \u0275\u0275property("disabled", ctx_r1.cart().length === 0);
+  }
+}
+function ShopPageComponent_Conditional_5_Conditional_18_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 57);
+    \u0275\u0275text(1, "Please enter your full name");
+    \u0275\u0275elementEnd();
+  }
+}
+function ShopPageComponent_Conditional_5_Conditional_24_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 57);
+    \u0275\u0275text(1, "Valid 10-digit mobile number is required");
+    \u0275\u0275elementEnd();
+  }
+}
+function ShopPageComponent_Conditional_5_Conditional_30_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 57);
+    \u0275\u0275text(1, "Please enter your delivery address");
+    \u0275\u0275elementEnd();
+  }
+}
+function ShopPageComponent_Conditional_5_Conditional_36_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 57);
+    \u0275\u0275text(1, "6-digit Pincode is required");
+    \u0275\u0275elementEnd();
+  }
+}
+function ShopPageComponent_Conditional_5_For_45_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "option", 68);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const st_r9 = ctx.$implicit;
+    \u0275\u0275property("value", st_r9);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(st_r9);
+  }
+}
+function ShopPageComponent_Conditional_5_Conditional_46_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 57);
+    \u0275\u0275text(1, "State is required");
+    \u0275\u0275elementEnd();
+  }
+}
+function ShopPageComponent_Conditional_5_For_55_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "option", 68);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ct_r10 = ctx.$implicit;
+    \u0275\u0275property("value", ct_r10);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ct_r10);
+  }
+}
+function ShopPageComponent_Conditional_5_Conditional_56_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 57);
+    \u0275\u0275text(1, "City is required");
+    \u0275\u0275elementEnd();
+  }
+}
+function ShopPageComponent_Conditional_5_For_61_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 72)(1, "span");
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "span");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const item_r11 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate2("", item_r11.quantity, "x ", item_r11.name);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1("\u20B9", item_r11.price * item_r11.quantity);
+  }
+}
+function ShopPageComponent_Conditional_5_Conditional_77_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 78);
+    \u0275\u0275text(1, " Processing Payment... ");
+  }
+}
+function ShopPageComponent_Conditional_5_Conditional_78_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275text(0);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275textInterpolate1(" Confirm & Pay \u20B9", ctx_r1.cartTotal, " ");
+  }
+}
+function ShopPageComponent_Conditional_5_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r7 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 11)(1, "form", 47, 0);
+    \u0275\u0275listener("ngSubmit", function ShopPageComponent_Conditional_5_Template_form_ngSubmit_1_listener() {
+      \u0275\u0275restoreView(_r7);
+      const orderForm_r8 = \u0275\u0275reference(2);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onSubmitOrder(orderForm_r8));
+    });
+    \u0275\u0275elementStart(3, "div", 48)(4, "div", 49);
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(5, "svg", 50);
+    \u0275\u0275element(6, "path", 51);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275namespaceHTML();
+    \u0275\u0275elementStart(7, "div", 52)(8, "h2");
+    \u0275\u0275text(9, "Shipping Details");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(10, "p");
+    \u0275\u0275text(11, "Tell us where to send your premium stickers.");
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275elementStart(12, "div", 53)(13, "div", 54)(14, "label", 55);
+    \u0275\u0275text(15, "Full Name");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(16, "input", 56, 1);
+    \u0275\u0275twoWayListener("ngModelChange", function ShopPageComponent_Conditional_5_Template_input_ngModelChange_16_listener($event) {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r1 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r1.shippingDetails.name, $event) || (ctx_r1.shippingDetails.name = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(18, ShopPageComponent_Conditional_5_Conditional_18_Template, 2, 0, "div", 57);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(19, "div", 54)(20, "label", 58);
+    \u0275\u0275text(21, "Phone Number");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(22, "input", 59, 2);
+    \u0275\u0275twoWayListener("ngModelChange", function ShopPageComponent_Conditional_5_Template_input_ngModelChange_22_listener($event) {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r1 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r1.shippingDetails.phone, $event) || (ctx_r1.shippingDetails.phone = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(24, ShopPageComponent_Conditional_5_Conditional_24_Template, 2, 0, "div", 57);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(25, "div", 54)(26, "label", 60);
+    \u0275\u0275text(27, "Complete Address");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(28, "textarea", 61, 3);
+    \u0275\u0275twoWayListener("ngModelChange", function ShopPageComponent_Conditional_5_Template_textarea_ngModelChange_28_listener($event) {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r1 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r1.shippingDetails.address, $event) || (ctx_r1.shippingDetails.address = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(30, ShopPageComponent_Conditional_5_Conditional_30_Template, 2, 0, "div", 57);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(31, "div", 62)(32, "label", 63);
+    \u0275\u0275text(33, "Pincode");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(34, "input", 64, 4);
+    \u0275\u0275twoWayListener("ngModelChange", function ShopPageComponent_Conditional_5_Template_input_ngModelChange_34_listener($event) {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r1 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r1.shippingDetails.pincode, $event) || (ctx_r1.shippingDetails.pincode = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275listener("input", function ShopPageComponent_Conditional_5_Template_input_input_34_listener() {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onPincodeChange());
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(36, ShopPageComponent_Conditional_5_Conditional_36_Template, 2, 0, "div", 57);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(37, "div", 62)(38, "label", 65);
+    \u0275\u0275text(39, "State");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(40, "select", 66, 5);
+    \u0275\u0275twoWayListener("ngModelChange", function ShopPageComponent_Conditional_5_Template_select_ngModelChange_40_listener($event) {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r1 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r1.shippingDetails.state, $event) || (ctx_r1.shippingDetails.state = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275listener("change", function ShopPageComponent_Conditional_5_Template_select_change_40_listener() {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onStateChange());
+    });
+    \u0275\u0275elementStart(42, "option", 67);
+    \u0275\u0275text(43, "Select State");
+    \u0275\u0275elementEnd();
+    \u0275\u0275repeaterCreate(44, ShopPageComponent_Conditional_5_For_45_Template, 2, 2, "option", 68, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(46, ShopPageComponent_Conditional_5_Conditional_46_Template, 2, 0, "div", 57);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(47, "div", 62)(48, "label", 69);
+    \u0275\u0275text(49, "City / District");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(50, "select", 70, 6);
+    \u0275\u0275twoWayListener("ngModelChange", function ShopPageComponent_Conditional_5_Template_select_ngModelChange_50_listener($event) {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r1 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r1.shippingDetails.city, $event) || (ctx_r1.shippingDetails.city = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementStart(52, "option", 67);
+    \u0275\u0275text(53, "Select City/District");
+    \u0275\u0275elementEnd();
+    \u0275\u0275repeaterCreate(54, ShopPageComponent_Conditional_5_For_55_Template, 2, 2, "option", 68, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(56, ShopPageComponent_Conditional_5_Conditional_56_Template, 2, 0, "div", 57);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(57, "div", 71)(58, "h3");
+    \u0275\u0275text(59, "Order Summary");
+    \u0275\u0275elementEnd();
+    \u0275\u0275repeaterCreate(60, ShopPageComponent_Conditional_5_For_61_Template, 5, 3, "div", 72, _forTrack1);
+    \u0275\u0275elementStart(62, "div", 72)(63, "span");
+    \u0275\u0275text(64, "Delivery");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(65, "span", 73);
+    \u0275\u0275text(66, "FREE");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275element(67, "div", 74);
+    \u0275\u0275elementStart(68, "div", 75)(69, "span");
+    \u0275\u0275text(70, "Total Amount");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(71, "span");
+    \u0275\u0275text(72);
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275elementStart(73, "div", 33)(74, "button", 76);
+    \u0275\u0275listener("click", function ShopPageComponent_Conditional_5_Template_button_click_74_listener() {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.prevStep());
+    });
+    \u0275\u0275text(75, "Back");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(76, "button", 77);
+    \u0275\u0275conditionalCreate(77, ShopPageComponent_Conditional_5_Conditional_77_Template, 2, 0)(78, ShopPageComponent_Conditional_5_Conditional_78_Template, 1, 1);
+    \u0275\u0275elementEnd()()()();
+  }
+  if (rf & 2) {
+    const name_r12 = \u0275\u0275reference(17);
+    const phone_r13 = \u0275\u0275reference(23);
+    const address_r14 = \u0275\u0275reference(29);
+    const pincode_r15 = \u0275\u0275reference(35);
+    const state_r16 = \u0275\u0275reference(41);
+    const city_r17 = \u0275\u0275reference(51);
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(16);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r1.shippingDetails.name);
+    \u0275\u0275advance(2);
+    \u0275\u0275conditional(name_r12.invalid && (name_r12.dirty || name_r12.touched) ? 18 : -1);
+    \u0275\u0275advance(4);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r1.shippingDetails.phone);
+    \u0275\u0275advance(2);
+    \u0275\u0275conditional(phone_r13.invalid && (phone_r13.dirty || phone_r13.touched) ? 24 : -1);
+    \u0275\u0275advance(4);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r1.shippingDetails.address);
+    \u0275\u0275advance(2);
+    \u0275\u0275conditional(address_r14.invalid && (address_r14.dirty || address_r14.touched) ? 30 : -1);
+    \u0275\u0275advance(4);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r1.shippingDetails.pincode);
+    \u0275\u0275advance(2);
+    \u0275\u0275conditional(pincode_r15.invalid && (pincode_r15.dirty || pincode_r15.touched) ? 36 : -1);
+    \u0275\u0275advance(4);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r1.shippingDetails.state);
+    \u0275\u0275advance(4);
+    \u0275\u0275repeater(ctx_r1.states);
+    \u0275\u0275advance(2);
+    \u0275\u0275conditional(state_r16.invalid && (state_r16.dirty || state_r16.touched) ? 46 : -1);
+    \u0275\u0275advance(4);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r1.shippingDetails.city);
+    \u0275\u0275advance(4);
+    \u0275\u0275repeater(ctx_r1.filteredCities());
+    \u0275\u0275advance(2);
+    \u0275\u0275conditional(city_r17.invalid && (city_r17.dirty || city_r17.touched) ? 56 : -1);
+    \u0275\u0275advance(4);
+    \u0275\u0275repeater(ctx_r1.cart());
+    \u0275\u0275advance(12);
+    \u0275\u0275textInterpolate1("\u20B9", ctx_r1.cartTotal);
+    \u0275\u0275advance(4);
+    \u0275\u0275property("disabled", ctx_r1.isProcessingPayment());
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r1.isProcessingPayment() ? 77 : 78);
+  }
+}
+function ShopPageComponent_Conditional_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 12)(1, "div", 79);
+    \u0275\u0275text(2, "\u2713");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "h1", 29);
+    \u0275\u0275text(4, "Booking Placed!");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "p", 80);
+    \u0275\u0275text(6);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "div", 81)(8, "p");
+    \u0275\u0275text(9, "Our team will contact you shortly on ");
+    \u0275\u0275elementStart(10, "strong");
+    \u0275\u0275text(11);
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(12, " to confirm delivery of your stickers.");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(13, "div", 33)(14, "a", 82);
+    \u0275\u0275text(15, "Back to Home");
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(6);
+    \u0275\u0275textInterpolate1("Thank you, ", ctx_r1.shippingDetails.name, ". Your order has been received.");
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate(ctx_r1.shippingDetails.phone);
+  }
+}
+function ShopPageComponent_div_7_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r18 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 83);
+    \u0275\u0275listener("click", function ShopPageComponent_div_7_Template_div_click_0_listener() {
+      \u0275\u0275restoreView(_r18);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.toggleCart());
+    });
+    \u0275\u0275elementEnd();
+  }
+}
+function ShopPageComponent_div_14_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r19 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 85)(1, "div", 86)(2, "h4");
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "p");
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(6, "div", 87)(7, "div", 88);
+    \u0275\u0275listener("click", function ShopPageComponent_div_14_For_2_Template_div_click_7_listener($event) {
+      const item_r20 = \u0275\u0275restoreView(_r19).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      $event.stopPropagation();
+      return \u0275\u0275resetView(ctx_r1.updateQuantity(item_r20.productId, -1));
+    });
+    \u0275\u0275text(8, "-");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "span", 89);
+    \u0275\u0275text(10);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(11, "div", 88);
+    \u0275\u0275listener("click", function ShopPageComponent_div_14_For_2_Template_div_click_11_listener($event) {
+      const item_r20 = \u0275\u0275restoreView(_r19).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      $event.stopPropagation();
+      return \u0275\u0275resetView(ctx_r1.updateQuantity(item_r20.productId, 1));
+    });
+    \u0275\u0275text(12, "+");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(13, "button", 90);
+    \u0275\u0275listener("click", function ShopPageComponent_div_14_For_2_Template_button_click_13_listener($event) {
+      const item_r20 = \u0275\u0275restoreView(_r19).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      $event.stopPropagation();
+      return \u0275\u0275resetView(ctx_r1.removeFromCart(item_r20.productId));
+    });
+    \u0275\u0275text(14, "\u{1F5D1}");
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const item_r20 = ctx.$implicit;
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(item_r20.name);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1("\u20B9", item_r20.price);
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate(item_r20.quantity);
+  }
+}
+function ShopPageComponent_div_14_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 84);
+    \u0275\u0275repeaterCreate(1, ShopPageComponent_div_14_For_2_Template, 15, 3, "div", 85, _forTrack1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275repeater(ctx_r1.cart());
+  }
+}
+function ShopPageComponent_div_15_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 91)(1, "p");
+    \u0275\u0275text(2, "Your cart is empty");
+    \u0275\u0275elementEnd()();
+  }
+}
+function ShopPageComponent_div_16_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r21 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 92)(1, "div", 93)(2, "span");
+    \u0275\u0275text(3, "Total");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "span");
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(6, "button", 94);
+    \u0275\u0275listener("click", function ShopPageComponent_div_16_Template_button_click_6_listener() {
+      \u0275\u0275restoreView(_r21);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.nextStep());
+    });
+    \u0275\u0275text(7, "Check out");
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate1("\u20B9", ctx_r1.cartTotal);
+  }
+}
+var ShopPageComponent = class _ShopPageComponent {
+  ecomm;
+  constructor(ecomm) {
+    this.ecomm = ecomm;
+  }
+  products = [
+    {
+      id: "single",
+      name: "Solo Pack",
+      description: "1 Premium QR Sticker for your vehicle.",
+      price: 299,
+      image: "/marketing/hero-vehicle-qr.png",
+      features: ["Weather-resistant", "UV Protected", "Scratch proof"]
+    },
+    {
+      id: "family",
+      name: "Family Pack",
+      description: "3 QR Stickers for all your home vehicles.",
+      price: 799,
+      image: "/marketing/hero-slide-03.png",
+      features: ["Saves \u20B9100", "Weather-resistant", "UV Protected"]
+    },
+    {
+      id: "bulk",
+      name: "Fleet / Bulk",
+      description: "10+ stickers for transport or corporate fleets.",
+      price: 1999,
+      image: "/marketing/hero-slide-04.png",
+      features: ["Wholesale pricing", "Dedicated Support", "Express Shipping"]
+    }
+  ];
+  cart = signal([], ...ngDevMode ? [{ debugName: "cart" }] : []);
+  orderStep = signal(1, ...ngDevMode ? [{ debugName: "orderStep" }] : []);
+  // 1: Selection, 2: Address, 3: Success
+  showCart = signal(false, ...ngDevMode ? [{ debugName: "showCart" }] : []);
+  states = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
+    "Andaman and Nicobar Islands",
+    "Chandigarh",
+    "Dadra and Nagar Haveli",
+    "Daman and Diu",
+    "Delhi",
+    "Lakshadweep",
+    "Puducherry"
+  ];
+  citiesByState = {
+    "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik", "Aurangabad", "Thane"],
+    "Delhi": ["New Delhi", "North Delhi", "South Delhi", "East Delhi", "West Delhi"],
+    "Karnataka": ["Bengaluru", "Mysuru", "Hubballi", "Mangaluru", "Belagavi"],
+    "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar"],
+    "Uttar Pradesh": ["Lucknow", "Kanpur", "Varanasi", "Agra", "Meerut", "Noida"],
+    "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem"],
+    "West Bengal": ["Kolkata", "Howrah", "Durgapur", "Asansol", "Siliguri"],
+    "Rajasthan": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Ajmer"],
+    "Punjab": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda", "Mohali", "Pathankot", "Hoshiarpur", "Moga"],
+    "Bihar": ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur"],
+    "Telangana": ["Hyderabad", "Warangal", "Nizamabad", "Khammam"],
+    "Kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode", "Thrissur"],
+    "Haryana": ["Gurugram", "Faridabad", "Panipat", "Ambala", "Hisar"]
+  };
+  http = inject2(HttpClient);
+  filteredCities = signal([], ...ngDevMode ? [{ debugName: "filteredCities" }] : []);
+  shippingDetails = {
+    name: "",
+    phone: "",
+    address: "",
+    city: "",
+    state: "",
+    pincode: ""
+  };
+  onStateChange() {
+    const cities = this.citiesByState[this.shippingDetails.state] || [];
+    this.filteredCities.set(cities);
+    this.shippingDetails.city = "";
+  }
+  // Auto-fetch State/City from Pincode
+  onPincodeChange() {
+    const pin = this.shippingDetails.pincode;
+    if (pin.length === 6) {
+      this.http.get(`https://api.postalpincode.in/pincode/${pin}`).subscribe({
+        next: (data) => {
+          if (data?.[0]?.Status === "Success") {
+            const details = data[0].PostOffice[0];
+            const apiState = details.State;
+            const apiDistrict = details.District;
+            const matchedState = this.states.find((s) => s.toLowerCase() === apiState.toLowerCase());
+            if (matchedState) {
+              this.shippingDetails.state = matchedState;
+              this.onStateChange();
+            }
+            if (!this.filteredCities().includes(apiDistrict)) {
+              this.filteredCities.update((cities) => [...cities, apiDistrict].sort());
+            }
+            this.shippingDetails.city = apiDistrict;
+          }
+        }
+      });
+    }
+  }
+  get cartTotal() {
+    return this.cart().reduce((sum, item) => sum + item.price * item.quantity, 0);
+  }
+  get cartCount() {
+    return this.cart().reduce((sum, item) => sum + item.quantity, 0);
+  }
+  addToCart(productId) {
+    const product = this.products.find((p) => p.id === productId);
+    if (!product)
+      return;
+    this.cart.update((items) => {
+      const existing = items.find((i) => i.productId === productId);
+      if (existing) {
+        return items.map((i) => i.productId === productId ? __spreadProps(__spreadValues({}, i), { quantity: i.quantity + 1 }) : i);
+      }
+      return [...items, { productId: product.id, name: product.name, price: product.price, quantity: 1 }];
+    });
+    this.showCart.set(true);
+  }
+  removeFromCart(productId) {
+    this.cart.update((items) => items.filter((i) => i.productId !== productId));
+  }
+  updateQuantity(productId, delta) {
+    this.cart.update((items) => items.map((i) => {
+      if (i.productId === productId) {
+        const newQty = Math.max(1, i.quantity + delta);
+        return __spreadProps(__spreadValues({}, i), { quantity: newQty });
+      }
+      return i;
+    }));
+  }
+  toggleCart() {
+    this.showCart.update((v) => !v);
+  }
+  nextStep() {
+    if (this.cart().length === 0) {
+      alert("Please add at least one item to your cart.");
+      return;
+    }
+    if (this.orderStep() === 1) {
+      this.orderStep.set(2);
+      this.showCart.set(false);
+    }
+  }
+  prevStep() {
+    if (this.orderStep() > 1) {
+      this.orderStep.update((s) => s - 1);
+    }
+  }
+  isProcessingPayment = signal(false, ...ngDevMode ? [{ debugName: "isProcessingPayment" }] : []);
+  onSubmitOrder(form) {
+    if (this.cart().length === 0)
+      return;
+    if (form.invalid) {
+      Object.keys(form.controls).forEach((key) => {
+        form.controls[key].markAsTouched();
+      });
+      return;
+    }
+    this.isProcessingPayment.set(true);
+    const orderData = {
+      customerName: this.shippingDetails.name,
+      customerPhone: this.shippingDetails.phone,
+      shippingAddress: this.shippingDetails.address,
+      city: this.shippingDetails.city,
+      pincode: this.shippingDetails.pincode,
+      // For simplicity, we'll send the primary product name or a summary
+      productId: this.cart()[0].productId,
+      productName: this.cart().map((i) => `${i.quantity}x ${i.name}`).join(", "),
+      amount: this.cartTotal
+    };
+    setTimeout(() => {
+      this.ecomm.bookSticker(orderData).subscribe({
+        next: () => {
+          this.isProcessingPayment.set(false);
+          this.orderStep.set(3);
+        },
+        error: (err) => {
+          this.isProcessingPayment.set(false);
+          console.error("Order failed", err);
+          alert("Something went wrong. Please try again.");
+        }
+      });
+    }, 2e3);
+  }
+  static \u0275fac = function ShopPageComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _ShopPageComponent)(\u0275\u0275directiveInject(EcommService));
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ShopPageComponent, selectors: [["app-shop-page"]], decls: 17, vars: 12, consts: [["orderForm", "ngForm"], ["name", "ngModel"], ["phone", "ngModel"], ["address", "ngModel"], ["pincode", "ngModel"], ["state", "ngModel"], ["city", "ngModel"], [1, "mpub-section", "shop-section"], [1, "mpub-container"], ["class", "shop-nav", 4, "ngIf"], [1, "shop-progress"], [1, "shop-fade-in"], [1, "shop-success", "shop-fade-in"], ["class", "cart-overlay", 3, "click", 4, "ngIf"], [1, "cart-drawer"], [1, "cart-header"], [1, "close-btn", 3, "click"], ["class", "cart-items", 4, "ngIf"], ["class", "cart-empty", 4, "ngIf"], ["class", "cart-footer", 4, "ngIf"], [1, "shop-nav"], [1, "cart-btn", 3, "click"], [1, "cart-ico"], ["xmlns", "http://www.w3.org/2000/svg", "viewBox", "0 0 24 24"], ["d", "M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"], [1, "cart-badge"], [1, "progress-step"], [1, "progress-line"], [1, "mpub-kicker"], [1, "mpub-page-title"], [1, "mpub-muted", "mpub-prose", "mb-8"], [1, "product-grid"], [1, "product-card"], [1, "shop-actions"], [1, "mpub-btn-primary", "mpub-btn-lg", 3, "click", "disabled"], [1, "btn-arrow"], [1, "product-card", 3, "click"], [1, "product-img-wrap"], [3, "src", "alt"], [1, "product-badge"], [1, "product-info"], [1, "product-price"], [1, "product-desc"], [1, "product-features"], [1, "mt-6"], [1, "mpub-btn-primary", "w-full"], [1, "check-ico"], [1, "shop-form", 3, "ngSubmit"], [1, "step-header-card"], [1, "step-icon", 2, "background", "linear-gradient(135deg, #1aa4b8, #0d4f5a)", "color", "white"], ["xmlns", "http://www.w3.org/2000/svg", "fill", "none", "viewBox", "0 0 24 24", "stroke-width", "1.5", "stroke", "currentColor"], ["stroke-linecap", "round", "stroke-linejoin", "round", "d", "M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"], [1, "step-header-text"], [1, "form-grid"], [1, "form-group", "full"], ["for", "name"], ["type", "text", "id", "name", "name", "name", "required", "", "placeholder", "Enter your full name", 3, "ngModelChange", "ngModel"], [1, "field-error"], ["for", "phone"], ["type", "tel", "id", "phone", "name", "phone", "required", "", "pattern", "[0-9]{10}", "placeholder", "10-digit mobile number", 3, "ngModelChange", "ngModel"], ["for", "address"], ["id", "address", "name", "address", "required", "", "placeholder", "House No, Building, Street, Area", 3, "ngModelChange", "ngModel"], [1, "form-group"], ["for", "pincode"], ["type", "text", "id", "pincode", "name", "pincode", "required", "", "pattern", "[0-9]{6}", "placeholder", "6-digit PIN", 3, "ngModelChange", "input", "ngModel"], ["for", "state"], ["id", "state", "name", "state", "required", "", 3, "ngModelChange", "change", "ngModel"], ["value", ""], [3, "value"], ["for", "city"], ["id", "city", "name", "city", "required", "", 3, "ngModelChange", "ngModel"], [1, "order-summary-box"], [1, "summary-row"], [1, "free"], [1, "summary-divider"], [1, "summary-row", "total"], ["type", "button", 1, "mpub-btn-ghost", 3, "click"], ["type", "submit", 1, "mpub-btn-primary", "mpub-btn-lg", 3, "disabled"], [1, "spinner-inline"], [1, "success-icon"], [1, "mpub-prose"], [1, "success-details"], ["routerLink", "/", 1, "mpub-btn-primary"], [1, "cart-overlay", 3, "click"], [1, "cart-items"], [1, "cart-item"], [1, "item-info"], [1, "item-actions"], [1, "qty-btn", 3, "click"], [1, "qty-num"], [1, "remove-btn", 3, "click"], [1, "cart-empty"], [1, "cart-footer"], [1, "cart-total"], [1, "mpub-btn-primary", "w-full", 3, "click"]], template: function ShopPageComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275elementStart(0, "div", 7)(1, "div", 8);
+      \u0275\u0275template(2, ShopPageComponent_div_2_Template, 8, 1, "div", 9);
+      \u0275\u0275conditionalCreate(3, ShopPageComponent_Conditional_3_Template, 6, 8, "div", 10);
+      \u0275\u0275conditionalCreate(4, ShopPageComponent_Conditional_4_Template, 15, 1, "div", 11);
+      \u0275\u0275conditionalCreate(5, ShopPageComponent_Conditional_5_Template, 79, 15, "div", 11);
+      \u0275\u0275conditionalCreate(6, ShopPageComponent_Conditional_6_Template, 16, 2, "div", 12);
+      \u0275\u0275template(7, ShopPageComponent_div_7_Template, 1, 0, "div", 13);
+      \u0275\u0275elementStart(8, "div", 14)(9, "div", 15)(10, "h2");
+      \u0275\u0275text(11);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(12, "button", 16);
+      \u0275\u0275listener("click", function ShopPageComponent_Template_button_click_12_listener() {
+        return ctx.toggleCart();
+      });
+      \u0275\u0275text(13, "\u2715");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275template(14, ShopPageComponent_div_14_Template, 3, 0, "div", 17)(15, ShopPageComponent_div_15_Template, 3, 0, "div", 18)(16, ShopPageComponent_div_16_Template, 8, 1, "div", 19);
+      \u0275\u0275elementEnd()()();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance(2);
+      \u0275\u0275property("ngIf", ctx.orderStep() < 3);
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.orderStep() < 3 ? 3 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.orderStep() === 1 ? 4 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.orderStep() === 2 ? 5 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.orderStep() === 3 ? 6 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.showCart());
+      \u0275\u0275advance();
+      \u0275\u0275classProp("open", ctx.showCart());
+      \u0275\u0275advance(3);
+      \u0275\u0275textInterpolate1("Your Cart (", ctx.cartCount, ")");
+      \u0275\u0275advance(3);
+      \u0275\u0275property("ngIf", ctx.cart().length > 0);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.cart().length === 0);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.cart().length > 0);
+    }
+  }, dependencies: [CommonModule, NgIf, FormsModule, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, NgControlStatus, NgControlStatusGroup, RequiredValidator, PatternValidator, NgModel, NgForm, RouterLink], styles: ['\n\n.shop-section[_ngcontent-%COMP%] {\n  padding-top: 4rem;\n  padding-bottom: 6rem;\n  background-color: var(--cmn-pub-bg);\n  min-height: 80vh;\n}\n.shop-progress[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin-bottom: 4rem;\n  gap: 0;\n  max-width: 500px;\n  margin-left: auto;\n  margin-right: auto;\n}\n.progress-step[_ngcontent-%COMP%] {\n  font-size: 0.95rem;\n  font-weight: 700;\n  color: var(--cmn-pub-muted);\n  padding: 0.75rem 1.5rem;\n  border-radius: 99px;\n  background: white;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);\n  position: relative;\n  z-index: 2;\n  border: 1px solid rgba(0, 0, 0, 0.05);\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.progress-step.active[_ngcontent-%COMP%] {\n  color: white;\n  background: var(--cmn-pub-teal-d);\n  box-shadow: 0 8px 24px rgba(13, 79, 90, 0.25);\n  transform: scale(1.1);\n}\n.progress-step.active[_ngcontent-%COMP%]::before {\n  content: "\\2192";\n  display: inline-block;\n  font-weight: 400;\n}\n.progress-step.completed[_ngcontent-%COMP%] {\n  color: var(--cmn-pub-teal-d);\n  background: #f0fdfa;\n  border-color: #5eead4;\n  box-shadow: none;\n}\n.progress-step.completed[_ngcontent-%COMP%]::before {\n  content: "\\2713";\n  display: inline-block;\n  color: #059669;\n  font-weight: 800;\n}\n.progress-line[_ngcontent-%COMP%] {\n  height: 3px;\n  flex: 1;\n  background: #e2e8f0;\n  margin: 0 -10px;\n  z-index: 1;\n  transition: background 0.4s ease;\n}\n.progress-line.active[_ngcontent-%COMP%] {\n  background: #5eead4;\n}\n.product-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  gap: 2rem;\n  margin-top: 3rem;\n}\n.product-card[_ngcontent-%COMP%] {\n  background: white;\n  border-radius: 1.5rem;\n  padding: 1.5rem;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  border: 2px solid transparent;\n}\n.product-card[_ngcontent-%COMP%]:hover {\n  transform: translateY(-10px);\n  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);\n}\n.product-card.selected[_ngcontent-%COMP%] {\n  border-color: var(--cmn-pub-teal);\n  background:\n    linear-gradient(\n      to bottom,\n      white,\n      #f0fdfa);\n}\n.product-img-wrap[_ngcontent-%COMP%] {\n  position: relative;\n  border-radius: 1rem;\n  overflow: hidden;\n  margin-bottom: 1.5rem;\n  aspect-ratio: 16/9;\n}\n.product-img-wrap[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.product-badge[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 1rem;\n  right: 1rem;\n  background: var(--cmn-pub-terra-d);\n  color: white;\n  padding: 0.25rem 0.75rem;\n  border-radius: 1rem;\n  font-size: 0.8rem;\n  font-weight: 700;\n  text-transform: uppercase;\n}\n.product-info[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  font-family:\n    "Fraunces",\n    Georgia,\n    serif;\n  font-size: 1.5rem;\n  margin: 0 0 0.5rem;\n  color: var(--cmn-pub-teal-d);\n}\n.product-price[_ngcontent-%COMP%] {\n  font-size: 1.75rem;\n  font-weight: 800;\n  color: var(--cmn-pub-terra);\n  margin-bottom: 1rem;\n}\n.product-desc[_ngcontent-%COMP%] {\n  color: var(--cmn-pub-muted);\n  font-size: 0.95rem;\n  line-height: 1.5;\n  margin-bottom: 1.5rem;\n}\n.product-features[_ngcontent-%COMP%] {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.product-features[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  font-size: 0.9rem;\n  color: #444;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.check-ico[_ngcontent-%COMP%] {\n  color: #059669;\n  font-weight: bold;\n}\n.selection-indicator[_ngcontent-%COMP%] {\n  margin-top: 1.5rem;\n  display: flex;\n  justify-content: center;\n}\n.radio-outer[_ngcontent-%COMP%] {\n  width: 24px;\n  height: 24px;\n  border: 2px solid #ddd;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: white;\n}\n.product-card.selected[_ngcontent-%COMP%]   .radio-outer[_ngcontent-%COMP%] {\n  border-color: var(--cmn-pub-teal);\n}\n.radio-inner[_ngcontent-%COMP%] {\n  width: 12px;\n  height: 12px;\n  background: var(--cmn-pub-teal);\n  border-radius: 50%;\n}\n.shop-actions[_ngcontent-%COMP%] {\n  margin-top: 4rem;\n  display: flex;\n  justify-content: center;\n  gap: 1.5rem;\n}\n.spinner-inline[_ngcontent-%COMP%] {\n  display: inline-block;\n  width: 1.2rem;\n  height: 1.2rem;\n  border: 2px solid rgba(255, 255, 255, 0.3);\n  border-radius: 50%;\n  border-top-color: white;\n  animation: _ngcontent-%COMP%_spin 1s ease-in-out infinite;\n  margin-right: 0.5rem;\n}\n@keyframes _ngcontent-%COMP%_spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n.shop-form[_ngcontent-%COMP%] {\n  max-width: 600px;\n  margin: 0 auto;\n  background: white;\n  padding: 3rem;\n  border-radius: 2rem;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);\n}\n.step-header-card[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 1.5rem;\n  margin-bottom: 2.5rem;\n  padding-bottom: 1.5rem;\n  border-bottom: 1px solid #f1f5f9;\n}\n.step-icon[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 4.5rem;\n  height: 4.5rem;\n  background:\n    linear-gradient(\n      135deg,\n      #1aa4b8,\n      var(--cmn-pub-teal));\n  color: white;\n  border-radius: 1.25rem;\n  box-shadow: 0 8px 24px rgba(13, 79, 90, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.3);\n  flex-shrink: 0;\n}\n.step-icon[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  width: 2.2rem;\n  height: 2.2rem;\n}\n.step-header-text[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  font-size: 1.75rem;\n  font-weight: 800;\n  color: var(--cmn-pub-ink);\n  letter-spacing: -0.02em;\n  margin: 0 0 0.25rem 0;\n  font-family: inherit;\n}\n.step-header-text[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  color: #64748b;\n  margin: 0;\n  font-size: 0.95rem;\n}\n.form-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 1.5rem;\n}\n.form-group.full[_ngcontent-%COMP%] {\n  grid-column: span 2;\n}\n.form-group[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 0.9rem;\n  font-weight: 700;\n  margin-bottom: 0.65rem;\n  color: var(--cmn-pub-teal-d);\n  letter-spacing: 0.01em;\n}\n.form-group[_ngcontent-%COMP%]   input[_ngcontent-%COMP%], \n.form-group[_ngcontent-%COMP%]   select[_ngcontent-%COMP%], \n.form-group[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.9rem 1.25rem;\n  border: 1.5px solid #edf2f7;\n  border-radius: 1rem;\n  font-size: 1rem;\n  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);\n  background: #f8fafc;\n  color: var(--cmn-pub-ink);\n}\n.form-group[_ngcontent-%COMP%]   input[_ngcontent-%COMP%]:focus, \n.form-group[_ngcontent-%COMP%]   select[_ngcontent-%COMP%]:focus, \n.form-group[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%]:focus {\n  outline: none;\n  border-color: var(--cmn-pub-teal);\n  background: white;\n  box-shadow: 0 0 0 4px rgba(0, 128, 128, 0.1);\n}\n.form-group[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%] {\n  min-height: 100px;\n  resize: vertical;\n}\n.form-group[_ngcontent-%COMP%]   input.ng-invalid.ng-touched[_ngcontent-%COMP%], \n.form-group[_ngcontent-%COMP%]   select.ng-invalid.ng-touched[_ngcontent-%COMP%], \n.form-group[_ngcontent-%COMP%]   textarea.ng-invalid.ng-touched[_ngcontent-%COMP%] {\n  border-color: #ef4444;\n  background: #fef2f2;\n}\n.field-error[_ngcontent-%COMP%] {\n  color: #ef4444;\n  font-size: 0.8rem;\n  font-weight: 600;\n  margin-top: 0.4rem;\n  animation: _ngcontent-%COMP%_slideDown 0.2s ease-out;\n}\n@keyframes _ngcontent-%COMP%_slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.order-summary-box[_ngcontent-%COMP%] {\n  margin-top: 2.5rem;\n  background: #f8fafc;\n  padding: 1.5rem;\n  border-radius: 1rem;\n  border: 1px dashed #cbd5e1;\n}\n.order-summary-box[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n  margin: 0 0 1rem;\n  color: var(--cmn-pub-teal-d);\n}\n.summary-row[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  margin-bottom: 0.5rem;\n  font-size: 0.95rem;\n}\n.summary-row[_ngcontent-%COMP%]   .free[_ngcontent-%COMP%] {\n  color: #059669;\n  font-weight: 700;\n}\n.summary-divider[_ngcontent-%COMP%] {\n  height: 1px;\n  background: #e2e8f0;\n  margin: 1rem 0;\n}\n.summary-row.total[_ngcontent-%COMP%] {\n  font-weight: 800;\n  font-size: 1.25rem;\n  color: var(--cmn-pub-terra-d);\n}\n.shop-success[_ngcontent-%COMP%] {\n  text-align: center;\n  max-width: 600px;\n  margin: 4rem auto;\n}\n.success-icon[_ngcontent-%COMP%] {\n  width: 80px;\n  height: 80px;\n  background: #059669;\n  color: white;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 3rem;\n  margin: 0 auto 2rem;\n  box-shadow: 0 10px 20px rgba(5, 150, 105, 0.3);\n}\n.success-details[_ngcontent-%COMP%] {\n  background: white;\n  padding: 2rem;\n  border-radius: 1.5rem;\n  margin-top: 2rem;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n.shop-fade-in[_ngcontent-%COMP%] {\n  animation: _ngcontent-%COMP%_fadeIn 0.5s ease-out;\n}\n@keyframes _ngcontent-%COMP%_fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.shop-nav[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: flex-end;\n  margin-bottom: 2rem;\n}\n.cart-btn[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #1d4e51,\n      #063a42);\n  border: none;\n  padding: 0.65rem 1.5rem;\n  border-radius: 99px;\n  font-weight: 800;\n  color: #fff;\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);\n  box-shadow: 0 8px 24px rgba(13, 79, 90, 0.3);\n  display: inline-flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 1.05rem;\n  position: relative;\n  overflow: hidden;\n}\n.cart-btn[_ngcontent-%COMP%]::before {\n  content: "";\n  position: absolute;\n  top: 0;\n  left: -100%;\n  width: 50%;\n  height: 100%;\n  background:\n    linear-gradient(\n      90deg,\n      transparent,\n      rgba(255, 255, 255, 0.15),\n      transparent);\n  transform: skewX(-20deg);\n  animation: _ngcontent-%COMP%_scanLight 4s infinite;\n}\n@keyframes _ngcontent-%COMP%_scanLight {\n  0% {\n    left: -100%;\n  }\n  20% {\n    left: 200%;\n  }\n  100% {\n    left: 200%;\n  }\n}\n.cart-btn[_ngcontent-%COMP%]:hover {\n  transform: translateY(-3px) scale(1.02);\n  box-shadow: 0 12px 28px rgba(13, 79, 90, 0.4);\n  color: #fff;\n}\n.cart-ico[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.cart-ico[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  width: 1.3rem;\n  height: 1.3rem;\n  fill: none;\n  stroke: currentColor;\n  stroke-width: 2;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n.cart-badge[_ngcontent-%COMP%] {\n  background: #c45c4a;\n  color: white;\n  min-width: 22px;\n  height: 22px;\n  border-radius: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.85rem;\n  font-weight: 800;\n  padding: 0 6px;\n  margin-left: 0.2rem;\n  box-shadow: 0 2px 6px rgba(196, 92, 74, 0.4);\n}\n.cart-overlay[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(12, 18, 34, 0.4);\n  -webkit-backdrop-filter: blur(4px);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  animation: _ngcontent-%COMP%_fadeIn 0.3s ease;\n}\n.cart-drawer[_ngcontent-%COMP%] {\n  position: fixed;\n  top: 0;\n  right: -400px;\n  width: 100%;\n  max-width: 400px;\n  height: 100vh;\n  background: white;\n  z-index: 1001;\n  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);\n  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  display: flex;\n  flex-direction: column;\n}\n.cart-drawer.open[_ngcontent-%COMP%] {\n  right: 0;\n}\n.cart-header[_ngcontent-%COMP%] {\n  padding: 1.5rem;\n  border-bottom: 1px solid #eee;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.cart-header[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  font-family: "Fraunces", serif;\n  margin: 0;\n  font-size: 1.25rem;\n}\n.close-btn[_ngcontent-%COMP%] {\n  background: none;\n  border: none;\n  font-size: 1.5rem;\n  cursor: pointer;\n  color: #999;\n}\n.cart-items[_ngcontent-%COMP%] {\n  flex: 1;\n  overflow-y: auto;\n  padding: 1.5rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1.25rem;\n}\n.cart-item[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding-bottom: 1.25rem;\n  border-bottom: 1px solid #f1f5f9;\n}\n.item-info[_ngcontent-%COMP%]   h4[_ngcontent-%COMP%] {\n  margin: 0 0 0.25rem;\n  font-size: 1rem;\n  color: var(--cmn-pub-teal-d);\n}\n.item-info[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 0;\n  font-weight: 700;\n  color: var(--cmn-pub-terra);\n}\n.item-actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n}\n.qty-btn[_ngcontent-%COMP%] {\n  width: 28px;\n  height: 28px;\n  border-radius: 50%;\n  border: 1px solid #ddd;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  font-weight: 700;\n  -webkit-user-select: none;\n  user-select: none;\n  transition: all 0.15s;\n}\n.qty-btn[_ngcontent-%COMP%]:hover {\n  background: #f8fafc;\n  border-color: var(--cmn-pub-teal);\n}\n.qty-num[_ngcontent-%COMP%] {\n  font-weight: 700;\n  min-width: 20px;\n  text-align: center;\n}\n.remove-btn[_ngcontent-%COMP%] {\n  background: none;\n  border: none;\n  padding: 0;\n  font-size: 1.1rem;\n  cursor: pointer;\n  margin-left: 0.5rem;\n  opacity: 0.5;\n  transition: opacity 0.2s;\n}\n.remove-btn[_ngcontent-%COMP%]:hover {\n  opacity: 1;\n}\n.cart-footer[_ngcontent-%COMP%] {\n  padding: 1.5rem;\n  border-top: 1px solid #eee;\n  background: #f8fafc;\n}\n.cart-total[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  font-weight: 800;\n  font-size: 1.2rem;\n  margin-bottom: 1.25rem;\n}\n.cart-empty[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #94a3b8;\n}\n@media (max-width: 480px) {\n  .cart-drawer[_ngcontent-%COMP%] {\n    max-width: 100%;\n  }\n}\n/*# sourceMappingURL=shop-page.component.css.map */'] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ShopPageComponent, [{
+    type: Component,
+    args: [{ selector: "app-shop-page", standalone: true, imports: [CommonModule, FormsModule, RouterLink], template: `<div class="mpub-section shop-section">
+  <div class="mpub-container">
+    <!-- Cart Header CTA -->
+    <div class="shop-nav" *ngIf="orderStep() < 3">
+      <button class="cart-btn" (click)="toggleCart()">
+        <span class="cart-ico">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        </span>
+        My Cart
+        <span class="cart-badge">{{cartCount}}</span>
+      </button>
+    </div>
+
+    <!-- Progress Indicator -->
+    @if (orderStep() < 3) {
+      <div class="shop-progress">
+        <div class="progress-step" [class.active]="orderStep() === 1" [class.completed]="orderStep() > 1">
+          1. Choose Sticker
+        </div>
+        <div class="progress-line" [class.active]="orderStep() > 1"></div>
+        <div class="progress-step" [class.active]="orderStep() === 2">
+          2. Delivery Details
+        </div>
+      </div>
+    }
+
+    <!-- Step 1: Product Selection -->
+    @if (orderStep() === 1) {
+      <div class="shop-fade-in">
+        <p class="mpub-kicker">Premium QR Stickers</p>
+        <h1 class="mpub-page-title">Book Your Sticker Online</h1>
+        <p class="mpub-muted mpub-prose mb-8">Select a pack that fits your needs. Each sticker comes with a lifetime link and 24/7 privacy protection.</p>
+
+        <div class="product-grid">
+          @for (product of products; track product.id) {
+            <div class="product-card" (click)="addToCart(product.id)">
+              <div class="product-img-wrap">
+                <img [src]="product.image" [alt]="product.name">
+                @if (product.id === 'family') {
+                  <div class="product-badge">Popular</div>
+                }
+              </div>
+              <div class="product-info">
+                <h3>{{product.name}}</h3>
+                <p class="product-price">\u20B9{{product.price}}</p>
+                <p class="product-desc">{{product.description}}</p>
+                <ul class="product-features">
+                  @for (feature of product.features; track feature) {
+                    <li><span class="check-ico">\u2713</span> {{feature}}</li>
+                  }
+                </ul>
+                <div class="mt-6">
+                  <button class="mpub-btn-primary w-full">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="shop-actions">
+          <button class="mpub-btn-primary mpub-btn-lg" (click)="nextStep()" [disabled]="cart().length === 0">
+            Proceed to Checkout <span class="btn-arrow">\u2192</span>
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- Step 2: Address Form -->
+    @if (orderStep() === 2) {
+      <div class="shop-fade-in">
+        <form (ngSubmit)="onSubmitOrder(orderForm)" #orderForm="ngForm" class="shop-form">
+          <div class="step-header-card">
+            <div class="step-icon" style="background: linear-gradient(135deg, #1aa4b8, #0d4f5a); color: white;">
+              <!-- Shopping Basket Icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+              </svg>
+            </div>
+            <div class="step-header-text">
+              <h2>Shipping Details</h2>
+              <p>Tell us where to send your premium stickers.</p>
+            </div>
+          </div>
+
+          <div class="form-grid">            <div class="form-group full">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" [(ngModel)]="shippingDetails.name" #name="ngModel" required placeholder="Enter your full name">
+              @if (name.invalid && (name.dirty || name.touched)) {
+                <div class="field-error">Please enter your full name</div>
+              }
+            </div>
+            <div class="form-group full">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" [(ngModel)]="shippingDetails.phone" #phone="ngModel" required pattern="[0-9]{10}" placeholder="10-digit mobile number">
+              @if (phone.invalid && (phone.dirty || phone.touched)) {
+                <div class="field-error">Valid 10-digit mobile number is required</div>
+              }
+            </div>
+            <div class="form-group full">
+              <label for="address">Complete Address</label>
+              <textarea id="address" name="address" [(ngModel)]="shippingDetails.address" #address="ngModel" required placeholder="House No, Building, Street, Area"></textarea>
+              @if (address.invalid && (address.dirty || address.touched)) {
+                <div class="field-error">Please enter your delivery address</div>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="pincode">Pincode</label>
+              <input type="text" id="pincode" name="pincode" [(ngModel)]="shippingDetails.pincode" #pincode="ngModel" required (input)="onPincodeChange()" pattern="[0-9]{6}" placeholder="6-digit PIN">
+              @if (pincode.invalid && (pincode.dirty || pincode.touched)) {
+                <div class="field-error">6-digit Pincode is required</div>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="state">State</label>
+              <select id="state" name="state" [(ngModel)]="shippingDetails.state" #state="ngModel" required (change)="onStateChange()">
+                <option value="">Select State</option>
+                @for (st of states; track st) {
+                  <option [value]="st">{{st}}</option>
+                }
+              </select>
+              @if (state.invalid && (state.dirty || state.touched)) {
+                <div class="field-error">State is required</div>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="city">City / District</label>
+              <select id="city" name="city" [(ngModel)]="shippingDetails.city" #city="ngModel" required>
+                <option value="">Select City/District</option>
+                @for (ct of filteredCities(); track ct) {
+                  <option [value]="ct">{{ct}}</option>
+                }
+              </select>
+              @if (city.invalid && (city.dirty || city.touched)) {
+                <div class="field-error">City is required</div>
+              }
+            </div>
+          </div>
+
+          <div class="order-summary-box">
+            <h3>Order Summary</h3>
+            @for (item of cart(); track item.productId) {
+              <div class="summary-row">
+                <span>{{item.quantity}}x {{item.name}}</span>
+                <span>\u20B9{{item.price * item.quantity}}</span>
+              </div>
+            }
+            <div class="summary-row">
+              <span>Delivery</span>
+              <span class="free">FREE</span>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-row total">
+              <span>Total Amount</span>
+              <span>\u20B9{{cartTotal}}</span>
+            </div>
+          </div>
+
+          <div class="shop-actions">
+            <button type="button" class="mpub-btn-ghost" (click)="prevStep()">Back</button>
+            <button type="submit" class="mpub-btn-primary mpub-btn-lg" [disabled]="isProcessingPayment()">
+              @if (isProcessingPayment()) {
+                <span class="spinner-inline"></span> Processing Payment...
+              } @else {
+                Confirm & Pay \u20B9{{cartTotal}}
+              }
+            </button>
+          </div>
+
+        </form>
+      </div>
+    }
+
+    <!-- Step 3: Success -->
+    @if (orderStep() === 3) {
+      <div class="shop-success shop-fade-in">
+        <div class="success-icon">\u2713</div>
+        <h1 class="mpub-page-title">Booking Placed!</h1>
+        <p class="mpub-prose">Thank you, {{shippingDetails.name}}. Your order has been received.</p>
+        <div class="success-details">
+          <p>Our team will contact you shortly on <strong>{{shippingDetails.phone}}</strong> to confirm delivery of your stickers.</p>
+        </div>
+        <div class="shop-actions">
+          <a routerLink="/" class="mpub-btn-primary">Back to Home</a>
+        </div>
+      </div>
+    }
+
+    <!-- Cart Drawer Overlay -->
+    <div class="cart-overlay" *ngIf="showCart()" (click)="toggleCart()"></div>
+    <div class="cart-drawer" [class.open]="showCart()">
+      <div class="cart-header">
+        <h2>Your Cart ({{cartCount}})</h2>
+        <button class="close-btn" (click)="toggleCart()">\u2715</button>
+      </div>
+      
+      <div class="cart-items" *ngIf="cart().length > 0">
+        @for (item of cart(); track item.productId) {
+          <div class="cart-item">
+            <div class="item-info">
+              <h4>{{item.name}}</h4>
+              <p>\u20B9{{item.price}}</p>
+            </div>
+            <div class="item-actions">
+              <div class="qty-btn" (click)="$event.stopPropagation(); updateQuantity(item.productId, -1)">-</div>
+              <span class="qty-num">{{item.quantity}}</span>
+              <div class="qty-btn" (click)="$event.stopPropagation(); updateQuantity(item.productId, 1)">+</div>
+              <button class="remove-btn" (click)="$event.stopPropagation(); removeFromCart(item.productId)">\u{1F5D1}</button>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="cart-empty" *ngIf="cart().length === 0">
+        <p>Your cart is empty</p>
+      </div>
+
+      <div class="cart-footer" *ngIf="cart().length > 0">
+        <div class="cart-total">
+          <span>Total</span>
+          <span>\u20B9{{cartTotal}}</span>
+        </div>
+        <button class="mpub-btn-primary w-full" (click)="nextStep()">Check out</button>
+      </div>
+    </div>
+  </div>
+</div>
+`, styles: ['/* src/app/components/marketing/shop-page.component.css */\n.shop-section {\n  padding-top: 4rem;\n  padding-bottom: 6rem;\n  background-color: var(--cmn-pub-bg);\n  min-height: 80vh;\n}\n.shop-progress {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin-bottom: 4rem;\n  gap: 0;\n  max-width: 500px;\n  margin-left: auto;\n  margin-right: auto;\n}\n.progress-step {\n  font-size: 0.95rem;\n  font-weight: 700;\n  color: var(--cmn-pub-muted);\n  padding: 0.75rem 1.5rem;\n  border-radius: 99px;\n  background: white;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);\n  position: relative;\n  z-index: 2;\n  border: 1px solid rgba(0, 0, 0, 0.05);\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.progress-step.active {\n  color: white;\n  background: var(--cmn-pub-teal-d);\n  box-shadow: 0 8px 24px rgba(13, 79, 90, 0.25);\n  transform: scale(1.1);\n}\n.progress-step.active::before {\n  content: "\\2192";\n  display: inline-block;\n  font-weight: 400;\n}\n.progress-step.completed {\n  color: var(--cmn-pub-teal-d);\n  background: #f0fdfa;\n  border-color: #5eead4;\n  box-shadow: none;\n}\n.progress-step.completed::before {\n  content: "\\2713";\n  display: inline-block;\n  color: #059669;\n  font-weight: 800;\n}\n.progress-line {\n  height: 3px;\n  flex: 1;\n  background: #e2e8f0;\n  margin: 0 -10px;\n  z-index: 1;\n  transition: background 0.4s ease;\n}\n.progress-line.active {\n  background: #5eead4;\n}\n.product-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  gap: 2rem;\n  margin-top: 3rem;\n}\n.product-card {\n  background: white;\n  border-radius: 1.5rem;\n  padding: 1.5rem;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  border: 2px solid transparent;\n}\n.product-card:hover {\n  transform: translateY(-10px);\n  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);\n}\n.product-card.selected {\n  border-color: var(--cmn-pub-teal);\n  background:\n    linear-gradient(\n      to bottom,\n      white,\n      #f0fdfa);\n}\n.product-img-wrap {\n  position: relative;\n  border-radius: 1rem;\n  overflow: hidden;\n  margin-bottom: 1.5rem;\n  aspect-ratio: 16/9;\n}\n.product-img-wrap img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.product-badge {\n  position: absolute;\n  top: 1rem;\n  right: 1rem;\n  background: var(--cmn-pub-terra-d);\n  color: white;\n  padding: 0.25rem 0.75rem;\n  border-radius: 1rem;\n  font-size: 0.8rem;\n  font-weight: 700;\n  text-transform: uppercase;\n}\n.product-info h3 {\n  font-family:\n    "Fraunces",\n    Georgia,\n    serif;\n  font-size: 1.5rem;\n  margin: 0 0 0.5rem;\n  color: var(--cmn-pub-teal-d);\n}\n.product-price {\n  font-size: 1.75rem;\n  font-weight: 800;\n  color: var(--cmn-pub-terra);\n  margin-bottom: 1rem;\n}\n.product-desc {\n  color: var(--cmn-pub-muted);\n  font-size: 0.95rem;\n  line-height: 1.5;\n  margin-bottom: 1.5rem;\n}\n.product-features {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.product-features li {\n  font-size: 0.9rem;\n  color: #444;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.check-ico {\n  color: #059669;\n  font-weight: bold;\n}\n.selection-indicator {\n  margin-top: 1.5rem;\n  display: flex;\n  justify-content: center;\n}\n.radio-outer {\n  width: 24px;\n  height: 24px;\n  border: 2px solid #ddd;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: white;\n}\n.product-card.selected .radio-outer {\n  border-color: var(--cmn-pub-teal);\n}\n.radio-inner {\n  width: 12px;\n  height: 12px;\n  background: var(--cmn-pub-teal);\n  border-radius: 50%;\n}\n.shop-actions {\n  margin-top: 4rem;\n  display: flex;\n  justify-content: center;\n  gap: 1.5rem;\n}\n.spinner-inline {\n  display: inline-block;\n  width: 1.2rem;\n  height: 1.2rem;\n  border: 2px solid rgba(255, 255, 255, 0.3);\n  border-radius: 50%;\n  border-top-color: white;\n  animation: spin 1s ease-in-out infinite;\n  margin-right: 0.5rem;\n}\n@keyframes spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n.shop-form {\n  max-width: 600px;\n  margin: 0 auto;\n  background: white;\n  padding: 3rem;\n  border-radius: 2rem;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);\n}\n.step-header-card {\n  display: flex;\n  align-items: center;\n  gap: 1.5rem;\n  margin-bottom: 2.5rem;\n  padding-bottom: 1.5rem;\n  border-bottom: 1px solid #f1f5f9;\n}\n.step-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 4.5rem;\n  height: 4.5rem;\n  background:\n    linear-gradient(\n      135deg,\n      #1aa4b8,\n      var(--cmn-pub-teal));\n  color: white;\n  border-radius: 1.25rem;\n  box-shadow: 0 8px 24px rgba(13, 79, 90, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.3);\n  flex-shrink: 0;\n}\n.step-icon svg {\n  width: 2.2rem;\n  height: 2.2rem;\n}\n.step-header-text h2 {\n  font-size: 1.75rem;\n  font-weight: 800;\n  color: var(--cmn-pub-ink);\n  letter-spacing: -0.02em;\n  margin: 0 0 0.25rem 0;\n  font-family: inherit;\n}\n.step-header-text p {\n  color: #64748b;\n  margin: 0;\n  font-size: 0.95rem;\n}\n.form-grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 1.5rem;\n}\n.form-group.full {\n  grid-column: span 2;\n}\n.form-group label {\n  display: block;\n  font-size: 0.9rem;\n  font-weight: 700;\n  margin-bottom: 0.65rem;\n  color: var(--cmn-pub-teal-d);\n  letter-spacing: 0.01em;\n}\n.form-group input,\n.form-group select,\n.form-group textarea {\n  width: 100%;\n  padding: 0.9rem 1.25rem;\n  border: 1.5px solid #edf2f7;\n  border-radius: 1rem;\n  font-size: 1rem;\n  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);\n  background: #f8fafc;\n  color: var(--cmn-pub-ink);\n}\n.form-group input:focus,\n.form-group select:focus,\n.form-group textarea:focus {\n  outline: none;\n  border-color: var(--cmn-pub-teal);\n  background: white;\n  box-shadow: 0 0 0 4px rgba(0, 128, 128, 0.1);\n}\n.form-group textarea {\n  min-height: 100px;\n  resize: vertical;\n}\n.form-group input.ng-invalid.ng-touched,\n.form-group select.ng-invalid.ng-touched,\n.form-group textarea.ng-invalid.ng-touched {\n  border-color: #ef4444;\n  background: #fef2f2;\n}\n.field-error {\n  color: #ef4444;\n  font-size: 0.8rem;\n  font-weight: 600;\n  margin-top: 0.4rem;\n  animation: slideDown 0.2s ease-out;\n}\n@keyframes slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.order-summary-box {\n  margin-top: 2.5rem;\n  background: #f8fafc;\n  padding: 1.5rem;\n  border-radius: 1rem;\n  border: 1px dashed #cbd5e1;\n}\n.order-summary-box h3 {\n  font-size: 1.1rem;\n  margin: 0 0 1rem;\n  color: var(--cmn-pub-teal-d);\n}\n.summary-row {\n  display: flex;\n  justify-content: space-between;\n  margin-bottom: 0.5rem;\n  font-size: 0.95rem;\n}\n.summary-row .free {\n  color: #059669;\n  font-weight: 700;\n}\n.summary-divider {\n  height: 1px;\n  background: #e2e8f0;\n  margin: 1rem 0;\n}\n.summary-row.total {\n  font-weight: 800;\n  font-size: 1.25rem;\n  color: var(--cmn-pub-terra-d);\n}\n.shop-success {\n  text-align: center;\n  max-width: 600px;\n  margin: 4rem auto;\n}\n.success-icon {\n  width: 80px;\n  height: 80px;\n  background: #059669;\n  color: white;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 3rem;\n  margin: 0 auto 2rem;\n  box-shadow: 0 10px 20px rgba(5, 150, 105, 0.3);\n}\n.success-details {\n  background: white;\n  padding: 2rem;\n  border-radius: 1.5rem;\n  margin-top: 2rem;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n.shop-fade-in {\n  animation: fadeIn 0.5s ease-out;\n}\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.shop-nav {\n  display: flex;\n  justify-content: flex-end;\n  margin-bottom: 2rem;\n}\n.cart-btn {\n  background:\n    linear-gradient(\n      135deg,\n      #1d4e51,\n      #063a42);\n  border: none;\n  padding: 0.65rem 1.5rem;\n  border-radius: 99px;\n  font-weight: 800;\n  color: #fff;\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);\n  box-shadow: 0 8px 24px rgba(13, 79, 90, 0.3);\n  display: inline-flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 1.05rem;\n  position: relative;\n  overflow: hidden;\n}\n.cart-btn::before {\n  content: "";\n  position: absolute;\n  top: 0;\n  left: -100%;\n  width: 50%;\n  height: 100%;\n  background:\n    linear-gradient(\n      90deg,\n      transparent,\n      rgba(255, 255, 255, 0.15),\n      transparent);\n  transform: skewX(-20deg);\n  animation: scanLight 4s infinite;\n}\n@keyframes scanLight {\n  0% {\n    left: -100%;\n  }\n  20% {\n    left: 200%;\n  }\n  100% {\n    left: 200%;\n  }\n}\n.cart-btn:hover {\n  transform: translateY(-3px) scale(1.02);\n  box-shadow: 0 12px 28px rgba(13, 79, 90, 0.4);\n  color: #fff;\n}\n.cart-ico {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.cart-ico svg {\n  width: 1.3rem;\n  height: 1.3rem;\n  fill: none;\n  stroke: currentColor;\n  stroke-width: 2;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n.cart-badge {\n  background: #c45c4a;\n  color: white;\n  min-width: 22px;\n  height: 22px;\n  border-radius: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.85rem;\n  font-weight: 800;\n  padding: 0 6px;\n  margin-left: 0.2rem;\n  box-shadow: 0 2px 6px rgba(196, 92, 74, 0.4);\n}\n.cart-overlay {\n  position: fixed;\n  inset: 0;\n  background: rgba(12, 18, 34, 0.4);\n  -webkit-backdrop-filter: blur(4px);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  animation: fadeIn 0.3s ease;\n}\n.cart-drawer {\n  position: fixed;\n  top: 0;\n  right: -400px;\n  width: 100%;\n  max-width: 400px;\n  height: 100vh;\n  background: white;\n  z-index: 1001;\n  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);\n  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  display: flex;\n  flex-direction: column;\n}\n.cart-drawer.open {\n  right: 0;\n}\n.cart-header {\n  padding: 1.5rem;\n  border-bottom: 1px solid #eee;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.cart-header h2 {\n  font-family: "Fraunces", serif;\n  margin: 0;\n  font-size: 1.25rem;\n}\n.close-btn {\n  background: none;\n  border: none;\n  font-size: 1.5rem;\n  cursor: pointer;\n  color: #999;\n}\n.cart-items {\n  flex: 1;\n  overflow-y: auto;\n  padding: 1.5rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1.25rem;\n}\n.cart-item {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding-bottom: 1.25rem;\n  border-bottom: 1px solid #f1f5f9;\n}\n.item-info h4 {\n  margin: 0 0 0.25rem;\n  font-size: 1rem;\n  color: var(--cmn-pub-teal-d);\n}\n.item-info p {\n  margin: 0;\n  font-weight: 700;\n  color: var(--cmn-pub-terra);\n}\n.item-actions {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n}\n.qty-btn {\n  width: 28px;\n  height: 28px;\n  border-radius: 50%;\n  border: 1px solid #ddd;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  font-weight: 700;\n  -webkit-user-select: none;\n  user-select: none;\n  transition: all 0.15s;\n}\n.qty-btn:hover {\n  background: #f8fafc;\n  border-color: var(--cmn-pub-teal);\n}\n.qty-num {\n  font-weight: 700;\n  min-width: 20px;\n  text-align: center;\n}\n.remove-btn {\n  background: none;\n  border: none;\n  padding: 0;\n  font-size: 1.1rem;\n  cursor: pointer;\n  margin-left: 0.5rem;\n  opacity: 0.5;\n  transition: opacity 0.2s;\n}\n.remove-btn:hover {\n  opacity: 1;\n}\n.cart-footer {\n  padding: 1.5rem;\n  border-top: 1px solid #eee;\n  background: #f8fafc;\n}\n.cart-total {\n  display: flex;\n  justify-content: space-between;\n  font-weight: 800;\n  font-size: 1.2rem;\n  margin-bottom: 1.25rem;\n}\n.cart-empty {\n  flex: 1;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #94a3b8;\n}\n@media (max-width: 480px) {\n  .cart-drawer {\n    max-width: 100%;\n  }\n}\n/*# sourceMappingURL=shop-page.component.css.map */\n'] }]
+  }], () => [{ type: EcommService }], null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ShopPageComponent, { className: "ShopPageComponent", filePath: "src/app/components/marketing/shop-page.component.ts", lineNumber: 15 });
+})();
+
+// src/app/components/orders-list/orders-list.component.ts
+var _forTrack07 = ($index, $item) => $item.id;
+function OrdersListComponent_Conditional_14_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275domElementStart(0, "div", 10);
+    \u0275\u0275text(1, "Loading bookings...");
+    \u0275\u0275domElementEnd();
+  }
+}
+function OrdersListComponent_Conditional_15_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275domElementStart(0, "div", 11);
+    \u0275\u0275text(1, "No bookings found yet.");
+    \u0275\u0275domElementEnd();
+  }
+}
+function OrdersListComponent_Conditional_16_For_20_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275domElementStart(0, "tr", 15);
+    \u0275\u0275domListener("click", function OrdersListComponent_Conditional_16_For_20_Template_tr_click_0_listener() {
+      const o_r2 = \u0275\u0275restoreView(_r1).$implicit;
+      const ctx_r2 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r2.openOrderDetails(o_r2));
+    });
+    \u0275\u0275domElementStart(1, "td", 16);
+    \u0275\u0275text(2);
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(3, "td");
+    \u0275\u0275text(4);
+    \u0275\u0275pipe(5, "date");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(6, "td", 17);
+    \u0275\u0275text(7);
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(8, "td")(9, "div");
+    \u0275\u0275text(10);
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(11, "div", 18);
+    \u0275\u0275text(12);
+    \u0275\u0275domElementEnd()();
+    \u0275\u0275domElementStart(13, "td");
+    \u0275\u0275text(14);
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(15, "td", 17);
+    \u0275\u0275text(16);
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(17, "td")(18, "span", 19);
+    \u0275\u0275text(19);
+    \u0275\u0275domElementEnd()()();
+  }
+  if (rf & 2) {
+    const o_r2 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1("#", o_r2.id);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(5, 11, o_r2.createdAtUtc, "MMM d, y, h:mm a"));
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(o_r2.customerName);
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(o_r2.customerPhone);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate2("", o_r2.city, ", ", o_r2.pincode);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(o_r2.productName);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1("\u20B9", o_r2.amount);
+    \u0275\u0275advance(2);
+    \u0275\u0275classMap((o_r2.status || "pending").toLowerCase());
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(o_r2.status || "Pending");
+  }
+}
+function OrdersListComponent_Conditional_16_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275domElementStart(0, "div", 12)(1, "table", 14)(2, "thead")(3, "tr")(4, "th");
+    \u0275\u0275text(5, "Order ID");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(6, "th");
+    \u0275\u0275text(7, "Date");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(8, "th");
+    \u0275\u0275text(9, "Customer");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(10, "th");
+    \u0275\u0275text(11, "Contact");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(12, "th");
+    \u0275\u0275text(13, "Product");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(14, "th");
+    \u0275\u0275text(15, "Amount");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(16, "th");
+    \u0275\u0275text(17, "Status");
+    \u0275\u0275domElementEnd()()();
+    \u0275\u0275domElementStart(18, "tbody");
+    \u0275\u0275repeaterCreate(19, OrdersListComponent_Conditional_16_For_20_Template, 20, 14, "tr", null, _forTrack07);
+    \u0275\u0275domElementEnd()()();
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275advance(19);
+    \u0275\u0275repeater(ctx_r2.orders());
+  }
+}
+function OrdersListComponent_Conditional_17_Conditional_52_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r6 = \u0275\u0275getCurrentView();
+    \u0275\u0275domElementStart(0, "button", 43);
+    \u0275\u0275domListener("click", function OrdersListComponent_Conditional_17_Conditional_52_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r6);
+      const ctx_r2 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r2.printSticker(ctx_r2.selectedOrder()));
+    });
+    \u0275\u0275text(1, " \u{1F3AF} Print Sticker ");
+    \u0275\u0275domElementEnd();
+  }
+}
+function OrdersListComponent_Conditional_17_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r4 = \u0275\u0275getCurrentView();
+    \u0275\u0275domElementStart(0, "div", 20);
+    \u0275\u0275domListener("click", function OrdersListComponent_Conditional_17_Template_div_click_0_listener() {
+      \u0275\u0275restoreView(_r4);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.closeModal());
+    });
+    \u0275\u0275domElementStart(1, "div", 21);
+    \u0275\u0275domListener("click", function OrdersListComponent_Conditional_17_Template_div_click_1_listener($event) {
+      return $event.stopPropagation();
+    });
+    \u0275\u0275domElementStart(2, "div", 22)(3, "h3", 23);
+    \u0275\u0275text(4);
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(5, "button", 24);
+    \u0275\u0275domListener("click", function OrdersListComponent_Conditional_17_Template_button_click_5_listener() {
+      \u0275\u0275restoreView(_r4);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.closeModal());
+    });
+    \u0275\u0275text(6, "\u2715");
+    \u0275\u0275domElementEnd()();
+    \u0275\u0275domElementStart(7, "div", 25)(8, "div", 26)(9, "div", 27)(10, "span", 28);
+    \u0275\u0275text(11, "Customer Name");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(12, "p", 29);
+    \u0275\u0275text(13);
+    \u0275\u0275domElementEnd()();
+    \u0275\u0275domElementStart(14, "div", 27)(15, "span", 28);
+    \u0275\u0275text(16, "Phone Number");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(17, "p", 29);
+    \u0275\u0275text(18);
+    \u0275\u0275domElementEnd()();
+    \u0275\u0275domElementStart(19, "div", 30)(20, "span", 28);
+    \u0275\u0275text(21, "Complete Shipping Address");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(22, "p", 31);
+    \u0275\u0275text(23);
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(24, "p", 32);
+    \u0275\u0275text(25);
+    \u0275\u0275domElementEnd()();
+    \u0275\u0275domElementStart(26, "div", 27)(27, "span", 28);
+    \u0275\u0275text(28, "Product Ordered");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(29, "p", 29);
+    \u0275\u0275text(30);
+    \u0275\u0275domElementEnd()();
+    \u0275\u0275domElementStart(31, "div", 27)(32, "span", 28);
+    \u0275\u0275text(33, "Total Amount");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(34, "p", 29);
+    \u0275\u0275text(35);
+    \u0275\u0275domElementEnd()()()();
+    \u0275\u0275domElementStart(36, "div", 33)(37, "div", 34)(38, "select", 35, 0);
+    \u0275\u0275domListener("change", function OrdersListComponent_Conditional_17_Template_select_change_38_listener() {
+      \u0275\u0275restoreView(_r4);
+      const statusSelect_r5 = \u0275\u0275reference(39);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.updateStatus(ctx_r2.selectedOrder().id, statusSelect_r5.value));
+    });
+    \u0275\u0275domElementStart(40, "option", 36);
+    \u0275\u0275text(41, "Pending");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(42, "option", 37);
+    \u0275\u0275text(43, "Paid / Confirmed");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(44, "option", 38);
+    \u0275\u0275text(45, "Shipped");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(46, "option", 39);
+    \u0275\u0275text(47, "Delivered");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(48, "option", 40);
+    \u0275\u0275text(49, "Cancelled");
+    \u0275\u0275domElementEnd()();
+    \u0275\u0275domElementStart(50, "button", 8);
+    \u0275\u0275domListener("click", function OrdersListComponent_Conditional_17_Template_button_click_50_listener() {
+      \u0275\u0275restoreView(_r4);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.printSingleRow(ctx_r2.selectedOrder()));
+    });
+    \u0275\u0275text(51, "\u{1F5A8}\uFE0F Shipping Label");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275conditionalCreate(52, OrdersListComponent_Conditional_17_Conditional_52_Template, 2, 0, "button", 41);
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(53, "button", 42);
+    \u0275\u0275domListener("click", function OrdersListComponent_Conditional_17_Template_button_click_53_listener() {
+      \u0275\u0275restoreView(_r4);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.closeModal());
+    });
+    \u0275\u0275text(54, "Close");
+    \u0275\u0275domElementEnd()()()();
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1("Order #", ctx_r2.selectedOrder().id, " Details");
+    \u0275\u0275advance(9);
+    \u0275\u0275textInterpolate(ctx_r2.selectedOrder().customerName);
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate(ctx_r2.selectedOrder().customerPhone);
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate(ctx_r2.selectedOrder().shippingAddress);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate2("", ctx_r2.selectedOrder().city, " - ", ctx_r2.selectedOrder().pincode);
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate2("", ctx_r2.selectedOrder().productName, " (", ctx_r2.selectedOrder().productId, ")");
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate1("\u20B9", ctx_r2.selectedOrder().amount);
+    \u0275\u0275advance(3);
+    \u0275\u0275domProperty("value", ctx_r2.selectedOrder().status || "Pending");
+    \u0275\u0275advance(14);
+    \u0275\u0275conditional(ctx_r2.selectedOrder().assignedPublicId ? 52 : -1);
+  }
+}
+var OrdersListComponent = class _OrdersListComponent {
+  http = inject2(HttpClient);
+  orders = signal([], ...ngDevMode ? [{ debugName: "orders" }] : []);
+  loading = signal(true, ...ngDevMode ? [{ debugName: "loading" }] : []);
+  selectedOrder = signal(null, ...ngDevMode ? [{ debugName: "selectedOrder" }] : []);
+  ngOnInit() {
+    this.fetchOrders();
+  }
+  fetchOrders() {
+    this.loading.set(true);
+    this.http.get(`/api/ecomm/orders`).subscribe({
+      next: (data) => {
+        this.orders.set(data);
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
+  }
+  openOrderDetails(order) {
+    this.selectedOrder.set(order);
+  }
+  closeModal() {
+    this.selectedOrder.set(null);
+  }
+  updateStatus(orderId, status) {
+    if (!status)
+      return;
+    this.http.put(`/api/ecomm/orders/${orderId}/status`, { status }).subscribe({
+      next: () => {
+        this.orders.update((ords) => ords.map((o) => o.id === orderId ? __spreadProps(__spreadValues({}, o), { status }) : o));
+        const currentSelected = this.selectedOrder();
+        if (currentSelected && currentSelected.id === orderId) {
+          this.selectedOrder.set(__spreadProps(__spreadValues({}, currentSelected), { status }));
+        }
+      },
+      error: (err) => alert("Failed to update status")
+    });
+  }
+  printSingleRow(order) {
+    const printWindow = window.open("", "_blank");
+    if (!printWindow)
+      return;
+    const html = `
+      <html>
+      <head>
+        <title>Print Shipping Label - #${order.id}</title>
+        <style>
+          body { font-family: sans-serif; padding: 20px; }
+          .label { border: 1px solid #000; padding: 20px; width: 400px; margin-bottom: 20px; border-radius: 8px;}
+          h2 { margin-top: 0; }
+          .muted { color: #555; font-size: 0.9em; }
+        </style>
+      </head>
+      <body onload="window.print(); window.close();">
+        <div class="label">
+          <h2>Shipping Label</h2>
+          <p><strong>To:</strong> ${order.customerName}</p>
+          <p><strong>Phone:</strong> ${order.customerPhone}</p>
+          <p><strong>Address:</strong><br/>${order.shippingAddress.replace(/\\n/g, "<br/>")}</p>
+          <p><strong>City/Pincode:</strong> ${order.city}, ${order.pincode}</p>
+          <hr/>
+          <p class="muted"><strong>Product:</strong> ${order.productName} (ID: ${order.productId})</p>
+          <p class="muted"><strong>Order #${order.id}</strong></p>
+        </div>
+      </body>
+      </html>
+    `;
+    printWindow.document.write(html);
+    printWindow.document.close();
+  }
+  printSticker(order) {
+    if (!order?.assignedPublicId) {
+      alert("No sticker assigned to this booking.");
+      return;
+    }
+    const url = `/app/inventory/print/${encodeURIComponent(order.assignedPublicId)}?embed=scan&layout=horizontal`;
+    window.open(url, "_blank");
+  }
+  printAllLabels() {
+    const printWindow = window.open("", "_blank");
+    if (!printWindow)
+      return;
+    let labelsHtml = this.orders().map((order) => `
+        <div class="label" style="page-break-inside: avoid;">
+          <h2>Shipping Label</h2>
+          <p><strong>To:</strong> ${order.customerName}</p>
+          <p><strong>Phone:</strong> ${order.customerPhone}</p>
+          <p><strong>Address:</strong><br/>${order.shippingAddress.replace(/\\n/g, "<br/>")}</p>
+          <p><strong>City/Pincode:</strong> ${order.city}, ${order.pincode}</p>
+          <hr/>
+          <p class="muted"><strong>Product:</strong> ${order.productName}</p>
+          <p class="muted"><strong>Order #${order.id}</strong></p>
+        </div>
+    `).join("");
+    const html = `
+      <html>
+      <head>
+        <title>Print All Labels</title>
+        <style>
+          body { font-family: sans-serif; padding: 20px; }
+          .label { border: 1px dashed #000; padding: 20px; width: 45%; display: inline-block; margin: 10px; vertical-align: top; box-sizing: border-box; border-radius: 8px;}
+          h2 { margin-top: 0; }
+          .muted { color: #555; font-size: 0.9em; }
+        </style>
+      </head>
+      <body onload="window.print(); window.close();">
+        ${labelsHtml}
+      </body>
+      </html>
+    `;
+    printWindow.document.write(html);
+    printWindow.document.close();
+  }
+  static \u0275fac = function OrdersListComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _OrdersListComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _OrdersListComponent, selectors: [["app-orders-list"]], decls: 18, vars: 3, consts: [["statusSelect", ""], [1, "orders-page"], [1, "page-header"], [2, "display", "flex", "justify-content", "space-between", "align-items", "flex-start"], [1, "page-title"], [1, "page-subtitle"], [1, "header-actions"], [1, "btn", "btn-secondary", 3, "click", "disabled"], [1, "btn", "btn-primary", 3, "click"], [1, "table-card"], [1, "loading-state"], [1, "empty-state"], [1, "table-responsive"], [1, "modal-overlay"], [1, "data-table"], [3, "click"], [1, "font-mono"], [1, "fw-600"], [1, "text-small", "muted"], [1, "status-badge"], [1, "modal-overlay", 3, "click"], [1, "modal-content", 3, "click"], [1, "modal-header"], [1, "modal-title"], [1, "modal-close", 3, "click"], [1, "modal-body"], [1, "detail-grid"], [1, "detail-group"], [1, "detail-label"], [1, "detail-value"], [1, "detail-group", 2, "grid-column", "1 / -1"], [1, "detail-address"], [1, "detail-value", 2, "margin-top", "8px"], [1, "modal-footer"], [1, "action-group"], [1, "status-select", 3, "change", "value"], ["value", "Pending"], ["value", "Paid"], ["value", "Shipped"], ["value", "Delivered"], ["value", "Cancelled"], [1, "btn", "btn-secondary", 2, "background", "#ef9523", "color", "white", "border", "none"], [1, "btn", "btn-secondary", 3, "click"], [1, "btn", "btn-secondary", 2, "background", "#ef9523", "color", "white", "border", "none", 3, "click"]], template: function OrdersListComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275domElementStart(0, "div", 1)(1, "header", 2)(2, "div", 3)(3, "div")(4, "h1", 4);
+      \u0275\u0275text(5, "Bookings (Sticker Orders)");
+      \u0275\u0275domElementEnd();
+      \u0275\u0275domElementStart(6, "p", 5);
+      \u0275\u0275text(7, "View and manage physical sticker purchases.");
+      \u0275\u0275domElementEnd()();
+      \u0275\u0275domElementStart(8, "div", 6)(9, "button", 7);
+      \u0275\u0275domListener("click", function OrdersListComponent_Template_button_click_9_listener() {
+        return ctx.printAllLabels();
+      });
+      \u0275\u0275text(10, " \u{1F5A8}\uFE0F Print All Labels ");
+      \u0275\u0275domElementEnd();
+      \u0275\u0275domElementStart(11, "button", 8);
+      \u0275\u0275domListener("click", function OrdersListComponent_Template_button_click_11_listener() {
+        return ctx.fetchOrders();
+      });
+      \u0275\u0275text(12, "\u{1F504} Refresh");
+      \u0275\u0275domElementEnd()()()();
+      \u0275\u0275domElementStart(13, "div", 9);
+      \u0275\u0275conditionalCreate(14, OrdersListComponent_Conditional_14_Template, 2, 0, "div", 10)(15, OrdersListComponent_Conditional_15_Template, 2, 0, "div", 11)(16, OrdersListComponent_Conditional_16_Template, 21, 0, "div", 12);
+      \u0275\u0275domElementEnd();
+      \u0275\u0275conditionalCreate(17, OrdersListComponent_Conditional_17_Template, 55, 11, "div", 13);
+      \u0275\u0275domElementEnd();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance(9);
+      \u0275\u0275domProperty("disabled", ctx.orders().length === 0);
+      \u0275\u0275advance(5);
+      \u0275\u0275conditional(ctx.loading() ? 14 : ctx.orders().length === 0 ? 15 : 16);
+      \u0275\u0275advance(3);
+      \u0275\u0275conditional(ctx.selectedOrder() ? 17 : -1);
+    }
+  }, dependencies: [CommonModule, DatePipe], styles: ['\n\n.orders-page[_ngcontent-%COMP%] {\n  max-width: 1200px;\n  margin: 0 auto;\n  animation: _ngcontent-%COMP%_fade 0.3s ease;\n}\n@keyframes _ngcontent-%COMP%_fade {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n.page-header[_ngcontent-%COMP%] {\n  margin-bottom: 24px;\n}\n.page-title[_ngcontent-%COMP%] {\n  font-size: 1.5rem;\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin: 0 0 4px 0;\n  letter-spacing: -0.02em;\n}\n.page-subtitle[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n  font-size: 0.95rem;\n  margin: 0;\n}\n.table-card[_ngcontent-%COMP%] {\n  background: var(--cmn-card-bg-solid, white);\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);\n  border: 1px solid var(--cmn-card-border, #e2e8f0);\n  overflow: hidden;\n}\n.table-responsive[_ngcontent-%COMP%] {\n  overflow-x: auto;\n}\n.data-table[_ngcontent-%COMP%] {\n  width: 100%;\n  border-collapse: collapse;\n  font-size: 0.95rem;\n}\n.data-table[_ngcontent-%COMP%]   th[_ngcontent-%COMP%], \n.data-table[_ngcontent-%COMP%]   td[_ngcontent-%COMP%] {\n  padding: 16px 20px;\n  text-align: left;\n  border-bottom: 1px solid var(--cmn-card-border, #e2e8f0);\n  color: var(--cmn-text);\n}\n.data-table[_ngcontent-%COMP%]   th[_ngcontent-%COMP%] {\n  background: rgba(99, 102, 241, 0.04);\n  font-weight: 700;\n  color: var(--cmn-text-muted);\n  font-size: 0.8rem;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n}\n.font-mono[_ngcontent-%COMP%] {\n  font-family: ui-monospace, monospace;\n  color: #6366f1;\n  font-weight: 600;\n}\n.fw-600[_ngcontent-%COMP%] {\n  font-weight: 600;\n}\n.text-small[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n}\n.muted[_ngcontent-%COMP%] {\n  color: var(--cmn-text-muted);\n}\n.status-badge[_ngcontent-%COMP%] {\n  padding: 6px 12px;\n  border-radius: 99px;\n  font-size: 0.75rem;\n  font-weight: 700;\n  background: #e2e8f0;\n  color: #475569;\n  text-transform: uppercase;\n  letter-spacing: 0.02em;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.status-badge[_ngcontent-%COMP%]:hover {\n  filter: brightness(0.95);\n  transform: translateY(-1px);\n}\n.status-badge.pending[_ngcontent-%COMP%] {\n  background: #fef3c7;\n  color: #d97706;\n}\n.status-badge.shipped[_ngcontent-%COMP%] {\n  background: #dbeafe;\n  color: #1e3a8a;\n}\n.status-badge.completed[_ngcontent-%COMP%], \n.status-badge.paid[_ngcontent-%COMP%] {\n  background: #d1fae5;\n  color: #059669;\n}\n.loading-state[_ngcontent-%COMP%], \n.empty-state[_ngcontent-%COMP%] {\n  padding: 64px;\n  text-align: center;\n  color: var(--cmn-text-muted);\n  font-size: 1.1rem;\n}\n.modal-overlay[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(15, 23, 42, 0.4);\n  -webkit-backdrop-filter: blur(4px);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  animation: _ngcontent-%COMP%_fadeIn 0.2s ease-out;\n  padding: 20px;\n}\n.modal-content[_ngcontent-%COMP%] {\n  background: white;\n  border-radius: 20px;\n  width: 100%;\n  max-width: 650px;\n  max-height: 90vh;\n  overflow-y: auto;\n  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);\n  animation: _ngcontent-%COMP%_slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);\n}\n@keyframes _ngcontent-%COMP%_fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes _ngcontent-%COMP%_slideUp {\n  from {\n    opacity: 0;\n    transform: translateY(20px) scale(0.95);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n.modal-header[_ngcontent-%COMP%] {\n  padding: 20px 24px;\n  border-bottom: 1px solid #f1f5f9;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  background:\n    linear-gradient(\n      135deg,\n      #1aa4b8,\n      #0d4f5a);\n  color: white;\n  border-top-left-radius: 20px;\n  border-top-right-radius: 20px;\n}\n.modal-title[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 1.3rem;\n  font-family: "Fraunces", serif;\n  font-weight: 700;\n}\n.modal-close[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.2);\n  border: none;\n  color: white;\n  width: 32px;\n  height: 32px;\n  border-radius: 50%;\n  font-size: 1.2rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background 0.2s;\n}\n.modal-close[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.3);\n}\n.modal-body[_ngcontent-%COMP%] {\n  padding: 24px;\n}\n.detail-grid[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 20px;\n  grid-template-columns: 1fr;\n}\n@media (min-width: 500px) {\n  .detail-grid[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr 1fr;\n  }\n}\n.detail-group[_ngcontent-%COMP%] {\n  background: #f8fafc;\n  padding: 16px;\n  border-radius: 12px;\n  border: 1px solid #e2e8f0;\n}\n.detail-label[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 0.8rem;\n  font-weight: 700;\n  color: #64748b;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  margin-bottom: 6px;\n}\n.detail-value[_ngcontent-%COMP%] {\n  font-size: 1.05rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin: 0;\n}\n.detail-address[_ngcontent-%COMP%] {\n  font-size: 0.95rem;\n  line-height: 1.5;\n  color: #334155;\n  margin: 0;\n  white-space: pre-wrap;\n}\n.modal-footer[_ngcontent-%COMP%] {\n  padding: 20px 24px;\n  border-top: 1px solid #f1f5f9;\n  background: #f8fafc;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  border-bottom-left-radius: 20px;\n  border-bottom-right-radius: 20px;\n  flex-wrap: wrap;\n  gap: 12px;\n}\n.action-group[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 12px;\n  align-items: center;\n}\n.status-select[_ngcontent-%COMP%] {\n  padding: 8px 16px;\n  border-radius: 8px;\n  border: 1px solid #cbd5e1;\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: #334155;\n  background: white;\n  cursor: pointer;\n}\n.status-select[_ngcontent-%COMP%]:focus {\n  outline: none;\n  border-color: #0d4f5a;\n  box-shadow: 0 0 0 3px rgba(13, 79, 90, 0.1);\n}\n.btn[_ngcontent-%COMP%] {\n  padding: 8px 16px;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 0.95rem;\n  cursor: pointer;\n  border: none;\n  transition: all 0.2s;\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n}\n.btn-primary[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #1aa4b8,\n      #0d4f5a);\n  color: white;\n  box-shadow: 0 4px 12px rgba(13, 79, 90, 0.2);\n}\n.btn-primary[_ngcontent-%COMP%]:hover {\n  transform: translateY(-1px);\n  box-shadow: 0 6px 16px rgba(13, 79, 90, 0.3);\n}\n.btn-secondary[_ngcontent-%COMP%] {\n  background: white;\n  color: #334155;\n  border: 1px solid #cbd5e1;\n}\n.btn-secondary[_ngcontent-%COMP%]:hover {\n  background: #f1f5f9;\n}\n.data-table[_ngcontent-%COMP%]   tbody[_ngcontent-%COMP%]   tr[_ngcontent-%COMP%] {\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.data-table[_ngcontent-%COMP%]   tbody[_ngcontent-%COMP%]   tr[_ngcontent-%COMP%]:hover {\n  background: #f8fafc;\n}\n.header-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 12px;\n  margin-top: 16px;\n}\n/*# sourceMappingURL=orders-list.component.css.map */'] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(OrdersListComponent, [{
+    type: Component,
+    args: [{ selector: "app-orders-list", standalone: true, imports: [CommonModule], template: `
+    <div class="orders-page">
+      <header class="page-header">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <h1 class="page-title">Bookings (Sticker Orders)</h1>
+            <p class="page-subtitle">View and manage physical sticker purchases.</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-secondary" (click)="printAllLabels()" [disabled]="orders().length === 0">
+              \u{1F5A8}\uFE0F Print All Labels
+            </button>
+            <button class="btn btn-primary" (click)="fetchOrders()">\u{1F504} Refresh</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="table-card">
+        @if (loading()) {
+          <div class="loading-state">Loading bookings...</div>
+        } @else if (orders().length === 0) {
+          <div class="empty-state">No bookings found yet.</div>
+        } @else {
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Date</th>
+                  <th>Customer</th>
+                  <th>Contact</th>
+                  <th>Product</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (o of orders(); track o.id) {
+                  <tr (click)="openOrderDetails(o)">
+                    <td class="font-mono">#{{o.id}}</td>
+                    <td>{{o.createdAtUtc | date:'MMM d, y, h:mm a'}}</td>
+                    <td class="fw-600">{{o.customerName}}</td>
+                    <td>
+                      <div>{{o.customerPhone}}</div>
+                      <div class="text-small muted">{{o.city}}, {{o.pincode}}</div>
+                    </td>
+                    <td>{{o.productName}}</td>
+                    <td class="fw-600">\u20B9{{o.amount}}</td>
+                    <td><span class="status-badge" [class]="(o.status || 'pending').toLowerCase()">{{o.status || 'Pending'}}</span></td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+
+      <!-- Customer Detail Modal -->
+      @if (selectedOrder()) {
+        <div class="modal-overlay" (click)="closeModal()">
+          <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+              <h3 class="modal-title">Order #{{selectedOrder().id}} Details</h3>
+              <button class="modal-close" (click)="closeModal()">\u2715</button>
+            </div>
+            <div class="modal-body">
+              <div class="detail-grid">
+                <div class="detail-group">
+                  <span class="detail-label">Customer Name</span>
+                  <p class="detail-value">{{selectedOrder().customerName}}</p>
+                </div>
+                <div class="detail-group">
+                  <span class="detail-label">Phone Number</span>
+                  <p class="detail-value">{{selectedOrder().customerPhone}}</p>
+                </div>
+                <div class="detail-group" style="grid-column: 1 / -1;">
+                  <span class="detail-label">Complete Shipping Address</span>
+                  <p class="detail-address">{{selectedOrder().shippingAddress}}</p>
+                  <p class="detail-value" style="margin-top: 8px;">{{selectedOrder().city}} - {{selectedOrder().pincode}}</p>
+                </div>
+                <div class="detail-group">
+                  <span class="detail-label">Product Ordered</span>
+                  <p class="detail-value">{{selectedOrder().productName}} ({{selectedOrder().productId}})</p>
+                </div>
+                <div class="detail-group">
+                  <span class="detail-label">Total Amount</span>
+                  <p class="detail-value">\u20B9{{selectedOrder().amount}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div class="action-group">
+                <select #statusSelect class="status-select" [value]="selectedOrder().status || 'Pending'" (change)="updateStatus(selectedOrder().id, statusSelect.value)">
+                  <option value="Pending">Pending</option>
+                  <option value="Paid">Paid / Confirmed</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+                <button class="btn btn-primary" (click)="printSingleRow(selectedOrder())">\u{1F5A8}\uFE0F Shipping Label</button>
+                @if (selectedOrder().assignedPublicId) {
+                  <button class="btn btn-secondary" (click)="printSticker(selectedOrder())" style="background: #ef9523; color: white; border: none;">
+                    \u{1F3AF} Print Sticker
+                  </button>
+                }
+              </div>
+              <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  `, styles: ['/* angular:styles/component:css;1be9849755a321028b9b831f337c2ec7acc7c83a95271c7d4a63502d6fa2b5f6;C:/Users/LENOVO/source/repos/rk92104/callmenow/qrcode-app-ui/src/app/components/orders-list/orders-list.component.ts */\n.orders-page {\n  max-width: 1200px;\n  margin: 0 auto;\n  animation: fade 0.3s ease;\n}\n@keyframes fade {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n.page-header {\n  margin-bottom: 24px;\n}\n.page-title {\n  font-size: 1.5rem;\n  font-weight: 800;\n  color: var(--cmn-heading);\n  margin: 0 0 4px 0;\n  letter-spacing: -0.02em;\n}\n.page-subtitle {\n  color: var(--cmn-text-muted);\n  font-size: 0.95rem;\n  margin: 0;\n}\n.table-card {\n  background: var(--cmn-card-bg-solid, white);\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);\n  border: 1px solid var(--cmn-card-border, #e2e8f0);\n  overflow: hidden;\n}\n.table-responsive {\n  overflow-x: auto;\n}\n.data-table {\n  width: 100%;\n  border-collapse: collapse;\n  font-size: 0.95rem;\n}\n.data-table th,\n.data-table td {\n  padding: 16px 20px;\n  text-align: left;\n  border-bottom: 1px solid var(--cmn-card-border, #e2e8f0);\n  color: var(--cmn-text);\n}\n.data-table th {\n  background: rgba(99, 102, 241, 0.04);\n  font-weight: 700;\n  color: var(--cmn-text-muted);\n  font-size: 0.8rem;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n}\n.font-mono {\n  font-family: ui-monospace, monospace;\n  color: #6366f1;\n  font-weight: 600;\n}\n.fw-600 {\n  font-weight: 600;\n}\n.text-small {\n  font-size: 0.8rem;\n}\n.muted {\n  color: var(--cmn-text-muted);\n}\n.status-badge {\n  padding: 6px 12px;\n  border-radius: 99px;\n  font-size: 0.75rem;\n  font-weight: 700;\n  background: #e2e8f0;\n  color: #475569;\n  text-transform: uppercase;\n  letter-spacing: 0.02em;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.status-badge:hover {\n  filter: brightness(0.95);\n  transform: translateY(-1px);\n}\n.status-badge.pending {\n  background: #fef3c7;\n  color: #d97706;\n}\n.status-badge.shipped {\n  background: #dbeafe;\n  color: #1e3a8a;\n}\n.status-badge.completed,\n.status-badge.paid {\n  background: #d1fae5;\n  color: #059669;\n}\n.loading-state,\n.empty-state {\n  padding: 64px;\n  text-align: center;\n  color: var(--cmn-text-muted);\n  font-size: 1.1rem;\n}\n.modal-overlay {\n  position: fixed;\n  inset: 0;\n  background: rgba(15, 23, 42, 0.4);\n  -webkit-backdrop-filter: blur(4px);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  animation: fadeIn 0.2s ease-out;\n  padding: 20px;\n}\n.modal-content {\n  background: white;\n  border-radius: 20px;\n  width: 100%;\n  max-width: 650px;\n  max-height: 90vh;\n  overflow-y: auto;\n  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);\n  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);\n}\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes slideUp {\n  from {\n    opacity: 0;\n    transform: translateY(20px) scale(0.95);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n.modal-header {\n  padding: 20px 24px;\n  border-bottom: 1px solid #f1f5f9;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  background:\n    linear-gradient(\n      135deg,\n      #1aa4b8,\n      #0d4f5a);\n  color: white;\n  border-top-left-radius: 20px;\n  border-top-right-radius: 20px;\n}\n.modal-title {\n  margin: 0;\n  font-size: 1.3rem;\n  font-family: "Fraunces", serif;\n  font-weight: 700;\n}\n.modal-close {\n  background: rgba(255, 255, 255, 0.2);\n  border: none;\n  color: white;\n  width: 32px;\n  height: 32px;\n  border-radius: 50%;\n  font-size: 1.2rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background 0.2s;\n}\n.modal-close:hover {\n  background: rgba(255, 255, 255, 0.3);\n}\n.modal-body {\n  padding: 24px;\n}\n.detail-grid {\n  display: grid;\n  gap: 20px;\n  grid-template-columns: 1fr;\n}\n@media (min-width: 500px) {\n  .detail-grid {\n    grid-template-columns: 1fr 1fr;\n  }\n}\n.detail-group {\n  background: #f8fafc;\n  padding: 16px;\n  border-radius: 12px;\n  border: 1px solid #e2e8f0;\n}\n.detail-label {\n  display: block;\n  font-size: 0.8rem;\n  font-weight: 700;\n  color: #64748b;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  margin-bottom: 6px;\n}\n.detail-value {\n  font-size: 1.05rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin: 0;\n}\n.detail-address {\n  font-size: 0.95rem;\n  line-height: 1.5;\n  color: #334155;\n  margin: 0;\n  white-space: pre-wrap;\n}\n.modal-footer {\n  padding: 20px 24px;\n  border-top: 1px solid #f1f5f9;\n  background: #f8fafc;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  border-bottom-left-radius: 20px;\n  border-bottom-right-radius: 20px;\n  flex-wrap: wrap;\n  gap: 12px;\n}\n.action-group {\n  display: flex;\n  gap: 12px;\n  align-items: center;\n}\n.status-select {\n  padding: 8px 16px;\n  border-radius: 8px;\n  border: 1px solid #cbd5e1;\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: #334155;\n  background: white;\n  cursor: pointer;\n}\n.status-select:focus {\n  outline: none;\n  border-color: #0d4f5a;\n  box-shadow: 0 0 0 3px rgba(13, 79, 90, 0.1);\n}\n.btn {\n  padding: 8px 16px;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 0.95rem;\n  cursor: pointer;\n  border: none;\n  transition: all 0.2s;\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n}\n.btn-primary {\n  background:\n    linear-gradient(\n      135deg,\n      #1aa4b8,\n      #0d4f5a);\n  color: white;\n  box-shadow: 0 4px 12px rgba(13, 79, 90, 0.2);\n}\n.btn-primary:hover {\n  transform: translateY(-1px);\n  box-shadow: 0 6px 16px rgba(13, 79, 90, 0.3);\n}\n.btn-secondary {\n  background: white;\n  color: #334155;\n  border: 1px solid #cbd5e1;\n}\n.btn-secondary:hover {\n  background: #f1f5f9;\n}\n.data-table tbody tr {\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.data-table tbody tr:hover {\n  background: #f8fafc;\n}\n.header-actions {\n  display: flex;\n  gap: 12px;\n  margin-top: 16px;\n}\n/*# sourceMappingURL=orders-list.component.css.map */\n'] }]
+  }], null, null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(OrdersListComponent, { className: "OrdersListComponent", filePath: "src/app/components/orders-list/orders-list.component.ts", lineNumber: 188 });
+})();
+
 // src/app/guards/auth.guard.ts
 var authGuard = () => {
   const authService = inject2(AuthService);
@@ -49869,7 +53088,8 @@ var routes = [
       { path: "privacy", component: LegalPageComponent, data: { doc: "privacy" } },
       { path: "terms", component: LegalPageComponent, data: { doc: "terms" } },
       { path: "refund", component: LegalPageComponent, data: { doc: "refund" } },
-      { path: "shipping", component: LegalPageComponent, data: { doc: "shipping" } }
+      { path: "shipping", component: LegalPageComponent, data: { doc: "shipping" } },
+      { path: "shop", component: ShopPageComponent }
     ]
   },
   { path: "login", component: LoginComponent },
@@ -49886,16 +53106,30 @@ var routes = [
       { path: "inventory/print-preview/:publicId", component: LabelPrintPreviewComponent },
       { path: "contacts", component: PersonListComponent },
       { path: "add", component: PersonFormComponent },
-      { path: "edit/:id", component: PersonFormComponent }
+      { path: "edit/:id", component: PersonFormComponent },
+      { path: "orders", component: OrdersListComponent }
     ]
   },
   { path: "dashboard", redirectTo: "app/dashboard", pathMatch: "full" },
   { path: "inventory", redirectTo: "app/inventory", pathMatch: "full" },
   { path: "contacts", redirectTo: "app/contacts", pathMatch: "full" },
   { path: "add", redirectTo: "app/add", pathMatch: "full" },
+  { path: "orders", redirectTo: "app/orders", pathMatch: "full" },
   { path: "edit/:id", component: LegacyEditRedirectComponent },
   { path: "**", redirectTo: "" }
 ];
+
+// src/app/interceptors/auth.interceptor.ts
+var authInterceptor = (req, next) => {
+  const token = localStorage.getItem("qr_app_auth");
+  if (token) {
+    const clonedReq = req.clone({
+      headers: req.headers.set("Authorization", `Bearer ${token}`)
+    });
+    return next(clonedReq);
+  }
+  return next(req);
+};
 
 // src/app/app.config.ts
 var appConfig = {
@@ -49904,7 +53138,7 @@ var appConfig = {
     provideRouter(routes, withInMemoryScrolling({
       scrollPositionRestoration: "top"
     })),
-    provideHttpClient()
+    provideHttpClient(withInterceptors([authInterceptor]))
   ]
 };
 

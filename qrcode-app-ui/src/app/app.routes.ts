@@ -15,6 +15,9 @@ import { AboutPageComponent } from './components/marketing/about-page.component'
 import { ContactPageComponent } from './components/marketing/contact-page.component';
 import { LegalPageComponent } from './components/marketing/legal-page.component';
 import { LegacyEditRedirectComponent } from './components/marketing/legacy-edit-redirect.component';
+import { ShopPageComponent } from './components/marketing/shop-page.component';
+import { OrdersListComponent } from './components/orders-list/orders-list.component';
+import { TrackOrderComponent } from './components/marketing/track-order/track-order';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -30,6 +33,8 @@ export const routes: Routes = [
       { path: 'terms', component: LegalPageComponent, data: { doc: 'terms' } },
       { path: 'refund', component: LegalPageComponent, data: { doc: 'refund' } },
       { path: 'shipping', component: LegalPageComponent, data: { doc: 'shipping' } },
+      { path: 'shop', component: ShopPageComponent },
+      { path: 'track', component: TrackOrderComponent },
     ],
   },
   { path: 'login', component: LoginComponent },
@@ -47,12 +52,15 @@ export const routes: Routes = [
       { path: 'contacts', component: PersonListComponent },
       { path: 'add', component: PersonFormComponent },
       { path: 'edit/:id', component: PersonFormComponent },
+      { path: 'orders', component: OrdersListComponent },
     ],
   },
   { path: 'dashboard', redirectTo: 'app/dashboard', pathMatch: 'full' },
   { path: 'inventory', redirectTo: 'app/inventory', pathMatch: 'full' },
   { path: 'contacts', redirectTo: 'app/contacts', pathMatch: 'full' },
   { path: 'add', redirectTo: 'app/add', pathMatch: 'full' },
+  { path: 'orders', redirectTo: 'app/orders', pathMatch: 'full' },
   { path: 'edit/:id', component: LegacyEditRedirectComponent },
   { path: '**', redirectTo: '' },
 ];
+

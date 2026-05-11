@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
+import { HttpClient } from '@angular/common/http';
+import { Subscription, filter } from 'rxjs';
 
 @Component({
   selector: 'app-main-layout',
@@ -57,6 +59,15 @@ import { ThemeService } from '../../services/theme.service';
               </span>
               <span class="nav-label">Owners</span>
             </a>
+            <a routerLink="/app/orders" routerLinkActive="active" class="nav-item">
+              <span class="nav-icon-wrap" aria-hidden="true">
+                <!-- Shopping Bag / Box Icon -->
+                <svg class="nav-svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+              </span>
+              <span class="nav-label">Bookings</span>
+            </a>
           </nav>
 
           <div class="sidebar-footer">
@@ -82,6 +93,17 @@ import { ThemeService } from '../../services/theme.service';
               >
                 <span class="icon-btn-emoji" aria-hidden="true">{{ theme.themeIcon() }}</span>
               </button>
+              
+              <!-- Notification Bell for Bookings -->
+              <a routerLink="/app/orders" class="icon-btn notification-btn" title="View Bookings" (click)="markBookingsSeen()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:1.2rem;height:1.2rem;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                </svg>
+                @if (unseenCount() > 0) {
+                  <div class="notification-badge">{{ unseenCount() }}</div>
+                }
+              </a>
+
               <div class="user-avatar" title="Account" aria-hidden="true">
                 <svg class="user-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
                   <path
@@ -438,6 +460,38 @@ import { ThemeService } from '../../services/theme.service';
         font-size: 1.15rem;
         line-height: 1;
       }
+      
+      .notification-btn {
+        position: relative;
+        text-decoration: none;
+        color: var(--cmn-text);
+      }
+      
+      .notification-badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 5px;
+        background: #ef4444;
+        border-radius: 10px;
+        border: 2px solid var(--cmn-card-bg-solid);
+        color: white;
+        font-size: 0.65rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        animation: badgePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      @keyframes badgePop {
+        0% { transform: scale(0); }
+        100% { transform: scale(1); }
+      }
+
 
       .user-avatar {
         width: 40px;
@@ -670,12 +724,60 @@ import { ThemeService } from '../../services/theme.service';
     `,
   ],
 })
-export class MainLayoutComponent {
+export class MainLayoutComponent implements OnInit, OnDestroy {
+  private http = inject(HttpClient);
+  unseenCount = signal(0);
+  private routerSub!: Subscription;
+  private pollTimer: any;
+  private readonly SEEN_KEY = 'bookings_last_seen_count';
+
   constructor(
     readonly theme: ThemeService,
     private readonly authService: AuthService,
     private readonly router: Router
   ) {}
+
+  ngOnInit() {
+    this.fetchBookingCount();
+    // Poll every 30 seconds for new bookings
+    this.pollTimer = setInterval(() => this.fetchBookingCount(), 30000);
+
+    // When user navigates to /app/orders, clear the badge
+    this.routerSub = this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe((e: any) => {
+      if (e.urlAfterRedirects?.startsWith('/app/orders')) {
+        this.markBookingsSeen();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.routerSub) this.routerSub.unsubscribe();
+    if (this.pollTimer) clearInterval(this.pollTimer);
+  }
+
+  fetchBookingCount() {
+    this.http.get<any[]>('/api/ecomm/orders').subscribe({
+      next: (orders) => {
+        const totalCount = orders.length;
+        const lastSeen = parseInt(localStorage.getItem(this.SEEN_KEY) || '0', 10);
+        const unseen = Math.max(0, totalCount - lastSeen);
+        this.unseenCount.set(unseen);
+      },
+      error: () => {}
+    });
+  }
+
+  markBookingsSeen() {
+    this.http.get<any[]>('/api/ecomm/orders').subscribe({
+      next: (orders) => {
+        localStorage.setItem(this.SEEN_KEY, orders.length.toString());
+        this.unseenCount.set(0);
+      },
+      error: () => { this.unseenCount.set(0); }
+    });
+  }
 
   /** Highlight Owners for directory, add, and edit routes. */
   ownersSectionActive(): boolean {

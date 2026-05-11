@@ -1,0 +1,76 @@
+<div class="track-page">
+    <div class="track-card">
+        <div class="track-header">
+            <h2>Track Your Order</h2>
+            <p>Enter the phone number you used during checkout to see your order status.</p>
+        </div>
+
+        <div class="track-form">
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <div class="input-with-btn">
+                    <input type="tel" id="phone" [(ngModel)]="phone" placeholder="e.g. 9814667274" (keyup.enter)="track()" />
+                    <button class="track-btn" (click)="track()" [disabled]="loading()">
+                        @if (loading()) {
+                            <span>Searching...</span>
+                        } @else {
+                            <span>Track Order</span>
+                        }
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        @if (error()) {
+            <div class="error-box">
+                <span class="warning-icon">⚠️</span>
+                {{error()}}
+            </div>
+        }
+
+        @if (order()) {
+            <div class="order-result">
+                <div class="order-id-badge">Order #{{order().id}}</div>
+                
+                <div class="status-timeline">
+                    <div class="timeline-item" [class.active]="true">
+                        <div class="dot"></div>
+                        <div class="label">Placed</div>
+                        <div class="date">{{order().createdAtUtc | date:'shortDate'}}</div>
+                    </div>
+
+                    <div class="timeline-item" [class.active]="order().status === 'Shipped' || order().status === 'Delivered'">
+                        <div class="dot"></div>
+                        <div class="label">Shipped</div>
+                    </div>
+                    <div class="timeline-item" [class.active]="order().status === 'Delivered'">
+                        <div class="dot"></div>
+                        <div class="label">Delivered</div>
+                    </div>
+                </div>
+
+                <div class="order-details">
+                    <div class="detail-row">
+                        <span class="label">Customer:</span>
+                        <span class="value">{{order().customerName}}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Product:</span>
+                        <span class="value">{{order().productName}}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Current Status:</span>
+                        <span class="status-tag" [attr.data-status]="order().status">{{order().status}}</span>
+                    </div>
+                    @if (order().assignedPublicId) {
+                        <div class="detail-row highlight">
+                            <span class="label">Your Sticker ID:</span>
+                            <span class="value">{{order().assignedPublicId}}</span>
+                        </div>
+                        <p class="track-note">Once you receive your sticker, visit <strong>activate/{{order().assignedPublicId}}</strong> to set it up.</p>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

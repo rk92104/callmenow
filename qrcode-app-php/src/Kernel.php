@@ -10,6 +10,7 @@ use QrApp\Handlers\InventoryHandler;
 use QrApp\Handlers\PaymentHandler;
 use QrApp\Handlers\PersonHandler;
 use QrApp\Handlers\QrHandler;
+use QrApp\Handlers\EcommHandler;
 
 final class Kernel
 {
@@ -155,6 +156,19 @@ final class Kernel
         }
         if ($method === 'POST' && $path === '/api/payments/razorpay/order') {
             PaymentHandler::razorpayCreateOrder($pdo, $cfg);
+            return;
+        }
+
+        if ($method === 'POST' && $path === '/api/ecomm/book') {
+            EcommHandler::book($pdo, $cfg);
+            return;
+        }
+        if ($method === 'GET' && $path === '/api/ecomm/orders') {
+            EcommHandler::orders($pdo, $cfg);
+            return;
+        }
+        if (preg_match('#^/api/ecomm/orders/(\d+)/status$#', $path, $m) && $method === 'PUT') {
+            EcommHandler::updateStatus($pdo, $cfg, (int) $m[1]);
             return;
         }
 

@@ -508,7 +508,10 @@ namespace QRCodeApp.API.Services
                 var gridClass = layout == "vertical" ? "grid grid--vertical" : "grid";
                 sb.Append($"<div class=\"page\"><div class=\"{gridClass}\">");
                 foreach (var row in rows.Skip(i).Take(cardsPerPage))
-                    sb.Append(BuildCard(row, absoluteBaseUrl, embed, layout));
+                {
+                    var cardLayout = row.ForceLayout ?? layout;
+                    sb.Append(BuildCard(row, absoluteBaseUrl, embed, cardLayout));
+                }
                 sb.Append("</div></div>");
             }
 
@@ -652,6 +655,7 @@ namespace QRCodeApp.API.Services
             public string? VehicleRegistration { get; init; }
             public string? EmergencyPhone { get; init; }
             public string? OwnerName { get; init; }
+            public string? ForceLayout { get; init; }
         }
     }
 }

@@ -66,6 +66,12 @@ export class QrService {
     });
   }
 
+  createRazorpayShopOrder(amountInr: number): Observable<RazorpayOrderResponse> {
+    return this.http.post<RazorpayOrderResponse>(`${this.base}/payments/razorpay/order`, {
+      amount: amountInr
+    });
+  }
+
   listInventory(params?: {
     page?: number;
     pageSize?: number;

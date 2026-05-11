@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import { map, switchMap, of, catchError } from 'rxjs';
 import {
   CmnStickerLabelComponent,
   CmnStickerLayout,
@@ -45,6 +45,18 @@ export class LabelPrintPreviewComponent {
       map((q): CmnStickerVariant => ((q.get('embed') ?? 'activate').toLowerCase() === 'scan' ? 'scan' : 'activate'))
     ),
     { initialValue: 'activate' as CmnStickerVariant }
+  );
+
+  readonly isFamilyPack = toSignal(
+    this.route.paramMap.pipe(
+      map((p) => decodeURIComponent(p.get('publicId') ?? '').trim()),
+      switchMap(id => this.qrService.scan(id).pipe(catchError(() => of(null)))),
+      map(res => {
+         const t = res?.productType?.toLowerCase() || '';
+         return t === 'family' || t === 'familypack' || t === 'family pack';
+      })
+    ),
+    { initialValue: false }
   );
 
   readonly qrImageUrl = computed(() => {

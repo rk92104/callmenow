@@ -1,0 +1,262 @@
+<div class="mpub-section shop-section">
+  <div class="mpub-container">
+    <!-- Cart Header CTA -->
+    <div class="shop-nav" *ngIf="orderStep() < 3">
+      <button class="cart-btn" (click)="toggleCart()">
+        <span class="cart-ico">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        </span>
+        My Cart
+        <span class="cart-badge">{{cartCount}}</span>
+      </button>
+    </div>
+
+    <!-- Progress Indicator -->
+    @if (orderStep() < 3) { <div class="shop-progress">
+      <div class="progress-step" [class.active]="orderStep() === 1" [class.completed]="orderStep() > 1">
+        1. Choose Sticker
+      </div>
+      <div class="progress-line" [class.active]="orderStep() > 1"></div>
+      <div class="progress-step" [class.active]="orderStep() === 2">
+        2. Delivery Details
+      </div>
+  </div>
+  }
+
+  <!-- Step 1: Product Selection -->
+  @if (orderStep() === 1) {
+  <div class="shop-fade-in">
+    <p class="mpub-kicker">Premium QR Stickers</p>
+    <h1 class="mpub-page-title">Book Your Sticker Online</h1>
+    <p class="mpub-muted mpub-prose mb-8">Select a pack that fits your needs. Each sticker comes with a lifetime link
+      and 24/7 privacy protection.</p>
+
+    <div class="product-grid">
+      @for (product of products; track product.id) {
+      <div class="product-card" (click)="addToCart(product.id)">
+        <div class="product-img-wrap">
+          <img [src]="product.image" [alt]="product.name">
+          @if (product.id === 'family') {
+          <div class="product-badge">Popular</div>
+          }
+        </div>
+        <div class="product-info">
+          <h3>{{product.name}}</h3>
+          <p class="product-price">₹{{product.price}}</p>
+          <p class="product-desc">{{product.description}}</p>
+          <ul class="product-features">
+            @for (feature of product.features; track feature) {
+            <li><span class="check-ico">✓</span> {{feature}}</li>
+            }
+          </ul>
+          <div class="mt-8" style="padding: 20px 12px 0px 6px;">
+            <button class=" mpub-btn-primary w-full">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <div class="shop-actions">
+      <button class="mpub-btn-primary mpub-btn-lg" (click)="nextStep()" [disabled]="cart().length === 0">
+        Proceed to Checkout <span class="btn-arrow">→</span>
+      </button>
+    </div>
+  </div>
+  }
+
+  <!-- Step 2: Address Form -->
+  @if (orderStep() === 2) {
+  <div class="shop-fade-in">
+    <form (ngSubmit)="onSubmitOrder(orderForm)" #orderForm="ngForm" class="shop-form">
+      <div class="step-header-card">
+        <div class="step-icon" style="background: linear-gradient(135deg, #1aa4b8, #0d4f5a); color: white;">
+          <!-- Shopping Basket Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+          </svg>
+        </div>
+        <div class="step-header-text">
+          <h2>Shipping Details</h2>
+          <p>Tell us where to send your premium stickers.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group full">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" [(ngModel)]="shippingDetails.name" #name="ngModel" required
+            placeholder="Enter your full name">
+          @if (name.invalid && (name.dirty || name.touched)) {
+          <div class="field-error">Please enter your full name</div>
+          }
+        </div>
+        <div class="form-group full">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" [(ngModel)]="shippingDetails.phone" #phone="ngModel" required
+            pattern="[0-9]{10}" placeholder="10-digit mobile number">
+          @if (phone.invalid && (phone.dirty || phone.touched)) {
+          <div class="field-error">Valid 10-digit mobile number is required</div>
+          }
+        </div>
+        <div class="form-group full">
+          <label for="address">Complete Address</label>
+          <textarea id="address" name="address" [(ngModel)]="shippingDetails.address" #address="ngModel" required
+            placeholder="House No, Building, Street, Area"></textarea>
+          @if (address.invalid && (address.dirty || address.touched)) {
+          <div class="field-error">Please enter your delivery address</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="pincode">Pincode</label>
+          <input type="text" id="pincode" name="pincode" [(ngModel)]="shippingDetails.pincode" #pincode="ngModel"
+            required (input)="onPincodeChange()" pattern="[0-9]{6}" placeholder="6-digit PIN">
+          @if (pincode.invalid && (pincode.dirty || pincode.touched)) {
+          <div class="field-error">6-digit Pincode is required</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="state">State</label>
+          <select id="state" name="state" [(ngModel)]="shippingDetails.state" #state="ngModel" required
+            (change)="onStateChange()">
+            <option value="">Select State</option>
+            @for (st of states; track st) {
+            <option [value]="st">{{st}}</option>
+            }
+          </select>
+          @if (state.invalid && (state.dirty || state.touched)) {
+          <div class="field-error">State is required</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="city">City / District</label>
+          <select id="city" name="city" [(ngModel)]="shippingDetails.city" #city="ngModel" required>
+            <option value="">Select City/District</option>
+            @for (ct of filteredCities(); track ct) {
+            <option [value]="ct">{{ct}}</option>
+            }
+          </select>
+          @if (city.invalid && (city.dirty || city.touched)) {
+          <div class="field-error">City is required</div>
+          }
+        </div>
+      </div>
+
+      <div class="order-summary-box">
+        <h3>Order Summary</h3>
+        @for (item of cart(); track item.productId) {
+        <div class="summary-row">
+          <span>{{item.quantity}}x {{item.name}}</span>
+          <span>₹{{item.price * item.quantity}}</span>
+        </div>
+        }
+        <div class="summary-row">
+          <span>Delivery</span>
+          <span class="free">FREE</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-row total">
+          <span>Total Amount</span>
+          <span>₹{{cartTotal}}</span>
+        </div>
+      </div>
+
+      <div class="shop-actions">
+        <button type="button" class="mpub-btn-ghost" (click)="prevStep()">Back</button>
+        <button type="submit" class="mpub-btn-primary mpub-btn-lg" [disabled]="isProcessingPayment()">
+          @if (isProcessingPayment()) {
+          <span class="spinner-inline"></span> Processing Payment...
+          } @else {
+          Confirm & Pay ₹{{cartTotal}}
+          }
+        </button>
+      </div>
+
+    </form>
+  </div>
+  }
+
+  <!-- Step 3: Payment Processing Overlay -->
+  @if (orderStep() === 3) {
+    <div class="payment-processing shop-fade-in">
+      <div class="payment-loader">
+        <div class="payment-spinner"></div>
+        <div class="payment-shield">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+          </svg>
+        </div>
+      </div>
+      <h2>Payment Initiated</h2>
+      <p class="mpub-muted">Please do not refresh or close this window.</p>
+      <div class="payment-timeline">
+        <div class="payment-status active">Connecting to Secure Gateway...</div>
+        <div class="payment-status">Verifying Transaction...</div>
+        <div class="payment-status">Securing Your Order...</div>
+      </div>
+    </div>
+  }
+
+  <!-- Step 4: Success -->
+  @if (orderStep() === 4) {
+  <div class="shop-success shop-fade-in">
+    <div class="success-icon">✓</div>
+    <h1 class="mpub-page-title">Payment Successful!</h1>
+    <p class="mpub-prose">Thank you, {{shippingDetails.name}}. Your order has been secured.</p>
+    <div class="success-details">
+      <p>Your premium stickers are being prepared for dispatch.</p>
+      <div class="order-summary-badge">Order Confirmed</div>
+    </div>
+    <div class="shop-actions">
+      <a routerLink="/" class="mpub-btn-primary">Back to Home</a>
+    </div>
+  </div>
+  }
+
+  <!-- Cart Drawer Overlay -->
+  <div class="cart-overlay" *ngIf="showCart()" (click)="toggleCart()"></div>
+  <div class="cart-drawer" [class.open]="showCart()">
+    <div class="cart-header">
+      <h2>Your Cart ({{cartCount}})</h2>
+      <button class="close-btn" (click)="toggleCart()">✕</button>
+    </div>
+
+    <div class="cart-items" *ngIf="cart().length > 0">
+      @for (item of cart(); track item.productId) {
+      <div class="cart-item">
+        <div class="item-info">
+          <h4>{{item.name}}</h4>
+          <p>₹{{item.price}}</p>
+        </div>
+        <div class="item-actions">
+          <div class="qty-btn" (click)="$event.stopPropagation(); updateQuantity(item.productId, -1)">-</div>
+          <span class="qty-num">{{item.quantity}}</span>
+          <div class="qty-btn" (click)="$event.stopPropagation(); updateQuantity(item.productId, 1)">+</div>
+          <button class="remove-btn" (click)="$event.stopPropagation(); removeFromCart(item.productId)">🗑</button>
+        </div>
+      </div>
+      }
+    </div>
+
+    <div class="cart-empty" *ngIf="cart().length === 0">
+      <p>Your cart is empty</p>
+    </div>
+
+    <div class="cart-footer" *ngIf="cart().length > 0">
+      <div class="cart-total">
+        <span>Total</span>
+        <span>₹{{cartTotal}}</span>
+      </div>
+      <button class="mpub-btn-primary w-full" (click)="nextStep()">Check out</button>
+    </div>
+  </div>
+</div>
+</div>

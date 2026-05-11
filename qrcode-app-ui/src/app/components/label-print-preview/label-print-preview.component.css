@@ -181,4 +181,16 @@
   .lpp-canvas--print-portrait {
     page: cmnStickerPortrait;
   }
+
+  .lpp-canvas--family {
+    flex-direction: column;
+    gap: 10mm;
+    page: cmnStickerPortrait;
+  }
+}
+
+.lpp-canvas--family {
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
 }

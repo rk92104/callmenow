@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\LENOVO\\Downloads\\QRCodeApp\\QRCodeApp\\QRCodeApp.API\\QRCodeApp.API.csproj": {}
+    "C:\\Users\\LENOVO\\source\\repos\\rk92104\\callmenow\\QRCodeApp.API\\QRCodeApp.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\LENOVO\\Downloads\\QRCodeApp\\QRCodeApp\\QRCodeApp.API\\QRCodeApp.API.csproj": {
+    "C:\\Users\\LENOVO\\source\\repos\\rk92104\\callmenow\\QRCodeApp.API\\QRCodeApp.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LENOVO\\Downloads\\QRCodeApp\\QRCodeApp\\QRCodeApp.API\\QRCodeApp.API.csproj",
+        "projectUniqueName": "C:\\Users\\LENOVO\\source\\repos\\rk92104\\callmenow\\QRCodeApp.API\\QRCodeApp.API.csproj",
         "projectName": "QRCodeApp.API",
-        "projectPath": "C:\\Users\\LENOVO\\Downloads\\QRCodeApp\\QRCodeApp\\QRCodeApp.API\\QRCodeApp.API.csproj",
+        "projectPath": "C:\\Users\\LENOVO\\source\\repos\\rk92104\\callmenow\\QRCodeApp.API\\QRCodeApp.API.csproj",
         "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LENOVO\\Downloads\\QRCodeApp\\QRCodeApp\\QRCodeApp.API\\obj\\",
+        "outputPath": "C:\\Users\\LENOVO\\source\\repos\\rk92104\\callmenow\\QRCodeApp.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

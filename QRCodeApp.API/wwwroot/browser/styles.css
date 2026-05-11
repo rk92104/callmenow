@@ -1,6 +1,6 @@
 /* src/styles.css */
 :root {
-  --cmn-page-bg: #f3f1f9;
+  --cmn-page-bg: #f8fafc;
   --cmn-text: #0f172a;
   --cmn-text-muted: #64748b;
   --cmn-label: #334155;
@@ -389,6 +389,11 @@ a {
   transform: translateY(-1px);
   background: #a0503c;
   box-shadow: 0 6px 18px rgba(179, 90, 68, 0.4);
+}
+.mpub-shop-active {
+  background: var(--cmn-pub-teal-d) !important;
+  box-shadow: 0 4px 14px rgba(13, 79, 90, 0.35) !important;
+  transform: scale(1.05);
 }
 .mpub-btn-lg {
   padding: 0.7rem 1.35rem;

@@ -1,0 +1,240 @@
+.track-page {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px 20px;
+    background: radial-gradient(circle at top right, rgba(230, 115, 78, 0.05), transparent 400px),
+                radial-gradient(circle at bottom left, rgba(62, 142, 137, 0.05), transparent 400px);
+}
+
+.track-card {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+}
+
+.track-header h2 {
+    font-size: 2rem;
+    color: #2d3436;
+    margin-bottom: 12px;
+}
+
+.track-header p {
+    color: #636e72;
+    margin-bottom: 32px;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #2d3436;
+}
+
+.input-with-btn {
+    display: flex;
+    gap: 12px;
+}
+
+.input-with-btn input {
+    flex: 1;
+    padding: 14px 20px;
+    border: 2px solid #edeff2;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.input-with-btn input:focus {
+    border-color: #e6734e;
+    box-shadow: 0 0 0 4px rgba(230, 115, 78, 0.1);
+}
+
+.track-btn {
+    padding: 0 30px;
+    background: #e6734e;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.track-btn:hover {
+    background: #d45d3a;
+}
+
+.track-btn:active {
+    transform: scale(0.98);
+}
+
+.track-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.error-box {
+    background: #fff5f5;
+    color: #e03131;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.order-result {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 2px dashed #f0f0f0;
+}
+
+.order-id-badge {
+    display: inline-block;
+    background: #f8f9fa;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    color: #2d3436;
+    margin-bottom: 32px;
+}
+
+.status-timeline {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    position: relative;
+    padding: 0 10px;
+}
+
+.status-timeline::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 40px;
+    right: 40px;
+    height: 3px;
+    background: #f0f0f0;
+    z-index: 1;
+}
+
+.timeline-item {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.timeline-item .dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    border: 4px solid white;
+    box-shadow: 0 0 0 2px #f0f0f0;
+    transition: all 0.3s;
+}
+
+.timeline-item.active .dot {
+    background: #3e8e89;
+    box-shadow: 0 0 0 2px #3e8e89;
+}
+
+.timeline-item .label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #b2bec3;
+}
+
+.timeline-item.active .label {
+    color: #3e8e89;
+}
+
+.timeline-item .date {
+    font-size: 0.75rem;
+    color: #636e72;
+}
+
+.order-details {
+    background: #f8f9fa;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.detail-row:last-child {
+    margin-bottom: 0;
+}
+
+.detail-row .label {
+    color: #636e72;
+}
+
+.detail-row .value {
+    font-weight: 600;
+    color: #2d3436;
+}
+
+.status-tag {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-tag[data-status="Pending"] { background: #fff4e6; color: #d9480f; }
+.status-tag[data-status="Paid"] { background: #e3faf3; color: #0ca678; }
+.status-tag[data-status="Shipped"] { background: #e7f5ff; color: #1c7ed6; }
+.status-tag[data-status="Delivered"] { background: #f3f0ff; color: #6741d9; }
+
+.detail-row.highlight {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e9ecef;
+}
+
+.detail-row.highlight .value {
+    color: #e6734e;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+.track-note {
+    margin-top: 16px;
+    font-size: 0.9rem;
+    color: #636e72;
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .input-with-btn {
+        flex-direction: column;
+    }
+    .track-btn {
+        padding: 14px;
+    }
+    .timeline-item .label {
+        font-size: 0.7rem;
+    }
+}

@@ -196,9 +196,46 @@ public sealed class RazorpayPaymentService
         }
         return null;
     }
+    public async Task<RazorpayOrderResult> CreateOrderAsync(decimal amountInr, Dictionary<string, string>? customNotes, CancellationToken ct)
+    {
+        if (!IsConfigured)
+            throw new InvalidOperationException("Razorpay is not configured.");
+
+        var paise = (int)(amountInr * 100);
+        var receipt = Guid.NewGuid().ToString("N")[..Math.Min(20, 32)];
+        var body = new
+        {
+            amount = paise,
+            currency = "INR",
+            receipt,
+            payment_capture = 1,
+            notes = customNotes ?? new Dictionary<string, string>()
+        };
+
+        using var req = new HttpRequestMessage(HttpMethod.Post, "v1/orders");
+        req.Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
+        AddBasicAuth(req);
+
+        using var resp = await _http.SendAsync(req, ct);
+        var raw = await resp.Content.ReadAsStringAsync(ct);
+        if (!resp.IsSuccessStatusCode)
+        {
+            _log.LogWarning("Razorpay order failed: {Status} {Body}", (int)resp.StatusCode, raw);
+            throw new RazorpayApiException(ExtractError(raw) ?? "Razorpay order failed.");
+        }
+
+        using var doc = JsonDocument.Parse(raw);
+        var root = doc.RootElement;
+        var id = root.GetProperty("id").GetString() ?? string.Empty;
+        var amount = root.GetProperty("amount").GetInt32();
+        var currency = root.TryGetProperty("currency", out var c) ? c.GetString() ?? "INR" : "INR";
+        
+        return new RazorpayOrderResult(_o.RazorpayKeyId, id, amount, currency, (int)amountInr, false);
+    }
 }
 
 public sealed record RazorpayOrderResult(string KeyId, string OrderId, int Amount, string Currency, int AmountInr, bool ReferralApplied);
+
 
 public sealed record RazorpayVerifyResult(bool Ok, string? Error, string? PaymentId);
 

@@ -167,6 +167,12 @@
   box-shadow: 0 6px 18px rgba(179, 90, 68, 0.4);
 }
 
+.mpub-shop-active {
+  background: var(--cmn-pub-teal-d) !important;
+  box-shadow: 0 4px 14px rgba(13, 79, 90, 0.35) !important;
+  transform: scale(1.05);
+}
+
 .mpub-btn-lg {
   padding: 0.7rem 1.35rem;
   border-radius: 14px;

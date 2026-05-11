@@ -197,8 +197,19 @@ namespace QRCodeApp.API.Controllers
             if (sticker == null)
                 return NotFound(new { message = "QR not found." });
 
+            var rows = new List<QrLabelHtmlBuilder.LabelRow>();
+            if (IsFamilyPack(sticker.ProductType))
+            {
+                rows.Add(ToLabelRow(sticker, "horizontal"));
+                rows.Add(ToLabelRow(sticker, "vertical"));
+            }
+            else
+            {
+                rows.Add(ToLabelRow(sticker));
+            }
+
             var html = QrLabelHtmlBuilder.BuildDocument(
-                new List<QrLabelHtmlBuilder.LabelRow> { ToLabelRow(sticker) },
+                rows,
                 _options.PublicBaseUrl.TrimEnd('/'),
                 mode,
                 layout);
@@ -237,7 +248,16 @@ namespace QRCodeApp.API.Controllers
             {
                 if (!map.TryGetValue(id, out var s))
                     continue;
-                rows.Add(ToLabelRow(s));
+
+                if (IsFamilyPack(s.ProductType))
+                {
+                    rows.Add(ToLabelRow(s, "horizontal"));
+                    rows.Add(ToLabelRow(s, "vertical"));
+                }
+                else
+                {
+                    rows.Add(ToLabelRow(s));
+                }
             }
 
             if (rows.Count == 0)
@@ -320,14 +340,22 @@ namespace QRCodeApp.API.Controllers
             });
         }
 
-        private static QrLabelHtmlBuilder.LabelRow ToLabelRow(QrSticker s)
+        private static bool IsFamilyPack(string? productType)
+        {
+            if (string.IsNullOrWhiteSpace(productType)) return false;
+            var t = productType.Trim().ToLowerInvariant();
+            return t == "family" || t == "familypack" || t == "family pack";
+        }
+
+        private static QrLabelHtmlBuilder.LabelRow ToLabelRow(QrSticker s, string? forceLayout = null)
         {
             return new QrLabelHtmlBuilder.LabelRow
             {
                 PublicId = s.PublicId,
                 VehicleRegistration = s.Person?.VehicleRegistration,
                 EmergencyPhone = s.Person?.EmergencyContactPhone,
-                OwnerName = s.Person?.Name
+                OwnerName = s.Person?.Name,
+                ForceLayout = forceLayout
             };
         }
 
