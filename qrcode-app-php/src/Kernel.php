@@ -171,6 +171,10 @@ final class Kernel
             EcommHandler::updateStatus($pdo, $cfg, (int) $m[1]);
             return;
         }
+        if (preg_match('#^/api/pincode/(\d{6})$#', $path, $m) && $method === 'GET') {
+            EcommHandler::proxyPincode($m[1]);
+            return;
+        }
 
         if ($method === 'POST' && $path === '/api/qr/marketing/leads') {
             QrHandler::marketingLead($pdo, $cfg);

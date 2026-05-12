@@ -6,7 +6,7 @@ namespace QrApp\Services;
 
 use PDO;
 
-/** Unique 6-digit codes for Exotel Gather → Connect IVR. */
+/** Unique 4-digit codes for Exotel Gather → Connect IVR. */
 final class IvrAccessCode
 {
     /** @throws \RuntimeException */
@@ -24,16 +24,35 @@ final class IvrAccessCode
         throw new \RuntimeException('Could not allocate IVR access code.');
     }
 
+    public static function columnExists(PDO $pdo): bool
+    {
+        $stmt = $pdo->query("SHOW COLUMNS FROM qr_stickers LIKE 'ivr_access_code'");
+        return $stmt && $stmt->fetch() !== false;
+    }
+
     public static function repairSchema(PDO $pdo): void
     {
         // Add IvrAccessCode if missing
         $pdo->exec("
             SET @db = (SELECT DATABASE());
+            
+            -- Add ivr_access_code if missing
             IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = @db AND TABLE_NAME = 'qr_stickers' AND COLUMN_NAME = 'ivr_access_code') THEN
                 ALTER TABLE qr_stickers ADD COLUMN ivr_access_code VARCHAR(6) NULL AFTER public_id;
             END IF;
+            
+            -- Add ivr_emergency_access_code if missing
             IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = @db AND TABLE_NAME = 'qr_stickers' AND COLUMN_NAME = 'ivr_emergency_access_code') THEN
                 ALTER TABLE qr_stickers ADD COLUMN ivr_emergency_access_code VARCHAR(6) NULL AFTER ivr_access_code;
+            END IF;
+
+            -- Add unique indexes if missing
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA = @db AND TABLE_NAME = 'qr_stickers' AND INDEX_NAME = 'uq_ivr_access_code') THEN
+                 ALTER TABLE qr_stickers ADD UNIQUE KEY `uq_ivr_access_code` (`ivr_access_code`);
+            END IF;
+            
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA = @db AND TABLE_NAME = 'qr_stickers' AND INDEX_NAME = 'uq_ivr_emergency_access_code') THEN
+                 ALTER TABLE qr_stickers ADD UNIQUE KEY `uq_ivr_emergency_access_code` (`ivr_emergency_access_code`);
             END IF;
         ");
     }

@@ -9,7 +9,7 @@ public static class IvrAccessCodeHelper
     {
         for (var attempt = 0; attempt < 80; attempt++)
         {
-            var code = Random.Shared.Next(0, 1_000_000).ToString("D6");
+            var code = Random.Shared.Next(0, 10_000).ToString("D4");
             if (!await db.QrStickers.AnyAsync(q => q.IvrAccessCode == code, cancellationToken).ConfigureAwait(false))
                 return code;
         }

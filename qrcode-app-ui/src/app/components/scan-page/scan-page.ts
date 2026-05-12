@@ -154,6 +154,12 @@ export class ScanPageComponent implements OnInit {
         this.connectBusy.set(false);
         this.connectFeedbackIsError.set(false);
         this.connectFeedback.set(r.message ?? 'Emergency call started.');
+        
+        if (this.rememberScannerPhone) {
+          this.saveScannerPhone(this.fromPhone);
+          this.exotelCompactUi.set(true);
+        }
+        
         this.onCallClick();
       },
       error: (err) => {

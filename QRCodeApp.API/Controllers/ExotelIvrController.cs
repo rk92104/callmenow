@@ -29,9 +29,9 @@ public sealed class ExotelIvrController : ControllerBase
             return StatusCode(403, new { message = "Forbidden" });
 
         const string defaultGather =
-            "Welcome to Call Me Now. Enter your six digit call code from the vehicle sticker, then press hash. Stay on the line while we connect you.";
+            "Welcome to Call Me Now. Enter your four digit call code from the vehicle sticker, then press hash. Stay on the line while we connect you.";
         const string defaultRepeat =
-            "We did not receive six digits. Please enter your six digit code, then press hash.";
+            "We did not receive four digits. Please enter your four digit code, then press hash.";
 
         var gatherText = string.IsNullOrWhiteSpace(_opts.Exotel.IvrGatherPrompt) ? defaultGather : _opts.Exotel.IvrGatherPrompt.Trim();
         var repeatText = string.IsNullOrWhiteSpace(_opts.Exotel.IvrGatherRepeatPrompt) ? defaultRepeat : _opts.Exotel.IvrGatherRepeatPrompt.Trim();
@@ -39,7 +39,7 @@ public sealed class ExotelIvrController : ControllerBase
         var payload = new
         {
             gather_prompt = new { text = gatherText },
-            max_input_digits = 6,
+            max_input_digits = 4,
             finish_on_key = "#",
             input_timeout = 8,
             repeat_menu = 1,
@@ -76,10 +76,11 @@ public sealed class ExotelIvrController : ControllerBase
         var digitsRaw = Request.Query["digits"].ToString();
         digitsRaw = digitsRaw.Trim().Trim('"');
         var digits = new string(digitsRaw.Where(char.IsDigit).ToArray());
-        if (digits.Length != 6)
+        if (string.IsNullOrEmpty(digits))
             return ConnectEmpty();
 
-        var row = await _db.QrStickers
+        // Try owner PIN first
+        var ownerRow = await _db.QrStickers
             .AsNoTracking()
             .Include(q => q.Person)
             .Where(q => q.IvrAccessCode == digits && q.Status == QrStickerStatus.Active)
@@ -87,10 +88,22 @@ public sealed class ExotelIvrController : ControllerBase
             .FirstOrDefaultAsync(cancellationToken)
             .ConfigureAwait(false);
 
-        if (row == null)
-            return ConnectEmpty();
+        if (ownerRow != null)
+            return ConnectTo(ownerRow.PhoneNumber);
 
-        return ConnectTo(row.PhoneNumber);
+        // Fallback: try emergency PIN → connect to emergency contact
+        var emergencyRow = await _db.QrStickers
+            .AsNoTracking()
+            .Include(q => q.Person)
+            .Where(q => q.IvrEmergencyAccessCode == digits && q.Status == QrStickerStatus.Active)
+            .Select(q => new { q.Person!.EmergencyContactPhone })
+            .FirstOrDefaultAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        if (emergencyRow != null)
+            return ConnectTo(emergencyRow.EmergencyContactPhone);
+
+        return ConnectEmpty();
     }
 
     private IActionResult ConnectTo(string? rawPhone)

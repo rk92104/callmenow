@@ -101,16 +101,12 @@ import { HttpClient } from '@angular/common/http';
               <div class="action-group">
                 <select #statusSelect class="status-select" [value]="selectedOrder().status || 'Pending'" (change)="updateStatus(selectedOrder().id, statusSelect.value)">
                   <option value="Pending">Pending</option>
+                  <option value="Paid">Paid</option>
                   <option value="Shipped">Shipped</option>
                   <option value="Delivered">Delivered</option>
                   <option value="Cancelled">Cancelled</option>
                 </select>
                 <button class="btn btn-primary" (click)="printSingleRow(selectedOrder())">🖨️ Shipping Label</button>
-                @if (selectedOrder().assignedPublicId) {
-                  <button class="btn btn-secondary" (click)="printSticker(selectedOrder())" style="background: #ef9523; color: white; border: none;">
-                    🎯 Print Sticker
-                  </button>
-                }
               </div>
               <button class="btn btn-secondary" (click)="closeModal()">Close</button>
             </div>

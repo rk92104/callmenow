@@ -61,8 +61,8 @@ return [
      */
 
     // Optional Gather copy (Hindi/English):
-    // 'EXOTEL_IVR_GATHER_PROMPT' => 'Call Me Now. Apne sticker ka 6 digit code dial kariye, phir hash.',
-    // 'EXOTEL_IVR_GATHER_REPEAT_PROMPT' => 'Code nahi mila. Dubara 6 digit aur hash.',
+    // 'EXOTEL_IVR_GATHER_PROMPT' => 'Call Me Now. Apne sticker ka 4 digit code dial kariye, phir hash.',
+    // 'EXOTEL_IVR_GATHER_REPEAT_PROMPT' => 'Code nahi mila. Dubara 4 digit aur hash.',
 
     // --- Optional ---
     // 'CALLMENOW_STICKER_PRICE_INR' => 299,

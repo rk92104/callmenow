@@ -8,14 +8,14 @@ import { QrService } from '../../services/qr.service';
 import { NgZone } from '@angular/core';
 
 type RazorpaySuccess = {
-    razorpay_payment_id: string;
-    razorpay_order_id: string;
-    razorpay_signature: string;
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
 };
 
 type RazorpayCtor = new (opts: Record<string, unknown>) => {
-    open: () => void;
-    on: (event: string, fn: (payload: unknown) => void) => void;
+  open: () => void;
+  on: (event: string, fn: (payload: unknown) => void) => void;
 };
 
 @Component({
@@ -30,7 +30,7 @@ export class ShopPageComponent {
     private readonly ecomm: EcommService,
     private readonly qrService: QrService,
     private readonly ngZone: NgZone
-  ) {}
+  ) { }
 
   private static razorpayScriptPromise: Promise<void> | null = null;
 
@@ -61,16 +61,16 @@ export class ShopPageComponent {
     }
   ];
 
-  cart = signal<{productId: string, name: string, price: number, quantity: number}[]>([]);
+  cart = signal<{ productId: string, name: string, price: number, quantity: number }[]>([]);
   orderStep = signal<number>(1); // 1: Selection, 2: Address, 3: Success
   showCart = signal<boolean>(false);
 
   states = [
-    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 
-    'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 
-    'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 
-    'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 
-    'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 
+    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat',
+    'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh',
+    'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
+    'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh',
+    'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh',
     'Dadra and Nagar Haveli', 'Daman and Diu', 'Delhi', 'Lakshadweep', 'Puducherry'
   ];
 
@@ -87,7 +87,11 @@ export class ShopPageComponent {
     'Bihar': ['Patna', 'Gaya', 'Bhagalpur', 'Muzaffarpur'],
     'Telangana': ['Hyderabad', 'Warangal', 'Nizamabad', 'Khammam'],
     'Kerala': ['Thiruvananthapuram', 'Kochi', 'Kozhikode', 'Thrissur'],
-    'Haryana': ['Gurugram', 'Faridabad', 'Panipat', 'Ambala', 'Hisar']
+    'Haryana': ['Gurugram', 'Faridabad', 'Panipat', 'Ambala', 'Hisar'],
+    'Chandigarh': ['Chandigarh'],
+    'Puducherry': ['Puducherry'],
+    'Lakshadweep': ['Kavaratti'],
+    'Andaman and Nicobar Islands': ['Port Blair']
   };
 
   private http = inject(HttpClient);
@@ -105,7 +109,12 @@ export class ShopPageComponent {
   onStateChange() {
     const cities = this.citiesByState[this.shippingDetails.state] || [];
     this.filteredCities.set(cities);
-    this.shippingDetails.city = '';
+    // Auto-select if only one city (like Chandigarh or Delhi)
+    if (cities.length === 1) {
+      this.shippingDetails.city = cities[0];
+    } else {
+      this.shippingDetails.city = '';
+    }
   }
 
   // Auto-fetch State/City from Pincode
@@ -121,17 +130,17 @@ export class ShopPageComponent {
 
             // Case-insensitive state matching
             const matchedState = this.states.find(s => s.toLowerCase() === apiState.toLowerCase());
-            
+
             if (matchedState) {
               this.shippingDetails.state = matchedState;
               this.onStateChange();
             }
-            
+
             // If the city from the API is not in the dropdown list, add it dynamically
             if (!this.filteredCities().includes(apiDistrict)) {
               this.filteredCities.update(cities => [...cities, apiDistrict].sort());
             }
-            
+
             this.shippingDetails.city = apiDistrict;
           }
         }
@@ -139,8 +148,11 @@ export class ShopPageComponent {
     }
   }
 
+  shippingCharge = 0;
+
   get cartTotal() {
-    return this.cart().reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const itemsTotal = this.cart().reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    return itemsTotal > 0 ? itemsTotal + this.shippingCharge : 0;
   }
 
   get cartCount() {
@@ -154,7 +166,7 @@ export class ShopPageComponent {
     this.cart.update(items => {
       const existing = items.find(i => i.productId === productId);
       if (existing) {
-        return items.map(i => i.productId === productId ? {...i, quantity: i.quantity + 1} : i);
+        return items.map(i => i.productId === productId ? { ...i, quantity: i.quantity + 1 } : i);
       }
       return [...items, { productId: product.id, name: product.name, price: product.price, quantity: 1 }];
     });
@@ -240,7 +252,7 @@ export class ShopPageComponent {
     }
 
     const contactDigits = this.shippingDetails.phone.replace(/\D/g, '').slice(-15);
-    
+
     const opts: Record<string, unknown> = {
       key: order.keyId,
       amount: String(order.amount),
@@ -288,14 +300,14 @@ export class ShopPageComponent {
 
   private finalizeBooking(paymentRes: RazorpaySuccess) {
     this.orderStep.set(3); // Show processing screen
-    
+
     const orderData = {
       customerName: this.shippingDetails.name,
       customerPhone: this.shippingDetails.phone,
       shippingAddress: this.shippingDetails.address,
       city: this.shippingDetails.city,
       pincode: this.shippingDetails.pincode,
-      productId: this.cart()[0].productId, 
+      productId: this.cart()[0].productId,
       productName: this.cart().map(i => `${i.quantity}x ${i.name}`).join(', '),
       amount: this.cartTotal,
       razorpayOrderId: paymentRes.razorpay_order_id,

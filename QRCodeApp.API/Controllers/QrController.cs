@@ -178,7 +178,7 @@ namespace QRCodeApp.API.Controllers
             string maskingActive;
             if (useExotel)
             {
-                maskingActive = "Fastest: use Open dialer — your phone app opens right away and you reach the owner after entering your 6-digit code. Below: Exotel API can ring your phone if you prefer not to dial.";
+                maskingActive = "Fastest: use Open dialer — your phone app opens right away and you reach the owner after entering your 4-digit code. Below: Exotel API can ring your phone if you prefer not to dial.";
             }
             else
             {
@@ -196,7 +196,9 @@ namespace QRCodeApp.API.Controllers
                 ActivatePageUrl = activatePageUrl,
                 ScanPageUrl = scanPageUrl,
                 VehicleRegistration = reg,
-                EmergencyDialUri = !string.IsNullOrEmpty(exotelIvrDialUriOut) ? exotelIvrDialUriOut : (string.IsNullOrEmpty(em) ? null : $"tel:{em}"),
+                EmergencyDialUri = !string.IsNullOrEmpty(exotelIvrDialUriOut) && !string.IsNullOrEmpty(sticker.IvrEmergencyAccessCode)
+                    ? exotelIvrDialUriOut
+                    : (string.IsNullOrEmpty(em) ? null : $"tel:{em}"),
                 EmergencyContactMasked = MaskPhoneTail(person.EmergencyContactPhone),
                 OwnerPhoneMasked = MaskPhoneTail(person.PhoneNumber),
                 PrimaryPhoneType = PhoneLineType.Normalize(person.PhoneNumberType),

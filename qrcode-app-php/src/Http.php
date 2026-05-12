@@ -138,4 +138,10 @@ final class Http
         $data = json_decode($raw, true);
         return is_array($data) ? $data : null;
     }
+
+    /** @return array<string,mixed> */
+    public static function jsonBody(): array
+    {
+        return self::readJsonBody() ?? [];
+    }
 }

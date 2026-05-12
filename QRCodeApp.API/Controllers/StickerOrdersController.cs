@@ -25,11 +25,9 @@ namespace QRCodeApp.API.Controllers
             if (order == null) return BadRequest();
 
             order.CreatedAtUtc = DateTime.UtcNow;
-            order.Status = "Pending";
-
-            // If we have payment details, store them
-            // In a real prod app, we'd verify the signature here too, 
-            // but for this sim/refinement we'll store them as evidence of the flow.
+            
+            // If we have a payment ID, mark as Paid immediately
+            order.Status = !string.IsNullOrEmpty(order.RazorpayPaymentId) ? "Paid" : "Pending";
 
             // Automatically assign a fresh, unused sticker from inventory
             var sticker = await _db.QrStickers

@@ -96,11 +96,11 @@ final class Config
             'exotelScanDirectTel' => self::envTruthy($pick('EXOTEL_SCAN_DIRECT_TEL', '0') ?? '0'),
             'exotelIvrGatherPrompt' => self::pickNonEmpty(
                 $pick('EXOTEL_IVR_GATHER_PROMPT', '') ?? '',
-                'Welcome to Call Me Now. Enter your six digit call code from the vehicle sticker, then press hash. Stay on the line while we connect you.'
+                'Welcome to Call Me Now. Enter your four digit call code from the vehicle sticker, then press hash. Stay on the line while we connect you.'
             ),
             'exotelIvrGatherRepeatPrompt' => self::pickNonEmpty(
                 $pick('EXOTEL_IVR_GATHER_REPEAT_PROMPT', '') ?? '',
-                'We did not receive six digits. Please enter your six digit code, then press hash.'
+                'We did not receive four digits. Please enter your four digit code, then press hash.'
             ),
             /** Exotel “connect customer to app”: only owner’s phone rings; no second leg to scanner. See EXOTEL_OWNER_ALERT_APP_URL in example config. */
             'exotelOwnerAlertAppUrl' => trim((string) ($pick('EXOTEL_OWNER_ALERT_APP_URL', '') ?? '')),

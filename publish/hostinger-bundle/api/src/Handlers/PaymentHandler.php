@@ -27,35 +27,50 @@ final class PaymentHandler
             return;
         }
 
-        $publicIdRaw = isset($dto['publicId']) ? (string) $dto['publicId'] : '';
-        $normalized = strtoupper(trim($publicIdRaw));
-        if ($normalized === '') {
-            Http::badRequest('publicId is required.');
-            return;
-        }
-
         $ref = isset($dto['referralCode']) && is_string($dto['referralCode']) ? trim($dto['referralCode']) : '';
 
-        $stmt = $pdo->prepare('SELECT public_id, status FROM qr_stickers WHERE public_id = ?');
-        $stmt->execute([$normalized]);
-        $sticker = $stmt->fetch();
-        if (!$sticker) {
-            Http::notFound('QR not found.');
-            return;
-        }
-        if ((int) $sticker['status'] !== QrStickerStatus::UNUSED) {
-            Http::conflict('This QR is already activated.');
-            return;
-        }
+        $amountInr = isset($dto['amount']) ? (float) $dto['amount'] : 0.0;
+        
+        if ($amountInr > 0) {
+            // Shop order
+            $paise = (int) ($amountInr * 100);
+            $receipt = substr(bin2hex(random_bytes(8)), 0, 20);
+            $notes = [
+                'type' => 'shop_order',
+                'amount_inr' => (string) $amountInr,
+            ];
+            $inr = (int) $amountInr;
+            $referralApplied = false;
+        } else {
+            // Sticker activation
+            $publicIdRaw = isset($dto['publicId']) ? (string) $dto['publicId'] : '';
+            $normalized = strtoupper(trim($publicIdRaw));
+            if ($normalized === '') {
+                Http::badRequest('publicId or amount is required.');
+                return;
+            }
 
-        [$paise, $inr, $referralApplied] = self::computeActivationMoney($cfg, $ref);
+            $stmt = $pdo->prepare('SELECT public_id, status FROM qr_stickers WHERE public_id = ?');
+            $stmt->execute([$normalized]);
+            $sticker = $stmt->fetch();
+            if (!$sticker) {
+                Http::notFound('QR not found.');
+                return;
+            }
+            if ((int) $sticker['status'] !== QrStickerStatus::UNUSED) {
+                Http::conflict('This QR is already activated.');
+                return;
+            }
 
-        $receipt = substr(bin2hex(random_bytes(8)), 0, 20);
-        $notes = [
-            'public_id' => $normalized,
-            'amount_paise' => (string) $paise,
-            'referral_applied' => $referralApplied ? '1' : '0',
-        ];
+            [$paise, $inr, $referralApplied] = self::computeActivationMoney($cfg, $ref);
+
+            $receipt = substr(bin2hex(random_bytes(8)), 0, 20);
+            $notes = [
+                'public_id' => $normalized,
+                'amount_paise' => (string) $paise,
+                'referral_applied' => $referralApplied ? '1' : '0',
+            ];
+        }
 
         try {
             $order = RazorpayClient::createOrder($paise, 'INR', $receipt, $notes, $keyId, $secret);

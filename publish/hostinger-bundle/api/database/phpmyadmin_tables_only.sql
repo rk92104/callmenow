@@ -70,6 +70,26 @@ CREATE TABLE IF NOT EXISTS `marketing_leads` (
   KEY `ix_phone` (`phone_normalized`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `sticker_orders` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `customer_name` VARCHAR(100) NOT NULL,
+  `customer_phone` VARCHAR(20) NOT NULL,
+  `shipping_address` VARCHAR(500) NOT NULL,
+  `city` VARCHAR(50) NOT NULL,
+  `pincode` VARCHAR(10) NOT NULL,
+  `product_id` VARCHAR(50) NOT NULL,
+  `product_name` VARCHAR(100) NOT NULL,
+  `amount` DECIMAL(18, 2) NOT NULL,
+  `status` VARCHAR(20) NOT NULL DEFAULT 'Pending',
+  `assigned_public_id` VARCHAR(40) NULL,
+  `razorpay_order_id` VARCHAR(100) NULL,
+  `razorpay_payment_id` VARCHAR(100) NULL,
+  `razorpay_signature` VARCHAR(256) NULL,
+  `created_at_utc` DATETIME(3) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ix_orders_created` (`created_at_utc`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 INSERT INTO `qr_stickers` (`public_id`, `product_type`, `status`, `scan_count`, `unique_scanner_count`, `created_at`)
 SELECT * FROM (
   SELECT 'CMN-SEED-01' AS `public_id`, 'CarSticker' AS `product_type`, 0 AS `status`, 0 AS `scan_count`, 0 AS `unique_scanner_count`, UTC_TIMESTAMP(3) AS `created_at`

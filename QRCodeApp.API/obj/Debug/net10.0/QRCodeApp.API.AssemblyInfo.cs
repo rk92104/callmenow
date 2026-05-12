@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QRCodeApp.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ee9ec32bee693979b316941dc164eb10cbd9e18")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+17d3a8cb37c21b177e175e09281356823191d42e")]
 [assembly: System.Reflection.AssemblyProductAttribute("QRCodeApp.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QRCodeApp.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -77,20 +77,33 @@ final class ExotelIvrHandler
         }
 
         $stmt = $pdo->prepare(
-            'SELECT p.phone_number AS owner_phone FROM qr_stickers q
+            'SELECT p.phone_number, p.emergency_contact_phone FROM qr_stickers q
              INNER JOIN persons p ON p.id = q.person_id
              WHERE q.ivr_access_code = ? AND q.status = ? LIMIT 1'
         );
         $stmt->execute([$digits, QrStickerStatus::ACTIVE]);
         $row = $stmt->fetch();
+        $targetPhone = $row ? $row['phone_number'] : null;
+
+        if (!$targetPhone) {
+            // Fallback: try emergency PIN
+            $stmt = $pdo->prepare(
+                'SELECT p.emergency_contact_phone FROM qr_stickers q
+                 INNER JOIN persons p ON p.id = q.person_id
+                 WHERE q.ivr_emergency_access_code = ? AND q.status = ? LIMIT 1'
+            );
+            $stmt->execute([$digits, QrStickerStatus::ACTIVE]);
+            $row = $stmt->fetch();
+            $targetPhone = $row ? $row['emergency_contact_phone'] : null;
+        }
         
-        if (!$row) {
+        if (!$targetPhone) {
              self::logData("Error: Sticker with PIN '{$digits}' not found or not active.");
              self::respondConnectErrorJson("Invalid pin code. Please try again.");
              return;
         }
 
-        $e164 = self::ownerToE164((string) ($row['owner_phone'] ?? ''), (string) ($cfg['exotelDefaultIsd'] ?? '91'));
+        $e164 = self::ownerToE164((string)$targetPhone, (string) ($cfg['exotelDefaultIsd'] ?? '91'));
 
         if ($e164 === null || $e164 === '') {
             self::logData("Error: Owner number is empty or invalid format.");

@@ -46,6 +46,9 @@ public static class QrStickerSchemaRepair
                     [Amount] DECIMAL(18, 2) NOT NULL,
                     [Status] NVARCHAR(20) NOT NULL DEFAULT 'Pending',
                     [CreatedAtUtc] DATETIME2(7) NOT NULL DEFAULT (GETUTCDATE()),
+                    [RazorpayOrderId] NVARCHAR(100) NULL,
+                    [RazorpayPaymentId] NVARCHAR(100) NULL,
+                    [RazorpaySignature] NVARCHAR(200) NULL,
                     CONSTRAINT [PK_StickerOrders] PRIMARY KEY CLUSTERED ([Id] ASC)
                 );
                 CREATE INDEX [IX_StickerOrders_CreatedAtUtc] ON [dbo].[StickerOrders] ([CreatedAtUtc]);
@@ -53,6 +56,15 @@ public static class QrStickerSchemaRepair
 
             IF COL_LENGTH(N'dbo.StickerOrders', N'AssignedPublicId') IS NULL
                 ALTER TABLE dbo.StickerOrders ADD [AssignedPublicId] NVARCHAR(50) NULL;
+
+            IF COL_LENGTH(N'dbo.StickerOrders', N'RazorpayOrderId') IS NULL
+                ALTER TABLE dbo.StickerOrders ADD [RazorpayOrderId] NVARCHAR(100) NULL;
+
+            IF COL_LENGTH(N'dbo.StickerOrders', N'RazorpayPaymentId') IS NULL
+                ALTER TABLE dbo.StickerOrders ADD [RazorpayPaymentId] NVARCHAR(100) NULL;
+
+            IF COL_LENGTH(N'dbo.StickerOrders', N'RazorpaySignature') IS NULL
+                ALTER TABLE dbo.StickerOrders ADD [RazorpaySignature] NVARCHAR(200) NULL;
             """);
     }
 }

@@ -113,6 +113,10 @@ BEGIN
         [ProductName] NVARCHAR(100) NOT NULL,
         [Amount] DECIMAL(18, 2) NOT NULL,
         [Status] NVARCHAR(20) NOT NULL DEFAULT 'Pending',
+        [AssignedPublicId] NVARCHAR(40) NULL,
+        [RazorpayOrderId] NVARCHAR(100) NULL,
+        [RazorpayPaymentId] NVARCHAR(100) NULL,
+        [RazorpaySignature] NVARCHAR(256) NULL,
         [CreatedAtUtc] DATETIME2(7) NOT NULL DEFAULT (GETUTCDATE()),
         CONSTRAINT [PK_StickerOrders] PRIMARY KEY CLUSTERED ([Id] ASC)
     );

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360" fill="none">
+  <defs>
+    <linearGradient id="pbg" x1="0" y1="0" x2="480" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1e1b4b"/>
+      <stop offset="1" stop-color="#312e81"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="360" rx="24" fill="url(#pbg)"/>
+  <rect x="120" y="40" width="240" height="140" rx="16" fill="#fffdf9" opacity="0.95"/>
+  <rect x="170" y="75" width="140" height="140" rx="12" fill="#0f172a"/>
+  <rect x="210" y="115" width="60" height="60" rx="6" fill="#fff" opacity="0.15"/>
+  <text x="240" y="230" text-anchor="middle" fill="#c7d2fe" font-family="system-ui,sans-serif" font-size="13" font-weight="600">Front · weather-safe laminate</text>
+  <rect x="120" y="250" width="240" height="70" rx="14" fill="rgba(255,255,255,0.12)"/>
+  <text x="240" y="285" text-anchor="middle" fill="#e0e7ff" font-family="system-ui,sans-serif" font-size="12">Adhesive back · sized for windshield corner</text>
+  <text x="240" y="335" text-anchor="middle" fill="#a5b4fc" font-family="system-ui,sans-serif" font-size="11" opacity="0.85">Illustration  replace with product photos when ready</text>
+</svg>

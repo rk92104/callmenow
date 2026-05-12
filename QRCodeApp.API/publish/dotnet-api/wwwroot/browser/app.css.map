@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/app.css"],
+  "sourcesContent": [".app-wrapper {\n    min-height: 100vh;\n    min-height: 100dvh;\n    box-sizing: border-box;\n    padding-left: env(safe-area-inset-left, 0px);\n    padding-right: env(safe-area-inset-right, 0px);\n}\n\n@media (max-width: 768px) {\n    .app-wrapper {\n        padding: clamp(12px, 3.5vw, 20px);\n        padding-left: max(clamp(12px, 3.5vw, 20px), env(safe-area-inset-left, 0px));\n        padding-right: max(clamp(12px, 3.5vw, 20px), env(safe-area-inset-right, 0px));\n        padding-bottom: max(clamp(12px, 3.5vw, 20px), env(safe-area-inset-bottom, 0px));\n    }\n}"],
+  "mappings": ";AAAA,CAAC;AACG,cAAY;AACZ,cAAY;AACZ,cAAY;AACZ,gBAAc,IAAI,oBAAoB,EAAE;AACxC,iBAAe,IAAI,qBAAqB,EAAE;AAC9C;AAEA,QAAO,WAAY;AACf,GATH;AAUO,aAAS,MAAM,IAAI,EAAE,KAAK,EAAE;AAC5B,kBAAc,IAAI,MAAM,IAAI,EAAE,KAAK,EAAE,KAAK,EAAE,IAAI,oBAAoB,EAAE;AACtE,mBAAe,IAAI,MAAM,IAAI,EAAE,KAAK,EAAE,KAAK,EAAE,IAAI,qBAAqB,EAAE;AACxE,oBAAgB,IAAI,MAAM,IAAI,EAAE,KAAK,EAAE,KAAK,EAAE,IAAI,sBAAsB,EAAE;AAC9E;AACJ;",
+  "names": []
+}

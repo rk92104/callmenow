@@ -144,7 +144,7 @@ final class QrHandler
         }
 
         $maskingActive = $useExotel 
-            ? 'Fastest: use Open dialer — your phone app opens right away and you reach the owner after entering your 6-digit code. Below: Exotel API can ring your phone if you prefer not to dial.'
+            ? 'Fastest: use Open dialer — your phone app opens right away and you reach the owner after entering your 4-digit code. Below: Exotel API can ring your phone if you prefer not to dial.'
             : 'Tap Call owner to place a direct call from your phone.';
 
         Http::json(200, [
@@ -157,7 +157,7 @@ final class QrHandler
             'activatePageUrl' => $activatePageUrl,
             'scanPageUrl' => $scanPageUrl,
             'vehicleRegistration' => Validation::normalizeVehicleRegistration((string) $person['vehicle_registration']),
-            'emergencyDialUri' => $ivrDialUri ?? ($em === null ? null : 'tel:' . $em),
+            'emergencyDialUri' => ($ivrDialUri !== null && $ivrEmCode !== null) ? $ivrDialUri : ($em === null ? null : 'tel:' . $em),
             'emergencyContactMasked' => self::maskPhoneTail($person['emergency_contact_phone']),
             'ownerPhoneMasked' => self::maskPhoneTail($person['phone_number']),
             'primaryPhoneType' => PhoneLineType::normalize($person['phone_number_type']),

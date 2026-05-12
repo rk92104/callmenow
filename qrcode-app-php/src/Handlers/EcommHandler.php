@@ -7,6 +7,7 @@ namespace QrApp\Handlers;
 use PDO;
 use QrApp\Http;
 use QrApp\Time;
+use QrApp\Config;
 
 final class EcommHandler
 {
@@ -21,55 +22,92 @@ final class EcommHandler
             Http::json(400, ['message' => 'Missing required fields']);
         }
 
-        $now = Time::utcNowStr();
+        try {
+            $now = Time::utcNowStr();
 
-        // Automatically assign a fresh, unused sticker from inventory
-        $stmtSticker = $pdo->query('SELECT public_id FROM qr_stickers WHERE status = 0 AND person_id IS NULL LIMIT 1');
-        $sticker = $stmtSticker->fetch(PDO::FETCH_ASSOC);
-        $assignedPublicId = $sticker ? $sticker['public_id'] : null;
+            // Automatically assign a fresh, unused sticker from inventory
+            $stmtSticker = $pdo->query('SELECT public_id FROM qr_stickers WHERE status = 0 AND person_id IS NULL LIMIT 1');
+            $sticker = $stmtSticker->fetch(PDO::FETCH_ASSOC);
+            $assignedPublicId = $sticker ? $sticker['public_id'] : null;
 
-        if ($assignedPublicId) {
-            $upd = $pdo->prepare('UPDATE qr_stickers SET product_type = ? WHERE public_id = ?');
-            $upd->execute([$body['productId'] ?? 'single', $assignedPublicId]);
+            if ($assignedPublicId) {
+                $upd = $pdo->prepare('UPDATE qr_stickers SET product_type = ? WHERE public_id = ?');
+                $upd->execute([$body['productId'] ?? 'single', $assignedPublicId]);
+            }
+
+            $stmt = $pdo->prepare('
+                INSERT INTO `sticker_orders` (
+                    `customer_name`, `customer_phone`, `shipping_address`,
+                    `city`, `pincode`, `product_id`, `product_name`,
+                    `amount`, `status`, `assigned_public_id`, `created_at_utc`,
+                    `razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`
+                ) VALUES (
+                    :customerName, :customerPhone, :shippingAddress,
+                    :city, :pincode, :productId, :productName,
+                    :amount, :status, :assignedPublicId, :createdAtUtc,
+                    :razorpayOrderId, :razorpayPaymentId, :razorpaySignature
+                )
+            ');
+
+            $stmt->execute([
+                ':customerName' => $body['customerName'],
+                ':customerPhone' => $body['customerPhone'],
+                ':shippingAddress' => $body['shippingAddress'],
+                ':city' => $body['city'],
+                ':pincode' => $body['pincode'],
+                ':productId' => $body['productId'] ?? 'single',
+                ':productName' => $body['productName'] ?? 'Solo Pack',
+                ':amount' => isset($body['amount']) ? (float)$body['amount'] : 0.0,
+                ':status' => !empty($body['razorpayPaymentId']) ? 'Paid' : 'Pending',
+                ':assignedPublicId' => $assignedPublicId,
+                ':createdAtUtc' => $now,
+                ':razorpayOrderId' => $body['razorpayOrderId'] ?? null,
+                ':razorpayPaymentId' => $body['razorpayPaymentId'] ?? null,
+                ':razorpaySignature' => $body['razorpaySignature'] ?? null,
+            ]);
+
+            $orderId = (int) $pdo->lastInsertId();
+
+            Http::json(200, [
+                'message' => 'Order placed successfully',
+                'orderId' => $orderId
+            ]);
+        } catch (\PDOException $e) {
+            // Log the actual error for the developer
+            error_log('Ecomm order save failed: ' . $e->getMessage());
+            
+            Http::json(500, [
+                'message' => 'Could not save order in database. Your payment was successful, please contact support with your payment ID.',
+                'error' => Config::isDebug() ? $e->getMessage() : 'Database Error',
+                'hint' => 'Ensure columns assigned_public_id, razorpay_order_id, razorpay_payment_id and razorpay_signature exist in sticker_orders table.'
+            ]);
+        } catch (\Throwable $e) {
+            Http::json(500, [
+                'message' => 'Order processing failed.',
+                'error' => Config::isDebug() ? $e->getMessage() : 'Internal Server Error'
+            ]);
+        }
+    }
+
+    public static function proxyPincode(string $pincode): void
+    {
+        $url = 'https://api.postalpincode.in/pincode/' . urlencode($pincode);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $res = curl_exec($ch);
+        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($status === 200 && $res) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo $res;
+            return;
         }
 
-        $stmt = $pdo->prepare('
-            INSERT INTO `sticker_orders` (
-                `customer_name`, `customer_phone`, `shipping_address`,
-                `city`, `pincode`, `product_id`, `product_name`,
-                `amount`, `status`, `assigned_public_id`, `created_at_utc`,
-                `razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`
-            ) VALUES (
-                :customerName, :customerPhone, :shippingAddress,
-                :city, :pincode, :productId, :productName,
-                :amount, :status, :assignedPublicId, :createdAtUtc,
-                :razorpayOrderId, :razorpayPaymentId, :razorpaySignature
-            )
-        ');
-
-        $stmt->execute([
-            ':customerName' => $body['customerName'],
-            ':customerPhone' => $body['customerPhone'],
-            ':shippingAddress' => $body['shippingAddress'],
-            ':city' => $body['city'],
-            ':pincode' => $body['pincode'],
-            ':productId' => $body['productId'] ?? 'single',
-            ':productName' => $body['productName'] ?? 'Solo Pack',
-            ':amount' => isset($body['amount']) ? (float)$body['amount'] : 0.0,
-            ':status' => 'Pending',
-            ':assignedPublicId' => $assignedPublicId,
-            ':createdAtUtc' => $now,
-            ':razorpayOrderId' => $body['razorpayOrderId'] ?? null,
-            ':razorpayPaymentId' => $body['razorpayPaymentId'] ?? null,
-            ':razorpaySignature' => $body['razorpaySignature'] ?? null,
-        ]);
-
-        $orderId = (int) $pdo->lastInsertId();
-
-        Http::json(200, [
-            'message' => 'Order placed successfully',
-            'orderId' => $orderId
-        ]);
+        Http::json(404, ['message' => 'Pincode details not found']);
     }
 
     /**

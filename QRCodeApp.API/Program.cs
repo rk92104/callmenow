@@ -91,7 +91,7 @@ using (var scope = app.Services.CreateScope())
                 string ivr;
                 do
                 {
-                    ivr = Random.Shared.Next(0, 1_000_000).ToString("D6");
+                    ivr = Random.Shared.Next(0, 10_000).ToString("D4");
                 } while (db.QrStickers.Any(q => q.IvrAccessCode == ivr));
 
                 db.QrStickers.Add(new QrSticker

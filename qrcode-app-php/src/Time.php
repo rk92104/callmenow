@@ -14,6 +14,11 @@ final class Time
         return (new DateTimeImmutable('now', new DateTimeZone('UTC')))->format('Y-m-d H:i:s.v');
     }
 
+    public static function utcNowStr(): string
+    {
+        return self::utcNowSql();
+    }
+
     public static function toIso(?string $sql): ?string
     {
         if ($sql === null || $sql === '') {

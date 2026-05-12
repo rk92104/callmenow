@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS `persons` (
 CREATE TABLE IF NOT EXISTS `qr_stickers` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `public_id` VARCHAR(40) NOT NULL,
-  `ivr_access_code` VARCHAR(6) NULL COMMENT '6-digit keypad code for Exotel IVR',
+  `ivr_access_code` VARCHAR(6) NULL COMMENT '4 or 6 digit keypad code for Exotel IVR',
+  `ivr_emergency_access_code` VARCHAR(6) NULL COMMENT 'Emergency contact PIN',
   `product_type` VARCHAR(50) NOT NULL,
   `status` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '0=Unused, 1=Active',
   `person_id` INT NULL,
@@ -40,7 +41,8 @@ CREATE TABLE IF NOT EXISTS `qr_stickers` (
   `payment_transaction_id` VARCHAR(120) NULL COMMENT 'Razorpay pay_ id or offline ref',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_public_id` (`public_id`),
-  UNIQUE KEY `uq_qr_stickers_ivr_access_code` (`ivr_access_code`),
+  UNIQUE KEY `uq_ivr_owner` (`ivr_access_code`),
+  UNIQUE KEY `uq_ivr_emergency` (`ivr_emergency_access_code`),
   KEY `ix_person_id` (`person_id`),
   KEY `ix_created_at` (`created_at`),
   CONSTRAINT `fk_qr_person` FOREIGN KEY (`person_id`) REFERENCES `persons` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
@@ -81,9 +83,23 @@ CREATE TABLE IF NOT EXISTS `sticker_orders` (
   `product_name` VARCHAR(100) NOT NULL,
   `amount` DECIMAL(18, 2) NOT NULL,
   `status` VARCHAR(20) NOT NULL DEFAULT 'Pending',
+  `assigned_public_id` VARCHAR(40) NULL,
+  `razorpay_order_id` VARCHAR(100) NULL,
+  `razorpay_payment_id` VARCHAR(100) NULL,
+  `razorpay_signature` VARCHAR(256) NULL,
   `created_at_utc` DATETIME(3) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `ix_orders_created` (`created_at_utc`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `active_call_mappings` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `caller_phone_normalized` VARCHAR(20) NOT NULL,
+  `target_owner_phone` VARCHAR(20) NOT NULL,
+  `expiry_utc` DATETIME(3) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ix_expiry` (`expiry_utc`),
+  KEY `ix_caller_search` (`caller_phone_normalized`, `expiry_utc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `qr_stickers` (`public_id`, `product_type`, `status`, `scan_count`, `unique_scanner_count`, `created_at`)
