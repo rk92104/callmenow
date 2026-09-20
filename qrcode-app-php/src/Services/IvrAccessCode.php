@@ -9,13 +9,37 @@ use PDO;
 /** Unique 4-digit codes for Exotel Gather → Connect IVR. */
 final class IvrAccessCode
 {
+    private static ?bool $hasEmergencyCol = null;
+
+    public static function hasEmergencyColumn(PDO $pdo): bool
+    {
+        if (self::$hasEmergencyCol !== null) {
+            return self::$hasEmergencyCol;
+        }
+        try {
+            $stmt = $pdo->query("SHOW COLUMNS FROM qr_stickers LIKE 'ivr_emergency_access_code'");
+            self::$hasEmergencyCol = ($stmt && $stmt->fetch() !== false);
+        } catch (\Throwable) {
+            self::$hasEmergencyCol = false;
+        }
+
+        return self::$hasEmergencyCol;
+    }
+
     /** @throws \RuntimeException */
     public static function allocate(PDO $pdo): string
     {
+        $hasEm = self::hasEmergencyColumn($pdo);
+
         for ($i = 0; $i < 80; $i++) {
             $code = str_pad((string) random_int(0, 9999), 4, '0', STR_PAD_LEFT);
-            $chk = $pdo->prepare('SELECT 1 FROM qr_stickers WHERE ivr_access_code = ? OR ivr_emergency_access_code = ? LIMIT 1');
-            $chk->execute([$code, $code]);
+            if ($hasEm) {
+                $chk = $pdo->prepare('SELECT 1 FROM qr_stickers WHERE ivr_access_code = ? OR ivr_emergency_access_code = ? LIMIT 1');
+                $chk->execute([$code, $code]);
+            } else {
+                $chk = $pdo->prepare('SELECT 1 FROM qr_stickers WHERE ivr_access_code = ? LIMIT 1');
+                $chk->execute([$code]);
+            }
             if (!$chk->fetch()) {
                 return $code;
             }
@@ -24,10 +48,19 @@ final class IvrAccessCode
         throw new \RuntimeException('Could not allocate IVR access code.');
     }
 
+    public static function generateUnique(PDO $pdo): string
+    {
+        return self::allocate($pdo);
+    }
+
     public static function columnExists(PDO $pdo): bool
     {
-        $stmt = $pdo->query("SHOW COLUMNS FROM qr_stickers LIKE 'ivr_access_code'");
-        return $stmt && $stmt->fetch() !== false;
+        try {
+            $stmt = $pdo->query("SHOW COLUMNS FROM qr_stickers LIKE 'ivr_access_code'");
+            return $stmt && $stmt->fetch() !== false;
+        } catch (\Throwable) {
+            return false;
+        }
     }
 
     public static function repairSchema(PDO $pdo): void

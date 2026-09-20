@@ -53,14 +53,15 @@ final class Kernel
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode([
                 'message' => 'Server error',
-                'detail' => self::debugDetail($e),
+                'detail' => $e->getMessage(),
+                'file' => Config::isDebug() ? ($e->getFile() . ':' . $e->getLine()) : null,
             ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         }
     }
 
     private static function debugDetail(\Throwable $e): ?string
     {
-        return Config::isDebug() ? $e->getMessage() : null;
+        return $e->getMessage();
     }
 
     /** Rewrite quirks: /api/public/api/... → /api/... */

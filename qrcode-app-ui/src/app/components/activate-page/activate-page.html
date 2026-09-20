@@ -52,35 +52,75 @@
   }
 
   <form class="act-form" (ngSubmit)="submit()">
-    <label class="act-label"><span>Full name</span><input [(ngModel)]="form.name" name="name" required /></label>
+    <label class="act-label">
+      <span>Full name</span>
+      <input
+        [(ngModel)]="form.name"
+        (ngModelChange)="clearFieldError('name')"
+        name="name"
+        required
+        [class.act-input--err]="fieldErrors()['name']"
+      />
+      @if (fieldErrors()['name']) {
+        <span class="act-field-msg act-field-msg--err" role="status">{{ fieldErrors()['name'] }}</span>
+      }
+    </label>
 
-    <fieldset class="act-fieldset">
-      <legend class="act-legend">Owner contact number</legend>
-      <div class="act-radio-row">
-        <label class="act-radio"><input type="radio" name="ownerLine" value="Mobile" [(ngModel)]="form.phoneNumberType" /> Mobile</label>
-        <label class="act-radio"><input type="radio" name="ownerLine" value="Landline" [(ngModel)]="form.phoneNumberType" /> Phone (landline)</label>
-      </div>
-      <label class="act-label act-label-tight"><span>Number</span><input [(ngModel)]="form.phoneNumber" name="phone" type="tel" required autocomplete="tel" /></label>
-    </fieldset>
+    <label class="act-label">
+      <span>Owner mobile number</span>
+      <input
+        [(ngModel)]="form.phoneNumber"
+        (ngModelChange)="clearFieldError('phoneNumber')"
+        name="phone"
+        type="tel"
+        required
+        placeholder="10-digit mobile number"
+        autocomplete="tel"
+        [class.act-input--err]="fieldErrors()['phoneNumber']"
+      />
+      @if (fieldErrors()['phoneNumber']) {
+        <span class="act-field-msg act-field-msg--err" role="status">{{ fieldErrors()['phoneNumber'] }}</span>
+      }
+    </label>
 
-    <label class="act-label"><span>Email</span><input [(ngModel)]="form.email" name="email" type="email" required /></label>
+    <label class="act-label">
+      <span>Email</span>
+      <input
+        [(ngModel)]="form.email"
+        (ngModelChange)="clearFieldError('email')"
+        name="email"
+        type="email"
+        required
+        [class.act-input--err]="fieldErrors()['email']"
+      />
+      @if (fieldErrors()['email']) {
+        <span class="act-field-msg act-field-msg--err" role="status">{{ fieldErrors()['email'] }}</span>
+      }
+    </label>
+
+    <!-- Commented out for now: Address & Father's name
     <label class="act-label"><span>Address</span><textarea [(ngModel)]="form.address" name="addr" rows="2" required></textarea></label>
     <label class="act-label"><span>Father’s name</span><input [(ngModel)]="form.fatherName" name="father" required /></label>
+    -->
+
     <label class="act-label">
       <span>Vehicle registration</span>
       <input
         [(ngModel)]="form.vehicleRegistration"
-        (ngModelChange)="onVehicleRegistrationInput($event)"
+        (ngModelChange)="onVehicleRegistrationInput($event); clearFieldError('vehicleRegistration')"
         name="vreg"
         required
         placeholder="e.g. DL01AB1234"
         class="act-input-upper"
+        [class.act-input--err]="fieldErrors()['vehicleRegistration']"
         autocapitalize="characters"
         autocomplete="off"
         maxlength="14"
         spellcheck="false"
       />
-      @if (vehicleRegistrationFieldMessage(); as vr) {
+      @if (fieldErrors()['vehicleRegistration']) {
+        <span class="act-field-msg act-field-msg--err" role="status">{{ fieldErrors()['vehicleRegistration'] }}</span>
+      } @else if (vehicleRegistrationFieldMessage(); as vr) {
         <span
           class="act-field-msg"
           [class.act-field-msg--hint]="vr.kind === 'hint'"
@@ -90,52 +130,48 @@
       }
     </label>
 
-    <fieldset class="act-fieldset">
-      <legend class="act-legend">Emergency contact number</legend>
-      <div class="act-radio-row">
-        <label class="act-radio"><input type="radio" name="emLine" value="Landline" [(ngModel)]="form.emergencyContactPhoneType" /> Phone (landline)</label>
-      </div>
-      <label class="act-label act-label-tight"><span>Number</span><input [(ngModel)]="form.emergencyContactPhone" name="emergency" type="tel" required autocomplete="tel" /></label>
-    </fieldset>
+    <label class="act-label">
+      <span>Emergency mobile number</span>
+      <input
+        [(ngModel)]="form.emergencyContactPhone"
+        (ngModelChange)="clearFieldError('emergencyContactPhone')"
+        name="emergency"
+        type="tel"
+        required
+        placeholder="10-digit emergency number"
+        autocomplete="tel"
+        [class.act-input--err]="fieldErrors()['emergencyContactPhone']"
+      />
+      @if (fieldErrors()['emergencyContactPhone']) {
+        <span class="act-field-msg act-field-msg--err" role="status">{{ fieldErrors()['emergencyContactPhone'] }}</span>
+      }
+    </label>
 
     <label class="act-label"><span>Referral code (optional)</span><input [(ngModel)]="form.referralCode" name="refcode" placeholder="e.g. SCAN50" autocomplete="off" /></label>
 
-
     <div class="act-footer">
+      <!-- Commented out for now: Payment Summary
       <div class="act-pay-summary">
         <span class="act-pay-label">Total to pay</span>
         <span class="act-pay-value">₹{{ effectiveAmountInr() }}</span>
       </div>
+      -->
 
-      @if (!form.paymentCompleted) {
-        <button
-          type="button"
-          class="act-btn-main act-btn-pay"
-          (click)="payWithRazorpay()"
-          [disabled]="!scanData() || paymentBusy() || submitting()"
-        >
-          @if (paymentBusy()) {
-            <span class="act-btn-loader"></span> Opening Razorpay…
-          } @else {
-            <span class="act-btn-icon">💳</span> Pay ₹{{ effectiveAmountInr() }} & Activate
-          }
-        </button>
-      } @else {
-        <button
-          type="button"
-          class="act-btn-main act-btn-final"
-          (click)="submit()"
-          [disabled]="submitting() || done()"
-        >
-          @if (submitting()) {
-            <span class="act-btn-loader"></span> Finalizing activation…
-          } @else {
-            <span class="act-btn-icon">✨</span> Complete Activation
-          }
-        </button>
-      }
+      <button
+        type="submit"
+        class="act-btn-main act-btn-final"
+        [disabled]="submitting() || done()"
+      >
+        @if (submitting()) {
+          <span class="act-btn-loader"></span> Activating tag…
+        } @else {
+          <span class="act-btn-icon">✨</span> Activate Tag
+        }
+      </button>
 
+      <!-- Commented out for now: Razorpay payment note
       <p class="act-muted act-pay-note">Payment is verified instantly on the server via Razorpay.</p>
+      -->
     </div>
   </form>
   }

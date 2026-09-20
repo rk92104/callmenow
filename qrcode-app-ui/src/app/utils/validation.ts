@@ -94,12 +94,14 @@ export function validatePersonContactPayload(p: PersonContactFields): string | n
     if (!isValidPersonName(p.name)) {
         return 'Enter a valid full name (at least 2 characters, including letters).';
     }
+    /* Commented out for now: Father's Name & Address
     if (!isValidPersonName(p.fatherName)) {
         return "Enter a valid father's name (at least 2 characters, including letters).";
     }
     if (!isValidAddress(p.address)) {
         return 'Address must be at least 5 characters.';
     }
+    */
     if (!isValidEmail(p.email.trim())) {
         return 'Please enter a valid email address.';
     }
@@ -120,4 +122,38 @@ export function validatePersonContactPayload(p: PersonContactFields): string | n
         return 'Vehicle registration looks invalid. Use format like DL01AB1234 (state + district + series + number), no spaces.';
     }
     return null;
+}
+
+/** Field-level errors for displaying validation messages directly under each input field. */
+export function validatePersonContactFieldErrors(p: Partial<PersonContactFields>): Record<string, string> {
+    const errs: Record<string, string> = {};
+
+    if (!isValidPersonName(p.name)) {
+        errs['name'] = 'Enter a valid full name (at least 2 characters, including letters).';
+    }
+    /* Commented out for now: Father's Name & Address
+    if (!isValidPersonName(p.fatherName)) {
+        errs['fatherName'] = "Enter a valid father's name (at least 2 characters, including letters).";
+    }
+    if (!isValidAddress(p.address)) {
+        errs['address'] = 'Address must be at least 5 characters.';
+    }
+    */
+    if (!p.email || !isValidEmail(p.email.trim())) {
+        errs['email'] = 'Please enter a valid email address.';
+    }
+    const ownerDigits = digitsOnly(p.phoneNumber);
+    if (!isValidPhoneForType(ownerDigits, p.phoneNumberType || 'Mobile')) {
+        errs['phoneNumber'] = 'Enter a valid 10-digit mobile number (starting with 6–9).';
+    }
+    const emDigits = digitsOnly(p.emergencyContactPhone);
+    if (!isValidPhoneForType(emDigits, p.emergencyContactPhoneType || 'Mobile')) {
+        errs['emergencyContactPhone'] = 'Enter a valid 10-digit emergency mobile number.';
+    }
+    const reg = normalizeVehicleRegistration(p.vehicleRegistration);
+    if (!isValidVehicleRegistration(reg)) {
+        errs['vehicleRegistration'] = 'Vehicle registration looks invalid. Use format like DL01AB1234 (state + district + series + number), no spaces.';
+    }
+
+    return errs;
 }

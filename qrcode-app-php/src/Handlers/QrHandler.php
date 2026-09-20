@@ -401,6 +401,7 @@ final class QrHandler
             return;
         }
 
+        /* Commented out for now: Razorpay payment gateway verification
         $keyId = trim((string) ($cfg['razorpayKeyId'] ?? ''));
         $secret = trim((string) ($cfg['razorpayKeySecret'] ?? ''));
         $rzpOn = $keyId !== '' && $secret !== '';
@@ -471,6 +472,9 @@ final class QrHandler
             $payRef = $rzpPay;
             $payDone = true;
         }
+        */
+        $payDone = true;
+        $payRef = isset($dto['paymentReference']) ? trim((string) $dto['paymentReference']) : '';
 
         $stmt = $pdo->prepare('SELECT * FROM qr_stickers WHERE public_id = ? FOR UPDATE');
         $pdo->beginTransaction();
@@ -507,9 +511,9 @@ final class QrHandler
                 trim((string) $dto['name']),
                 trim((string) $dto['phoneNumber']),
                 PhoneLineType::normalize($dto['phoneNumberType'] ?? null),
-                trim((string) $dto['email']),
-                trim((string) $dto['address']),
-                trim((string) $dto['fatherName']),
+                trim((string) ($dto['email'] ?? '')),
+                trim((string) ($dto['address'] ?? '')),
+                trim((string) ($dto['fatherName'] ?? '')),
                 $reg,
                 trim((string) $dto['emergencyContactPhone']),
                 PhoneLineType::normalize($dto['emergencyContactPhoneType'] ?? null),

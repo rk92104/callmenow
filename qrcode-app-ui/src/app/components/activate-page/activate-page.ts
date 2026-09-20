@@ -6,6 +6,7 @@ import { QrService } from '../../services/qr.service';
 import { QrScanResponse } from '../../models/qr.model';
 import {
   normalizeVehicleRegistration,
+  validatePersonContactFieldErrors,
   validatePersonContactPayload,
   vehicleRegistrationFeedback,
 } from '../../utils/validation';
@@ -39,6 +40,7 @@ export class ActivatePageComponent implements OnInit {
   done = signal(false);
   scanUrl = signal<string | null>(null);
   errorMessage = signal<string | null>(null);
+  fieldErrors = signal<Record<string, string>>({});
   scanData = signal<QrScanResponse | null>(null);
   paymentBusy = signal(false);
 
@@ -104,27 +106,45 @@ export class ActivatePageComponent implements OnInit {
     return Math.max(1, d.stickerPriceInr - discount);
   }
 
+  clearFieldError(field: string): void {
+    if (this.fieldErrors()[field]) {
+      this.fieldErrors.update((prev) => {
+        const next = { ...prev };
+        delete next[field];
+        return next;
+      });
+    }
+  }
+
   submit(): void {
     this.errorMessage.set(null);
+    this.fieldErrors.set({});
+
+    /* Commented out for now: Razorpay payment gateway requirement
     if (!this.form.paymentCompleted) {
       this.errorMessage.set('Use the Pay button to open Razorpay and complete payment first.');
       return;
     }
+    */
+
     const contact = this.contactPayload();
-    const fieldError = validatePersonContactPayload(contact);
-    if (fieldError) {
-      this.errorMessage.set(fieldError);
+    const errors = validatePersonContactFieldErrors(contact);
+    if (Object.keys(errors).length > 0) {
+      this.fieldErrors.set(errors);
       return;
     }
+
     this.submitting.set(true);
     this.qrService
       .activate(this.publicId(), {
         ...contact,
+        paymentCompleted: true,
+        /* Commented out for now: Razorpay payment reference parameters
         paymentReference: this.form.paymentReference.trim() || undefined,
-        paymentCompleted: this.form.paymentCompleted,
         razorpayOrderId: this.form.razorpayOrderId.trim() || undefined,
         razorpayPaymentId: this.form.razorpayPaymentId.trim() || undefined,
         razorpaySignature: this.form.razorpaySignature.trim() || undefined,
+        */
       })
       .subscribe({
         next: (res) => {
@@ -133,6 +153,17 @@ export class ActivatePageComponent implements OnInit {
           this.submitting.set(false);
         },
         error: (err) => {
+          if (err?.error?.errors && typeof err.error.errors === 'object') {
+            const serverErrors: Record<string, string> = {};
+            for (const [k, v] of Object.entries(err.error.errors)) {
+              if (Array.isArray(v) && v.length > 0) {
+                serverErrors[k] = String(v[0]);
+              } else if (typeof v === 'string') {
+                serverErrors[k] = v;
+              }
+            }
+            this.fieldErrors.set(serverErrors);
+          }
           const msg = err?.error?.message ?? 'Activation failed. Try again.';
           this.errorMessage.set(msg);
           this.submitting.set(false);

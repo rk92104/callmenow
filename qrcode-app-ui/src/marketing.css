@@ -1696,27 +1696,36 @@ a.mpub-contact-link:hover {
 /* —— Responsive: narrow phones (header CTAs + safe reading) —— */
 @media (max-width: 520px) {
   .mpub-header-inner {
-    flex-wrap: wrap;
-    row-gap: 0.5rem;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 0.5rem 0.85rem;
   }
 
   .mpub-header-cta {
-    flex: 1 1 100%;
-    margin-left: 0;
+    flex: 0 0 auto;
+    margin-left: auto;
     justify-content: flex-end;
-    gap: 0.35rem;
-    flex-wrap: wrap;
+    gap: 0.45rem;
+    flex-wrap: nowrap;
+  }
+
+  .mpub-logo-img {
+    max-height: 34px;
+    width: auto;
+    max-width: 145px;
+    object-fit: contain;
   }
 
   .mpub-btn-ghost,
   .mpub-btn-primary {
-    padding: 0.45rem 0.7rem;
+    padding: 0.42rem 0.75rem;
     font-size: 0.8rem;
+    white-space: nowrap;
   }
 
   .mpub-logo-svg {
-    max-width: min(220px, 58vw);
-    height: 44px;
+    max-width: min(200px, 50vw);
+    height: 38px;
   }
 
   .mpub-hero-carousel-btn {

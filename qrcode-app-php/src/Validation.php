@@ -111,12 +111,14 @@ final class Validation
         if (!self::isValidPersonName($name)) {
             $add('name', 'Enter a valid full name (at least 2 characters, including letters).');
         }
+        /* Commented out for now: Father's Name & Address
         if (!self::isValidPersonName($father)) {
             $add('fatherName', "Enter a valid father's name (at least 2 characters, including letters).");
         }
         if (!self::isValidAddress($address)) {
             $add('address', 'Address must be at least 5 characters.');
         }
+        */
         $ownerDigits = self::digitsOnly($phone);
         if (!self::isValidPhoneForType($ownerDigits, $phoneType)) {
             $add(
@@ -159,11 +161,13 @@ final class Validation
             $errors[$field][] = $msg;
         };
 
+        /* Commented out for now: Payment gateway requirement
         $payDone = !empty($dto['paymentCompleted']);
         $payRef = isset($dto['paymentReference']) ? trim((string) $dto['paymentReference']) : '';
         if (!$payDone && $payRef === '') {
             $add('paymentReference', 'Payment must be completed before activation (set PaymentCompleted or provide PaymentReference).');
         }
+        */
 
         $pt = isset($dto['phoneNumberType']) ? (string) $dto['phoneNumberType'] : '';
         $et = isset($dto['emergencyContactPhoneType']) ? (string) $dto['emergencyContactPhoneType'] : '';

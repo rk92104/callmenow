@@ -278,6 +278,12 @@
   border-color: rgba(253, 186, 116, 0.5);
 }
 
+.act-label input.act-input--err,
+.act-label textarea.act-input--err {
+  border-color: #f87171 !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
 .act-input-upper {
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
